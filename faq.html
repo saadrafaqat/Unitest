@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - NUSTology Prep.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1a56db; --primary-dark: #1e3a8a; --primary-bg: #eff6ff;
+            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
+            --white: #fff; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+        }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--dark); min-height: 100vh; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: white; border-right: 1px solid var(--gray-lighter); padding: 24px 16px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+        .sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 0 12px 24px; border-bottom: 1px solid var(--gray-lighter); margin-bottom: 20px; }
+        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
+        .sidebar-logo .text { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
+        .sidebar-logo .nust { color: var(--primary); }
+        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .menu-section { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding: 16px 12px 8px; }
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
+        .menu-item.active { background: var(--primary); color: white; }
+        .main { flex: 1; margin-left: 260px; min-height: 100vh; }
+        .topbar { background: white; padding: 16px 32px; border-bottom: 1px solid var(--gray-lighter); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
+        .topbar p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+        .logout-btn { background: var(--gray-lighter); border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--dark); font-family: inherit; }
+        .logout-btn:hover { background: var(--danger); color: white; }
+        .content { padding: 32px; max-width: 900px; margin: 0 auto; }
+
+        .faq-hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; padding: 32px; border-radius: 16px; margin-bottom: 24px; text-align: center;
+        }
+        .faq-hero h2 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; margin-bottom: 8px; }
+        .faq-hero p { opacity: 0.9; }
+
+        .search-box {
+            background: white; padding: 14px 20px; border-radius: 12px;
+            border: 1px solid var(--gray-lighter); margin-bottom: 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .search-box svg { width: 20px; height: 20px; color: var(--gray); }
+        .search-box input {
+            flex: 1; border: none; outline: none; font-family: inherit; font-size: 14px;
+        }
+
+        .category-tabs {
+            display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .cat-tab {
+            padding: 8px 16px; background: white; border: 1.5px solid var(--gray-lighter);
+            border-radius: 20px; font-family: inherit; font-size: 13px; font-weight: 500;
+            cursor: pointer; color: var(--gray); transition: all 0.2s;
+        }
+        .cat-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .cat-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .faq-item {
+            background: white; border: 1px solid var(--gray-lighter); border-radius: 12px;
+            margin-bottom: 12px; overflow: hidden; transition: all 0.2s;
+        }
+        .faq-item:hover { border-color: var(--primary); }
+        .faq-q {
+            width: 100%; padding: 18px 22px; background: white; border: none;
+            text-align: left; font-family: inherit; font-size: 15px; font-weight: 600;
+            cursor: pointer; display: flex; justify-content: space-between;
+            align-items: center; gap: 16px; color: var(--dark);
+        }
+        .faq-q svg { width: 22px; height: 22px; flex-shrink: 0; transition: transform 0.3s; color: var(--primary); }
+        .faq-item.open .faq-q svg { transform: rotate(180deg); }
+        .faq-a {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+        }
+        .faq-item.open .faq-a { max-height: 500px; }
+        .faq-a-content {
+            padding: 0 22px 18px; color: var(--gray); font-size: 14px; line-height: 1.7;
+        }
+        .faq-cat-badge {
+            display: inline-block; padding: 3px 10px; background: var(--primary-bg);
+            color: var(--primary); border-radius: 20px; font-size: 11px; font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .contact-card {
+            background: white; border: 1px solid var(--gray-lighter); border-radius: 14px;
+            padding: 24px; margin-top: 30px; text-align: center;
+        }
+        .contact-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 6px; }
+        .contact-card p { color: var(--gray); margin-bottom: 16px; font-size: 14px; }
+        .contact-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .contact-btn {
+            padding: 10px 18px; background: var(--primary); color: white;
+            text-decoration: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .contact-btn:hover { background: var(--primary-dark); }
+
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .mobile-toggle { display: block; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <div class="text"><span class="nust">NUST</span>ology <div class="prep">Prep.</div></div>
+        </div>
+        <ul class="sidebar-menu">
+            <div class="menu-section">Main</div>
+            <li><a href="student.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+            <li><a href="test.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Take Test</a></li>
+            <li><a href="leaderboard.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Leaderboard</a></li>
+            <div class="menu-section">Learn</div>
+            <li><a href="lectures.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</a></li>
+            <li><a href="aggregate.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>Aggregate Calculator</a></li>
+            <li><a href="merit.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Past Merit Lists</a></li>
+            <li><a href="faq.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>FAQs</a></li>
+            <div class="menu-section">Community</div>
+            <li><a href="chat.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat</a></li>
+            <li><a href="community.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Community</a></li>
+            <div class="menu-section">Account</div>
+            <li><a href="profile.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div>
+                    <h1>FAQs</h1>
+                    <p>Frequently Asked Questions about NUST NET</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="content">
+            <div class="faq-hero">
+                <h2>How can we help you?</h2>
+                <p>Find answers to common questions about NUST Entry Test</p>
+            </div>
+
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="searchInput" placeholder="Search FAQs..." oninput="filterFaqs()">
+            </div>
+
+            <div class="category-tabs">
+                <button class="cat-tab active" onclick="filterCategory('all', this)">All</button>
+                <button class="cat-tab" onclick="filterCategory('general', this)">General</button>
+                <button class="cat-tab" onclick="filterCategory('exam', this)">Exam</button>
+                <button class="cat-tab" onclick="filterCategory('aggregate', this)">Aggregate</button>
+                <button class="cat-tab" onclick="filterCategory('admission', this)">Admission</button>
+                <button class="cat-tab" onclick="filterCategory('platform', this)">Platform</button>
+            </div>
+
+            <div id="faqList"></div>
+
+            <div class="contact-card">
+                <h3>Still have questions?</h3>
+                <p>Contact our admin team for personalized help</p>
+                <div class="contact-buttons">
+                    <a href="https://wa.me/923001234567" target="_blank" class="contact-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        WhatsApp
+                    </a>
+                    <a href="mailto:nustologyprep@gmail.com" class="contact-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Email
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const FAQS = [
+        { cat: 'general', q: 'What is the NUST Entry Test (NET)?', a: 'The NUST Entry Test (NET) is a mandatory standardized test for admission to all undergraduate programs at the National University of Sciences and Technology (NUST), Pakistan. It evaluates candidates in Mathematics, Physics, Chemistry, Biology, English, and Intelligence based on the chosen field.' },
+        { cat: 'general', q: 'When is the NET conducted?', a: 'NUST conducts NET 3-4 times during the admission cycle: NET-1 (February), NET-2 (March/April), NET-3 (June), and NET-4 (July/August). You can attempt multiple NETs.' },
+        { cat: 'general', q: 'How many times can I attempt NET?', a: 'You can attempt all NET sessions in a year. Your best score will be considered for merit calculation. Most candidates attempt 2-3 NETs to maximize their chance.' },
+        { cat: 'exam', q: 'What is the marking scheme of NET?', a: 'NET for Engineering: Mathematics (80 marks), Physics (60 marks), English (30 marks), Intelligence (30 marks) = Total 200. For Medical/BioSciences: Biology (80), Chemistry (60), Physics (40), English (20) = Total 200. NUST does NOT have negative marking - only correct answers give marks.' },
+        { cat: 'exam', q: 'Is NET conducted online or at a test center?', a: 'NET is a Computer Based Test (CBT) conducted at designated test centers across Pakistan. You take it on a computer with one question shown at a time. Our platform simulates this exact interface.' },
+        { cat: 'exam', q: 'What is the duration of NET?', a: 'NET duration is typically 3 hours (180 minutes) for the complete test. You can navigate freely between questions and mark questions for review.' },
+        { cat: 'exam', q: 'What is the syllabus for NET?', a: 'NET syllabus is based on FSc/HSSC/A-Levels curriculum. For Engineering: Mathematics (Algebra, Trigonometry, Calculus, Analytical Geometry), Physics (Mechanics, Electricity, Magnetism, Optics, Modern Physics), English (Grammar, Comprehension, Vocabulary), and Intelligence. NUST publishes detailed topic lists before each admission cycle.' },
+        { cat: 'exam', q: 'Can I use a calculator in NET?', a: 'No, calculators are NOT allowed in NET. All calculations must be done mentally or on rough paper provided at the test center.' },
+        { cat: 'aggregate', q: 'How is the NUST aggregate calculated?', a: 'NUST aggregate formula: NET Score (75%) + FSc/HSSC (15%) + Matric/SSC (10%). For example, if NET = 80%, FSc = 90%, Matric = 95%, then aggregate = (80×0.75) + (90×0.15) + (95×0.10) = 60 + 13.5 + 9.5 = 83%.' },
+        { cat: 'aggregate', q: 'What aggregate is needed for SEECS?', a: 'For SEECS (Computer Science/Software Engineering), the typical merit closes around 85-89%. For other competitive programs like SMME, it usually closes around 82-86%. Merit varies each year based on number of applicants and seats.' },
+        { cat: 'aggregate', q: 'How can I calculate my expected aggregate?', a: 'Use our Aggregate Calculator (in the sidebar menu). Enter your expected NET, FSc, and Matric marks to instantly see your aggregate and the program range you may qualify for.' },
+        { cat: 'admission', q: 'When does NUST admission open?', a: 'NUST admission typically opens in November-December for the upcoming academic year (starting in September). The exact dates are announced on the official NUST admissions website (ugadmissions.nust.edu.pk).' },
+        { cat: 'admission', q: 'What programs does NUST offer?', a: 'NUST offers programs in Engineering (SEECS, SCME, SMME, NICE, etc.), Medical Sciences (ASAB), Business (NBS), Architecture (SADA), and more. Each has separate merit lists.' },
+        { cat: 'admission', q: 'How do I apply for NUST?', a: 'Apply online at ugadmissions.nust.edu.pk. Pay the registration fee, register for NET, take the test, and submit your final program preferences after NET results.' },
+        { cat: 'admission', q: 'What documents are required?', a: 'You need: Matric/O-Level certificate and transcript, FSc/A-Level certificate (or Part-1 for current students), CNIC/B-Form, recent photographs, and admission fee challan.' },
+        { cat: 'platform', q: 'How do I get access to NUSTology Prep?', a: 'Contact our admin team via WhatsApp or email. After payment, you will receive your unique login credentials within 24 hours.' },
+        { cat: 'platform', q: 'Can I take tests from mobile?', a: 'Yes, NUSTology Prep is fully responsive. However, for the best test experience, we recommend using a laptop/desktop to simulate the actual NET environment.' },
+        { cat: 'platform', q: 'How accurate are the mock tests?', a: 'Our mock tests are designed by experts following the latest NUST NET pattern. They cover all topics with similar difficulty and question style. Many students score within 10-15 marks of their mock test scores in the actual NET.' },
+        { cat: 'platform', q: 'Can I see my mistakes after the test?', a: 'Yes! After every test, you get a detailed review showing each question, your answer, the correct answer, and your overall performance stats with subject-wise analysis.' },
+        { cat: 'platform', q: 'Is there a refund policy?', a: 'Refunds are processed only if access has not been granted. Once credentials are issued, no refunds apply. Contact admin within 24 hours of payment for any issues.' }
+    ];
+
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    function renderFaqs() {
+        let filtered = FAQS;
+        if (currentCategory !== 'all') filtered = filtered.filter(f => f.cat === currentCategory);
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            filtered = filtered.filter(f => f.q.toLowerCase().includes(q) || f.a.toLowerCase().includes(q));
+        }
+
+        const list = document.getElementById('faqList');
+        if (!filtered.length) {
+            list.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--gray);">No FAQs match your search</div>';
+            return;
+        }
+
+        list.innerHTML = filtered.map((f, i) => `
+            <div class="faq-item" id="faq-${i}">
+                <button class="faq-q" onclick="toggleFaq(${i})">
+                    <span>${f.q}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="faq-a">
+                    <div class="faq-a-content">
+                        <span class="faq-cat-badge">${f.cat}</span>
+                        <div>${f.a}</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function toggleFaq(i) {
+        document.getElementById(`faq-${i}`).classList.toggle('open');
+    }
+
+    function filterCategory(cat, btn) {
+        currentCategory = cat;
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        renderFaqs();
+    }
+
+    function filterFaqs() {
+        searchQuery = document.getElementById('searchInput').value;
+        renderFaqs();
+    }
+
+    async function logout() {
+        const token = localStorage.getItem('nustology_token');
+        try { await fetch('/api/auth/logout', { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e){}
+        localStorage.clear();
+        window.location.href = '/index.html';
+    }
+
+    if (!localStorage.getItem('nustology_token')) window.location.href = '/index.html';
+    renderFaqs();
+</script>
+</body>
+</html>
