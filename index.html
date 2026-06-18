@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- TAB ICON / FAVICON -->
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <link rel="apple-touch-icon" href="images/nustology.jpg">
+    <link rel="shortcut icon" href="images/nustology.jpg">
+    
+    <!-- Theme Color (mobile browser bar) -->
+    <meta name="theme-color" content="#1a56db">
+    <meta name="apple-mobile-web-app-title" content="NUSTology Prep.">
+    
+    <!-- SEO -->
+    <meta name="description" content="NUSTology Prep. - Your gateway to NUST Entry Test (NET). Practice mock tests, track progress, and prepare for success.">
+    
     <title>NUSTology Prep. - Your Gateway to NUST</title>
+    
     <style>
         /* ========== CSS RESET & VARIABLES ========== */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #1a56db;
@@ -26,6 +36,12 @@
             --gray-light: #94a3b8;
             --gray-lighter: #e2e8f0;
             --white: #ffffff;
+            --bg-body: #ffffff;
+            --bg-card: #ffffff;
+            --bg-section: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
             --danger: #ef4444;
             --success: #22c55e;
             --warning: #f59e0b;
@@ -39,1344 +55,605 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        html {
-            scroll-behavior: smooth;
+        /* ========== DARK MODE ========== */
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-section: #1a2436;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --primary-bg: #1e3a8a33;
+            --primary-bg2: #1e40af44;
+            --gray-lighter: #334155;
+            --white: #1e293b;
+            --dark: #f1f5f9;
+            --dark2: #cbd5e1;
+            --gray: #94a3b8;
         }
+
+        [data-theme="dark"] body { background: var(--bg-body); color: var(--text-primary); }
+        [data-theme="dark"] .navbar { background: rgba(15, 23, 42, 0.85); border-bottom-color: rgba(51, 65, 85, 0.5); }
+        [data-theme="dark"] .navbar.scrolled { background: rgba(15, 23, 42, 0.95); }
+        [data-theme="dark"] .nav-logo .ology { color: var(--text-primary); }
+        [data-theme="dark"] .nav-logo .prep { color: var(--text-secondary); }
+        [data-theme="dark"] .nav-links a { color: var(--text-secondary); }
+        [data-theme="dark"] .hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1a2436 100%); }
+        [data-theme="dark"] .hero-subtitle { color: var(--text-secondary); }
+        [data-theme="dark"] .stat-label { color: var(--text-secondary); }
+        [data-theme="dark"] .feature-card { background: var(--bg-card); border-color: var(--border-color); }
+        [data-theme="dark"] .feature-card h3 { color: var(--text-primary); }
+        [data-theme="dark"] .feature-card p { color: var(--text-secondary); }
+        [data-theme="dark"] .section-title { color: var(--text-primary); }
+        [data-theme="dark"] .section-desc { color: var(--text-secondary); }
+        [data-theme="dark"] .field-card { background: var(--bg-card); border-color: var(--border-color); }
+        [data-theme="dark"] .field-card h3 { color: var(--text-primary); }
+        [data-theme="dark"] .field-card p { color: var(--text-secondary); }
+        [data-theme="dark"] .how-it-works { background: linear-gradient(180deg, #1e293b 0%, var(--bg-body) 100%); }
+        [data-theme="dark"] .step-card h3 { color: var(--text-primary); }
+        [data-theme="dark"] .step-card p { color: var(--text-secondary); }
+        [data-theme="dark"] .step-number { background: var(--bg-card); }
+        [data-theme="dark"] .testimonials-bg { background: #1e293b; }
+        [data-theme="dark"] .testimonial-card { background: var(--bg-card); }
+        [data-theme="dark"] .testimonial-text { color: var(--text-primary); }
+        [data-theme="dark"] .testimonial-name { color: var(--text-primary); }
+        [data-theme="dark"] .testimonial-role { color: var(--text-secondary); }
+        [data-theme="dark"] .faq-item { background: var(--bg-card); border-color: var(--border-color); }
+        [data-theme="dark"] .faq-item button { background: var(--bg-card) !important; color: var(--text-primary) !important; }
+        [data-theme="dark"] .faq-item .faq-answer p { color: var(--text-secondary) !important; }
+        [data-theme="dark"] .modal { background: var(--bg-card); }
+        [data-theme="dark"] .modal h2 { color: var(--text-primary); }
+        [data-theme="dark"] .modal-subtitle { color: var(--text-secondary); }
+        [data-theme="dark"] .form-group label { color: var(--text-primary); }
+        [data-theme="dark"] .form-group input {
+            background: var(--bg-section);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        [data-theme="dark"] .form-group input::placeholder { color: var(--gray); }
+        [data-theme="dark"] .modal-close { background: var(--border-color); color: var(--text-primary); }
+        [data-theme="dark"] .nav-links { background: var(--bg-card); }
+        [data-theme="dark"] .page-loader { background: var(--bg-body); }
+        [data-theme="dark"] .btn-outline { color: var(--primary-light); border-color: var(--primary-light); }
+        [data-theme="dark"] .btn-white { background: var(--bg-card); color: var(--primary-light); }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--white);
-            color: var(--dark);
+            background: var(--bg-body);
+            color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* ========== FONT IMPORT ========== */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-        /* ========== UTILITY CLASSES ========== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 28px;
-            border: none;
-            border-radius: var(--radius);
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            white-space: nowrap;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px; padding: 12px 28px; border: none; border-radius: var(--radius);
+            font-family: inherit; font-size: 15px; font-weight: 600;
+            cursor: pointer; transition: var(--transition);
+            text-decoration: none; white-space: nowrap;
         }
 
         .btn-primary {
-            background: var(--primary);
-            color: var(--white);
+            background: var(--primary); color: var(--white);
             box-shadow: 0 4px 14px rgba(26, 86, 219, 0.4);
         }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(26, 86, 219, 0.5);
-        }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26, 86, 219, 0.5); }
+        [data-theme="dark"] .btn-primary { color: #ffffff; }
 
         .btn-outline {
-            background: transparent;
-            color: var(--primary);
+            background: transparent; color: var(--primary);
             border: 2px solid var(--primary);
         }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
+        .btn-outline:hover { background: var(--primary); color: white; transform: translateY(-2px); }
 
         .btn-white {
-            background: var(--white);
-            color: var(--primary);
-            box-shadow: var(--shadow);
+            background: var(--white); color: var(--primary); box-shadow: var(--shadow);
         }
+        .btn-white:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 
-        .btn-white:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-lg {
-            padding: 16px 36px;
-            font-size: 17px;
-            border-radius: 14px;
-        }
+        .btn-lg { padding: 16px 36px; font-size: 17px; border-radius: 14px; }
 
         /* ========== NAVIGATION ========== */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(226, 232, 240, 0.5);
             transition: var(--transition);
         }
-
         .navbar.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.95); box-shadow: var(--shadow);
         }
 
         .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            max-width: 1200px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
             height: 72px;
         }
 
         .nav-logo {
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none; font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px; font-weight: 700;
+        }
+        .nav-logo img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; }
+        .nav-logo .nust { color: var(--primary); }
+        .nav-logo .ology { color: var(--dark); }
+        .nav-logo .prep { color: var(--gray); font-weight: 400; font-size: 18px; }
+
+        .nav-links {
+            display: flex; align-items: center; gap: 32px; list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none; color: var(--gray); font-size: 15px;
+            font-weight: 500; transition: var(--transition); position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--primary);
+            transition: var(--transition); border-radius: 2px;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+        /* ========== DARK MODE TOGGLE BUTTON ========== */
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--text-primary);
+            padding: 0;
         }
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(15deg);
+        }
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            transition: var(--transition);
+        }
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        [data-theme="dark"] .theme-toggle .icon-sun { display: block; color: #fbbf24; }
+        [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
-        .nav-logo img {
+        /* ========== HAMBURGER (MOBILE MENU) ========== */
+        .hamburger {
+            display: none;
             width: 42px;
             height: 42px;
             border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .nav-logo .nust {
-            color: var(--primary);
-        }
-
-        .nav-logo .ology {
-            color: var(--dark);
-        }
-
-        .nav-logo .prep {
-            color: var(--gray);
-            font-weight: 400;
-            font-size: 18px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray);
-            font-size: 15px;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-            border-radius: 2px;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
             cursor: pointer;
-            padding: 8px;
-            background: none;
-            border: none;
-        }
-
-        .hamburger span {
-            width: 24px;
-            height: 2.5px;
-            background: var(--dark);
-            border-radius: 2px;
+            align-items: center;
+            justify-content: center;
             transition: var(--transition);
+            color: var(--text-primary);
+            padding: 0;
         }
+        .hamburger:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .hamburger svg { width: 22px; height: 22px; }
+        .hamburger .icon-close { display: none; }
+        .hamburger.open .icon-menu { display: none; }
+        .hamburger.open .icon-close { display: block; }
 
         /* ========== HERO SECTION ========== */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+            min-height: 100vh; display: flex; align-items: center;
+            position: relative; overflow: hidden;
             background: linear-gradient(135deg, var(--white) 0%, var(--primary-bg) 50%, var(--primary-bg2) 100%);
             padding-top: 72px;
         }
-
         .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 24px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            align-items: center; max-width: 1200px; margin: 0 auto; padding: 60px 24px;
         }
-
-        .hero-text {
-            z-index: 2;
-        }
-
+        .hero-text { z-index: 2; }
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--primary-bg);
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px; background: var(--primary-bg);
             border: 1px solid var(--primary-lighter);
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 24px;
+            border-radius: var(--radius-full); font-size: 13px;
+            font-weight: 600; color: var(--primary); margin-bottom: 24px;
         }
-
-        .hero-badge img {
-            width: 16px;
-            height: 16px;
-        }
-
         .hero-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 56px;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            letter-spacing: -1.5px;
+            font-family: 'Space Grotesk', sans-serif; font-size: 56px;
+            font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1.5px;
         }
-
-        .hero-title .highlight {
-            color: var(--primary);
-            position: relative;
-        }
-
+        .hero-title .highlight { color: var(--primary); position: relative; }
         .hero-title .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 0;
-            width: 100%;
-            height: 12px;
-            background: rgba(26, 86, 219, 0.12);
-            border-radius: 4px;
-            z-index: -1;
+            content: ''; position: absolute; bottom: 4px; left: 0;
+            width: 100%; height: 12px; background: rgba(26, 86, 219, 0.12);
+            border-radius: 4px; z-index: -1;
         }
-
         .hero-subtitle {
-            font-size: 18px;
-            color: var(--gray);
-            line-height: 1.7;
-            margin-bottom: 36px;
-            max-width: 500px;
+            font-size: 18px; color: var(--gray); line-height: 1.7;
+            margin-bottom: 36px; max-width: 500px;
         }
-
-        .hero-cta {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 48px;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-        }
-
-        .stat-item {
-            text-align: left;
-        }
-
+        .hero-cta { display: flex; gap: 16px; margin-bottom: 48px; }
+        .hero-stats { display: flex; gap: 40px; }
+        .stat-item { text-align: left; }
         .stat-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary);
+            font-family: 'Space Grotesk', sans-serif; font-size: 32px;
+            font-weight: 700; color: var(--primary);
         }
+        .stat-label { font-size: 13px; color: var(--gray); font-weight: 500; }
+        .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; z-index: 1; }
 
-        .stat-label {
-            font-size: 13px;
-            color: var(--gray);
-            font-weight: 500;
-        }
+        .hero-shapes { position: relative; width: 500px; height: 500px; }
+        .shape { position: absolute; border-radius: 50%; animation: float 6s ease-in-out infinite; }
+        .shape-1 { width: 260px; height: 260px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); top: 20px; right: 40px; opacity: 0.9; }
+        .shape-2 { width: 180px; height: 180px; background: linear-gradient(135deg, var(--accent), #38bdf8); bottom: 80px; left: 20px; opacity: 0.8; animation-delay: -2s; }
+        .shape-3 { width: 120px; height: 120px; background: linear-gradient(135deg, #818cf8, #6366f1); top: 160px; left: 100px; opacity: 0.7; animation-delay: -4s; }
+        .shape-4 { width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-lighter), var(--primary-light)); top: 0; left: 180px; opacity: 0.6; animation-delay: -1s; }
+        .shape-5 { width: 50px; height: 50px; background: var(--primary-dark); bottom: 40px; right: 80px; opacity: 0.5; animation-delay: -3s; }
 
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-        }
-
-        /* Abstract Geometric Shapes */
-        .hero-shapes {
-            position: relative;
-            width: 500px;
-            height: 500px;
-        }
-
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .shape-1 {
-            width: 260px;
-            height: 260px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            top: 20px;
-            right: 40px;
-            opacity: 0.9;
-            animation-delay: 0s;
-        }
-
-        .shape-2 {
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(135deg, var(--accent), #38bdf8);
-            bottom: 80px;
-            left: 20px;
-            opacity: 0.8;
-            animation-delay: -2s;
-        }
-
-        .shape-3 {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #818cf8, #6366f1);
-            top: 160px;
-            left: 100px;
-            opacity: 0.7;
-            animation-delay: -4s;
-        }
-
-        .shape-4 {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary-lighter), var(--primary-light));
-            top: 0;
-            left: 180px;
-            opacity: 0.6;
-            animation-delay: -1s;
-        }
-
-        .shape-5 {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-dark);
-            bottom: 40px;
-            right: 80px;
-            opacity: 0.5;
-            animation-delay: -3s;
-        }
-
-        .shape-rect {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
-            border: 3px solid var(--primary-lighter);
-            top: 80px;
-            left: 40px;
-            animation: rotate 12s linear infinite;
-            opacity: 0.4;
-        }
-
-        .shape-dots {
-            position: absolute;
-            bottom: 120px;
-            right: 20px;
-            display: grid;
-            grid-template-columns: repeat(4, 10px);
-            gap: 12px;
-        }
-
-        .shape-dots span {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary);
-            opacity: 0.3;
-        }
-
-        .shape-dots span:nth-child(odd) {
-            opacity: 0.15;
-        }
-
-        /* Floating Card on Hero */
         .hero-card {
-            position: absolute;
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            box-shadow: var(--shadow-xl);
-            z-index: 5;
+            position: absolute; background: var(--white);
+            border-radius: var(--radius-lg); padding: 24px;
+            box-shadow: var(--shadow-xl); z-index: 5;
             animation: floatCard 5s ease-in-out infinite;
         }
-
-        .hero-card-1 {
-            bottom: 30px;
-            right: -20px;
-            width: 220px;
-        }
-
+        .hero-card-1 { bottom: 30px; right: -20px; width: 220px; }
         .hero-card-1 .card-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-bg);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
+            width: 48px; height: 48px; background: var(--primary-bg);
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; margin-bottom: 12px;
         }
+        .hero-card-1 .card-icon svg { width: 24px; height: 24px; color: var(--primary); }
+        .hero-card-1 h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
+        .hero-card-1 p { font-size: 12px; color: var(--gray); }
 
-        .hero-card-1 .card-icon svg {
-            width: 24px;
-            height: 24px;
-            color: var(--primary);
-        }
-
-        .hero-card-1 h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .hero-card-1 p {
-            font-size: 12px;
-            color: var(--gray);
-        }
-
-        .hero-card-2 {
-            top: 60px;
-            left: -30px;
-            width: 200px;
-            animation-delay: -2.5s;
-        }
-
+        .hero-card-2 { top: 60px; left: -30px; width: 200px; animation-delay: -2.5s; }
         .hero-card-2 .score {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--primary);
+            font-family: 'Space Grotesk', sans-serif; font-size: 36px;
+            font-weight: 700; color: var(--primary);
         }
-
-        .hero-card-2 .score-label {
-            font-size: 12px;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
+        .hero-card-2 .score-label { font-size: 12px; color: var(--gray); font-weight: 500; }
         .hero-card-2 .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: var(--gray-lighter);
-            border-radius: 10px;
-            margin-top: 12px;
-            overflow: hidden;
+            width: 100%; height: 6px; background: var(--gray-lighter);
+            border-radius: 10px; margin-top: 12px; overflow: hidden;
         }
-
         .hero-card-2 .progress-fill {
-            width: 78%;
-            height: 100%;
+            width: 78%; height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 10px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        @keyframes floatCard { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-12px) rotate(1deg); } }
 
-        @keyframes floatCard {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(1deg); }
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* ========== FEATURES SECTION ========== */
-        .section {
-            padding: 100px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
+        /* ========== SECTIONS ========== */
+        .section { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 64px; }
         .section-tag {
-            display: inline-block;
-            padding: 6px 16px;
-            background: var(--primary-bg);
-            color: var(--primary);
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-full);
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: inline-block; padding: 6px 16px;
+            background: var(--primary-bg); color: var(--primary);
+            font-size: 13px; font-weight: 600; border-radius: var(--radius-full);
+            margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;
         }
-
         .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
+            font-family: 'Space Grotesk', sans-serif; font-size: 40px;
+            font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px;
         }
+        .section-desc { font-size: 17px; color: var(--gray); max-width: 600px; margin: 0 auto; }
 
-        .section-desc {
-            font-size: 17px;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-        }
-
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
         .feature-card {
-            background: var(--white);
-            border: 1px solid var(--gray-lighter);
-            border-radius: var(--radius-lg);
-            padding: 36px 28px;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            background: var(--white); border: 1px solid var(--gray-lighter);
+            border-radius: var(--radius-lg); padding: 36px 28px;
+            transition: var(--transition); position: relative; overflow: hidden;
         }
-
         .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transform: scaleX(0);
-            transition: var(--transition);
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0); transition: var(--transition);
         }
-
         .feature-card:hover {
-            border-color: var(--primary-lighter);
-            transform: translateY(-8px);
+            border-color: var(--primary-lighter); transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
         }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
+        .feature-card:hover::before { transform: scaleX(1); }
         .feature-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--primary-bg);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            width: 56px; height: 56px; background: var(--primary-bg);
+            border-radius: 14px; display: flex; align-items: center;
+            justify-content: center; margin-bottom: 20px;
         }
-
-        .feature-icon svg {
-            width: 28px;
-            height: 28px;
-            color: var(--primary);
-        }
-
-        .feature-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            font-size: 14px;
-            color: var(--gray);
-            line-height: 1.7;
-        }
+        .feature-icon svg { width: 28px; height: 28px; color: var(--primary); }
+        .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+        .feature-card p { font-size: 14px; color: var(--gray); line-height: 1.7; }
 
         /* ========== HOW IT WORKS ========== */
         .how-it-works {
             background: linear-gradient(180deg, var(--primary-bg) 0%, var(--white) 100%);
         }
-
         .steps-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
             position: relative;
         }
-
         .steps-container::before {
-            content: '';
-            position: absolute;
-            top: 44px;
-            left: 12%;
-            right: 12%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-lighter), var(--primary), var(--primary-lighter));
+            content: ''; position: absolute; top: 44px; left: 12%; right: 12%;
+            height: 2px; background: linear-gradient(90deg, var(--primary-lighter), var(--primary), var(--primary-lighter));
             z-index: 0;
         }
-
-        .step-card {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
+        .step-card { text-align: center; position: relative; z-index: 1; }
         .step-number {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
-            background: var(--white);
-            border: 3px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary);
+            width: 88px; height: 88px; border-radius: 50%;
+            background: var(--white); border: 3px solid var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px; font-weight: 700; color: var(--primary);
             box-shadow: var(--shadow);
         }
+        .step-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .step-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
 
-        .step-card h3 {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .step-card p {
-            font-size: 14px;
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        /* ========== FIELDS SECTION ========== */
+        /* ========== FIELDS ========== */
         .fields-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;
         }
-
         .field-card {
-            background: var(--white);
-            border: 1px solid var(--gray-lighter);
-            border-radius: var(--radius-lg);
-            padding: 32px 24px;
-            text-align: center;
-            transition: var(--transition);
-            cursor: pointer;
+            background: var(--white); border: 1px solid var(--gray-lighter);
+            border-radius: var(--radius-lg); padding: 32px 24px;
+            text-align: center; transition: var(--transition); cursor: pointer;
         }
-
         .field-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-lg);
+            border-color: var(--primary); transform: translateY(-6px); box-shadow: var(--shadow-lg);
         }
-
         .field-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 20px;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
+            width: 72px; height: 72px; border-radius: 20px;
+            margin: 0 auto 16px; display: flex; align-items: center;
+            justify-content: center; font-size: 32px;
         }
-
         .field-icon.eng { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
         .field-icon.med { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
         .field-icon.biz { background: linear-gradient(135deg, #fef3c7, #fde68a); }
         .field-icon.art { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); }
-
-        .field-card h3 {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .field-card p {
-            font-size: 13px;
-            color: var(--gray);
-        }
-
+        .field-icon.nat { background: linear-gradient(135deg, #fee2e2, #fecaca); }
+        .field-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+        .field-card p { font-size: 13px; color: var(--gray); }
         .field-subjects {
-            margin-top: 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            justify-content: center;
+            margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
         }
-
         .field-subjects span {
-            padding: 4px 10px;
-            background: var(--primary-bg);
-            border-radius: var(--radius-full);
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--primary);
+            padding: 4px 10px; background: var(--primary-bg);
+            border-radius: var(--radius-full); font-size: 11px;
+            font-weight: 500; color: var(--primary);
         }
 
         /* ========== TESTIMONIALS ========== */
-        .testimonials-bg {
-            background: var(--primary-bg);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-        }
-
+        .testimonials-bg { background: var(--primary-bg); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
         .testimonial-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
+            background: var(--white); border-radius: var(--radius-lg);
+            padding: 32px; box-shadow: var(--shadow-sm); transition: var(--transition);
         }
-
-        .testimonial-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-        }
-
-        .testimonial-stars {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 16px;
-        }
-
-        .testimonial-stars svg {
-            width: 18px;
-            height: 18px;
-            color: var(--warning);
-            fill: var(--warning);
-        }
-
-        .testimonial-text {
-            font-size: 15px;
-            color: var(--dark2);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .testimonial-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+        .testimonial-stars { display: flex; gap: 4px; margin-bottom: 16px; }
+        .testimonial-stars svg { width: 18px; height: 18px; color: var(--warning); fill: var(--warning); }
+        .testimonial-text { font-size: 15px; color: var(--dark2); line-height: 1.7; margin-bottom: 20px; }
+        .testimonial-author { display: flex; align-items: center; gap: 12px; }
         .testimonial-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--primary-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 16px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--primary-bg); display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 700; color: var(--primary); font-size: 16px;
         }
+        .testimonial-name { font-size: 14px; font-weight: 600; }
+        .testimonial-role { font-size: 12px; color: var(--gray); }
 
-        .testimonial-name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .testimonial-role {
-            font-size: 12px;
-            color: var(--gray);
-        }
-
-        /* ========== CTA SECTION ========== */
+        /* ========== CTA ========== */
         .cta-section {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            padding: 80px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 80px 0; text-align: center; position: relative; overflow: hidden;
         }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -20%;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
+        .cta-section::before, .cta-section::after {
+            content: ''; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.05);
         }
-
-        .cta-section::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 2;
-        }
-
+        .cta-section::before { top: -50%; left: -20%; width: 500px; height: 500px; }
+        .cta-section::after { bottom: -30%; right: -10%; width: 400px; height: 400px; }
+        .cta-content { position: relative; z-index: 2; }
         .cta-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 40px;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 16px;
+            font-family: 'Space Grotesk', sans-serif; font-size: 40px;
+            font-weight: 700; color: var(--white); margin-bottom: 16px;
         }
-
+        [data-theme="dark"] .cta-title { color: #ffffff; }
         .cta-desc {
-            font-size: 18px;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 32px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 18px; color: rgba(255,255,255,0.8);
+            margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto;
         }
-
-        .cta-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-        }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; }
 
         /* ========== FOOTER ========== */
-        .footer {
-            background: var(--dark);
-            color: rgba(255,255,255,0.7);
-            padding: 60px 0 30px;
-        }
-
+        .footer { background: var(--dark); color: rgba(255,255,255,0.7); padding: 60px 0 30px; }
+        [data-theme="dark"] .footer { background: #020617; }
         .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px; margin-bottom: 40px;
         }
-
-        .footer-brand .nav-logo {
-            margin-bottom: 16px;
-        }
-
+        .footer-brand .nav-logo { margin-bottom: 16px; }
         .footer-brand .nav-logo .ology,
-        .footer-brand .nav-logo .prep {
-            color: var(--white);
-        }
-
-        .footer-brand p {
-            font-size: 14px;
-            line-height: 1.7;
-            max-width: 300px;
-        }
-
-        .footer-col h4 {
-            color: var(--white);
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
+        .footer-brand .nav-logo .prep { color: var(--white); }
+        [data-theme="dark"] .footer-brand .nav-logo .ology { color: #ffffff; }
+        .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 300px; }
+        .footer-col h4 { color: var(--white); font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+        [data-theme="dark"] .footer-col h4 { color: #ffffff; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
         .footer-col ul li a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 14px;
-            transition: var(--transition);
+            color: rgba(255,255,255,0.6); text-decoration: none;
+            font-size: 14px; transition: var(--transition);
         }
-
-        .footer-col ul li a:hover {
-            color: var(--white);
-        }
-
+        .footer-col ul li a:hover { color: var(--white); }
         .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
+            border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 13px;
         }
 
-        /* ========== LOGIN MODAL ========== */
+        /* ========== MODALS ========== */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px);
+            z-index: 2000; align-items: center; justify-content: center; padding: 20px;
         }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
+        .modal-overlay.active { display: flex; }
         .modal {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            width: 100%;
-            max-width: 440px;
-            padding: 40px;
-            box-shadow: var(--shadow-xl);
-            position: relative;
+            background: var(--white); border-radius: var(--radius-lg);
+            width: 100%; max-width: 440px; padding: 40px;
+            box-shadow: var(--shadow-xl); position: relative;
             animation: modalIn 0.3s ease;
         }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .modal-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--gray-lighter);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; top: 16px; right: 16px;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--gray-lighter); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             transition: var(--transition);
         }
-
-        .modal-close:hover {
-            background: var(--danger);
-            color: var(--white);
-        }
-
-        .modal-close svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .modal-logo {
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .modal-logo img {
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
-        }
-
+        .modal-close:hover { background: var(--danger); color: var(--white); }
+        .modal-close svg { width: 18px; height: 18px; }
+        .modal-logo { text-align: center; margin-bottom: 8px; }
+        .modal-logo img { width: 60px; height: 60px; border-radius: 14px; }
         .modal h2 {
-            text-align: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
+            text-align: center; font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px; font-weight: 700; margin-bottom: 4px;
         }
-
         .modal .modal-subtitle {
-            text-align: center;
-            color: var(--gray);
-            font-size: 14px;
-            margin-bottom: 28px;
+            text-align: center; color: var(--gray); font-size: 14px; margin-bottom: 28px;
         }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
+        .form-group { margin-bottom: 18px; }
         .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--dark2);
-            margin-bottom: 6px;
+            display: block; font-size: 13px; font-weight: 600;
+            color: var(--dark2); margin-bottom: 6px;
         }
-
         .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--gray-lighter);
-            border-radius: var(--radius);
-            font-family: inherit;
-            font-size: 15px;
-            transition: var(--transition);
-            background: var(--white);
+            width: 100%; padding: 12px 16px;
+            border: 2px solid var(--gray-lighter); border-radius: var(--radius);
+            font-family: inherit; font-size: 15px;
+            transition: var(--transition); background: var(--white);
+            color: var(--text-primary);
         }
-
         .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
+            outline: none; border-color: var(--primary);
             box-shadow: 0 0 0 4px rgba(26, 86, 219, 0.1);
         }
-
-        .form-group input::placeholder {
-            color: var(--gray-light);
-        }
-
-        .form-error {
-            display: none;
-            color: var(--danger);
-            font-size: 12px;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-
-        .form-error.show {
-            display: block;
-        }
-
         .form-remember {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
         }
-
         .form-remember label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--gray);
-            cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; color: var(--gray); cursor: pointer;
         }
-
         .form-remember a {
-            font-size: 13px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
+            font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500;
         }
-
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-        }
-
+        .btn-login { width: 100%; padding: 14px; font-size: 16px; }
         .login-message {
-            text-align: center;
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: var(--radius);
-            font-size: 13px;
-            display: none;
+            text-align: center; margin-top: 20px; padding: 12px;
+            border-radius: var(--radius); font-size: 13px; display: none;
         }
-
         .login-message.error {
-            display: block;
-            background: #fef2f2;
-            color: var(--danger);
-            border: 1px solid #fecaca;
+            display: block; background: #fef2f2; color: var(--danger); border: 1px solid #fecaca;
         }
-
         .login-message.success {
-            display: block;
-            background: #f0fdf4;
-            color: var(--success);
-            border: 1px solid #bbf7d0;
+            display: block; background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0;
         }
-
-        /* ========== ADMIN LOGIN MODAL ========== */
         .admin-login-link {
-            text-align: center;
-            margin-top: 16px;
-            font-size: 12px;
-            color: var(--gray-light);
+            text-align: center; margin-top: 16px; font-size: 12px; color: var(--gray-light);
         }
-
         .admin-login-link a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: var(--transition);
+            color: var(--gray); text-decoration: none; transition: var(--transition);
         }
+        .admin-login-link a:hover { color: var(--primary); }
 
-        .admin-login-link a:hover {
-            color: var(--primary);
-        }
-
-        /* ========== LOADING ========== */
         .loading-spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: var(--white);
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
+            display: none; width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--white);
+            border-radius: 50%; animation: spin 0.6s linear infinite;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .btn.loading .loading-spinner {
-            display: block;
-        }
-
-        .btn.loading .btn-text {
-            display: none;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn.loading .loading-spinner { display: block; }
+        .btn.loading .btn-text { display: none; }
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 1024px) {
-            .hero-title {
-                font-size: 44px;
-            }
-
-            .hero-shapes {
-                width: 400px;
-                height: 400px;
-            }
-
+            .hero-title { font-size: 44px; }
+            .hero-shapes { width: 400px; height: 400px; }
             .shape-1 { width: 200px; height: 200px; }
             .shape-2 { width: 140px; height: 140px; }
             .shape-3 { width: 100px; height: 100px; }
-
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .testimonials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .steps-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 40px;
-            }
-
-            .steps-container::before {
-                display: none;
-            }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-container { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+            .steps-container::before { display: none; }
         }
-
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
-                position: fixed;
-                top: 72px;
-                left: 0;
-                right: 0;
-                background: var(--white);
-                flex-direction: column;
-                padding: 24px;
-                gap: 20px;
-                box-shadow: var(--shadow-lg);
+                display: none; position: fixed; top: 72px; left: 0; right: 0;
+                background: var(--white); flex-direction: column;
+                padding: 24px; gap: 20px; box-shadow: var(--shadow-lg);
                 border-bottom: 1px solid var(--gray-lighter);
             }
-
-            .nav-links.open {
-                display: flex;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-actions .btn-outline {
-                display: none;
-            }
-
-            .hero-content {
-                grid-template-columns: 1fr;
-                padding: 40px 24px;
-                text-align: center;
-            }
-
-            .hero-title {
-                font-size: 36px;
-            }
-
-            .hero-subtitle {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-cta {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-
-            .hero-visual {
-                display: none;
-            }
-
-            .features-grid,
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .steps-container {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                font-size: 30px;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
-            }
-
-            .cta-title {
-                font-size: 28px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
+            .nav-links.open { display: flex; }
+            .hamburger { display: flex; }
+            .nav-actions .btn-outline { display: none; }
+            .hero-content { grid-template-columns: 1fr; padding: 40px 24px; text-align: center; }
+            .hero-title { font-size: 36px; }
+            .hero-subtitle { margin-left: auto; margin-right: auto; }
+            .hero-cta { justify-content: center; flex-wrap: wrap; }
+            .hero-stats { justify-content: center; }
+            .hero-visual { display: none; }
+            .features-grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .steps-container { grid-template-columns: 1fr; }
+            .section-title { font-size: 30px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+            .cta-title { font-size: 28px; }
+            .cta-buttons { flex-direction: column; align-items: center; }
         }
 
-        /* ========== SCROLLBAR ========== */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--gray-lighter); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-lighter); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        ::-webkit-scrollbar-track {
-            background: var(--gray-lighter);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-lighter);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
-
-        /* ========== PAGE TRANSITION ========== */
         .page-loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--white); display: flex; align-items: center;
+            justify-content: center; z-index: 9999; transition: opacity 0.5s ease;
         }
+        .page-loader.hidden { opacity: 0; pointer-events: none; }
+        .loader-logo { animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.7; } }
 
-        .page-loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader-logo {
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.7; }
-        }
-
-        /* ========== SCROLL ANIMATIONS ========== */
         .reveal {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 0; transform: translateY(30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -1384,10 +661,7 @@
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader">
         <div class="loader-logo">
-            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-                <rect width="60" height="60" rx="14" fill="#1a56db"/>
-                <text x="50%" y="55%" text-anchor="middle" fill="white" font-family="Space Grotesk" font-size="22" font-weight="700">N</text>
-            </svg>
+            <img src="images/nustology.jpg" alt="NUSTology" style="width:60px; height:60px; border-radius:14px;" onerror="this.outerHTML='<svg width=60 height=60 viewBox=0 0 60 60 fill=none><rect width=60 height=60 rx=14 fill=%231a56db/></svg>'">
         </div>
     </div>
 
@@ -1408,95 +682,93 @@
             </ul>
 
             <div class="nav-actions">
+                <!-- DARK MODE TOGGLE -->
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+
                 <button class="btn btn-outline" onclick="openModal('adminLoginModal')">Admin</button>
                 <button class="btn btn-primary" onclick="openModal('loginModal')">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                     <span>Login</span>
                 </button>
-                <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
-                    <span></span><span></span><span></span>
+
+                <!-- MINIMALISTIC HAMBURGER ICON -->
+                <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                    <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                    <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- HERO -->
     <section class="hero" id="hero">
         <div class="hero-content">
             <div class="hero-text">
                 <div class="hero-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     Trusted by 500+ NUST Aspirants
                 </div>
-                <h1 class="hero-title">
-                    Crack the <span class="highlight">NUST NET</span> with Confidence
-                </h1>
-                <p class="hero-subtitle">
-                    The most comprehensive test preparation platform for NUST Entry Test. 
-                    Practice with real-pattern mock tests, track your progress, and join a 
-                    community of future NUSTians.
-                </p>
+                <h1 class="hero-title">Crack the <span class="highlight">NUST NET</span> with Confidence</h1>
+                <p class="hero-subtitle">The most comprehensive test preparation platform for NUST Entry Test. Practice with real-pattern mock tests, track your progress, and join a community of future NUSTians.</p>
                 <div class="hero-cta">
                     <button class="btn btn-primary btn-lg" onclick="openModal('loginModal')">
                         <span>Get Started</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </button>
                     <a href="#features" class="btn btn-outline btn-lg">Explore Features</a>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">2000+</div>
-                        <div class="stat-label">Practice Questions</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Mock Tests</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">95%</div>
-                        <div class="stat-label">Success Rate</div>
-                    </div>
+                    <div class="stat-item"><div class="stat-number">2000+</div><div class="stat-label">Practice Questions</div></div>
+                    <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">Mock Tests</div></div>
+                    <div class="stat-item"><div class="stat-number">95%</div><div class="stat-label">Success Rate</div></div>
                 </div>
             </div>
 
             <div class="hero-visual">
                 <div class="hero-shapes">
-                    <!-- Geometric Shapes -->
                     <div class="shape shape-1"></div>
                     <div class="shape shape-2"></div>
                     <div class="shape shape-3"></div>
                     <div class="shape shape-4"></div>
                     <div class="shape shape-5"></div>
-                    <div class="shape-rect"></div>
-                    <div class="shape-dots">
-                        <span></span><span></span><span></span><span></span>
-                        <span></span><span></span><span></span><span></span>
-                        <span></span><span></span><span></span><span></span>
-                        <span></span><span></span><span></span><span></span>
-                    </div>
-
-                    <!-- Floating Cards -->
                     <div class="hero-card hero-card-1">
-                        <div class="card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                        </div>
+                        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
                         <h4>Mock Test Ready</h4>
                         <p>Subject-wise & Grand Tests available for all fields</p>
                     </div>
-
                     <div class="hero-card hero-card-2">
                         <div class="score">178</div>
                         <div class="score-label">Average Score / 200</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill"></div>
-                        </div>
+                        <div class="progress-bar"><div class="progress-fill"></div></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- FEATURES -->
     <section class="section" id="features">
         <div class="container">
             <div class="section-header reveal">
@@ -1504,84 +776,42 @@
                 <h2 class="section-title">Everything You Need to Succeed</h2>
                 <p class="section-desc">From practice tests to community support, we've got all tools to help you crack the NUST NET.</p>
             </div>
-
             <div class="features-grid">
                 <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    </div>
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
                     <h3>Subject-wise Mock Tests</h3>
                     <p>Practice individual subjects - Physics, Chemistry, Math, English, and more. Each test mirrors the actual NET pattern.</p>
                 </div>
-
                 <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    </div>
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
                     <h3>Grand Tests</h3>
                     <p>Take full-length grand tests that simulate the actual NET experience with proper time limits and scoring.</p>
                 </div>
-
                 <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
                     <h3>Community & Chat</h3>
                     <p>Connect with fellow aspirants, share doubts, and learn together in group chats and community posts.</p>
                 </div>
-
                 <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    </div>
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
                     <h3>Live Leaderboard</h3>
                     <p>See where you stand among all students. Field-wise rankings updated in real-time after every test.</p>
                 </div>
-
                 <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    </div>
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
                     <h3>Video Lectures</h3>
                     <p>Access curated YouTube lecture links for every topic, organized by subject and difficulty level.</p>
                 </div>
-
                 <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                    </div>
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
                     <h3>Aggregate Calculator</h3>
                     <p>Calculate your NET aggregate instantly with our smart calculator. Know your exact standing for admissions.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-                    </div>
-                    <h3>Performance Tracking</h3>
-                    <p>Detailed analytics of your test performance, streaks, and consistency - helping you improve every day.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-                    </div>
-                    <h3>Past Merit Lists</h3>
-                    <p>Access past merit lists of 2025 to understand cutoff marks and plan your preparation accordingly.</p>
-                </div>
-
-                <div class="feature-card reveal">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    </div>
-                    <h3>Detailed Test Review</h3>
-                    <p>After every test, review each question with correct answers and explanations to learn from mistakes.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Fields Section -->
+    <!-- FIELDS -->
     <section class="section testimonials-bg" id="fields">
         <div class="container">
             <div class="section-header reveal">
@@ -1589,68 +819,52 @@
                 <h2 class="section-title">Choose Your Field</h2>
                 <p class="section-desc">Practice tests available for all NUST undergraduate programs</p>
             </div>
-
             <div class="fields-grid">
                 <div class="field-card reveal">
-                    <div class="field-icon eng">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                    </div>
-                    <h3>Engineering</h3>
-                    <p>SEECS, SCME, SMME, SNS, SCEE, NICE, CEME, MCE, MCS, PNEC</p>
+                    <div class="field-icon eng"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg></div>
+                    <h3>NET-Engineering</h3>
+                    <p>SEECS, SCME, SMME, SNS, SCEE, NICE, CEME</p>
                     <div class="field-subjects">
-                        <span>Physics</span>
-                        <span>Mathematics</span>
-                        <span>English</span>
-                        <span>Intelligence</span>
+                        <span>Math 50%</span><span>Physics 30%</span><span>English 20%</span>
                     </div>
                 </div>
-
                 <div class="field-card reveal">
-                    <div class="field-icon med">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                    </div>
-                    <h3>Medical / BioSciences</h3>
-                    <p>Atta-ur-Rahman School of Applied Biosciences (ASAB)</p>
+                    <div class="field-icon med"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                    <h3>NET-Applied Sciences</h3>
+                    <p>ASAB (BioSciences)</p>
                     <div class="field-subjects">
-                        <span>Biology</span>
-                        <span>Chemistry</span>
-                        <span>Physics</span>
-                        <span>English</span>
+                        <span>Biology 50%</span><span>Chemistry 30%</span><span>English 20%</span>
                     </div>
                 </div>
-
                 <div class="field-card reveal">
-                    <div class="field-icon biz">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    </div>
-                    <h3>Business Studies</h3>
+                    <div class="field-icon biz"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/></svg></div>
+                    <h3>NET-Business Studies</h3>
                     <p>NUST Business School (NBS)</p>
                     <div class="field-subjects">
-                        <span>Mathematics</span>
-                        <span>English</span>
-                        <span>Intelligence</span>
-                        <span>General Knowledge</span>
+                        <span>Quant Math 50%</span><span>English 50%</span>
                     </div>
                 </div>
-
                 <div class="field-card reveal">
-                    <div class="field-icon art">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                    </div>
-                    <h3>Architecture & Design</h3>
-                    <p>School of Art, Design and Architecture (SADA)</p>
+                    <div class="field-icon art"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg></div>
+                    <h3>NET-Architecture</h3>
+                    <p>SADA (Industrial Design)</p>
                     <div class="field-subjects">
-                        <span>English</span>
-                        <span>Mathematics</span>
-                        <span>Drawing</span>
-                        <span>General Knowledge</span>
+                        <span>Design 50%</span><span>Math 30%</span><span>English 20%</span>
+                    </div>
+                </div>
+                <div class="field-card reveal">
+                    <div class="field-icon nat"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                    <h3>NET-Natural Sciences</h3>
+                    <p>Natural Sciences Programs</p>
+                    <div class="field-subjects">
+                        <span>Math 50%</span><span>English 50%</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works -->
+    <!-- HOW IT WORKS -->
     <section class="section how-it-works" id="how-it-works">
         <div class="container">
             <div class="section-header reveal">
@@ -1658,36 +872,32 @@
                 <h2 class="section-title">How It Works</h2>
                 <p class="section-desc">Get started in 4 simple steps</p>
             </div>
-
             <div class="steps-container">
                 <div class="step-card reveal">
                     <div class="step-number">1</div>
                     <h3>Get Access</h3>
-                    <p>Contact admin, make payment, and receive your unique login credentials to access the platform.</p>
+                    <p>Contact admin, make payment, and receive your unique login credentials.</p>
                 </div>
-
                 <div class="step-card reveal">
                     <div class="step-number">2</div>
                     <h3>Complete Profile</h3>
-                    <p>Fill in your academic details, NET plans, and district information to help us personalize your experience.</p>
+                    <p>Fill in your academic details and NET plans to personalize your experience.</p>
                 </div>
-
                 <div class="step-card reveal">
                     <div class="step-number">3</div>
                     <h3>Take Tests</h3>
-                    <p>Choose your field, select subject-wise or grand tests, and practice in a real NET-like environment.</p>
+                    <p>Choose your field, select tests, and practice in a real NET-like environment.</p>
                 </div>
-
                 <div class="step-card reveal">
                     <div class="step-number">4</div>
                     <h3>Track & Improve</h3>
-                    <p>Review your answers, check the leaderboard, maintain streaks, and keep improving until test day.</p>
+                    <p>Review answers, check leaderboard, and keep improving until test day.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Preview -->
+    <!-- FAQ -->
     <section class="section" id="faq-preview">
         <div class="container">
             <div class="section-header reveal">
@@ -1695,151 +905,39 @@
                 <h2 class="section-title">Frequently Asked Questions</h2>
                 <p class="section-desc">Quick answers about NUST NET and our platform</p>
             </div>
-
             <div style="max-width: 700px; margin: 0 auto;">
-                <div class="faq-item reveal" style="border: 1px solid var(--gray-lighter); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
-                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--dark);">
+                <div class="faq-item reveal" style="border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
+                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary);">
                         What is the NUST Entry Test (NET)?
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s; flex-shrink: 0;"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">
-                            The NUST Entry Test (NET) is a mandatory standardized test for admission to all undergraduate programs at the National University of Sciences and Technology (NUST), Pakistan. It is conducted multiple times a year, typically between February and August. The test evaluates candidates in Mathematics, Physics, Chemistry, Biology, English, and Intelligence based on their chosen field.
-                        </p>
+                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">The NUST Entry Test (NET) is a mandatory standardized test for admission to all undergraduate programs at NUST. It is conducted multiple times a year.</p>
                     </div>
                 </div>
-
-                <div class="faq-item reveal" style="border: 1px solid var(--gray-lighter); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
-                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--dark);">
-                        How many times can I attempt NET in a year?
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s; flex-shrink: 0;"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">
-                            NUST conducts NET 3-4 times during the admission cycle (typically NET-1 in February, NET-2 in March/April, NET-3 in June, and NET-4 in July/August). You can attempt multiple NETs, and your best score will be considered for merit calculation.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="faq-item reveal" style="border: 1px solid var(--gray-lighter); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
-                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--dark);">
-                        What is the marking scheme of NET?
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s; flex-shrink: 0;"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">
-                            The NET for Engineering typically has 200 marks distributed as: Mathematics (80 marks), Physics (60 marks), English (30 marks), and Intelligence (30 marks). For Medical/BioSciences: Biology (80 marks), Chemistry (60 marks), Physics (40 marks), and English (20 marks). There is negative marking of 0.25 marks for each wrong answer.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="faq-item reveal" style="border: 1px solid var(--gray-lighter); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
-                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--dark);">
+                <div class="faq-item reveal" style="border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
+                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary);">
                         How is the NUST aggregate calculated?
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s; flex-shrink: 0;"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">
-                            NUST aggregate for Engineering is calculated as: NET Score (75%) + SSC/Matric (10%) + HSSC/FSc (15%). For Medical programs: NET Score (75%) + SSC (10%) + HSSC (15%). The percentages may vary slightly for different programs. Use our built-in Aggregate Calculator for accurate results.
-                        </p>
+                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">NUST aggregate for Engineering: NET (75%) + SSC (10%) + HSSC (15%). Use our Aggregate Calculator for accurate results.</p>
                     </div>
                 </div>
-
-                <div class="faq-item reveal" style="border: 1px solid var(--gray-lighter); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
-                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--dark);">
-                        What is the syllabus for NET?
+                <div class="faq-item reveal" style="border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
+                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary);">
+                        What is the marking scheme of NET?
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s; flex-shrink: 0;"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">
-                            The NET syllabus is based on FSc/HSSC/A-Levels curriculum. For Engineering, it covers Mathematics (Algebra, Trigonometry, Calculus, Analytical Geometry), Physics (Mechanics, Electricity, Magnetism, Optics, Modern Physics), English (Grammar, Comprehension, Vocabulary), and Analytical/Intelligence questions. NUST official website publishes detailed topic lists before each admission cycle.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="faq-item reveal" style="border: 1px solid var(--gray-lighter); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;">
-                    <button onclick="toggleFaq(this)" style="width: 100%; padding: 18px 24px; background: var(--white); border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--dark);">
-                        Is NET conducted online or at a test center?
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s; flex-shrink: 0;"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">
-                            NET is a Computer Based Test (CBT) conducted at designated test centers across Pakistan. You'll take the test on a computer at the center. The interface shows one question at a time with options to navigate between questions, mark for review, and submit. Our platform simulates this exact interface so you feel comfortable on test day.
-                        </p>
+                        <p style="padding: 0 24px 18px; font-size: 14px; color: var(--gray); line-height: 1.7;">NET Engineering: 200 marks (Math 100, Physics 60, English 40). +1 for correct, -0.25 for wrong.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="section testimonials-bg">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">Testimonials</span>
-                <h2 class="section-title">What Students Say</h2>
-                <p class="section-desc">Join hundreds of students who prepared with NUSTology</p>
-            </div>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card reveal">
-                    <div class="testimonial-stars">
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <p class="testimonial-text">"The mock tests were incredibly similar to the actual NET. I scored 185/200 in my final NET thanks to the consistent practice on NUSTology Prep."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">AH</div>
-                        <div>
-                            <div class="testimonial-name">Ahmed Hassan</div>
-                            <div class="testimonial-role">SEECS - Computer Science</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card reveal">
-                    <div class="testimonial-stars">
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <p class="testimonial-text">"The community feature is amazing! I got my doubts cleared instantly from other students and the leaderboard kept me motivated throughout my preparation."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">SF</div>
-                        <div>
-                            <div class="testimonial-name">Sara Fatima</div>
-                            <div class="testimonial-role">ASAB - Bioinformatics</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card reveal">
-                    <div class="testimonial-stars">
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <p class="testimonial-text">"The aggregate calculator and past merit lists helped me set realistic targets. The test review feature showed me exactly where I was making mistakes."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">MK</div>
-                        <div>
-                            <div class="testimonial-name">Muhammad Khan</div>
-                            <div class="testimonial-role">SMME - Mechanical Engineering</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
+    <!-- CTA -->
     <section class="cta-section" id="contact">
         <div class="container">
             <div class="cta-content">
@@ -1851,7 +949,6 @@
                         Login Now
                     </button>
                     <a href="https://wa.me/923001234567" target="_blank" class="btn btn-lg" style="background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.3);">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                         Contact on WhatsApp
                     </a>
                 </div>
@@ -1859,7 +956,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -1868,40 +965,31 @@
                         <img src="images/nustology.jpg" alt="NUSTology" onerror="this.style.display='none'" style="width: 36px; height: 36px; border-radius: 8px;">
                         <span><span class="nust">NUST</span><span class="ology">ology</span> <span class="prep">Prep.</span></span>
                     </a>
-                    <p>The ultimate preparation platform for NUST Entry Test. Practice, learn, and succeed with comprehensive mock tests and community support.</p>
+                    <p>The ultimate preparation platform for NUST Entry Test.</p>
                 </div>
-
                 <div class="footer-col">
                     <h4>Platform</h4>
                     <ul>
                         <li><a href="#features">Features</a></li>
                         <li><a href="#fields">Test Fields</a></li>
                         <li><a href="#faq-preview">FAQs</a></li>
-                        <li><a href="#" onclick="openModal('loginModal')">Login</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
                     <h4>Resources</h4>
                     <ul>
                         <li><a href="#">Video Lectures</a></li>
                         <li><a href="#">Past Merit Lists</a></li>
-                        <li><a href="#">Aggregate Calculator</a></li>
-                        <li><a href="#">Leaderboard</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
                     <h4>Contact</h4>
                     <ul>
                         <li><a href="https://wa.me/923001234567" target="_blank">WhatsApp</a></li>
                         <li><a href="mailto:nustologyprep@gmail.com">Email</a></li>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
                     </ul>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <span>&copy; 2025 NUSTology Prep. All rights reserved.</span>
                 <span>Made with dedication for NUST aspirants</span>
@@ -1909,96 +997,91 @@
         </div>
     </footer>
 
-    <!-- Login Modal -->
+    <!-- LOGIN MODAL -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal">
             <button class="modal-close" onclick="closeModal('loginModal')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-
             <div class="modal-logo">
-                <img src="images/nustology.jpg" alt="NUSTology" onerror="this.innerHTML='<svg width=60 height=60 viewBox=\'0 0 60 60\' fill=\'none\'><rect width=\'60\' height=\'60\' rx=\'14\' fill=\'%231a56db\'/><text x=\'50%25\' y=\'55%25\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'22\' font-weight=\'700\'>N</text></svg>'">
+                <img src="images/nustology.jpg" alt="NUSTology">
             </div>
-
             <h2><span style="color: var(--primary);">NUST</span>ology Prep.</h2>
             <p class="modal-subtitle">Enter your credentials to access the platform</p>
-
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="loginUsername">Username</label>
-                    <input type="text" id="loginUsername" placeholder="Enter your username" required autocomplete="username">
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required>
                 </div>
-
                 <div class="form-group">
                     <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password">
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
                 </div>
-
                 <div class="form-remember">
-                    <label>
-                        <input type="checkbox" id="rememberMe" style="accent-color: var(--primary);">
-                        Remember me
-                    </label>
+                    <label><input type="checkbox" id="rememberMe" style="accent-color: var(--primary);">Remember me</label>
                 </div>
-
                 <button type="submit" class="btn btn-primary btn-login" id="loginBtn">
                     <span class="btn-text">Sign In</span>
                     <div class="loading-spinner"></div>
                 </button>
-
                 <div class="login-message" id="loginMessage"></div>
             </form>
-
             <div class="admin-login-link">
                 <a href="#" onclick="closeModal('loginModal'); openModal('adminLoginModal');">Admin Login</a>
             </div>
         </div>
     </div>
 
-    <!-- Admin Login Modal -->
+    <!-- ADMIN LOGIN MODAL -->
     <div class="modal-overlay" id="adminLoginModal">
         <div class="modal">
             <button class="modal-close" onclick="closeModal('adminLoginModal')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-
             <div class="modal-logo">
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                     <rect width="60" height="60" rx="14" fill="#1e3a8a"/>
                     <text x="50%" y="55%" text-anchor="middle" fill="white" font-family="sans-serif" font-size="18" font-weight="700">ADM</text>
                 </svg>
             </div>
-
             <h2>Admin Panel</h2>
             <p class="modal-subtitle">Restricted access - Admin credentials required</p>
-
             <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
                 <div class="form-group">
                     <label for="adminUsername">Admin Username</label>
                     <input type="text" id="adminUsername" placeholder="Enter admin username" required>
                 </div>
-
                 <div class="form-group">
                     <label for="adminPassword">Admin Password</label>
                     <input type="password" id="adminPassword" placeholder="Enter admin password" required>
                 </div>
-
                 <button type="submit" class="btn btn-primary btn-login" id="adminLoginBtn" style="background: var(--primary-dark);">
                     <span class="btn-text">Access Admin Panel</span>
                     <div class="loading-spinner"></div>
                 </button>
-
                 <div class="login-message" id="adminLoginMessage"></div>
             </form>
-
             <div class="admin-login-link">
                 <a href="#" onclick="closeModal('adminLoginModal'); openModal('loginModal');">Back to Student Login</a>
             </div>
         </div>
     </div>
 
-
     <script>
+        // ========== DARK MODE ==========
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('nustology_theme', newTheme);
+        }
+
+        // Load saved theme on page load
+        (function() {
+            const saved = localStorage.getItem('nustology_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+
         // ========== PAGE LOADER ==========
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -2009,28 +1092,25 @@
         // ========== NAVBAR SCROLL ==========
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
         });
 
         // ========== MOBILE MENU ==========
         function toggleMobileMenu() {
-            document.getElementById('navLinks').classList.toggle('open');
+            const links = document.getElementById('navLinks');
+            const hamburger = document.getElementById('hamburger');
+            links.classList.toggle('open');
+            hamburger.classList.toggle('open');
         }
 
         // ========== SCROLL REVEAL ==========
         const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
         revealElements.forEach(el => revealObserver.observe(el));
 
         // ========== MODAL FUNCTIONS ==========
@@ -2038,33 +1118,20 @@
             document.getElementById(id).classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
             document.body.style.overflow = '';
-            // Clear messages
             const msg = document.getElementById(id === 'loginModal' ? 'loginMessage' : 'adminLoginMessage');
-            if (msg) {
-                msg.className = 'login-message';
-                msg.textContent = '';
-            }
+            if (msg) { msg.className = 'login-message'; msg.textContent = ''; }
         }
-
-        // Close modal on overlay click
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    closeModal(overlay.id);
-                }
+                if (e.target === overlay) closeModal(overlay.id);
             });
         });
-
-        // Close modal on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
-                    closeModal(modal.id);
-                });
+                document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m.id));
             }
         });
 
@@ -2073,136 +1140,80 @@
             const answer = btn.nextElementSibling;
             const icon = btn.querySelector('svg');
             const isOpen = answer.style.maxHeight !== '0px' && answer.style.maxHeight !== '';
-
-            // Close all FAQs
-            document.querySelectorAll('.faq-answer').forEach(a => {
-                a.style.maxHeight = '0px';
-            });
-            document.querySelectorAll('.faq-item button svg').forEach(s => {
-                s.style.transform = 'rotate(0deg)';
-            });
-
+            document.querySelectorAll('.faq-answer').forEach(a => { a.style.maxHeight = '0px'; });
+            document.querySelectorAll('.faq-item button svg').forEach(s => { s.style.transform = 'rotate(0deg)'; });
             if (!isOpen) {
                 answer.style.maxHeight = answer.scrollHeight + 'px';
                 icon.style.transform = 'rotate(180deg)';
             }
         }
 
-        // ========== API BASE URL ==========
+        // ========== API ==========
         const API_BASE = '/api';
 
-        // ========== STUDENT LOGIN ==========
         async function handleLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
             const msg = document.getElementById('loginMessage');
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
-
             btn.classList.add('loading');
             msg.className = 'login-message';
-            msg.textContent = '';
-
             try {
                 const response = await fetch(`${API_BASE}/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
-                    // Store session
                     localStorage.setItem('nustology_token', data.token);
                     localStorage.setItem('nustology_user', JSON.stringify(data.user));
-
                     msg.className = 'login-message success';
                     msg.textContent = 'Login successful! Redirecting...';
-
-                    setTimeout(() => {
-                        // Check if profile is complete
-                        if (data.user.profileComplete) {
-                            window.location.href = '/student.html';
-                        } else {
-                            window.location.href = '/student.html#onboarding';
-                        }
-                    }, 1000);
+                    setTimeout(() => { window.location.href = '/student.html'; }, 1000);
                 } else {
                     msg.className = 'login-message error';
-                    msg.textContent = data.message || 'Invalid credentials. Please contact admin for access.';
+                    msg.textContent = data.message || 'Invalid credentials.';
                 }
             } catch (error) {
                 msg.className = 'login-message error';
                 msg.textContent = 'Connection error. Please try again.';
-                console.error('Login error:', error);
             }
-
             btn.classList.remove('loading');
         }
 
-        // ========== ADMIN LOGIN ==========
         async function handleAdminLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('adminLoginBtn');
             const msg = document.getElementById('adminLoginMessage');
             const username = document.getElementById('adminUsername').value.trim();
             const password = document.getElementById('adminPassword').value;
-
             btn.classList.add('loading');
             msg.className = 'login-message';
-            msg.textContent = '';
-
             try {
                 const response = await fetch(`${API_BASE}/auth/admin-login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
                     localStorage.setItem('nustology_admin_token', data.token);
                     msg.className = 'login-message success';
                     msg.textContent = 'Admin access granted! Redirecting...';
-
-                    setTimeout(() => {
-                        window.location.href = '/admin.html';
-                    }, 1000);
+                    setTimeout(() => { window.location.href = '/admin.html'; }, 1000);
                 } else {
                     msg.className = 'login-message error';
                     msg.textContent = data.message || 'Invalid admin credentials.';
                 }
             } catch (error) {
                 msg.className = 'login-message error';
-                msg.textContent = 'Connection error. Please try again.';
-                console.error('Admin login error:', error);
+                msg.textContent = 'Connection error.';
             }
-
             btn.classList.remove('loading');
         }
 
-        // ========== CHECK AUTH ON LOAD ==========
-        function checkAuth() {
-            const token = localStorage.getItem('nustology_token');
-            const user = localStorage.getItem('nustology_user');
-
-            if (token && user) {
-                // User already logged in, redirect to dashboard
-                window.location.href = '/student.html';
-            }
-        }
-
-        // Check if admin is logged in
-        function checkAdminAuth() {
-            const token = localStorage.getItem('nustology_admin_token');
-            if (token) {
-                window.location.href = '/admin.html';
-            }
-        }
-
-        // Smooth scroll for nav links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
@@ -2211,17 +1222,12 @@
                     const target = document.querySelector(href);
                     if (target) {
                         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        // Close mobile menu
                         document.getElementById('navLinks').classList.remove('open');
+                        document.getElementById('hamburger').classList.remove('open');
                     }
                 }
             });
         });
-
-        // Initialize
-        // Don't auto-redirect on landing page, let users explore
-        // checkAuth();
     </script>
-
 </body>
 </html>
