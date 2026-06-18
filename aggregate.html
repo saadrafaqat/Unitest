@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- TAB ICON / FAVICON -->
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <link rel="apple-touch-icon" href="images/nustology.jpg">
+    <link rel="shortcut icon" href="images/nustology.jpg">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#1a56db">
+    <meta name="apple-mobile-web-app-title" content="NUSTology Prep.">
+
     <title>Aggregate Calculator - NUSTology Prep.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
@@ -14,7 +24,15 @@
         }
         body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--dark); min-height: 100vh; }
         .layout { display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: white; border-right: 1px solid var(--gray-lighter); padding: 24px 16px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+        .sidebar {
+            width: 260px; background: white;
+            border-right: 1px solid var(--gray-lighter);
+            padding: 24px 16px; position: fixed;
+            top: 0; left: 0; bottom: 0;
+            overflow-y: auto; z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .sidebar.collapsed { transform: translateX(-260px); }
         .sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 0 12px 24px; border-bottom: 1px solid var(--gray-lighter); margin-bottom: 20px; }
         .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
         .sidebar-logo .text { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
@@ -26,8 +44,27 @@
         .menu-item svg { width: 18px; height: 18px; }
         .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
         .menu-item.active { background: var(--primary); color: white; }
-        .main { flex: 1; margin-left: 260px; min-height: 100vh; }
-        .topbar { background: white; padding: 16px 32px; border-bottom: 1px solid var(--gray-lighter); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .main {
+            flex: 1; margin-left: 260px; min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        .main.expanded { margin-left: 0; }
+        .topbar {
+            background: white; padding: 16px 32px;
+            border-bottom: 1px solid var(--gray-lighter);
+            display: flex; justify-content: space-between;
+            align-items: center; position: sticky; top: 0; z-index: 50;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 16px; }
+        .sidebar-toggle {
+            width: 40px; height: 40px; border-radius: 10px;
+            border: 2px solid var(--gray-lighter); background: white;
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; color: var(--dark); padding: 0;
+            transition: all 0.3s;
+        }
+        .sidebar-toggle:hover { border-color: var(--primary); color: var(--primary); }
+        .sidebar-toggle svg { width: 20px; height: 20px; }
         .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
         .topbar p { font-size: 13px; color: var(--gray); margin-top: 2px; }
         .logout-btn { background: var(--gray-lighter); border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--dark); font-family: inherit; }
@@ -40,7 +77,7 @@
             display: flex; gap: 16px; align-items: center;
         }
         .info-banner svg { width: 32px; height: 32px; flex-shrink: 0; }
-        .info-banner h3 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 4px; }
+        .info-banner h3 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 4px; color: white; }
         .info-banner p { font-size: 13px; opacity: 0.9; }
 
         .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; }
@@ -57,12 +94,13 @@
 
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
         .form-group label { font-size: 13px; font-weight: 600; margin-bottom: 6px; display: block; }
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-lighter);
             border-radius: 8px; font-family: inherit; font-size: 14px; transition: all 0.2s;
         }
-        .form-group input:focus, .form-group select:focus {
-            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+        .form-group input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
         }
 
         .btn-calc {
@@ -104,17 +142,6 @@
         .empty-state { text-align: center; padding: 30px 20px; opacity: 0.8; }
         .empty-state svg { width: 48px; height: 48px; margin-bottom: 8px; opacity: 0.5; }
 
-        .field-tabs {
-            display: flex; gap: 6px; background: white; padding: 6px;
-            border-radius: 10px; margin-bottom: 16px; border: 1px solid var(--gray-lighter);
-        }
-        .field-tab {
-            flex: 1; padding: 9px 12px; background: transparent; border: none; border-radius: 7px;
-            font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
-            color: var(--gray); transition: all 0.2s;
-        }
-        .field-tab.active { background: var(--primary); color: white; }
-
         .merit-tag {
             display: inline-block; padding: 4px 12px; border-radius: 20px;
             font-size: 12px; font-weight: 700; margin-top: 12px;
@@ -124,17 +151,15 @@
         .merit-tag.fair { background: #fed7aa; color: #92400e; }
         .merit-tag.low { background: rgba(255,255,255,0.2); color: white; }
 
-        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
-
         @media (max-width: 1024px) {
             .grid { grid-template-columns: 1fr; }
             .result-card { position: static; }
         }
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
-            .main { margin-left: 0; }
-            .mobile-toggle { display: block; }
+            .sidebar.collapsed { transform: translateX(-100%); }
+            .main { margin-left: 0 !important; }
             .content { padding: 20px; }
             .form-row { grid-template-columns: 1fr; }
         }
@@ -166,11 +191,15 @@
         </ul>
     </aside>
 
-    <main class="main">
+    <main class="main" id="main">
         <div class="topbar">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <div class="topbar-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar" title="Toggle sidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
                 </button>
                 <div>
                     <h1>Aggregate Calculator</h1>
@@ -187,13 +216,6 @@
                     <h3>NUST Aggregate Formula</h3>
                     <p>NET (75%) + FSc/HSSC (15%) + Matric/SSC (10%) = Aggregate</p>
                 </div>
-            </div>
-
-            <div class="field-tabs">
-                <button class="field-tab active" onclick="selectField('Engineering', this)">Engineering</button>
-                <button class="field-tab" onclick="selectField('Medical', this)">Medical</button>
-                <button class="field-tab" onclick="selectField('Business', this)">Business</button>
-                <button class="field-tab" onclick="selectField('Architecture', this)">Architecture</button>
             </div>
 
             <div class="grid">
@@ -237,7 +259,7 @@
                     <div id="resultContent">
                         <div class="empty-state">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
-                            <h3 style="font-family:'Space Grotesk',sans-serif; font-size:18px; margin-bottom:6px;">Ready to Calculate</h3>
+                            <h3 style="font-family:'Space Grotesk',sans-serif; font-size:18px; margin-bottom:6px; color:white;">Ready to Calculate</h3>
                             <p style="font-size:13px;">Enter your marks and click Calculate to see your aggregate</p>
                         </div>
                     </div>
@@ -250,14 +272,29 @@
 
 <script>
     const API_BASE = '/api';
-    let currentField = 'Engineering';
 
-    function selectField(field, btn) {
-        currentField = field;
-        document.querySelectorAll('.field-tab').forEach(t => t.classList.remove('active'));
-        btn.classList.add('active');
+    // ========== SIDEBAR TOGGLE ==========
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const main = document.getElementById('main');
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle('open');
+        } else {
+            sidebar.classList.toggle('collapsed');
+            main.classList.toggle('expanded');
+            localStorage.setItem('nustology_sidebar_collapsed', sidebar.classList.contains('collapsed'));
+        }
     }
 
+    // Restore sidebar state on load
+    (function() {
+        if (window.innerWidth > 768 && localStorage.getItem('nustology_sidebar_collapsed') === 'true') {
+            document.getElementById('sidebar').classList.add('collapsed');
+            document.getElementById('main').classList.add('expanded');
+        }
+    })();
+
+    // ========== CALCULATOR ==========
     function calculate() {
         const netScore = parseFloat(document.getElementById('netScore').value);
         const netTotal = parseFloat(document.getElementById('netTotal').value) || 200;
@@ -330,6 +367,8 @@
 
     if (!localStorage.getItem('nustology_token')) window.location.href = '/index.html';
 </script>
+
+<!-- Dark Mode Script -->
 <script src="js/darkmode.js"></script>
 </body>
 </html>
