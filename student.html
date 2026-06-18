@@ -534,21 +534,67 @@
 
         /* ========== WARNING BANNER ========== */
         .warning-banner {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border: 2px solid var(--warning);
-            color: #92400e;
-            padding: 14px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .warning-banner svg { flex-shrink: 0; }
-        [data-theme="dark"] .warning-banner {
-            background: rgba(245, 158, 11, 0.15);
-            color: #fde68a;
-        }
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 2px solid var(--warning);
+    color: #92400e;
+    padding: 14px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+    animation: slideInDown 0.4s ease;
+}
+
+@keyframes slideInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.warning-banner > svg { flex-shrink: 0; margin-top: 2px; }
+
+.warning-close-btn {
+    background: rgba(146, 64, 14, 0.1);
+    border: none;
+    cursor: pointer;
+    color: #92400e;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.warning-close-btn:hover {
+    background: #92400e;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.warning-close-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+[data-theme="dark"] .warning-banner {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fde68a;
+}
+
+[data-theme="dark"] .warning-close-btn {
+    background: rgba(253, 230, 138, 0.15);
+    color: #fde68a;
+}
+
+[data-theme="dark"] .warning-close-btn:hover {
+    background: #fde68a;
+    color: #92400e;
+}
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 1024px) {
