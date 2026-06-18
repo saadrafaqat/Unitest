@@ -1819,6 +1819,7 @@ const QUESTION_BANK = {
 // ============================================
 
 // ============ FIELD CONFIGURATION ============
+// ============ FIELD CONFIGURATION (CORRECTED - 200 marks total) ============
 const FIELD_CONFIG = {
     'NET-Engineering': {
         key: 'engineering',
@@ -1828,9 +1829,9 @@ const FIELD_CONFIG = {
         totalMarks: 200,
         duration: 180, // minutes
         subjects: {
-            mathematics: { name: 'Mathematics', weight: 50, marks: 100, questions: 50 },
-            physics:     { name: 'Physics',     weight: 30, marks: 60,  questions: 30 },
-            english:     { name: 'English',     weight: 20, marks: 40,  questions: 20 }
+            mathematics: { name: 'Mathematics', weight: 50, marks: 100, questions: 100 },
+            physics:     { name: 'Physics',     weight: 30, marks: 60,  questions: 60 },
+            english:     { name: 'English',     weight: 20, marks: 40,  questions: 40 }
         }
     },
     'NET-Applied Sciences': {
@@ -1841,9 +1842,9 @@ const FIELD_CONFIG = {
         totalMarks: 200,
         duration: 180,
         subjects: {
-            biology:   { name: 'Biology',   weight: 50, marks: 100, questions: 50 },
-            chemistry: { name: 'Chemistry', weight: 30, marks: 60,  questions: 30 },
-            english:   { name: 'English',   weight: 20, marks: 40,  questions: 20 }
+            biology:   { name: 'Biology',   weight: 50, marks: 100, questions: 100 },
+            chemistry: { name: 'Chemistry', weight: 30, marks: 60,  questions: 60 },
+            english:   { name: 'English',   weight: 20, marks: 40,  questions: 40 }
         }
     },
     'NET-Business Studies': {
@@ -1854,8 +1855,8 @@ const FIELD_CONFIG = {
         totalMarks: 200,
         duration: 180,
         subjects: {
-            quantitative_mathematics: { name: 'Quantitative Mathematics', weight: 50, marks: 100, questions: 50 },
-            english:                  { name: 'English',                  weight: 50, marks: 100, questions: 50 }
+            quantitative_mathematics: { name: 'Quantitative Mathematics', weight: 50, marks: 100, questions: 100 },
+            english:                  { name: 'English',                  weight: 50, marks: 100, questions: 100 }
         }
     },
     'NET-Architecture': {
@@ -1866,9 +1867,9 @@ const FIELD_CONFIG = {
         totalMarks: 200,
         duration: 180,
         subjects: {
-            design_aptitude: { name: 'Design Aptitude', weight: 50, marks: 100, questions: 50 },
-            mathematics:     { name: 'Mathematics',     weight: 30, marks: 60,  questions: 30 },
-            english:         { name: 'English',         weight: 20, marks: 40,  questions: 20 }
+            design_aptitude: { name: 'Design Aptitude', weight: 50, marks: 100, questions: 100 },
+            mathematics:     { name: 'Mathematics',     weight: 30, marks: 60,  questions: 60 },
+            english:         { name: 'English',         weight: 20, marks: 40,  questions: 40 }
         }
     },
     'NET-Natural Sciences': {
@@ -1879,12 +1880,11 @@ const FIELD_CONFIG = {
         totalMarks: 200,
         duration: 180,
         subjects: {
-            mathematics: { name: 'Mathematics', weight: 50, marks: 100, questions: 50 },
-            english:     { name: 'English',     weight: 50, marks: 100, questions: 50 }
+            mathematics: { name: 'Mathematics', weight: 50, marks: 100, questions: 100 },
+            english:     { name: 'English',     weight: 50, marks: 100, questions: 100 }
         }
     }
 };
-
 // ============ SUBJECT-WISE TEST CONFIG ============
 const SUBJECT_TEST_CONFIG = {
     // Quick subject practice tests
