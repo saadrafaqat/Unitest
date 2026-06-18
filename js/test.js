@@ -1,156 +1,97 @@
 // ============================================
-// NUSTOLOGY PREP - TEST ENGINE
+// NUSTOLOGY PREP - TEST ENGINE (UPDATED)
 // File: js/test.js
 // ============================================
 
 const TEST_ENGINE = {
     API_BASE: '/api',
 
-    // ============ TEST CONFIGURATIONS ============
-    CONFIGS: {
-        // Subject-wise tests (per field)
-        Engineering: {
-            Mathematics:  { questions: 40, marks: 80, duration: 60 },  // 60 min
-            Physics:      { questions: 30, marks: 60, duration: 45 },
-            English:      { questions: 20, marks: 30, duration: 25 },
-            Intelligence: { questions: 20, marks: 30, duration: 25 }
-        },
-        Medical: {
-            Biology:   { questions: 40, marks: 80, duration: 60 },
-            Chemistry: { questions: 30, marks: 60, duration: 45 },
-            Physics:   { questions: 20, marks: 40, duration: 30 },
-            English:   { questions: 15, marks: 20, duration: 20 }
-        },
-        Business: {
-            Mathematics:      { questions: 40, marks: 80, duration: 60 },
-            English:          { questions: 25, marks: 50, duration: 35 },
-            Intelligence:     { questions: 20, marks: 40, duration: 25 },
-            GeneralKnowledge: { questions: 15, marks: 30, duration: 20 }
-        },
-        Architecture: {
-            English:          { questions: 25, marks: 50, duration: 35 },
-            Mathematics:      { questions: 25, marks: 50, duration: 35 },
-            Drawing:          { questions: 20, marks: 60, duration: 45 },
-            GeneralKnowledge: { questions: 20, marks: 40, duration: 25 }
-        }
-    },
-
-    // Grand Tests (full NET simulation)
-    GRAND_TESTS: {
-        Engineering: {
-            title: 'Engineering Grand Test',
-            total: 200,
-            duration: 180, // 3 hours
-            subjects: { Mathematics: 40, Physics: 30, English: 20, Intelligence: 20 }
-        },
-        Medical: {
-            title: 'Medical Grand Test',
-            total: 200,
-            duration: 180,
-            subjects: { Biology: 40, Chemistry: 30, Physics: 20, English: 15 }
-        },
-        Business: {
-            title: 'Business Grand Test',
-            total: 200,
-            duration: 180,
-            subjects: { Mathematics: 40, English: 25, Intelligence: 20, GeneralKnowledge: 15 }
-        },
-        Architecture: {
-            title: 'Architecture Grand Test',
-            total: 200,
-            duration: 180,
-            subjects: { English: 25, Mathematics: 25, Drawing: 20, GeneralKnowledge: 20 }
-        }
-    },
-
-    // ============ QUESTION SELECTION ============
-    getQuestions(field, subject, count) {
+    // ============ GET ALL FIELDS ============
+    getFields() {
         if (typeof QUESTIONS === 'undefined') {
-            console.error('QUESTIONS bank not loaded');
+            console.error('QUESTIONS not loaded');
             return [];
         }
-
-        let pool = [];
-        try {
-            if (QUESTIONS[field] && QUESTIONS[field][subject]) {
-                pool = [...QUESTIONS[field][subject]];
-            }
-        } catch (e) {
-            console.error('Error reading questions:', e);
-            return [];
-        }
-
-        if (pool.length === 0) return [];
-
-        // Shuffle and pick
-        pool = this.shuffle(pool);
-        return pool.slice(0, Math.min(count, pool.length)).map((q, idx) => ({
-            id: q.id || `${field}_${subject}_${idx}`,
-            questionText: q.question,
-            subject: subject,
-            options: q.options,
-            correctAnswer: q.correctAnswer,
-            explanation: q.explanation || ''
-        }));
+        return QUESTIONS.getFields();
     },
 
-    // Build a grand test (mixed subjects)
-    buildGrandTest(field) {
-        const config = this.GRAND_TESTS[field];
-        if (!config) return null;
-
-        let allQuestions = [];
-        for (const [subject, count] of Object.entries(config.subjects)) {
-            const qs = this.getQuestions(field, subject, count);
-            allQuestions = allQuestions.concat(qs);
-        }
-
-        return {
-            title: config.title,
-            field,
-            type: 'grand',
-            totalMarks: config.total,
-            duration: config.duration * 60, // seconds
-            questions: allQuestions
-        };
+    // ============ GET SUBJECTS FOR A FIELD ============
+    getSubjects(fieldName) {
+        if (typeof QUESTIONS === 'undefined') return [];
+        return QUESTIONS.getSubjects(fieldName);
     },
 
-    // Build a subject test
-    buildSubjectTest(field, subject) {
-        const config = this.CONFIGS[field]?.[subject];
-        if (!config) return null;
-
-        const questions = this.getQuestions(field, subject, config.questions);
-        return {
-            title: `${subject} - ${field}`,
-            field,
-            subject,
-            type: 'subject',
-            totalMarks: config.marks,
-            duration: config.duration * 60,
-            questions
-        };
+    // ============ GET GRAND TESTS LIST ============
+    getGrandTests(fieldName) {
+        if (typeof QUESTIONS === 'undefined') return [];
+        return QUESTIONS.getGrandTests(fieldName);
     },
 
-    // ============ UTILITIES ============
-    shuffle(arr) {
-        const a = [...arr];
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
+    // ============ BUILD SUBJECT TEST ============
+    buildSubjectTest(fieldName, subjectKey) {
+        if (typeof QUESTIONS === 'undefined') return null;
+        return QUESTIONS.buildSubjectTest(fieldName, subjectKey);
     },
 
+    // ============ BUILD GRAND TEST ============
+    buildGrandTest(fieldName, grandTestNumber = 1) {
+        if (typeof QUESTIONS === 'undefined') return null;
+        return QUESTIONS.buildGrandTest(fieldName, grandTestNumber);
+    },
+
+    // ============ FORMAT TIMER ============
     formatTime(seconds) {
         const h = Math.floor(seconds / 3600);
         const m = Math.floor((seconds % 3600) / 60);
         const s = seconds % 60;
-        if (h > 0) return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        const pad = (n) => n.toString().padStart(2, '0');
+        if (h > 0) return `${pad(h)}:${pad(m)}:${pad(s)}`;
+        return `${pad(m)}:${pad(s)}`;
     },
 
-    // ============ API CALLS ============
+    // ============ STORAGE FOR ACTIVE TEST ============
+    saveActiveTest(testData) {
+        try {
+            sessionStorage.setItem('active_test', JSON.stringify(testData));
+        } catch (e) {
+            console.error('Cannot save test:', e);
+        }
+    },
+
+    getActiveTest() {
+        try {
+            const d = sessionStorage.getItem('active_test');
+            return d ? JSON.parse(d) : null;
+        } catch (e) {
+            return null;
+        }
+    },
+
+    clearActiveTest() {
+        sessionStorage.removeItem('active_test');
+    },
+
+    // ============ SAVE TEST RESULT (after submission) ============
+    saveLastResult(result) {
+        try {
+            sessionStorage.setItem('last_result', JSON.stringify(result));
+        } catch (e) {}
+    },
+
+    getLastResult() {
+        try {
+            const d = sessionStorage.getItem('last_result');
+            return d ? JSON.parse(d) : null;
+        } catch (e) {
+            return null;
+        }
+    },
+
+    clearLastResult() {
+        sessionStorage.removeItem('last_result');
+    },
+
+    // ============ API: START TEST ============
     async startTest(testData) {
         const token = localStorage.getItem('nustology_token');
         try {
@@ -164,16 +105,18 @@ const TEST_ENGINE = {
                     testType: testData.type,
                     field: testData.field,
                     subject: testData.subject || null,
-                    totalQuestions: testData.questions.length,
+                    totalQuestions: testData.totalQuestions,
                     totalMarks: testData.totalMarks
                 })
             });
             return await res.json();
         } catch (e) {
+            console.error('startTest error:', e);
             return { success: false, message: 'Failed to start test' };
         }
     },
 
+    // ============ API: SUBMIT TEST ============
     async submitTest(attemptId, answers, timeTaken) {
         const token = localStorage.getItem('nustology_token');
         try {
@@ -187,10 +130,12 @@ const TEST_ENGINE = {
             });
             return await res.json();
         } catch (e) {
+            console.error('submitTest error:', e);
             return { success: false, message: 'Failed to submit test' };
         }
     },
 
+    // ============ API: GET MY ATTEMPTS ============
     async getMyAttempts() {
         const token = localStorage.getItem('nustology_token');
         try {
@@ -203,6 +148,7 @@ const TEST_ENGINE = {
         }
     },
 
+    // ============ API: GET REVIEW ============
     async getReview(attemptId) {
         const token = localStorage.getItem('nustology_token');
         try {
@@ -215,27 +161,54 @@ const TEST_ENGINE = {
         }
     },
 
-    // ============ SUBJECT LIST PER FIELD ============
-    getSubjects(field) {
-        return Object.keys(this.CONFIGS[field] || {});
+    // ============ PREPARE ANSWERS FOR SUBMISSION ============
+    // Converts user selections + questions into format expected by API
+    prepareAnswers(questions, userSelections) {
+        return questions.map((q, idx) => ({
+            questionId: q.id,
+            questionText: q.questionText || q.question,
+            subject: q.subject,
+            options: q.options,
+            correctAnswer: q.correctAnswer,
+            selectedAnswer: userSelections[idx]?.selected ?? null,
+            markedForReview: userSelections[idx]?.markedForReview || false
+        }));
     },
 
-    getAllFields() {
-        return Object.keys(this.CONFIGS);
-    },
+    // ============ CALCULATE LOCAL RESULT (for offline preview) ============
+    calculateResult(questions, userSelections) {
+        let correct = 0, wrong = 0, unattempted = 0;
+        let currentStreak = 0, maxStreak = 0;
 
-    // ============ STORAGE FOR ACTIVE TEST ============
-    saveActiveTest(testData) {
-        sessionStorage.setItem('active_test', JSON.stringify(testData));
-    },
+        questions.forEach((q, idx) => {
+            const selected = userSelections[idx]?.selected;
+            if (selected === null || selected === undefined) {
+                unattempted++;
+                currentStreak = 0;
+            } else if (selected === q.correctAnswer) {
+                correct++;
+                currentStreak++;
+                if (currentStreak > maxStreak) maxStreak = currentStreak;
+            } else {
+                wrong++;
+                currentStreak = 0;
+            }
+        });
 
-    getActiveTest() {
-        const d = sessionStorage.getItem('active_test');
-        return d ? JSON.parse(d) : null;
-    },
+        const totalMarks = questions.length;
+        const score = correct;
+        const percentage = (score / totalMarks) * 100;
 
-    clearActiveTest() {
-        sessionStorage.removeItem('active_test');
+        return {
+            correct,
+            wrong,
+            unattempted,
+            totalQuestions: questions.length,
+            score,
+            totalMarks,
+            percentage: parseFloat(percentage.toFixed(2)),
+            maxStreak
+        };
     }
 };
 
