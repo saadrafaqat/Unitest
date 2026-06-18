@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - NUSTology Prep.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary:#1a56db;--primary-dark:#1e3a8a;--primary-bg:#eff6ff;--dark:#0f172a;--gray:#64748b;--gray-lighter:#e2e8f0;--white:#fff;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444}
+        body{font-family:'Inter',sans-serif;background:#f8fafc;color:var(--dark);min-height:100vh}
+
+        .layout{display:flex;min-height:100vh}
+        .sidebar{width:260px;background:#fff;border-right:1px solid var(--gray-lighter);padding:24px 16px;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+        .sidebar-logo{display:flex;align-items:center;gap:10px;padding:0 12px 24px;border-bottom:1px solid var(--gray-lighter);margin-bottom:20px}
+        .sidebar-logo img{width:38px;height:38px;border-radius:10px;object-fit:cover}
+        .sidebar-logo .text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700}
+        .sidebar-logo .nust{color:var(--primary)}.sidebar-logo .prep{color:var(--gray);font-weight:400;font-size:14px}
+        .menu-section{font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;padding:16px 12px 8px}
+        .menu-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:var(--gray);text-decoration:none;font-size:14px;font-weight:500;transition:all .3s}
+        .menu-item svg{width:18px;height:18px}
+        .menu-item:hover{background:var(--primary-bg);color:var(--primary)}
+        .menu-item.active{background:var(--primary);color:#fff}
+        .sidebar-menu{list-style:none;display:flex;flex-direction:column;gap:4px}
+
+        .main{flex:1;margin-left:260px;min-height:100vh}
+        .topbar{background:#fff;padding:16px 32px;border-bottom:1px solid var(--gray-lighter);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+        .topbar h1{font-family:'Space Grotesk',sans-serif;font-size:22px}
+        .topbar p{font-size:13px;color:var(--gray);margin-top:2px}
+        .logout-btn{background:var(--gray-lighter);border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500}
+        .logout-btn:hover{background:var(--danger);color:#fff}
+        .content{padding:32px;max-width:1100px;margin:0 auto}
+
+        .lb-tabs{display:inline-flex;background:#fff;border-radius:12px;padding:6px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);gap:4px;flex-wrap:wrap}
+        .lb-tab{padding:10px 18px;border:none;background:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--gray);border-radius:8px;transition:all .3s;display:flex;align-items:center;gap:6px}
+        .lb-tab svg{width:16px;height:16px}
+        .lb-tab:hover{background:var(--primary-bg);color:var(--primary)}
+        .lb-tab.active{background:var(--primary);color:#fff}
+
+        .field-filter{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+        .field-pill{padding:8px 14px;background:#fff;border:1.5px solid var(--gray-lighter);border-radius:20px;cursor:pointer;font-size:13px;font-weight:500;color:var(--gray);transition:all .3s;font-family:inherit}
+        .field-pill:hover{border-color:var(--primary);color:var(--primary)}
+        .field-pill.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+        .podium{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:14px;margin-bottom:24px;align-items:end}
+        .podium-card{background:#fff;border-radius:14px;padding:20px;text-align:center;border:1px solid var(--gray-lighter);transition:all .3s;position:relative}
+        .podium-card.first{transform:scale(1.05);background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#fbbf24;box-shadow:0 8px 24px rgba(251,191,36,.25)}
+        .podium-card.second{background:linear-gradient(135deg,#f1f5f9,#e2e8f0);border-color:#94a3b8}
+        .podium-card.third{background:linear-gradient(135deg,#fde2cf,#fed7aa);border-color:#fb923c}
+        .podium-medal{font-size:30px;margin-bottom:8px}
+        .podium-rank{position:absolute;top:-12px;right:-8px;width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(26,86,219,.3)}
+        .podium-card.first .podium-rank{background:#f59e0b}
+        .podium-card.second .podium-rank{background:#64748b}
+        .podium-card.third .podium-rank{background:#ea580c}
+        .podium-avatar{width:60px;height:60px;border-radius:50%;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto 10px;overflow:hidden;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+        .podium-avatar img{width:100%;height:100%;object-fit:cover}
+        .podium-name{font-weight:700;font-size:14px;margin-bottom:4px}
+        .podium-field{font-size:11px;color:var(--gray);margin-bottom:8px}
+        .podium-score{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--primary)}
+        .podium-score-label{font-size:11px;color:var(--gray)}
+
+        .leaderboard-card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .lb-row{display:grid;grid-template-columns:50px 1fr 100px 100px 100px;gap:14px;align-items:center;padding:12px 14px;border-radius:10px;transition:all .2s;border-bottom:1px solid #f1f5f9}
+        .lb-row:hover{background:#f8fafc}
+        .lb-row:last-child{border-bottom:none}
+        .lb-row.you{background:var(--primary-bg);border:2px solid var(--primary)}
+        .lb-rank{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--gray)}
+        .lb-rank.top1{color:#f59e0b}
+        .lb-rank.top2{color:#64748b}
+        .lb-rank.top3{color:#ea580c}
+        .lb-user{display:flex;align-items:center;gap:10px}
+        .lb-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary-bg);color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;overflow:hidden;flex-shrink:0}
+        .lb-avatar img{width:100%;height:100%;object-fit:cover}
+        .lb-name{font-weight:600;font-size:14px}
+        .lb-field-tag{font-size:11px;color:var(--gray)}
+        .lb-stat{font-weight:600;font-size:14px;text-align:center}
+        .lb-stat .small{font-size:11px;color:var(--gray);display:block;font-weight:500}
+        .lb-header{display:grid;grid-template-columns:50px 1fr 100px 100px 100px;gap:14px;padding:10px 14px;font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;background:#f8fafc;border-radius:8px;margin-bottom:10px}
+
+        .empty{text-align:center;padding:60px 20px;color:var(--gray)}
+        .empty svg{width:50px;height:50px;opacity:.3;margin-bottom:12px}
+
+        .mobile-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+        @media(max-width:768px){
+            .sidebar{transform:translateX(-100%);transition:transform .3s}
+            .sidebar.open{transform:translateX(0)}
+            .main{margin-left:0}
+            .mobile-toggle{display:block}
+            .content{padding:20px}
+            .podium{grid-template-columns:1fr;gap:10px}
+            .podium-card.first{transform:none}
+            .lb-row,.lb-header{grid-template-columns:40px 1fr 60px;}
+            .lb-row > div:nth-child(4), .lb-row > div:nth-child(5),
+            .lb-header > div:nth-child(4), .lb-header > div:nth-child(5){display:none}
+        }
+
+        .loading-overlay{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999}
+        .loading-overlay.hidden{display:none}
+        .spinner{width:50px;height:50px;border:4px solid var(--gray-lighter);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="images/nustology.jpg" onerror="this.style.display='none'">
+                <div class="text"><span class="nust">NUST</span>ology<div class="prep">Prep.</div></div>
+            </div>
+            <ul class="sidebar-menu">
+                <div class="menu-section">Main</div>
+                <li><a href="student.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+                <li><a href="test.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Take Test</a></li>
+                <li><a href="leaderboard.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Leaderboard</a></li>
+                <div class="menu-section">Learn</div>
+                <li><a href="lectures.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</a></li>
+                <li><a href="aggregate.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>Aggregate Calculator</a></li>
+                <li><a href="merit.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Past Merit Lists</a></li>
+                <li><a href="faq.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQs</a></li>
+                <div class="menu-section">Community</div>
+                <li><a href="chat.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat</a></li>
+                <li><a href="community.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Community</a></li>
+                <div class="menu-section">Account</div>
+                <li><a href="profile.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
+            </ul>
+        </aside>
+
+        <main class="main">
+            <div class="topbar">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <div>
+                        <h1>Leaderboard</h1>
+                        <p>See who's leading the NUSTology community</p>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <div class="content">
+                <div class="lb-tabs">
+                    <button class="lb-tab active" id="tab-score" onclick="switchTab('score')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        Top Scorers
+                    </button>
+                    <button class="lb-tab" id="tab-streak" onclick="switchTab('streak')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        Top Streaks
+                    </button>
+                </div>
+
+                <div id="field-filter-wrap">
+                    <div class="field-filter" id="fieldFilter">
+                        <button class="field-pill active" onclick="filterField('all', this)">All Fields</button>
+                        <button class="field-pill" onclick="filterField('Engineering', this)">Engineering</button>
+                        <button class="field-pill" onclick="filterField('Medical', this)">Medical</button>
+                        <button class="field-pill" onclick="filterField('Business', this)">Business</button>
+                        <button class="field-pill" onclick="filterField('Architecture', this)">Architecture</button>
+                    </div>
+                </div>
+
+                <div id="podiumWrap"></div>
+
+                <div class="leaderboard-card">
+                    <div id="leaderboardList"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    const API_BASE = '/api';
+    let currentTab = 'score', currentField = 'all', currentUser = null;
+
+    async function checkAuth(){
+        const token = localStorage.getItem('nustology_token');
+        if (!token) { window.location.href = '/index.html'; return; }
+        try{
+            const res = await fetch(`${API_BASE}/auth/verify`, {headers:{'Authorization':`Bearer ${token}`}});
+            const d = await res.json();
+            if (!d.success) { logout(); return; }
+            currentUser = d.user;
+            loadLeaderboard();
+        } catch(e){ logout(); }
+    }
+
+    function switchTab(tab){
+        currentTab = tab;
+        document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        document.getElementById('field-filter-wrap').style.display = tab === 'score' ? 'block' : 'none';
+        document.getElementById('podiumWrap').style.display = tab === 'score' ? 'block' : 'none';
+        loadLeaderboard();
+    }
+
+    function filterField(field, el){
+        currentField = field;
+        document.querySelectorAll('.field-pill').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        loadLeaderboard();
+    }
+
+    async function loadLeaderboard(){
+        const token = localStorage.getItem('nustology_token');
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        try{
+            let url, data;
+            if (currentTab === 'score'){
+                url = `${API_BASE}/leaderboard?field=${currentField}`;
+            } else {
+                url = `${API_BASE}/leaderboard/streaks`;
+            }
+            const res = await fetch(url, {headers:{'Authorization':`Bearer ${token}`}});
+            const d = await res.json();
+            const list = currentTab === 'score' ? (d.leaderboard || []) : (d.streaks || []);
+            renderLeaderboard(list);
+        } catch(e) { console.error(e); }
+        finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
+    }
+
+    function renderLeaderboard(list){
+        const podium = document.getElementById('podiumWrap');
+        const main = document.getElementById('leaderboardList');
+
+        if (!list.length){
+            podium.innerHTML = '';
+            main.innerHTML = `<div class="empty">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <h3 style="margin-bottom:6px">No rankings yet</h3>
+                <p>Take some tests to appear on the leaderboard!</p>
+            </div>`;
+            return;
+        }
+
+        // Podium (top 3) - only for score tab
+        if (currentTab === 'score'){
+            const top3 = list.slice(0, 3);
+            const order = [1, 0, 2]; // 2nd, 1st, 3rd visually
+            const cls = ['second', 'first', 'third'];
+            const medals = ['silver','gold','bronze'];
+            let html = '';
+            order.forEach((idx, i) => {
+                const item = top3[idx];
+                if (!item) return;
+                const name = item.full_name || item.username;
+                const initial = name[0].toUpperCase();
+                const avatar = item.profile_picture ? `<img src="${item.profile_picture}">` : initial;
+                const score = item.best_score !== undefined ? Number(item.best_score).toFixed(1) : 0;
+                html += `
+                    <div class="podium-card ${cls[i]}">
+                        <div class="podium-rank">${idx + 1}</div>
+                        <div class="podium-avatar">${avatar}</div>
+                        <div class="podium-name">${name}</div>
+                        <div class="podium-field">${item.field || 'N/A'}</div>
+                        <div class="podium-score">${score}</div>
+                        <div class="podium-score-label">Best Score</div>
+                    </div>
+                `;
+            });
+            podium.innerHTML = `<div class="podium">${html}</div>`;
+        } else {
+            podium.innerHTML = '';
+        }
+
+        // Main list
+        const valueLabel = currentTab === 'score' ? 'Best Score' : 'Max Streak';
+        const headerExtra = currentTab === 'score' 
+            ? '<div style="text-align:center">Tests</div><div style="text-align:center">Avg %</div><div style="text-align:center">Best</div>'
+            : '<div style="text-align:center"></div><div style="text-align:center"></div><div style="text-align:center">Streak</div>';
+
+        let html = `<div class="lb-header"><div>Rank</div><div>Student</div>${headerExtra}</div>`;
+        list.forEach((item, i) => {
+            const isYou = item.id === currentUser.id;
+            const name = item.full_name || item.username;
+            const initial = name[0].toUpperCase();
+            const avatar = item.profile_picture ? `<img src="${item.profile_picture}">` : initial;
+            
