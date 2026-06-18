@@ -958,25 +958,208 @@
     }
 
     // ============ REPORTS ============
-    async function loadReports() {
-        try {
-            const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
-            const data = await res.json();
-            const c = document.getElementById('reportsTable');
-            if (!data.reports || !data.reports.length) { c.innerHTML = '<div class="empty">No reports</div>'; return; }
-            c.innerHTML = `<table><thead><tr>
-                <th>Reporter</th><th>Reported</th><th>Reason</th><th>Date</th><th>Status</th>
-            </tr></thead><tbody>${data.reports.map(r => `
+    // ============ REPORTS (UPDATED) ============
+async function loadReports() {
+    try {
+        const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
+        const data = await res.json();
+        const c = document.getElementById('reportsTable');
+        if (!data.reports || !data.reports.length) {
+            c.innerHTML = '<div class="empty">No reports</div>';
+            return;
+        }
+        c.innerHTML = `<table>
+            <thead>
                 <tr>
-                    <td>${r.reporter_name || r.reporter_username}</td>
-                    <td><strong style="color:var(--danger);">${r.reported_name || r.reported_username}</strong></td>
-                    <td>${escapeHtml(r.reason)}</td>
-                    <td>${new Date(r.created_at).toLocaleString()}</td>
-                    <td><span class="badge badge-warning">${r.status}</span></td>
+                    <th>Reporter</th>
+                    <th>Reported (Doer)</th>
+                    <th>Reason</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
-            `).join('')}</tbody></table>`;
-        } catch (e) {}
+            </thead>
+            <tbody>${data.reports.map(r => `
+                <tr>
+                    <td>
+                        <strong>${escapeHtml(r.reporter_name || r.reporter_username)}</strong>
+                        <br><small style="color:var(--gray);">@${escapeHtml(r.reporter_username)}</small>
+                    </td>
+                    <td>
+                        <strong style="color:var(--danger);">${escapeHtml(r.reported_name || r.reported_username)}</strong>
+                        <br><small style="color:var(--gray);">@${escapeHtml(r.reported_username)}</small>
+                    </td>
+                    <td style="max-width:250px;">${escapeHtml(r.reason)}</td>
+                    <td><small>${new Date(r.created_at).toLocaleString()}</small></td>
+                    <td>${renderReportStatus(r)}</td>
+                    <td>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            ${r.status === 'pending' ? `
+                                <button class="btn btn-success" onclick="markReportSeen(${r.id})" title="Mark as Reviewed">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                                    Seen
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-warning" onclick="warnFromReport(${r.id}, ${r.reported_id}, '${escapeJsString(r.reported_name || r.reported_username)}')" title="Warn Doer">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                Warn
+                            </button>
+                            <button class="btn btn-secondary" onclick="viewReportDetail(${r.id})" title="View Details">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteReport(${r.id})" title="Delete Report">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('')}</tbody>
+        </table>`;
+    } catch (e) {
+        console.error('Failed to load reports:', e);
     }
+}
+
+// Render status badge with proper styling
+function renderReportStatus(r) {
+    const status = r.status || 'pending';
+    const reviewedDate = r.reviewed_at ? new Date(r.reviewed_at).toLocaleString() : '';
+    
+    if (status === 'pending') {
+        return '<span class="badge badge-warning">Pending</span>';
+    } else if (status === 'reviewed') {
+        return `<span class="badge badge-info" title="Reviewed: ${reviewedDate}">👍 Reviewed</span>`;
+    } else if (status === 'resolved') {
+        return `<span class="badge badge-success" title="Resolved: ${reviewedDate}">✓ Resolved</span>`;
+    } else if (status === 'dismissed') {
+        return `<span class="badge badge-danger" title="Dismissed: ${reviewedDate}">✕ Dismissed</span>`;
+    }
+    return `<span class="badge">${status}</span>`;
+}
+
+// Escape string for safe use in JS onclick
+function escapeJsString(str) {
+    if (!str) return '';
+    return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
+// Mark report as seen/reviewed (thumbs up action)
+async function markReportSeen(reportId) {
+    if (!confirm('Mark this report as reviewed? The student will see that you have acknowledged it.')) return;
+    try {
+        const res = await fetch(`${API_BASE}/admin/reports/${reportId}/status`, {
+            method: 'POST',
+            headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'reviewed', adminNote: 'Report acknowledged by admin' })
+        });
+        const data = await res.json();
+        if (data.success) {
+            loadReports();
+        } else {
+            alert(data.message || 'Failed to update report');
+        }
+    } catch (e) {
+        alert('Connection error');
+    }
+}
+
+// Warn the doer (reported student) — also marks report as resolved
+let currentReportIdForWarning = null;
+
+function warnFromReport(reportId, doerId, doerName) {
+    currentReportIdForWarning = reportId;
+    currentWarnStudentId = doerId;
+    document.getElementById('warnStudentName').textContent = doerName;
+    document.getElementById('warnMessage').value = '';
+    document.getElementById('warningModal').classList.add('show');
+}
+
+// Override the submitWarning function to also update report status
+async function submitWarning() {
+    const message = document.getElementById('warnMessage').value.trim();
+    if (!message) return alert('Enter warning message');
+    
+    const body = { studentId: currentWarnStudentId, message };
+    
+    // If warning came from a report, include reportId
+    if (currentReportIdForWarning) {
+        body.reportId = currentReportIdForWarning;
+    }
+    
+    try {
+        const res = await fetch(`${API_BASE}/admin/warning`, {
+            method: 'POST',
+            headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (data.success) {
+            closeModal('warningModal');
+            alert('Warning issued successfully');
+            currentReportIdForWarning = null;
+            // Reload current view
+            if (document.getElementById('page-reports').classList.contains('active')) {
+                loadReports();
+            } else if (document.getElementById('page-students').classList.contains('active')) {
+                loadStudents();
+            }
+        } else {
+            alert(data.message || 'Failed');
+        }
+    } catch (e) {
+        alert('Failed');
+    }
+}
+
+// View report details with chat context
+async function viewReportDetail(reportId) {
+    try {
+        const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
+        const data = await res.json();
+        const report = data.reports.find(r => r.id === reportId);
+        if (!report) return;
+        
+        const detail = `
+REPORT #${report.id}
+━━━━━━━━━━━━━━━━━━━━
+
+REPORTER: ${report.reporter_name || report.reporter_username} (@${report.reporter_username})
+
+REPORTED (DOER): ${report.reported_name || report.reported_username} (@${report.reported_username})
+
+REASON:
+${report.reason}
+
+CHAT CONTEXT:
+${report.chat_context || '(No context provided)'}
+
+STATUS: ${report.status}
+DATE: ${new Date(report.created_at).toLocaleString()}
+${report.reviewed_at ? 'REVIEWED: ' + new Date(report.reviewed_at).toLocaleString() : ''}
+${report.admin_note ? '\nADMIN NOTE: ' + report.admin_note : ''}
+        `.trim();
+        
+        alert(detail);
+    } catch (e) {
+        alert('Failed to load report details');
+    }
+}
+
+// Delete report
+async function deleteReport(reportId) {
+    if (!confirm('Delete this report permanently? This cannot be undone.')) return;
+    try {
+        const res = await fetch(`${API_BASE}/admin/reports/${reportId}`, {
+            method: 'DELETE',
+            headers: getHeaders()
+        });
+        if ((await res.json()).success) {
+            loadReports();
+        }
+    } catch (e) {
+        alert('Failed to delete');
+    }
+}
 
     // ============ SETTINGS ============
     async function changeAdminCreds() {
