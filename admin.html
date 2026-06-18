@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- TAB ICON / FAVICON -->
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <link rel="apple-touch-icon" href="images/nustology.jpg">
+    <link rel="shortcut icon" href="images/nustology.jpg">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-title" content="NUSTology Admin">
+
     <title>Admin Panel - NUSTology Prep.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
@@ -127,7 +137,7 @@
         .modal-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
 
         .student-detail-section { margin-bottom: 24px; }
-        .student-detail-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--gray-lighter); }
+        .student-detail-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--primary-light); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--gray-lighter); }
         .detail-row { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 6px 0; font-size: 13px; }
         .detail-row .label { color: var(--gray); }
 
@@ -141,29 +151,196 @@
         }
 
         .leaderboard-section { margin-bottom: 24px; }
-        .leaderboard-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .leaderboard-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--primary-light); margin-bottom: 10px; }
 
         .chat-message-box {
             background: #f8fafc; padding: 10px 14px; border-radius: 10px;
             margin-bottom: 8px; font-size: 13px; display: flex; gap: 10px;
         }
-        .chat-message-box .author { font-weight: 700; color: var(--primary); }
+        .chat-message-box .author { font-weight: 700; color: var(--primary-light); }
         .chat-message-box .time { color: var(--gray); font-size: 11px; margin-left: auto; }
 
         .empty { text-align: center; padding: 40px; color: var(--gray); }
 
+        /* ========== NEW LOGIN OVERLAY (Matches Student Login Style) ========== */
         .login-overlay {
-            position: fixed; inset: 0; background: linear-gradient(135deg, var(--dark), var(--dark2));
-            display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
+            position: fixed; 
+            inset: 0; 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 9999; 
+            padding: 20px;
         }
         .login-overlay.hidden { display: none; }
-        .login-box { background: white; border-radius: 14px; padding: 36px; max-width: 400px; width: 100%; }
-        .login-box h2 { font-family: 'Space Grotesk', sans-serif; text-align: center; margin-bottom: 6px; }
-        .login-box p { text-align: center; color: var(--gray); font-size: 13px; margin-bottom: 24px; }
-        .login-box input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--gray-lighter); border-radius: 8px; font-family: inherit; font-size: 14px; margin-bottom: 12px; }
-        .login-box input:focus { outline: none; border-color: var(--primary-light); }
-        .login-box .btn { width: 100%; padding: 12px; justify-content: center; margin-top: 8px; }
-        .login-error { color: var(--danger); font-size: 12px; text-align: center; margin-top: 8px; display: none; }
+
+        .login-box {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 18px;
+            padding: 40px 36px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.4s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-logo-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .login-logo-wrap img {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            object-fit: cover;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+        }
+
+        .logo-fallback {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .login-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .admin-tag {
+            display: inline-block;
+            background: var(--danger);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .login-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .login-form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .login-form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #f1f5f9;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #0f172a;
+            transition: all 0.3s ease;
+        }
+
+        .login-form-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .login-form-group input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-error {
+            color: #f87171;
+            font-size: 12px;
+            text-align: center;
+            padding: 10px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .login-error.show { display: block; }
+
+        .login-default {
+            text-align: center;
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        .login-default strong {
+            color: #94a3b8;
+        }
 
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -179,16 +356,39 @@
 </head>
 <body>
 
-<!-- Login Overlay -->
+<!-- ========== LOGIN OVERLAY (NEW STYLE) ========== -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
-        <h2 style="color: var(--danger);">Admin Access Required</h2>
-        <p>Enter admin credentials to continue</p>
-        <input type="text" id="adminUsername" placeholder="Admin Username">
-        <input type="password" id="adminPassword" placeholder="Admin Password" onkeypress="if(event.key==='Enter') doAdminLogin()">
-        <button class="btn btn-primary" onclick="doAdminLogin()">Login</button>
-        <div class="login-error" id="loginError"></div>
-        <p style="margin-top: 20px; font-size: 11px; color: var(--gray);"></p>
+        <div class="login-logo-wrap">
+            <img src="images/nustology.jpg" alt="NUSTology Prep." onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
+            <div id="logoFallback" class="logo-fallback" style="display:none;">N</div>
+        </div>
+        
+        <h2 class="login-title">
+            <span style="color: #60a5fa;">NUST</span>ology Prep.<span class="admin-tag">ADMIN</span>
+        </h2>
+        <p class="login-subtitle">Restricted access - Admin credentials required</p>
+        
+        <div class="login-form">
+            <div class="login-form-group">
+                <label>Admin Username</label>
+                <input type="text" id="adminUsername" placeholder="Enter admin username" autocomplete="username">
+            </div>
+            
+            <div class="login-form-group">
+                <label>Admin Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password" autocomplete="current-password" onkeypress="if(event.key==='Enter') doAdminLogin()">
+            </div>
+            
+            <button class="login-btn" onclick="doAdminLogin()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                Sign In to Admin Panel
+            </button>
+            
+            <div class="login-error" id="loginError"></div>
+            
+            <p class="login-default">Default: <strong>admin</strong> / <strong>admin123</strong></p>
+        </div>
     </div>
 </div>
 
@@ -375,10 +575,11 @@
             <div class="form-group">
                 <label>Field</label>
                 <select id="newStuField">
-                    <option>Engineering</option>
-                    <option>Medical</option>
-                    <option>Business</option>
-                    <option>Architecture</option>
+                    <option>NET-Engineering</option>
+                    <option>NET-Applied Sciences</option>
+                    <option>NET-Business Studies</option>
+                    <option>NET-Architecture</option>
+                    <option>NET-Natural Sciences</option>
                 </select>
             </div>
         </div>
@@ -403,10 +604,11 @@
             <div class="form-group">
                 <label>Field *</label>
                 <select id="lecField">
-                    <option>Engineering</option>
-                    <option>Medical</option>
-                    <option>Business</option>
-                    <option>Architecture</option>
+                    <option>NET-Engineering</option>
+                    <option>NET-Applied Sciences</option>
+                    <option>NET-Business Studies</option>
+                    <option>NET-Architecture</option>
+                    <option>NET-Natural Sciences</option>
                 </select>
             </div>
             <div class="form-group">
@@ -418,6 +620,8 @@
                     <option>Biology</option>
                     <option>English</option>
                     <option>Intelligence</option>
+                    <option>Design Aptitude</option>
+                    <option>Quantitative Mathematics</option>
                 </select>
             </div>
         </div>
@@ -457,10 +661,11 @@
             <div class="form-group">
                 <label>Field *</label>
                 <select id="merField">
-                    <option>Engineering</option>
-                    <option>Medical</option>
-                    <option>Business</option>
-                    <option>Architecture</option>
+                    <option>NET-Engineering</option>
+                    <option>NET-Applied Sciences</option>
+                    <option>NET-Business Studies</option>
+                    <option>NET-Architecture</option>
+                    <option>NET-Natural Sciences</option>
                 </select>
             </div>
             <div class="form-group"><label>Year *</label><input type="text" id="merYear" value="2025"></div>
@@ -504,6 +709,7 @@
 <script>
     const API_BASE = '/api';
     let currentWarnStudentId = null;
+    let currentReportIdForWarning = null;
 
     // ============ AUTH ============
     function checkAdminAuth() {
@@ -520,10 +726,17 @@
     }
 
     async function doAdminLogin() {
-        const username = document.getElementById('adminUsername').value;
+        const username = document.getElementById('adminUsername').value.trim();
         const password = document.getElementById('adminPassword').value;
         const err = document.getElementById('loginError');
-        err.style.display = 'none';
+        err.classList.remove('show');
+        
+        if (!username || !password) {
+            err.textContent = 'Please enter both username and password';
+            err.classList.add('show');
+            return;
+        }
+        
         try {
             const res = await fetch(`${API_BASE}/auth/admin-login`, {
                 method: 'POST',
@@ -536,11 +749,11 @@
                 checkAdminAuth();
             } else {
                 err.textContent = data.message || 'Invalid credentials';
-                err.style.display = 'block';
+                err.classList.add('show');
             }
         } catch (e) {
-            err.textContent = 'Connection error';
-            err.style.display = 'block';
+            err.textContent = 'Connection error. Please try again.';
+            err.classList.add('show');
         }
     }
 
@@ -744,7 +957,7 @@
             const data = await res.json();
             if (data.success) {
                 closeModal('addStudentModal');
-                document.querySelectorAll('input').forEach(i => i.value = '');
+                document.querySelectorAll('#addStudentModal input').forEach(i => i.value = '');
                 loadStudents();
                 alert('Student added! Credentials: ' + body.username + ' / ' + body.password);
             } else alert(data.message);
@@ -761,6 +974,7 @@
 
     function warnStudent(id, name) {
         currentWarnStudentId = id;
+        currentReportIdForWarning = null;
         document.getElementById('warnStudentName').textContent = name;
         document.getElementById('warnMessage').value = '';
         document.getElementById('warningModal').classList.add('show');
@@ -769,15 +983,34 @@
     async function submitWarning() {
         const message = document.getElementById('warnMessage').value.trim();
         if (!message) return alert('Enter warning message');
+        
+        const body = { studentId: currentWarnStudentId, message };
+        if (currentReportIdForWarning) {
+            body.reportId = currentReportIdForWarning;
+        }
+        
         try {
-            await fetch(`${API_BASE}/admin/warning`, {
+            const res = await fetch(`${API_BASE}/admin/warning`, {
                 method: 'POST',
                 headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({ studentId: currentWarnStudentId, message })
+                body: JSON.stringify(body)
             });
-            closeModal('warningModal');
-            alert('Warning issued');
-        } catch (e) { alert('Failed'); }
+            const data = await res.json();
+            if (data.success) {
+                closeModal('warningModal');
+                alert('Warning issued successfully');
+                currentReportIdForWarning = null;
+                if (document.getElementById('page-reports').classList.contains('active')) {
+                    loadReports();
+                } else if (document.getElementById('page-students').classList.contains('active')) {
+                    loadStudents();
+                }
+            } else {
+                alert(data.message || 'Failed');
+            }
+        } catch (e) {
+            alert('Failed');
+        }
     }
 
     // ============ LECTURES ============
@@ -957,169 +1190,124 @@
         return d.innerHTML;
     }
 
-    // ============ REPORTS ============
-    // ============ REPORTS (UPDATED) ============
-async function loadReports() {
-    try {
-        const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
-        const data = await res.json();
-        const c = document.getElementById('reportsTable');
-        if (!data.reports || !data.reports.length) {
-            c.innerHTML = '<div class="empty">No reports</div>';
-            return;
-        }
-        c.innerHTML = `<table>
-            <thead>
-                <tr>
-                    <th>Reporter</th>
-                    <th>Reported (Doer)</th>
-                    <th>Reason</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>${data.reports.map(r => `
-                <tr>
-                    <td>
-                        <strong>${escapeHtml(r.reporter_name || r.reporter_username)}</strong>
-                        <br><small style="color:var(--gray);">@${escapeHtml(r.reporter_username)}</small>
-                    </td>
-                    <td>
-                        <strong style="color:var(--danger);">${escapeHtml(r.reported_name || r.reported_username)}</strong>
-                        <br><small style="color:var(--gray);">@${escapeHtml(r.reported_username)}</small>
-                    </td>
-                    <td style="max-width:250px;">${escapeHtml(r.reason)}</td>
-                    <td><small>${new Date(r.created_at).toLocaleString()}</small></td>
-                    <td>${renderReportStatus(r)}</td>
-                    <td>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            ${r.status === 'pending' ? `
-                                <button class="btn btn-success" onclick="markReportSeen(${r.id})" title="Mark as Reviewed">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-                                    Seen
-                                </button>
-                            ` : ''}
-                            <button class="btn btn-warning" onclick="warnFromReport(${r.id}, ${r.reported_id}, '${escapeJsString(r.reported_name || r.reported_username)}')" title="Warn Doer">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                                Warn
-                            </button>
-                            <button class="btn btn-secondary" onclick="viewReportDetail(${r.id})" title="View Details">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteReport(${r.id})" title="Delete Report">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('')}</tbody>
-        </table>`;
-    } catch (e) {
-        console.error('Failed to load reports:', e);
+    function escapeJsString(str) {
+        if (!str) return '';
+        return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
     }
-}
 
-// Render status badge with proper styling
-function renderReportStatus(r) {
-    const status = r.status || 'pending';
-    const reviewedDate = r.reviewed_at ? new Date(r.reviewed_at).toLocaleString() : '';
-    
-    if (status === 'pending') {
-        return '<span class="badge badge-warning">Pending</span>';
-    } else if (status === 'reviewed') {
-        return `<span class="badge badge-info" title="Reviewed: ${reviewedDate}">👍 Reviewed</span>`;
-    } else if (status === 'resolved') {
-        return `<span class="badge badge-success" title="Resolved: ${reviewedDate}">✓ Resolved</span>`;
-    } else if (status === 'dismissed') {
-        return `<span class="badge badge-danger" title="Dismissed: ${reviewedDate}">✕ Dismissed</span>`;
-    }
-    return `<span class="badge">${status}</span>`;
-}
-
-// Escape string for safe use in JS onclick
-function escapeJsString(str) {
-    if (!str) return '';
-    return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
-}
-
-// Mark report as seen/reviewed (thumbs up action)
-async function markReportSeen(reportId) {
-    if (!confirm('Mark this report as reviewed? The student will see that you have acknowledged it.')) return;
-    try {
-        const res = await fetch(`${API_BASE}/admin/reports/${reportId}/status`, {
-            method: 'POST',
-            headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: 'reviewed', adminNote: 'Report acknowledged by admin' })
-        });
-        const data = await res.json();
-        if (data.success) {
-            loadReports();
-        } else {
-            alert(data.message || 'Failed to update report');
-        }
-    } catch (e) {
-        alert('Connection error');
-    }
-}
-
-// Warn the doer (reported student) — also marks report as resolved
-let currentReportIdForWarning = null;
-
-function warnFromReport(reportId, doerId, doerName) {
-    currentReportIdForWarning = reportId;
-    currentWarnStudentId = doerId;
-    document.getElementById('warnStudentName').textContent = doerName;
-    document.getElementById('warnMessage').value = '';
-    document.getElementById('warningModal').classList.add('show');
-}
-
-// Override the submitWarning function to also update report status
-async function submitWarning() {
-    const message = document.getElementById('warnMessage').value.trim();
-    if (!message) return alert('Enter warning message');
-    
-    const body = { studentId: currentWarnStudentId, message };
-    
-    // If warning came from a report, include reportId
-    if (currentReportIdForWarning) {
-        body.reportId = currentReportIdForWarning;
-    }
-    
-    try {
-        const res = await fetch(`${API_BASE}/admin/warning`, {
-            method: 'POST',
-            headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        });
-        const data = await res.json();
-        if (data.success) {
-            closeModal('warningModal');
-            alert('Warning issued successfully');
-            currentReportIdForWarning = null;
-            // Reload current view
-            if (document.getElementById('page-reports').classList.contains('active')) {
-                loadReports();
-            } else if (document.getElementById('page-students').classList.contains('active')) {
-                loadStudents();
+    // ============ REPORTS (with thumb/seen actions) ============
+    async function loadReports() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('reportsTable');
+            if (!data.reports || !data.reports.length) {
+                c.innerHTML = '<div class="empty">No reports</div>';
+                return;
             }
-        } else {
-            alert(data.message || 'Failed');
+            c.innerHTML = `<table>
+                <thead>
+                    <tr>
+                        <th>Reporter</th>
+                        <th>Reported (Doer)</th>
+                        <th>Reason</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>${data.reports.map(r => `
+                    <tr>
+                        <td>
+                            <strong>${escapeHtml(r.reporter_name || r.reporter_username)}</strong>
+                            <br><small style="color:var(--gray);">@${escapeHtml(r.reporter_username)}</small>
+                        </td>
+                        <td>
+                            <strong style="color:var(--danger);">${escapeHtml(r.reported_name || r.reported_username)}</strong>
+                            <br><small style="color:var(--gray);">@${escapeHtml(r.reported_username)}</small>
+                        </td>
+                        <td style="max-width:250px;">${escapeHtml(r.reason)}</td>
+                        <td><small>${new Date(r.created_at).toLocaleString()}</small></td>
+                        <td>${renderReportStatus(r)}</td>
+                        <td>
+                            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                ${r.status === 'pending' ? `
+                                    <button class="btn btn-success" onclick="markReportSeen(${r.id})" title="Mark as Reviewed">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                                        Seen
+                                    </button>
+                                ` : ''}
+                                <button class="btn btn-warning" onclick="warnFromReport(${r.id}, ${r.reported_id}, '${escapeJsString(r.reported_name || r.reported_username)}')" title="Warn Doer">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                    Warn
+                                </button>
+                                <button class="btn btn-secondary" onclick="viewReportDetail(${r.id})" title="View Details">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteReport(${r.id})" title="Delete Report">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('')}</tbody>
+            </table>`;
+        } catch (e) {
+            console.error('Failed to load reports:', e);
         }
-    } catch (e) {
-        alert('Failed');
     }
-}
 
-// View report details with chat context
-async function viewReportDetail(reportId) {
-    try {
-        const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
-        const data = await res.json();
-        const report = data.reports.find(r => r.id === reportId);
-        if (!report) return;
+    function renderReportStatus(r) {
+        const status = r.status || 'pending';
+        const reviewedDate = r.reviewed_at ? new Date(r.reviewed_at).toLocaleString() : '';
         
-        const detail = `
+        if (status === 'pending') {
+            return '<span class="badge badge-warning">Pending</span>';
+        } else if (status === 'reviewed') {
+            return `<span class="badge badge-info" title="Reviewed: ${reviewedDate}">👍 Reviewed</span>`;
+        } else if (status === 'resolved') {
+            return `<span class="badge badge-success" title="Resolved: ${reviewedDate}">✓ Resolved</span>`;
+        } else if (status === 'dismissed') {
+            return `<span class="badge badge-danger" title="Dismissed: ${reviewedDate}">✕ Dismissed</span>`;
+        }
+        return `<span class="badge">${status}</span>`;
+    }
+
+    async function markReportSeen(reportId) {
+        if (!confirm('Mark this report as reviewed? The student will see that you have acknowledged it.')) return;
+        try {
+            const res = await fetch(`${API_BASE}/admin/reports/${reportId}/status`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'reviewed', adminNote: 'Report acknowledged by admin' })
+            });
+            const data = await res.json();
+            if (data.success) {
+                loadReports();
+            } else {
+                alert(data.message || 'Failed to update report');
+            }
+        } catch (e) {
+            alert('Connection error');
+        }
+    }
+
+    function warnFromReport(reportId, doerId, doerName) {
+        currentReportIdForWarning = reportId;
+        currentWarnStudentId = doerId;
+        document.getElementById('warnStudentName').textContent = doerName;
+        document.getElementById('warnMessage').value = '';
+        document.getElementById('warningModal').classList.add('show');
+    }
+
+    async function viewReportDetail(reportId) {
+        try {
+            const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
+            const data = await res.json();
+            const report = data.reports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            const detail = `
 REPORT #${report.id}
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -1137,29 +1325,28 @@ STATUS: ${report.status}
 DATE: ${new Date(report.created_at).toLocaleString()}
 ${report.reviewed_at ? 'REVIEWED: ' + new Date(report.reviewed_at).toLocaleString() : ''}
 ${report.admin_note ? '\nADMIN NOTE: ' + report.admin_note : ''}
-        `.trim();
-        
-        alert(detail);
-    } catch (e) {
-        alert('Failed to load report details');
-    }
-}
-
-// Delete report
-async function deleteReport(reportId) {
-    if (!confirm('Delete this report permanently? This cannot be undone.')) return;
-    try {
-        const res = await fetch(`${API_BASE}/admin/reports/${reportId}`, {
-            method: 'DELETE',
-            headers: getHeaders()
-        });
-        if ((await res.json()).success) {
-            loadReports();
+            `.trim();
+            
+            alert(detail);
+        } catch (e) {
+            alert('Failed to load report details');
         }
-    } catch (e) {
-        alert('Failed to delete');
     }
-}
+
+    async function deleteReport(reportId) {
+        if (!confirm('Delete this report permanently? This cannot be undone.')) return;
+        try {
+            const res = await fetch(`${API_BASE}/admin/reports/${reportId}`, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
+            if ((await res.json()).success) {
+                loadReports();
+            }
+        } catch (e) {
+            alert('Failed to delete');
+        }
+    }
 
     // ============ SETTINGS ============
     async function changeAdminCreds() {
@@ -1187,6 +1374,8 @@ async function deleteReport(reportId) {
 
     checkAdminAuth();
 </script>
+
+<!-- Dark Mode Script -->
 <script src="js/darkmode.js"></script>
 </body>
 </html>
