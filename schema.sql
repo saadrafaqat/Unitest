@@ -253,22 +253,20 @@ CREATE TABLE warnings (
     FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
 );
 
--- ============================================
--- REPORTS (Student reporting other students)
--- ============================================
+-- ============ REPORTS ============
 CREATE TABLE reports (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     reporter_id INTEGER NOT NULL,
     reported_id INTEGER NOT NULL,
     reason TEXT NOT NULL,
-    chat_context TEXT,
+    chat_context TEXT DEFAULT '',
     status TEXT DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    resolved_at DATETIME,
+    admin_note TEXT DEFAULT '',
+    reviewed_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (reporter_id) REFERENCES students(id) ON DELETE CASCADE,
     FOREIGN KEY (reported_id) REFERENCES students(id) ON DELETE CASCADE
 );
-
 -- ============================================
 -- SETTINGS
 -- ============================================
