@@ -3,10 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- TAB ICON / FAVICON -->
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <link rel="apple-touch-icon" href="images/nustology.jpg">
+    <link rel="shortcut icon" href="images/nustology.jpg">
+
+    <!-- Theme Color (mobile browser bar) -->
+    <meta name="theme-color" content="#1a56db">
+    <meta name="apple-mobile-web-app-title" content="NUSTology Prep.">
+
     <title>Dashboard - NUSTology Prep.</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -15,203 +24,212 @@
             --primary-light: #3b82f6;
             --primary-bg: #eff6ff;
             --primary-bg2: #dbeafe;
-            --accent: #0ea5e9;
             --dark: #0f172a;
             --dark2: #1e293b;
             --gray: #64748b;
-            --gray-light: #94a3b8;
             --gray-lighter: #e2e8f0;
             --white: #ffffff;
-            --danger: #ef4444;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-sidebar: #ffffff;
+            --bg-topbar: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
             --success: #22c55e;
             --warning: #f59e0b;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.1);
-            --radius: 12px;
-            --radius-lg: 20px;
+            --danger: #ef4444;
             --transition: all 0.3s ease;
+        }
+
+        /* ========== DARK MODE ========== */
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-sidebar: #1a2436;
+            --bg-topbar: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --primary-bg: #1e3a8a40;
+            --primary-bg2: #1e40af50;
+            --gray-lighter: #334155;
+            --gray: #94a3b8;
+            --white: #1e293b;
+            --dark: #f1f5f9;
+            --dark2: #cbd5e1;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f8fafc;
-            color: var(--dark);
+            background: var(--bg-body);
+            color: var(--text-primary);
             min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* ========== SIDEBAR ========== */
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
+        /* ========== LAYOUT ========== */
+        .layout { display: flex; min-height: 100vh; }
 
         .sidebar {
             width: 260px;
-            background: var(--white);
-            border-right: 1px solid var(--gray-lighter);
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
             padding: 24px 16px;
             position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
+            top: 0; left: 0; bottom: 0;
             overflow-y: auto;
-            transition: var(--transition);
             z-index: 100;
+            transition: transform 0.3s ease, width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-260px);
         }
 
         .sidebar-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; align-items: center; gap: 10px;
             padding: 0 12px 24px;
-            border-bottom: 1px solid var(--gray-lighter);
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 20px;
         }
-
-        .sidebar-logo img {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
+        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
         .sidebar-logo .text {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 18px; font-weight: 700; color: var(--text-primary);
         }
-
         .sidebar-logo .nust { color: var(--primary); }
-        .sidebar-logo .ology { color: var(--dark); }
-        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
+        .sidebar-logo .prep { color: var(--text-secondary); font-weight: 400; font-size: 14px; }
 
-        .sidebar-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
 
         .menu-section {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--gray-light);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 11px; font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase; letter-spacing: 1px;
             padding: 16px 12px 8px;
         }
 
         .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 14px;
-            border-radius: 10px;
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            font-family: inherit;
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 14px; border-radius: 10px;
+            color: var(--text-secondary);
+            text-decoration: none; font-size: 14px;
+            font-weight: 500; transition: var(--transition);
         }
+        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
+        .menu-item.active { background: var(--primary); color: white; }
 
-        .menu-item svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-
-        .menu-item:hover {
-            background: var(--primary-bg);
-            color: var(--primary);
-        }
-
-        .menu-item.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .menu-item .badge {
-            margin-left: auto;
-            background: var(--danger);
-            color: white;
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 10px;
-            font-weight: 700;
-        }
-
-        /* ========== MAIN CONTENT ========== */
         .main {
             flex: 1;
             margin-left: 260px;
             min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main.expanded {
+            margin-left: 0;
         }
 
         .topbar {
-            background: var(--white);
+            background: var(--bg-topbar);
             padding: 16px 32px;
-            border-bottom: 1px solid var(--gray-lighter);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 50;
+            transition: background 0.3s ease;
         }
 
-        .topbar-left h1 {
+        .topbar-left { display: flex; align-items: center; gap: 16px; }
+
+        /* ========== SIDEBAR TOGGLE BUTTON ========== */
+        .sidebar-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: var(--transition);
+            padding: 0;
+        }
+        .sidebar-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .sidebar-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .topbar-text h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 22px;
-            font-weight: 700;
+            font-size: 22px; font-weight: 700;
+            color: var(--text-primary);
         }
-
-        .topbar-left p {
+        .topbar-text p {
             font-size: 13px;
-            color: var(--gray);
+            color: var(--text-secondary);
             margin-top: 2px;
         }
 
-        .topbar-right {
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+        /* ========== DARK MODE TOGGLE ========== */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 16px;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--text-primary);
+            padding: 0;
         }
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(15deg);
+        }
+        .theme-toggle svg { width: 18px; height: 18px; }
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        [data-theme="dark"] .theme-toggle .icon-sun { display: block; color: #fbbf24; }
+        [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
         .user-info {
             display: flex;
             align-items: center;
             gap: 10px;
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
         }
-
         .user-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            object-fit: cover;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 13px;
+            object-fit: cover; overflow: hidden;
         }
-
-        .user-name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .user-field {
-            font-size: 11px;
-            color: var(--gray);
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .user-info .name {
+            font-size: 13px; font-weight: 600;
+            color: var(--text-primary);
         }
 
         .logout-btn {
@@ -222,393 +240,285 @@
             cursor: pointer;
             font-size: 13px;
             font-weight: 500;
-            color: var(--dark);
+            color: var(--text-primary);
+            font-family: inherit;
             transition: var(--transition);
         }
-
-        .logout-btn:hover {
-            background: var(--danger);
-            color: white;
-        }
+        .logout-btn:hover { background: var(--danger); color: white; }
 
         .content {
             padding: 32px;
+            max-width: 1300px;
+            margin: 0 auto;
         }
 
-        /* ========== STATS CARDS ========== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .stat-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            border: 1px solid var(--gray-lighter);
-            transition: var(--transition);
-        }
-
-        .stat-card:hover {
-            border-color: var(--primary-light);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-        }
-
-        .stat-icon.blue { background: var(--primary-bg); color: var(--primary); }
-        .stat-icon.green { background: #dcfce7; color: var(--success); }
-        .stat-icon.orange { background: #fef3c7; color: var(--warning); }
-        .stat-icon.purple { background: #f3e8ff; color: #9333ea; }
-
-        .stat-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--gray);
-            margin-bottom: 4px;
-        }
-
-        .stat-value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        /* ========== WELCOME BANNER ========== */
-        .welcome-banner {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: var(--radius-lg);
-            padding: 32px;
+        /* ========== WELCOME ========== */
+        .welcome {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            margin-bottom: 32px;
-            position: relative;
-            overflow: hidden;
+            border-radius: 18px;
+            padding: 32px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
         }
-
-        .welcome-banner::before {
-            content: '';
-            position: absolute;
-            top: -30%;
-            right: -10%;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.08);
-        }
-
-        .welcome-banner::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            right: 20%;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-        }
-
-        .welcome-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .welcome-banner h2 {
+        .welcome h2 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 26px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            color: white;
         }
-
-        .welcome-banner p {
+        .welcome p {
             opacity: 0.9;
-            font-size: 15px;
-            margin-bottom: 20px;
+            font-size: 14px;
         }
-
-        .welcome-banner .btn {
+        .welcome-btn {
             background: white;
             color: var(--primary);
             border: none;
-            padding: 12px 24px;
+            padding: 12px 22px;
             border-radius: 10px;
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
             text-decoration: none;
+            font-family: inherit;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             transition: var(--transition);
         }
-
-        .welcome-banner .btn:hover {
+        .welcome-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        /* ========== QUICK ACTIONS ========== */
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .actions-grid {
+        /* ========== STATS GRID ========== */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .action-card {
-            background: var(--white);
-            border: 1px solid var(--gray-lighter);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-            display: block;
-        }
-
-        .action-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .action-card .icon-box {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            background: var(--primary-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            color: var(--primary);
-        }
-
-        .action-card .icon-box svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .action-card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .action-card p {
-            font-size: 13px;
-            color: var(--gray);
-        }
-
-        /* ========== RECENT TESTS ========== */
-        .card {
-            background: var(--white);
-            border: 1px solid var(--gray-lighter);
-            border-radius: var(--radius-lg);
-            padding: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
             margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .stat-icon-wrap {
+            width: 44px; height: 44px;
+            border-radius: 11px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 12px;
+        }
+        .stat-icon-wrap svg { width: 22px; height: 22px; }
+        .stat-icon-wrap.blue { background: #dbeafe; color: var(--primary); }
+        .stat-icon-wrap.green { background: #dcfce7; color: var(--success); }
+        .stat-icon-wrap.orange { background: #fef3c7; color: var(--warning); }
+        .stat-icon-wrap.purple { background: #f3e8ff; color: #9333ea; }
+        [data-theme="dark"] .stat-icon-wrap.blue { background: rgba(59,130,246,0.2); }
+        [data-theme="dark"] .stat-icon-wrap.green { background: rgba(34,197,94,0.2); }
+        [data-theme="dark"] .stat-icon-wrap.orange { background: rgba(245,158,11,0.2); }
+        [data-theme="dark"] .stat-icon-wrap.purple { background: rgba(147,51,234,0.2); }
+
+        .stat-label { font-size: 12px; color: var(--text-secondary); }
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* ========== GRID ========== */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            transition: var(--transition);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
         }
-
         .card-header h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
+            color: var(--text-primary);
         }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th, .table td {
-            text-align: left;
-            padding: 12px 16px;
-            font-size: 14px;
-            border-bottom: 1px solid var(--gray-lighter);
-        }
-
-        .table th {
-            background: #f8fafc;
-            font-weight: 600;
-            color: var(--gray);
+        .card-header a {
             font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .table tr:hover {
-            background: #f8fafc;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .badge-success { background: #dcfce7; color: var(--success); }
-        .badge-warning { background: #fef3c7; color: var(--warning); }
-        .badge-danger { background: #fee2e2; color: var(--danger); }
-        .badge-info { background: var(--primary-bg); color: var(--primary); }
-
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--primary);
             color: var(--primary);
-            background: white;
-            cursor: pointer;
             text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
+            font-weight: 600;
+        }
+
+        /* ========== TEST HISTORY ========== */
+        .test-history-item {
+            display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .test-history-item:last-child { border-bottom: none; }
+        .test-info-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+        }
+        .test-icon-box {
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            background: var(--primary-bg);
+            color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .test-info-text strong {
+            display: block;
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        .test-info-text small {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .test-score {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--success);
         }
 
-        .btn-small:hover {
-            background: var(--primary);
-            color: white;
+        /* ========== QUICK ACTIONS ========== */
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
+        .quick-action {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .quick-action:hover {
+            background: var(--primary-bg);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+        .quick-action svg { width: 18px; height: 18px; }
 
-        /* ========== ONBOARDING FORM ========== */
+        /* ========== ONBOARDING MODAL ========== */
         .onboarding-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(15,23,42,0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
             z-index: 2000;
-            padding: 20px;
             overflow-y: auto;
+            padding: 20px;
         }
+        .onboarding-overlay.active { display: block; }
 
-        .onboarding-overlay.active {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-        }
-
-        .onboarding-form {
-            background: white;
-            border-radius: var(--radius-lg);
-            max-width: 700px;
-            width: 100%;
+        .onboarding-box {
+            background: var(--bg-card);
+            border-radius: 20px;
+            max-width: 800px;
+            margin: 40px auto;
             padding: 40px;
-            margin: 40px 0;
         }
-
-        .onboarding-form h2 {
+        .onboarding-box h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            color: var(--text-primary);
         }
-
-        .onboarding-form .subtitle {
-            color: var(--gray);
-            font-size: 14px;
+        .onboarding-box .subtitle {
+            color: var(--text-secondary);
             margin-bottom: 24px;
         }
-
         .form-section {
             margin-bottom: 24px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--gray-lighter);
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
-
-        .form-section:last-of-type {
-            border-bottom: none;
-        }
-
-        .form-section h3 {
+        .form-section:last-of-type { border-bottom: none; }
+        .form-section h4 {
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 15px;
-            font-weight: 700;
             color: var(--primary);
             margin-bottom: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 700;
         }
-
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
             margin-bottom: 14px;
         }
-
-        .form-row.full {
-            grid-template-columns: 1fr;
-        }
-
-        .form-row.three {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
+        .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+        .form-row.full { grid-template-columns: 1fr; }
         .form-group label {
+            display: block;
             font-size: 13px;
             font-weight: 600;
-            color: var(--dark2);
             margin-bottom: 6px;
+            color: var(--text-primary);
         }
-
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 10px 14px;
-            border: 1.5px solid var(--gray-lighter);
-            border-radius: 8px;
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
             font-family: inherit;
             font-size: 14px;
             transition: var(--transition);
+            background: var(--bg-card);
+            color: var(--text-primary);
         }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
         }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .btn-primary {
+        .submit-btn {
             background: var(--primary);
             color: white;
             border: none;
@@ -618,747 +528,591 @@
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
             transition: var(--transition);
         }
+        .submit-btn:hover { background: var(--primary-dark); }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-
-        /* ========== WARNING ALERT ========== */
-        .warning-alert {
+        /* ========== WARNING BANNER ========== */
+        .warning-banner {
             background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border-left: 4px solid var(--warning);
-            padding: 16px 20px;
-            border-radius: 10px;
+            border: 2px solid var(--warning);
+            color: #92400e;
+            padding: 14px 20px;
+            border-radius: 12px;
             margin-bottom: 20px;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 12px;
         }
-
-        .warning-alert svg {
-            color: var(--warning);
-            flex-shrink: 0;
-            margin-top: 2px;
+        .warning-banner svg { flex-shrink: 0; }
+        [data-theme="dark"] .warning-banner {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fde68a;
         }
 
-        .warning-alert h4 {
-            font-size: 14px;
-            font-weight: 700;
-            color: #92400e;
-            margin-bottom: 4px;
-        }
-
-        .warning-alert p {
-            font-size: 13px;
-            color: #78350f;
-        }
-
-        /* ========== LOADING ========== */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loading-overlay.hidden {
-            display: none;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--gray-lighter);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ========== MOBILE ========== */
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .actions-grid { grid-template-columns: repeat(2, 1fr); }
+            .grid-2col { grid-template-columns: 1fr; }
+            .form-row, .form-row.three { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main {
-                margin-left: 0;
-            }
-            .mobile-toggle {
-                display: block;
-            }
-            .stats-grid { grid-template-columns: 1fr; }
-            .actions-grid { grid-template-columns: 1fr; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar.collapsed { transform: translateX(-100%); }
+            .main { margin-left: 0 !important; }
             .content { padding: 20px; }
-            .form-row, .form-row.three { grid-template-columns: 1fr; }
-            .onboarding-form { padding: 24px; }
-            .user-name, .user-field { display: none; }
-        }
-
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--gray);
-        }
-
-        .empty-state svg {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 12px;
-            opacity: 0.4;
+            .welcome {
+                flex-direction: column;
+                text-align: center;
+                align-items: stretch;
+            }
+            .topbar { padding: 12px 20px; }
+            .topbar-text h1 { font-size: 18px; }
+            .user-info .name { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner"></div>
-    </div>
+<div class="layout">
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <div class="text"><span class="nust">NUST</span>ology<div class="prep">Prep.</div></div>
+        </div>
+        <ul class="sidebar-menu">
+            <div class="menu-section">Main</div>
+            <li><a href="student.html" class="menu-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a></li>
+            <li><a href="test.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Take Test
+            </a></li>
+            <li><a href="leaderboard.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Leaderboard
+            </a></li>
 
-    <div class="layout">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-logo">
-                <img src="images/nustology.jpg" alt="NUSTology" onerror="this.style.display='none'">
-                <div class="text">
-                    <span class="nust">NUST</span><span class="ology">ology</span>
-                    <div class="prep">Prep.</div>
+            <div class="menu-section">Learn</div>
+            <li><a href="lectures.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+                Video Lectures
+            </a></li>
+            <li><a href="aggregate.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
+                Aggregate Calculator
+            </a></li>
+            <li><a href="merit.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Past Merit Lists
+            </a></li>
+            <li><a href="faq.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+                FAQs
+            </a></li>
+
+            <div class="menu-section">Community</div>
+            <li><a href="chat.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Chat
+            </a></li>
+            <li><a href="community.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Community
+            </a></li>
+
+            <div class="menu-section">Account</div>
+            <li><a href="profile.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                My Profile
+            </a></li>
+        </ul>
+    </aside>
+
+    <!-- ========== MAIN ========== -->
+    <main class="main" id="main">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <!-- Sidebar Toggle Button -->
+                <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar" title="Toggle sidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+                <div class="topbar-text">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back! Let's continue your prep journey.</p>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <!-- Dark Mode Toggle -->
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span class="name" id="userName">Student</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- Warning Banner -->
+            <div id="warningContainer"></div>
+
+            <!-- Welcome Card -->
+            <div class="welcome">
+                <div>
+                    <h2 id="welcomeMsg">Welcome, Student!</h2>
+                    <p>Ready to ace the NUST NET? Pick up where you left off or start a new test.</p>
+                </div>
+                <a href="test.html" class="welcome-btn">
+                    Start New Test
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrap blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                    </div>
+                    <div class="stat-label">Tests Taken</div>
+                    <div class="stat-value" id="statTests">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrap green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="stat-label">Best Score</div>
+                    <div class="stat-value" id="statBest">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrap orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
+                    <div class="stat-label">Avg Score</div>
+                    <div class="stat-value" id="statAvg">0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrap purple">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <div class="stat-label">Max Streak</div>
+                    <div class="stat-value" id="statStreak">0</div>
                 </div>
             </div>
 
-            <ul class="sidebar-menu">
-                <div class="menu-section">Main</div>
-                <li><a href="student.html" class="menu-item active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                    Dashboard
-                </a></li>
-                <li><a href="test.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    Take Test
-                </a></li>
-                <li><a href="leaderboard.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    Leaderboard
-                </a></li>
-
-                <div class="menu-section">Learn</div>
-                <li><a href="lectures.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    Video Lectures
-                </a></li>
-                <li><a href="aggregate.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="12" y1="10" x2="14" y2="10"/></svg>
-                    Aggregate Calculator
-                </a></li>
-                <li><a href="merit.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
-                    Past Merit Lists
-                </a></li>
-                <li><a href="faq.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    FAQs
-                </a></li>
-
-                <div class="menu-section">Community</div>
-                <li><a href="chat.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    Chat
-                </a></li>
-                <li><a href="community.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                    Community
-                </a></li>
-
-                <div class="menu-section">Account</div>
-                <li><a href="profile.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    My Profile
-                </a></li>
-            </ul>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main">
-            <div class="topbar">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-                    </button>
-                    <div class="topbar-left">
-                        <h1>Dashboard</h1>
-                        <p id="welcomeText">Welcome back!</p>
+            <!-- 2 Column Grid -->
+            <div class="grid-2col">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Tests</h3>
+                        <a href="#" onclick="alert('Coming soon!')">View All</a>
+                    </div>
+                    <div id="recentTests">
+                        <p style="text-align:center; color:var(--text-secondary); padding:20px;">No tests yet. Start your first test!</p>
                     </div>
                 </div>
-                <div class="topbar-right">
-                    <div class="user-info">
-                        <div class="user-avatar" id="userAvatar">U</div>
-                        <div>
-                            <div class="user-name" id="userName">Student</div>
-                            <div class="user-field" id="userField">Engineering</div>
-                        </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Quick Actions</h3>
                     </div>
-                    <button class="logout-btn" onclick="logout()">Logout</button>
-                </div>
-            </div>
-
-            <div class="content">
-                <!-- Warnings -->
-                <div id="warningsContainer"></div>
-
-                <!-- Welcome Banner -->
-                <div class="welcome-banner">
-                    <div class="welcome-content">
-                        <h2 id="bannerGreeting">Welcome to NUSTology Prep!</h2>
-                        <p>Ready to crack the NUST NET? Start with a mock test or browse our resources.</p>
-                        <a href="test.html" class="btn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            Start a Test
+                    <div class="quick-actions">
+                        <a href="test.html" class="quick-action">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                            Take a Test
+                        </a>
+                        <a href="aggregate.html" class="quick-action">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
+                            Calculate Aggregate
+                        </a>
+                        <a href="leaderboard.html" class="quick-action">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            View Leaderboard
+                        </a>
+                        <a href="lectures.html" class="quick-action">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+                            Watch Lectures
+                        </a>
+                        <a href="chat.html" class="quick-action">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            Join Chat
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </main>
+</div>
 
-                <!-- Stats -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                        </div>
-                        <div class="stat-label">Tests Taken</div>
-                        <div class="stat-value" id="testsTaken">0</div>
+<!-- ========== ONBOARDING MODAL ========== -->
+<div class="onboarding-overlay" id="onboardingOverlay">
+    <div class="onboarding-box">
+        <h2>Complete Your Profile</h2>
+        <p class="subtitle">Help us personalize your NUST prep journey. This is one-time setup.</p>
+
+        <form id="onboardingForm" onsubmit="submitOnboarding(event)">
+            <div class="form-section">
+                <h4>Personal Information</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="03XX-XXXXXXX" required>
                     </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon green">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                        </div>
-                        <div class="stat-label">Best Score</div>
-                        <div class="stat-value" id="bestScore">0</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon orange">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                        </div>
-                        <div class="stat-label">Max Streak</div>
-                        <div class="stat-value" id="maxStreak">0</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon purple">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 11.08 22 12 12 12 12 2.08"/><path d="M22 12A10 10 0 1 1 5.93 7.01"/></svg>
-                        </div>
-                        <div class="stat-label">Avg Percentage</div>
-                        <div class="stat-value" id="avgPercent">0%</div>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" name="dateOfBirth" required>
                     </div>
                 </div>
-
-                <!-- Quick Actions -->
-                <h2 class="section-title">Quick Actions</h2>
-                <div class="actions-grid">
-                    <a href="test.html" class="action-card">
-                        <div class="icon-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                        </div>
-                        <h3>Mock Tests</h3>
-                        <p>Practice subject-wise and grand tests for your field.</p>
-                    </a>
-
-                    <a href="lectures.html" class="action-card">
-                        <div class="icon-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-                        </div>
-                        <h3>Video Lectures</h3>
-                        <p>Watch curated lectures on every NET topic.</p>
-                    </a>
-
-                    <a href="aggregate.html" class="action-card">
-                        <div class="icon-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
-                        </div>
-                        <h3>Aggregate Calculator</h3>
-                        <p>Calculate your NUST aggregate quickly.</p>
-                    </a>
-                </div>
-
-                <!-- Recent Tests -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Recent Test Attempts</h3>
-                        <a href="test.html" class="btn-small">Take New Test</a>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="">Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
                     </div>
-                    <div id="recentTestsContainer">
-                        <div class="empty-state">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            <p>Loading your tests...</p>
-                        </div>
+                    <div class="form-group">
+                        <label>Father's Name</label>
+                        <input type="text" name="fatherName" required>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <!-- ========== ONBOARDING FORM ========== -->
-    <div class="onboarding-overlay" id="onboardingOverlay">
-        <div class="onboarding-form">
-            <h2>Complete Your Profile</h2>
-            <p class="subtitle">This information helps us personalize your experience. All fields marked * are required.</p>
-
-            <form id="onboardingForm" onsubmit="submitOnboarding(event)">
-                <!-- Personal Info -->
-                <div class="form-section">
-                    <h3>Personal Information</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" name="fullName" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email *</label>
-                            <input type="email" name="email" required>
-                        </div>
-                    </div>
-                    <div class="form-row three">
-                        <div class="form-group">
-                            <label>Phone *</label>
-                            <input type="tel" name="phone" required placeholder="03XX-XXXXXXX">
-                        </div>
-                        <div class="form-group">
-                            <label>Date of Birth</label>
-                            <input type="date" name="dateOfBirth">
-                        </div>
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <select name="gender">
-                                <option value="">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Father's Name</label>
-                            <input type="text" name="fatherName">
-                        </div>
-                        <div class="form-group">
-                            <label>Father's Occupation</label>
-                            <input type="text" name="fatherOccupation">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Location -->
-                <div class="form-section">
-                    <h3>Location</h3>
-                    <div class="form-row three">
-                        <div class="form-group">
-                            <label>District *</label>
-                            <input type="text" name="district" required>
-                        </div>
-                        <div class="form-group">
-                            <label>City *</label>
-                            <input type="text" name="city" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Province *</label>
-                            <select name="province" required>
-                                <option value="">Select</option>
-                                <option value="Punjab">Punjab</option>
-                                <option value="Sindh">Sindh</option>
-                                <option value="KPK">KPK</option>
-                                <option value="Balochistan">Balochistan</option>
-                                <option value="Islamabad">Islamabad</option>
-                                <option value="AJK">AJK</option>
-                                <option value="GB">Gilgit-Baltistan</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row full">
-                        <div class="form-group">
-                            <label>Address</label>
-                            <input type="text" name="address" placeholder="House #, Street, Area">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Academic Record -->
-                <div class="form-section">
-                    <h3>Academic Record - Matric/O-Level</h3>
-                    <div class="form-row three">
-                        <div class="form-group">
-                            <label>Marks Obtained *</label>
-                            <input type="number" name="matricMarks" required min="0" max="1100">
-                        </div>
-                        <div class="form-group">
-                            <label>Total Marks</label>
-                            <input type="number" name="matricTotal" value="1100">
-                        </div>
-                        <div class="form-group">
-                            <label>Year *</label>
-                            <input type="text" name="matricYear" required placeholder="2023">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Board *</label>
-                            <input type="text" name="matricBoard" required placeholder="e.g., FBISE, Lahore, Karachi">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>Academic Record - FSc/A-Level (Current/Completed)</h3>
-                    <div class="form-row three">
-                        <div class="form-group">
-                            <label>Marks (or Part-1) *</label>
-                            <input type="number" name="fscMarks" required min="0" max="1100">
-                        </div>
-                        <div class="form-group">
-                            <label>Total Marks</label>
-                            <input type="number" name="fscTotal" value="1100">
-                        </div>
-                        <div class="form-group">
-                            <label>Part</label>
-                            <select name="fscPart">
-                                <option value="Part 1">Part 1</option>
-                                <option value="Part 2">Part 2 (Completed)</option>
-                                <option value="A-Level">A-Level</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Board</label>
-                            <input type="text" name="fscBoard" placeholder="e.g., FBISE, Punjab, Sindh">
-                        </div>
-                        <div class="form-group">
-                            <label>Expected Completion Year</label>
-                            <input type="text" name="fscYear" placeholder="2025">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- NET Info -->
-                <div class="form-section">
-                    <h3>NUST NET Information</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Target Field *</label>
-                            <select name="targetField" required>
-                                <option value="">Select Field</option>
-                                <option value="Engineering">Engineering</option>
-                                <option value="Medical">Medical / BioSciences</option>
-                                <option value="Business">Business Studies</option>
-                                <option value="Architecture">Architecture & Design</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Preferred Campus</label>
-                            <select name="preferredCampus">
-                                <option value="Islamabad (H-12)">Islamabad (H-12)</option>
-                                <option value="Karachi (PNEC)">Karachi (PNEC)</option>
-                                <option value="Rawalpindi (CEME/MCS)">Rawalpindi (CEME/MCS)</option>
-                                <option value="Risalpur (MCE)">Risalpur (MCE)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>When are you planning to give NET? *</label>
-                            <select name="planningNet" required>
-                                <option value="">Select</option>
-                                <option value="NET-1 (Feb)">NET-1 (February)</option>
-                                <option value="NET-2 (Mar/Apr)">NET-2 (March/April)</option>
-                                <option value="NET-3 (Jun)">NET-3 (June)</option>
-                                <option value="NET-4 (Jul/Aug)">NET-4 (July/August)</option>
-                                <option value="All NETs">All NETs</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Target Score (out of 200)</label>
-                            <input type="number" name="targetScore" min="0" max="200" placeholder="180">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Last NET Score (if attempted)</label>
-                            <input type="number" name="lastNetScore" min="0" max="200" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label>Last NET Attempt</label>
-                            <input type="text" name="lastNetAttempt" placeholder="e.g., NET-1 2024">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Additional -->
-                <div class="form-section">
-                    <h3>Additional Notes</h3>
+            <div class="form-section">
+                <h4>Location</h4>
+                <div class="form-row three">
                     <div class="form-group">
-                        <label>Anything else you'd like us to know?</label>
-                        <textarea name="additionalNotes" placeholder="Tell us about your strengths, weaknesses, or specific topics you need help with..."></textarea>
+                        <label>District</label>
+                        <input type="text" name="district" required>
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Province</label>
+                        <select name="province" required>
+                            <option value="">Select</option>
+                            <option>Punjab</option>
+                            <option>Sindh</option>
+                            <option>KPK</option>
+                            <option>Balochistan</option>
+                            <option>AJK</option>
+                            <option>Gilgit-Baltistan</option>
+                            <option>Islamabad</option>
+                        </select>
                     </div>
                 </div>
+            </div>
 
-                <button type="submit" class="btn-primary">Save & Continue to Dashboard</button>
-            </form>
-        </div>
+            <div class="form-section">
+                <h4>Academic Record</h4>
+                <div class="form-row three">
+                    <div class="form-group">
+                        <label>Matric Marks</label>
+                        <input type="number" name="matricMarks" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Total</label>
+                        <input type="number" name="matricTotal" value="1100" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Board</label>
+                        <input type="text" name="matricBoard" required>
+                    </div>
+                </div>
+                <div class="form-row three">
+                    <div class="form-group">
+                        <label>FSc Part-I Marks (if completed)</label>
+                        <input type="number" name="fscMarks" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Total</label>
+                        <input type="number" name="fscTotal" value="1100">
+                    </div>
+                    <div class="form-group">
+                        <label>Board</label>
+                        <input type="text" name="fscBoard">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h4>NET Information</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Target Field *</label>
+                        <select name="targetField" required>
+                            <option value="">Select your field</option>
+                            <option value="NET-Engineering">NET-Engineering</option>
+                            <option value="NET-Applied Sciences">NET-Applied Sciences</option>
+                            <option value="NET-Business Studies">NET-Business Studies</option>
+                            <option value="NET-Architecture">NET-Architecture</option>
+                            <option value="NET-Natural Sciences">NET-Natural Sciences</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>When Planning to Take NET?</label>
+                        <select name="planningNet" required>
+                            <option value="">Select</option>
+                            <option>NET-1 (Feb)</option>
+                            <option>NET-2 (April)</option>
+                            <option>NET-3 (June)</option>
+                            <option>NET-4 (August)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Last NET Score (if any)</label>
+                        <input type="number" name="lastNetScore" min="0" max="200" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Score (out of 200)</label>
+                        <input type="number" name="targetScore" min="0" max="200" required>
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label>Additional Notes (optional)</label>
+                        <textarea name="additionalNotes" rows="2" placeholder="Tell us anything else..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Save & Continue</button>
+        </form>
     </div>
+</div>
 
-    <script>
-        const API_BASE = '/api';
-        let currentUser = null;
+<script>
+    const API_BASE = '/api';
+    let currentUser = null;
 
-        // ========== AUTHENTICATION CHECK ==========
-        async function checkAuth() {
-            const token = localStorage.getItem('nustology_token');
-            if (!token) {
+    // ========== DARK MODE ==========
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const newTheme = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('nustology_theme', newTheme);
+    }
+
+    // Load saved theme on page load
+    (function() {
+        const saved = localStorage.getItem('nustology_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', saved);
+    })();
+
+    // ========== SIDEBAR TOGGLE ==========
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const main = document.getElementById('main');
+        // For mobile
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle('open');
+        } else {
+            // For desktop
+            sidebar.classList.toggle('collapsed');
+            main.classList.toggle('expanded');
+            // Save preference
+            localStorage.setItem('nustology_sidebar_collapsed', sidebar.classList.contains('collapsed'));
+        }
+    }
+
+    // Restore sidebar state on load
+    (function() {
+        if (window.innerWidth > 768 && localStorage.getItem('nustology_sidebar_collapsed') === 'true') {
+            document.getElementById('sidebar').classList.add('collapsed');
+            document.getElementById('main').classList.add('expanded');
+        }
+    })();
+
+    // ========== AUTH CHECK ==========
+    async function loadDashboard() {
+        const token = localStorage.getItem('nustology_token');
+        if (!token) {
+            window.location.href = '/index.html';
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/student/me`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+
+            if (!data.success) {
+                localStorage.clear();
                 window.location.href = '/index.html';
                 return;
             }
 
-            try {
-                const response = await fetch(`${API_BASE}/auth/verify`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await response.json();
-
-                if (!data.success) {
-                    logout();
-                    return;
-                }
-
-                currentUser = data.user;
-                localStorage.setItem('nustology_user', JSON.stringify(currentUser));
-                renderUser();
-
-                if (!currentUser.profileComplete) {
-                    document.getElementById('onboardingOverlay').classList.add('active');
-                    // Pre-fill name and email if available
-                    const form = document.getElementById('onboardingForm');
-                    if (currentUser.fullName) form.fullName.value = currentUser.fullName;
-                    if (currentUser.email) form.email.value = currentUser.email;
-                } else {
-                    loadDashboard();
-                }
-            } catch (e) {
-                console.error('Auth error:', e);
-                logout();
-            } finally {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }
-        }
-
-        function renderUser() {
-            const name = currentUser.fullName || currentUser.username;
-            document.getElementById('userName').textContent = name;
-            document.getElementById('userField').textContent = currentUser.field || 'Engineering';
-            document.getElementById('userAvatar').textContent = name[0].toUpperCase();
+            currentUser = data.student;
+            
+            // Update UI
+            const displayName = currentUser.fullName || currentUser.username;
+            document.getElementById('userName').textContent = displayName;
+            document.getElementById('welcomeMsg').textContent = `Welcome, ${displayName}!`;
             
             if (currentUser.profilePicture) {
-                const avatar = document.getElementById('userAvatar');
-                avatar.innerHTML = `<img src="${currentUser.profilePicture}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+                document.getElementById('userAvatar').innerHTML = `<img src="${currentUser.profilePicture}">`;
+            } else {
+                document.getElementById('userAvatar').textContent = displayName[0].toUpperCase();
             }
 
-            // Greeting
-            const hour = new Date().getHours();
-            let greeting = 'Hello';
-            if (hour < 12) greeting = 'Good Morning';
-            else if (hour < 17) greeting = 'Good Afternoon';
-            else greeting = 'Good Evening';
+            // Show warnings if any
+            if (data.warnings && data.warnings.length > 0) {
+                renderWarnings(data.warnings);
+            }
 
-            document.getElementById('welcomeText').textContent = `${greeting}, ${name.split(' ')[0]}!`;
-            document.getElementById('bannerGreeting').textContent = `${greeting}, ${name.split(' ')[0]}!`;
+            // Check profile complete
+            if (!currentUser.profileComplete || window.location.hash === '#onboarding') {
+                document.getElementById('onboardingOverlay').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Load test stats
+            await loadStats();
+        } catch (err) {
+            console.error(err);
+            alert('Error loading dashboard');
         }
+    }
 
-        // ========== LOAD DASHBOARD ==========
-        async function loadDashboard() {
-            const token = localStorage.getItem('nustology_token');
-
-            try {
-                // Load attempts
-                const res = await fetch(`${API_BASE}/tests/my-attempts`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await res.json();
-
-                if (data.success) {
-                    const attempts = data.attempts;
-                    document.getElementById('testsTaken').textContent = attempts.length;
-
-                    let bestScore = 0, maxStreak = 0, totalPerc = 0;
-                    attempts.forEach(a => {
-                        if (a.score > bestScore) bestScore = a.score;
-                        if (a.max_streak > maxStreak) maxStreak = a.max_streak;
-                        totalPerc += a.percentage;
-                    });
-
-                    document.getElementById('bestScore').textContent = bestScore.toFixed(1);
-                    document.getElementById('maxStreak').textContent = maxStreak;
-                    document.getElementById('avgPercent').textContent = attempts.length 
-                        ? (totalPerc / attempts.length).toFixed(1) + '%' 
-                        : '0%';
-
-                    renderRecentTests(attempts.slice(0, 5));
-                }
-
-                // Load warnings
-                const warnRes = await fetch(`${API_BASE}/warnings/my`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const warnData = await warnRes.json();
-                if (warnData.success && warnData.warnings.length) {
-                    renderWarnings(warnData.warnings);
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        function renderRecentTests(tests) {
-            const container = document.getElementById('recentTestsContainer');
-            if (!tests.length) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                        <p>No tests taken yet. Start your first test!</p>
-                    </div>`;
-                return;
-            }
-
-            let html = `<table class="table">
-                <thead>
-                    <tr>
-                        <th>Test Type</th>
-                        <th>Field/Subject</th>
-                        <th>Score</th>
-                        <th>Percentage</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>`;
-
-            tests.forEach(t => {
-                const date = new Date(t.completed_at).toLocaleDateString();
-                const perc = t.percentage || 0;
-                const badge = perc >= 75 ? 'badge-success' : perc >= 50 ? 'badge-warning' : 'badge-danger';
-                html += `<tr>
-                    <td><strong>${t.test_type === 'grand' ? 'Grand Test' : 'Subject Test'}</strong></td>
-                    <td>${t.field}${t.subject ? ' - ' + t.subject : ''}</td>
-                    <td>${t.score.toFixed(1)} / ${t.total_marks}</td>
-                    <td><span class="badge ${badge}">${perc.toFixed(1)}%</span></td>
-                    <td>${date}</td>
-                    <td><a href="review.html?id=${t.id}" class="btn-small">Review</a></td>
-                </tr>`;
+    async function loadStats() {
+        const token = localStorage.getItem('nustology_token');
+        try {
+            const res = await fetch(`${API_BASE}/tests/my-attempts`, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
+            const data = await res.json();
+            const attempts = data.attempts || [];
 
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
+            document.getElementById('statTests').textContent = attempts.length;
 
-        function renderWarnings(warnings) {
-            const container = document.getElementById('warningsContainer');
-            let html = '';
-            warnings.slice(0, 3).forEach(w => {
-                html += `
-                    <div class="warning-alert">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                        <div>
-                            <h4>Warning from Admin</h4>
-                            <p>${w.message}</p>
+            if (attempts.length > 0) {
+                const bestScore = Math.max(...attempts.map(a => a.score || 0));
+                const avgPerc = attempts.reduce((s, a) => s + (a.percentage || 0), 0) / attempts.length;
+                const maxStreak = Math.max(...attempts.map(a => a.max_streak || 0));
+
+                document.getElementById('statBest').textContent = bestScore.toFixed(1);
+                document.getElementById('statAvg').textContent = avgPerc.toFixed(1) + '%';
+                document.getElementById('statStreak').textContent = maxStreak;
+
+                // Render recent tests
+                const recent = attempts.slice(0, 5);
+                document.getElementById('recentTests').innerHTML = recent.map(a => `
+                    <div class="test-history-item">
+                        <div class="test-info-left">
+                            <div class="test-icon-box">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                            </div>
+                            <div class="test-info-text">
+                                <strong>${a.test_type === 'grand' ? 'Grand Test' : (a.subject || 'Subject Test')}</strong>
+                                <small>${a.field} • ${new Date(a.completed_at).toLocaleDateString()}</small>
+                            </div>
                         </div>
-                    </div>`;
-            });
-            container.innerHTML = html;
+                        <div class="test-score">${a.score.toFixed(1)}<small style="font-weight:400; color:var(--text-secondary); font-size:11px;"> / ${a.total_marks}</small></div>
+                    </div>
+                `).join('');
+            }
+        } catch (e) {
+            console.error('Stats error:', e);
         }
+    }
 
-        // ========== ONBOARDING ==========
-        async function submitOnboarding(e) {
-            e.preventDefault();
-            const form = e.target;
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
+    function renderWarnings(warnings) {
+        const container = document.getElementById('warningContainer');
+        container.innerHTML = warnings.map(w => `
+            <div class="warning-banner">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div>
+                    <strong>Warning from Admin:</strong>
+                    <p style="margin-top:4px;">${w.message}</p>
+                </div>
+            </div>
+        `).join('');
+    }
 
+    // ========== ONBOARDING ==========
+    async function submitOnboarding(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {};
+        new FormData(form).forEach((v, k) => data[k] = v);
+
+        try {
             const token = localStorage.getItem('nustology_token');
-
-            // First update account name and email
-            await fetch(`${API_BASE}/student/update-account`, {
-                method: 'POST',
-                headers: { 
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    fullName: data.fullName,
-                    email: data.email
-                })
-            });
-
-            // Then update profile
             const res = await fetch(`${API_BASE}/student/profile`, {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             });
-
             const result = await res.json();
             if (result.success) {
                 document.getElementById('onboardingOverlay').classList.remove('active');
-                // Refresh
-                window.location.reload();
+                document.body.style.overflow = '';
+                window.location.hash = '';
+                alert('Profile saved successfully!');
+                loadDashboard();
             } else {
-                alert('Error saving profile: ' + (result.message || 'Try again'));
+                alert(result.message || 'Failed to save');
             }
+        } catch (e) {
+            alert('Error saving profile');
         }
+    }
 
-        // ========== LOGOUT ==========
-        async function logout() {
-            const token = localStorage.getItem('nustology_token');
-            try {
-                await fetch(`${API_BASE}/auth/logout`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-            } catch(e) {}
-            localStorage.removeItem('nustology_token');
-            localStorage.removeItem('nustology_user');
-            window.location.href = '/index.html';
-        }
+    // ========== LOGOUT ==========
+    async function logout() {
+        if (!confirm('Are you sure you want to logout?')) return;
+        const token = localStorage.getItem('nustology_token');
+        try {
+            await fetch(`${API_BASE}/auth/logout`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+        } catch (e) {}
+        localStorage.removeItem('nustology_token');
+        localStorage.removeItem('nustology_user');
+        window.location.href = '/index.html';
+    }
 
-        // Initialize
-        checkAuth();
-    </script>
+    // Initialize
+    loadDashboard();
+</script>
 
 </body>
 </html>
