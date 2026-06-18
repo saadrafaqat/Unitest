@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - NUSTology Prep.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary:#1a56db;--primary-dark:#1e3a8a;--primary-bg:#eff6ff;--dark:#0f172a;--gray:#64748b;--gray-lighter:#e2e8f0;--white:#fff;--danger:#ef4444;--success:#22c55e;--warning:#f59e0b}
+        body{font-family:'Inter',sans-serif;background:#f8fafc;color:var(--dark);min-height:100vh}
+
+        .layout{display:flex;min-height:100vh}
+        .sidebar{width:260px;background:#fff;border-right:1px solid var(--gray-lighter);padding:24px 16px;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+        .sidebar-logo{display:flex;align-items:center;gap:10px;padding:0 12px 24px;border-bottom:1px solid var(--gray-lighter);margin-bottom:20px}
+        .sidebar-logo img{width:38px;height:38px;border-radius:10px;object-fit:cover}
+        .sidebar-logo .text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700}
+        .sidebar-logo .nust{color:var(--primary)}.sidebar-logo .prep{color:var(--gray);font-weight:400;font-size:14px}
+        .menu-section{font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;padding:16px 12px 8px}
+        .menu-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:var(--gray);text-decoration:none;font-size:14px;font-weight:500;transition:all .3s}
+        .menu-item svg{width:18px;height:18px}
+        .menu-item:hover{background:var(--primary-bg);color:var(--primary)}
+        .menu-item.active{background:var(--primary);color:#fff}
+        .sidebar-menu{list-style:none;display:flex;flex-direction:column;gap:4px}
+
+        .main{flex:1;margin-left:260px;min-height:100vh}
+        .topbar{background:#fff;padding:16px 32px;border-bottom:1px solid var(--gray-lighter);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+        .topbar h1{font-family:'Space Grotesk',sans-serif;font-size:22px}
+        .topbar p{font-size:13px;color:var(--gray);margin-top:2px}
+        .logout-btn{background:var(--gray-lighter);border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--dark);transition:all .3s}
+        .logout-btn:hover{background:var(--danger);color:#fff}
+        .content{padding:32px;max-width:1100px;margin:0 auto}
+
+        .profile-header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);border-radius:20px;padding:32px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden}
+        .profile-header::before{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.08)}
+        .profile-header-content{display:flex;align-items:center;gap:24px;position:relative;z-index:2;flex-wrap:wrap}
+        .avatar-wrap{position:relative}
+        .avatar{width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.2);border:4px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:46px;font-weight:700;overflow:hidden}
+        .avatar img{width:100%;height:100%;object-fit:cover}
+        .avatar-edit{position:absolute;bottom:0;right:0;width:36px;height:36px;background:#fff;color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:all .3s;border:none}
+        .avatar-edit:hover{transform:scale(1.1)}
+        .avatar-edit svg{width:16px;height:16px}
+        .profile-info h2{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;margin-bottom:4px}
+        .profile-info p{opacity:.9;margin-bottom:8px;font-size:14px}
+        .profile-badges{display:flex;gap:8px;flex-wrap:wrap}
+        .profile-badge{background:rgba(255,255,255,.2);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600}
+
+        .tabs{background:#fff;border-radius:12px;padding:6px;margin-bottom:20px;display:inline-flex;gap:4px;flex-wrap:wrap;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+        .tab{padding:10px 18px;border:none;background:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--gray);border-radius:8px;transition:all .3s}
+        .tab:hover{background:var(--primary-bg);color:var(--primary)}
+        .tab.active{background:var(--primary);color:#fff}
+
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+
+        .card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .card-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+        .card-title svg{color:var(--primary);width:22px;height:22px}
+        .card-subtitle{font-size:13px;color:var(--gray);margin-bottom:20px}
+
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+        .form-row.three{grid-template-columns:1fr 1fr 1fr}
+        .form-row.full{grid-template-columns:1fr}
+        .form-group{display:flex;flex-direction:column}
+        .form-group label{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:6px}
+        .form-group input,.form-group select,.form-group textarea{padding:11px 14px;border:1.5px solid var(--gray-lighter);border-radius:8px;font-family:inherit;font-size:14px;transition:all .3s;background:#fff}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+        .form-group textarea{resize:vertical;min-height:80px}
+        .form-group input[readonly]{background:#f8fafc;color:var(--gray);cursor:not-allowed}
+
+        .btn{padding:11px 22px;border:none;border-radius:9px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+        .btn-primary{background:var(--primary);color:#fff}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+        .btn-secondary{background:var(--gray-lighter);color:var(--dark)}
+        .btn-danger{background:var(--danger);color:#fff}
+        .btn-block{width:100%}
+
+        .toast{position:fixed;top:20px;right:20px;padding:14px 22px;border-radius:10px;color:#fff;font-weight:500;font-size:14px;z-index:10000;box-shadow:0 4px 14px rgba(0,0,0,.15);display:none;animation:slideIn .3s}
+        .toast.show{display:block}
+        .toast.success{background:var(--success)}
+        .toast.error{background:var(--danger)}
+        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+        .url-helper{font-size:12px;color:var(--gray);margin-top:6px;line-height:1.4}
+        .url-helper a{color:var(--primary)}
+
+        .mobile-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+        @media(max-width:768px){
+            .sidebar{transform:translateX(-100%);transition:transform .3s}
+            .sidebar.open{transform:translateX(0)}
+            .main{margin-left:0}
+            .mobile-toggle{display:block}
+            .form-row,.form-row.three{grid-template-columns:1fr}
+            .content{padding:20px}
+            .tabs{display:flex;overflow-x:auto;width:100%}
+        }
+
+        .preview-pic{margin-top:10px;display:flex;align-items:center;gap:12px}
+        .preview-pic img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-lighter)}
+        .preview-pic .info{font-size:12px;color:var(--gray)}
+
+        .loading-overlay{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999}
+        .loading-overlay.hidden{display:none}
+        .spinner{width:50px;height:50px;border:4px solid var(--gray-lighter);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="images/nustology.jpg" onerror="this.style.display='none'">
+                <div class="text"><span class="nust">NUST</span>ology<div class="prep">Prep.</div></div>
+            </div>
+            <ul class="sidebar-menu">
+                <div class="menu-section">Main</div>
+                <li><a href="student.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+                <li><a href="test.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Take Test</a></li>
+                <li><a href="leaderboard.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Leaderboard</a></li>
+                <div class="menu-section">Learn</div>
+                <li><a href="lectures.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>Video Lectures</a></li>
+                <li><a href="aggregate.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>Aggregate Calculator</a></li>
+                <li><a href="merit.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Past Merit Lists</a></li>
+                <li><a href="faq.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQs</a></li>
+                <div class="menu-section">Community</div>
+                <li><a href="chat.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat</a></li>
+                <li><a href="community.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Community</a></li>
+                <div class="menu-section">Account</div>
+                <li><a href="profile.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
+            </ul>
+        </aside>
+
+        <main class="main">
+            <div class="topbar">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <div>
+                        <h1>My Profile</h1>
+                        <p>Manage your personal information and account settings</p>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <div class="content">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-header-content">
+                        <div class="avatar-wrap">
+                            <div class="avatar" id="profileAvatar">U</div>
+                            <button class="avatar-edit" onclick="document.getElementById('profilePicTab').click(); switchTab('account')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            </button>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profileName">Student Name</h2>
+                            <p id="profileEmail">student@email.com</p>
+                            <div class="profile-badges">
+                                <span class="profile-badge" id="badgeField">Engineering</span>
+                                <span class="profile-badge" id="badgeUsername">@username</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" id="accountTabBtn" onclick="switchTab('account')">Account</button>
+                    <button class="tab" onclick="switchTab('personal')">Personal Info</button>
+                    <button class="tab" onclick="switchTab('academic')">Academic Record</button>
+                    <button class="tab" onclick="switchTab('net')">NET Info</button>
+                    <button class="tab" onclick="switchTab('security')">Security</button>
+                </div>
+
+                <!-- ACCOUNT TAB -->
+                <div class="tab-content active" id="tab-account">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Account Details
+                        </div>
+                        <p class="card-subtitle">Update your basic account information</p>
+                        <form id="accountForm" onsubmit="saveAccount(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name *</label>
+                                    <input type="text" name="fullName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" name="username" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email *</label>
+                                    <input type="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Field</label>
+                                    <input type="text" name="field" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row full">
+                                <div class="form-group">
+                                    <label id="profilePicTab">Profile Picture URL</label>
+                                    <input type="url" name="profilePicture" placeholder="https://example.com/your-photo.jpg" oninput="previewPic(this.value)">
+                                    <div class="url-helper">
+                                        Use a direct image URL. You can upload images to <a href="https://imgur.com" target="_blank">imgur.com</a> or <a href="https://imgbb.com" target="_blank">imgbb.com</a> and paste the link here.
+                                    </div>
+                                    <div class="preview-pic" id="picPreview" style="display:none">
+                                        <img id="picPreviewImg" src="">
+                                        <span class="info">Preview</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top:20px">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- PERSONAL INFO TAB -->
+                <div class="tab-content" id="tab-personal">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
+                            Personal & Contact Information
+                        </div>
+                        <form id="personalForm" onsubmit="saveProfile(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" name="phone" placeholder="03XX-XXXXXXX">
+                                </div>
+                                <div class="form-group">
+                                    <label>Date of Birth</label>
+                                    <input type="date" name="dateOfBirth">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select name="gender">
+                                        <option value="">Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Father's Name</label>
+                                    <input type="text" name="fatherName">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Father's Occupation</label>
+                                    <input type="text" name="fatherOccupation">
+                                </div>
+                                <div class="form-group">
+                                    <label>Province</label>
+                                    <select name="province">
+                                        <option value="">Select</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Sindh">Sindh</option>
+                                        <option value="KPK">KPK</option>
+                                        <option value="Balochistan">Balochistan</option>
+                                        <option value="Islamabad">Islamabad</option>
+                                        <option value="AJK">AJK</option>
+                                        <option value="GB">Gilgit-Baltistan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>District</label>
+                                    <input type="text" name="district">
+                                </div>
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input type="text" name="city">
+                                </div>
+                            </div>
+                            <div class="form-row full">
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" name="address" placeholder="House #, Street, Area">
+                                </div>
+                            </div>
+                            <div style="margin-top:20px">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ACADEMIC TAB -->
+                <div class="tab-content" id="tab-academic">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                            Matric / O-Level
+                        </div>
+                        <form id="academicForm" onsubmit="saveProfile(event)">
+                            <div class="form-row three">
+                                <div class="form-group">
+                                    <label>Marks Obtained</label>
+                                    <input type="number" name="matricMarks" min="0" max="1100">
+                                </div>
+                                <div class="form-group">
+                                    <label>Total Marks</label>
+                                    <input type="number" name="matricTotal" value="1100">
+                                </div>
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <input type="text" name="matricYear" placeholder="2023">
+                                </div>
+                            </div>
+                            <div class="form-row full">
+                                <div class="form-group">
+                                    <label>Board</label>
+                                    <input type="text" name="matricBoard" placeholder="e.g., FBISE, Lahore, Karachi">
+                                </div>
+                            </div>
+
+                            <hr style="border:none;border-top:1px solid var(--gray-lighter);margin:24px 0">
+
+                            <div class="card-title" style="margin-bottom:6px">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>
+                                FSc / A-Level
+                            </div>
+
+                            <div class="form-row three">
+                                <div class="form-group">
+                                    <label>Marks</label>
+                                    <input type="number" name="fscMarks" min="0" max="1100">
+                                </div>
+                                <div class="form-group">
+                                    <label>Total Marks</label>
+                                    <input type="number" name="fscTotal" value="1100">
+                                </div>
+                                <div class="form-group">
+                                    <label>Part</label>
+                                    <select name="fscPart">
+                                        <option value="Part 1">Part 1</option>
+                                        <option value="Part 2">Part 2 (Completed)</option>
+                                        <option value="A-Level">A-Level</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Board</label>
+                                    <input type="text" name="fscBoard">
+                                </div>
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <input type="text" name="fscYear" placeholder="2025">
+                                </div>
+                            </div>
+                            <div style="margin-top:20px">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- NET INFO TAB -->
+                <div class="tab-content" id="tab-net">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            NUST NET Information
+                        </div>
+                        <form id="netForm" onsubmit="saveProfile(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Target Field</label>
+                                    <select name="targetField">
+                                        <option value="Engineering">Engineering</option>
+                                        <option value="Medical">Medical / BioSciences</option>
+                                        <option value="Business">Business Studies</option>
+                                        <option value="Architecture">Architecture & Design</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Preferred Campus</label>
+                                    <select name="preferredCampus">
+                                        <option value="Islamabad (H-12)">Islamabad (H-12)</option>
+                                        <option value="Karachi (PNEC)">Karachi (PNEC)</option>
+                                        <option value="Rawalpindi (CEME/MCS)">Rawalpindi (CEME/MCS)</option>
+                                        <option value="Risalpur (MCE)">Risalpur (MCE)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Planning NET</label>
+                                    <select name="planningNet">
+                                        <option value="">Select</option>
+                                        <option value="NET-1 (Feb)">NET-1 (February)</option>
+                                        <option value="NET-2 (Mar/Apr)">NET-2 (March/April)</option>
+                                        <option value="NET-3 (Jun)">NET-3 (June)</option>
+                                        <option value="NET-4 (Jul/Aug)">NET-4 (July/August)</option>
+                                        <option value="All NETs">All NETs</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Target Score (/200)</label>
+                                    <input type="number" name="targetScore" min="0" max="200" placeholder="180">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Last NET Score</label>
+                                    <input type="number" name="lastNetScore" min="0" max="200">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last NET Attempt</label>
+                                    <input type="text" name="lastNetAttempt" placeholder="e.g., NET-1 2024">
+                                </div>
+                            </div>
+                            <div class="form-row full">
+                                <div class="form-group">
+                                    <label>Additional Notes</label>
+                                    <textarea name="additionalNotes" placeholder="Anything you'd like us to know..."></textarea>
+                                </div>
+                            </div>
+                            <div style="margin-top:20px">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- SECURITY TAB -->
+                <div class="tab-content" id="tab-security">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            Change Password
+                        </div>
+                        <p class="card-subtitle">Update your account password regularly for security</p>
+                        <form onsubmit="changePassword(event)">
+                            <div class="form-row full">
+                                <div class="form-group">
+                                    <label>Current Password</label>
+                                    <input type="password" name="currentPassword" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input type="password" name="newPassword" required minlength="6">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm New Password</label>
+                                    <input type="password" name="confirmPassword" required minlength="6">
+                                </div>
+                            </div>
+                            <div style="margin-top:20px">
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    const API_BASE = '/api';
+    let user = null, profile = null;
+
+    function showToast(msg, type='success'){
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'toast show ' + type;
+        setTimeout(()=> t.className = 'toast', 3000);
+    }
+
+    function switchTab(tab){
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        const tabs = document.querySelectorAll('.tab');
+        const tabNames = ['account','personal','academic','net','security'];
+        tabs[tabNames.indexOf(tab)].classList.add('active');
+    }
+
+    function previewPic(url){
+        const preview = document.getElementById('picPreview');
+        if (url) {
+            document.getElementById('picPreviewImg').src = url;
+            preview.style.display = 'flex';
+        } else preview.style.display = 'none';
+    }
+
+    async function loadProfile(){
+        const token = localStorage.getItem('nustology_token');
+        if (!token) { window.location.href = '/index.html'; return; }
+
+        try {
+            const res = await fetch(`${API_BASE}/student/me`, { headers:{'Authorization':`Bearer ${token}`} });
+            const data = await res.json();
+            if (!data.success) { logout(); return; }
+
+            user = data.student;
+            profile = data.profile || {};
+
+            // Header
+            const name = user.fullName || user.username;
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('profileEmail').textContent = user.email || 'No email';
+            document.getElementById('badgeField').textContent = user.field || 'Engineering';
+            document.getElementById('badgeUsername').textContent = '@' + user.username;
+            const av = document.getElementById('profileAvatar');
+            if (user.profilePicture) av.innerHTML = `<img src="${user.profilePicture}">`;
+            else av.textContent = name[0].toUpperCase();
+
+            // Fill Account form
+            const a = document.getElementById('accountForm');
+            a.fullName.value = user.fullName || '';
+            a.username.value = user.username;
+            a.email.value = user.email || '';
+            a.field.value = user.field || 'Engineering';
+            a.profilePicture.value = user.profilePicture || '';
+            if (user.profilePicture) previewPic(user.profilePicture);
+
+            // Fill Personal
+            const p = document.getElementById('personalForm');
+            ['phone','dateOfBirth','gender','fatherName','fatherOccupation','province','district','city','address'].forEach(k=>{
+                const dbKey = k.replace(/[A-Z]/g, x => '_' + x.toLowerCase());
+                if (p[k]) p[k].value = profile[dbKey] || '';
+            });
+
+            // Fill Academic
+            const ac = document.getElementById('academicForm');
+            ['matricMarks','matricTotal','matricBoard','matricYear','fscMarks','fscTotal','fscBoard','fscYear','fscPart'].forEach(k=>{
+                const dbKey = k.replace(/[A-Z]/g, x => '_' + x.toLowerCase());
+                if (ac[k]) ac[k].value = profile[dbKey] || (k.includes('Total') ? 1100 : '');
+            });
+
+            // Fill NET
+            const n = document.getElementById('netForm');
+            ['targetField','preferredCampus','planningNet','targetScore','lastNetScore','lastNetAttempt','additionalNotes'].forEach(k=>{
+                const dbKey = k.replace(/[A-Z]/g, x => '_' + x.toLowerCase());
+                if (n[k]) n[k].value = profile[dbKey] || '';
+            });
+
+        } catch(e) { console.error(e); }
+        finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
+    }
+
+    async function saveAccount(e){
+        e.preventDefault();
+        const f = e.target;
+        const token = localStorage.getItem('nustology_token');
+        try {
+            const res = await fetch(`${API_BASE}/student/update-account`, {
+                method:'POST',
+                headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    fullName: f.fullName.value,
+                    email: f.email.value,
+                    profilePicture: f.profilePicture.value
+                })
+            });
+            const d = await res.json();
+            if (d.success){ showToast('Account updated successfully!'); setTimeout(loadProfile, 500); }
+            else showToast(d.message || 'Failed', 'error');
+        } catch(err){ showToast('Error: ' + err.message, 'error'); }
+    }
+
+    async function saveProfile(e){
+        e.preventDefault();
+        const f = e.target;
+        const data = {};
+        for (const el of f.elements){ if (el.name) data[el.name] = el.value; }
+
+        // merge with existing profile fields from other forms
+        const a = document.getElementById('academicForm');
+        const p = document.getElementById('personalForm');
+        const n = document.getElementById('netForm');
+        [a,p,n].forEach(form => {
+            for (const el of form.elements){
+                if (el.name && !data[el.name]) data[el.name] = el.value;
+            }
+        });
+
+        const token = localStorage.getItem('nustology_token');
+        try {
+            const res = await fetch(`${API_BASE}/student/profile`, {
+                method:'POST',
+                headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},
+                body: JSON.stringify(data)
+            });
+            const d = await res.json();
+            if (d.success){ showToast('Profile updated!'); setTimeout(loadProfile, 500); }
+            else showToast(d.message || 'Failed', 'error');
+        } catch(err){ showToast('Error', 'error'); }
+    }
+
+    async function changePassword(e){
+        e.preventDefault();
+        const f = e.target;
+        if (f.newPassword.value !== f.confirmPassword.value){
+            return showToast('Passwords do not match', 'error');
+        }
+        const token = localStorage.getItem('nustology_token');
+        const res = await fetch(`${API_BASE}/student/change-password`, {
+            method:'POST',
+            headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},
+            body: JSON.stringify({
+                currentPassword: f.currentPassword.value,
+                newPassword: f.newPassword.value
+            })
+        });
+        const d = await res.json();
+        if (d.success){ showToast('Password changed!'); f.reset(); }
+        else showToast(d.message || 'Failed', 'error');
+    }
+
+    async function logout(){
+        const token = localStorage.getItem('nustology_token');
+        try { await fetch(`${API_BASE}/auth/logout`, {method:'POST', headers:{'Authorization':`Bearer ${token}`}}); } catch(e){}
+        localStorage.removeItem('nustology_token');
+        localStorage.removeItem('nustology_user');
+        window.location.href = '/index.html';
+    }
+
+    loadProfile();
+</script>
+</body>
+</html>
