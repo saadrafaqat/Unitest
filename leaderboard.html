@@ -278,4 +278,49 @@
             const name = item.full_name || item.username;
             const initial = name[0].toUpperCase();
             const avatar = item.profile_picture ? `<img src="${item.profile_picture}">` : initial;
-            
+            const rankClass = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+
+            let extra;
+            if (currentTab === 'score'){
+                extra = `
+                    <div class="lb-stat">${item.total_tests || 0}<span class="small">Tests</span></div>
+                    <div class="lb-stat">${Number(item.avg_percentage || 0).toFixed(1)}%<span class="small">Avg</span></div>
+                    <div class="lb-stat" style="color:var(--primary)">${Number(item.best_score || 0).toFixed(1)}<span class="small">Best</span></div>
+                `;
+            } else {
+                extra = `
+                    <div class="lb-stat"></div>
+                    <div class="lb-stat"></div>
+                    <div class="lb-stat" style="color:var(--warning)">${item.best_streak || 0}<span class="small">Streak</span></div>
+                `;
+            }
+
+            html += `
+                <div class="lb-row ${isYou ? 'you' : ''}">
+                    <div class="lb-rank ${rankClass}">#${i + 1}</div>
+                    <div class="lb-user">
+                        <div class="lb-avatar">${avatar}</div>
+                        <div>
+                            <div class="lb-name">${name} ${isYou ? '(You)' : ''}</div>
+                            <div class="lb-field-tag">${item.field || 'N/A'}</div>
+                        </div>
+                    </div>
+                    ${extra}
+                </div>
+            `;
+        });
+        main.innerHTML = html;
+    }
+
+    async function logout(){
+        const token = localStorage.getItem('nustology_token');
+        try { await fetch(`${API_BASE}/auth/logout`, {method:'POST', headers:{'Authorization':`Bearer ${token}`}}); } catch(e){}
+        localStorage.removeItem('nustology_token');
+        localStorage.removeItem('nustology_user');
+        window.location.href = '/index.html';
+    }
+
+    checkAuth();
+</script>
+</body>
+</html>
