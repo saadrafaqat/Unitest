@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - NUSTology Prep.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1e3a8a; --primary-light: #1a56db; --primary-bg: #eff6ff;
+            --dark: #0f172a; --dark2: #1e293b; --gray: #64748b; --gray-lighter: #e2e8f0;
+            --white: #fff; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+        }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--dark); min-height: 100vh; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 260px; background: var(--dark); color: white;
+            padding: 24px 16px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100;
+        }
+        .sidebar-logo {
+            display: flex; align-items: center; gap: 10px; padding: 0 12px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;
+        }
+        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; }
+        .admin-badge {
+            background: var(--danger); color: white; padding: 2px 8px;
+            border-radius: 4px; font-size: 10px; font-weight: 700;
+        }
+        .sidebar-logo .text { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .menu-section { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; padding: 16px 12px 8px; }
+        .menu-item {
+            display: flex; align-items: center; gap: 12px; padding: 11px 14px;
+            border-radius: 10px; color: #cbd5e1; cursor: pointer;
+            font-size: 14px; font-weight: 500; transition: all 0.3s; border: none;
+            background: none; width: 100%; text-align: left; font-family: inherit;
+        }
+        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item:hover { background: rgba(255,255,255,0.08); color: white; }
+        .menu-item.active { background: var(--primary-light); color: white; }
+        .main { flex: 1; margin-left: 260px; min-height: 100vh; }
+        .topbar {
+            background: white; padding: 16px 32px; border-bottom: 1px solid var(--gray-lighter);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 50;
+        }
+        .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
+        .topbar p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+        .logout-btn {
+            background: var(--danger); color: white; border: none; padding: 8px 14px;
+            border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; font-family: inherit;
+        }
+        .content { padding: 32px; max-width: 1300px; margin: 0 auto; }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px;
+        }
+        .stat-card {
+            background: white; border-radius: 14px; padding: 20px;
+            border: 1px solid var(--gray-lighter); transition: all 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .stat-icon-wrap {
+            width: 44px; height: 44px; border-radius: 11px; display: flex;
+            align-items: center; justify-content: center; margin-bottom: 12px;
+        }
+        .stat-icon-wrap svg { width: 22px; height: 22px; }
+        .stat-icon-wrap.b { background: #dbeafe; color: var(--primary-light); }
+        .stat-icon-wrap.g { background: #dcfce7; color: var(--success); }
+        .stat-icon-wrap.o { background: #fef3c7; color: var(--warning); }
+        .stat-icon-wrap.r { background: #fee2e2; color: var(--danger); }
+        .stat-icon-wrap.p { background: #f3e8ff; color: #9333ea; }
+        .stat-label { font-size: 12px; color: var(--gray); }
+        .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .card {
+            background: white; border: 1px solid var(--gray-lighter); border-radius: 14px;
+            padding: 24px; margin-bottom: 20px;
+        }
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 16px; border-bottom: 1px solid var(--gray-lighter); margin-bottom: 16px;
+        }
+        .card-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
+        .btn {
+            padding: 9px 16px; border: none; border-radius: 8px; cursor: pointer;
+            font-family: inherit; font-size: 13px; font-weight: 600; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-primary { background: var(--primary-light); color: white; }
+        .btn-primary:hover { background: var(--primary); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-warning { background: var(--warning); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
+        .btn svg { width: 14px; height: 14px; }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--gray-lighter); }
+        th { background: #f8fafc; font-weight: 700; color: var(--gray); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        tr:hover { background: #f8fafc; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-success { background: #dcfce7; color: var(--success); }
+        .badge-danger { background: #fee2e2; color: var(--danger); }
+        .badge-warning { background: #fef3c7; color: var(--warning); }
+        .badge-info { background: var(--primary-bg); color: var(--primary-light); }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+        .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+        .form-row.full { grid-template-columns: 1fr; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-lighter);
+            border-radius: 8px; font-family: inherit; font-size: 14px;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-light); }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); overflow-y: auto; }
+        .modal.show { display: flex; }
+        .modal-box { background: white; border-radius: 14px; max-width: 700px; width: 100%; padding: 28px; max-height: 90vh; overflow-y: auto; }
+        .modal-box h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 16px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+
+        .student-detail-section { margin-bottom: 24px; }
+        .student-detail-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--gray-lighter); }
+        .detail-row { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 6px 0; font-size: 13px; }
+        .detail-row .label { color: var(--gray); }
+
+        .perf-meter {
+            background: var(--gray-lighter); border-radius: 8px; height: 12px;
+            overflow: hidden; margin-top: 6px;
+        }
+        .perf-fill {
+            height: 100%; background: linear-gradient(90deg, var(--success), var(--primary-light));
+            border-radius: 8px; transition: width 0.5s;
+        }
+
+        .leaderboard-section { margin-bottom: 24px; }
+        .leaderboard-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+
+        .chat-message-box {
+            background: #f8fafc; padding: 10px 14px; border-radius: 10px;
+            margin-bottom: 8px; font-size: 13px; display: flex; gap: 10px;
+        }
+        .chat-message-box .author { font-weight: 700; color: var(--primary); }
+        .chat-message-box .time { color: var(--gray); font-size: 11px; margin-left: auto; }
+
+        .empty { text-align: center; padding: 40px; color: var(--gray); }
+
+        .login-overlay {
+            position: fixed; inset: 0; background: linear-gradient(135deg, var(--dark), var(--dark2));
+            display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
+        }
+        .login-overlay.hidden { display: none; }
+        .login-box { background: white; border-radius: 14px; padding: 36px; max-width: 400px; width: 100%; }
+        .login-box h2 { font-family: 'Space Grotesk', sans-serif; text-align: center; margin-bottom: 6px; }
+        .login-box p { text-align: center; color: var(--gray); font-size: 13px; margin-bottom: 24px; }
+        .login-box input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--gray-lighter); border-radius: 8px; font-family: inherit; font-size: 14px; margin-bottom: 12px; }
+        .login-box input:focus { outline: none; border-color: var(--primary-light); }
+        .login-box .btn { width: 100%; padding: 12px; justify-content: center; margin-top: 8px; }
+        .login-error { color: var(--danger); font-size: 12px; text-align: center; margin-top: 8px; display: none; }
+
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .form-row, .form-row.three { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Overlay -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <h2 style="color: var(--danger);">Admin Access Required</h2>
+        <p>Enter admin credentials to continue</p>
+        <input type="text" id="adminUsername" placeholder="Admin Username">
+        <input type="password" id="adminPassword" placeholder="Admin Password" onkeypress="if(event.key==='Enter') doAdminLogin()">
+        <button class="btn btn-primary" onclick="doAdminLogin()">Login</button>
+        <div class="login-error" id="loginError"></div>
+        <p style="margin-top: 20px; font-size: 11px; color: var(--gray);">Default: admin / admin123</p>
+    </div>
+</div>
+
+<div class="layout" id="mainApp" style="display:none;">
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <div>
+                <div class="text" style="color:white;">NUSTology</div>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <div class="menu-section">Overview</div>
+            <li><button class="menu-item active" onclick="showPage('dashboard', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </button></li>
+
+            <div class="menu-section">Manage</div>
+            <li><button class="menu-item" onclick="showPage('students', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Students
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('lectures', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+                Video Lectures
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('merit', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Merit Lists
+            </button></li>
+
+            <div class="menu-section">Monitor</div>
+            <li><button class="menu-item" onclick="showPage('leaderboard', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Live Leaderboard
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('chats', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Group Chat Logs
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('reports', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
+                Reports
+            </button></li>
+
+            <div class="menu-section">System</div>
+            <li><button class="menu-item" onclick="showPage('settings', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+                Settings
+            </button></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="pageSubtitle">Overview of platform</p>
+            </div>
+            <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+        </div>
+
+        <div class="content">
+            <!-- DASHBOARD -->
+            <div class="page active" id="page-dashboard">
+                <div class="stats-grid" id="dashboardStats"></div>
+                <div class="card">
+                    <h2 style="margin-bottom: 14px;">Quick Actions</h2>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="btn btn-primary" onclick="document.querySelectorAll('.menu-item')[1].click()">Manage Students</button>
+                        <button class="btn btn-primary" onclick="document.querySelectorAll('.menu-item')[2].click()">Add Lecture</button>
+                        <button class="btn btn-primary" onclick="document.querySelectorAll('.menu-item')[3].click()">Add Merit List</button>
+                        <button class="btn btn-warning" onclick="document.querySelectorAll('.menu-item')[6].click()">View Reports</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUDENTS -->
+            <div class="page" id="page-students">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>All Students</h2>
+                        <button class="btn btn-primary" onclick="openAddStudent()">+ Add Student</button>
+                    </div>
+                    <div class="table-container" id="studentsTable"></div>
+                </div>
+            </div>
+
+            <!-- LECTURES -->
+            <div class="page" id="page-lectures">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Video Lectures</h2>
+                        <button class="btn btn-primary" onclick="openAddLecture()">+ Add Lecture</button>
+                    </div>
+                    <div class="table-container" id="lecturesTable"></div>
+                </div>
+            </div>
+
+            <!-- MERIT LISTS -->
+            <div class="page" id="page-merit">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Merit Lists</h2>
+                        <button class="btn btn-primary" onclick="openAddMerit()">+ Add Merit List</button>
+                    </div>
+                    <div class="table-container" id="meritTable"></div>
+                </div>
+            </div>
+
+            <!-- LEADERBOARD -->
+            <div class="page" id="page-leaderboard">
+                <div class="card">
+                    <h2 style="margin-bottom: 14px;">Live Leaderboard (All Fields)</h2>
+                    <div id="leaderboardContent"></div>
+                </div>
+            </div>
+
+            <!-- CHATS -->
+            <div class="page" id="page-chats">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Group Chat Logs</h2>
+                        <button class="btn btn-secondary" onclick="loadGroupChats()">Refresh</button>
+                    </div>
+                    <div id="chatsContent" style="max-height: 600px; overflow-y: auto;"></div>
+                </div>
+            </div>
+
+            <!-- REPORTS -->
+            <div class="page" id="page-reports">
+                <div class="card">
+                    <h2 style="margin-bottom: 14px;">User Reports</h2>
+                    <div class="table-container" id="reportsTable"></div>
+                </div>
+            </div>
+
+            <!-- SETTINGS -->
+            <div class="page" id="page-settings">
+                <div class="card">
+                    <h2 style="margin-bottom: 14px;">Change Admin Credentials</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>New Username</label>
+                            <input type="text" id="newAdminUsername">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" id="currentAdminPassword">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="newAdminPassword">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="confirmAdminPassword">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="changeAdminCreds()">Update Credentials</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ADD STUDENT MODAL -->
+<div class="modal" id="addStudentModal">
+    <div class="modal-box">
+        <h3>Add New Student</h3>
+        <div class="form-row">
+            <div class="form-group"><label>Username *</label><input type="text" id="newStuUsername"></div>
+            <div class="form-group"><label>Password *</label><input type="text" id="newStuPassword"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label>Full Name</label><input type="text" id="newStuName"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="newStuEmail"></div>
+        </div>
+        <div class="form-row full">
+            <div class="form-group">
+                <label>Field</label>
+                <select id="newStuField">
+                    <option>Engineering</option>
+                    <option>Medical</option>
+                    <option>Business</option>
+                    <option>Architecture</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="addStudent()">Add Student</button>
+        </div>
+    </div>
+</div>
+
+<!-- ADD LECTURE MODAL -->
+<div class="modal" id="addLectureModal">
+    <div class="modal-box">
+        <h3>Add Video Lecture</h3>
+        <div class="form-row full">
+            <div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div>
+        </div>
+        <div class="form-row full">
+            <div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=..."></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Field *</label>
+                <select id="lecField">
+                    <option>Engineering</option>
+                    <option>Medical</option>
+                    <option>Business</option>
+                    <option>Architecture</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Subject *</label>
+                <select id="lecSubject">
+                    <option>Physics</option>
+                    <option>Chemistry</option>
+                    <option>Mathematics</option>
+                    <option>Biology</option>
+                    <option>English</option>
+                    <option>Intelligence</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row three">
+            <div class="form-group"><label>Topic</label><input type="text" id="lecTopic"></div>
+            <div class="form-group"><label>Instructor</label><input type="text" id="lecInstructor"></div>
+            <div class="form-group"><label>Duration</label><input type="text" id="lecDuration" placeholder="2h 30m"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Difficulty</label>
+                <select id="lecDifficulty">
+                    <option>Easy</option>
+                    <option selected>Medium</option>
+                    <option>Hard</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row full">
+            <div class="form-group"><label>Description</label><textarea id="lecDesc"></textarea></div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addLectureModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="addLecture()">Add Lecture</button>
+        </div>
+    </div>
+</div>
+
+<!-- ADD MERIT MODAL -->
+<div class="modal" id="addMeritModal">
+    <div class="modal-box">
+        <h3>Add Merit List</h3>
+        <div class="form-row full">
+            <div class="form-group"><label>Title *</label><input type="text" id="merTitle"></div>
+        </div>
+        <div class="form-row three">
+            <div class="form-group">
+                <label>Field *</label>
+                <select id="merField">
+                    <option>Engineering</option>
+                    <option>Medical</option>
+                    <option>Business</option>
+                    <option>Architecture</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Year *</label><input type="text" id="merYear" value="2025"></div>
+            <div class="form-group"><label>Program</label><input type="text" id="merProgram"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label>Campus</label><input type="text" id="merCampus"></div>
+            <div class="form-group"><label>File URL (Google Drive/PDF link)</label><input type="url" id="merFileUrl"></div>
+        </div>
+        <div class="form-row full">
+            <div class="form-group"><label>Description</label><textarea id="merDesc"></textarea></div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addMeritModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="addMerit()">Add Merit List</button>
+        </div>
+    </div>
+</div>
+
+<!-- STUDENT DETAIL MODAL -->
+<div class="modal" id="studentDetailModal">
+    <div class="modal-box" style="max-width: 800px;">
+        <div id="studentDetailContent"></div>
+    </div>
+</div>
+
+<!-- WARNING MODAL -->
+<div class="modal" id="warningModal">
+    <div class="modal-box">
+        <h3>Issue Warning to <span id="warnStudentName"></span></h3>
+        <div class="form-row full">
+            <div class="form-group"><label>Warning Message *</label><textarea id="warnMessage" placeholder="Describe the issue..."></textarea></div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('warningModal')">Cancel</button>
+            <button class="btn btn-warning" onclick="submitWarning()">Send Warning</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_BASE = '/api';
+    let currentWarnStudentId = null;
+
+    // ============ AUTH ============
+    function checkAdminAuth() {
+        const token = localStorage.getItem('nustology_admin_token');
+        if (!token) {
+            document.getElementById('loginOverlay').classList.remove('hidden');
+            document.getElementById('mainApp').style.display = 'none';
+            return false;
+        }
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('mainApp').style.display = 'flex';
+        loadDashboard();
+        return true;
+    }
+
+    async function doAdminLogin() {
+        const username = document.getElementById('adminUsername').value;
+        const password = document.getElementById('adminPassword').value;
+        const err = document.getElementById('loginError');
+        err.style.display = 'none';
+        try {
+            const res = await fetch(`${API_BASE}/auth/admin-login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+            if (data.success) {
+                localStorage.setItem('nustology_admin_token', data.token);
+                checkAdminAuth();
+            } else {
+                err.textContent = data.message || 'Invalid credentials';
+                err.style.display = 'block';
+            }
+        } catch (e) {
+            err.textContent = 'Connection error';
+            err.style.display = 'block';
+        }
+    }
+
+    function logoutAdmin() {
+        localStorage.removeItem('nustology_admin_token');
+        location.reload();
+    }
+
+    function getHeaders() {
+        return { 'Authorization': `Bearer ${localStorage.getItem('nustology_admin_token')}` };
+    }
+
+    // ============ PAGE NAV ============
+    function showPage(page, btn) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-' + page).classList.add('active');
+        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+        btn.classList.add('active');
+
+        const titles = {
+            dashboard: ['Dashboard', 'Overview of platform'],
+            students: ['Students', 'Manage all registered students'],
+            lectures: ['Video Lectures', 'Manage YouTube lecture links'],
+            merit: ['Merit Lists', 'Upload past NUST merit lists'],
+            leaderboard: ['Live Leaderboard', 'See top performers by field'],
+            chats: ['Group Chat Logs', 'Monitor public conversations'],
+            reports: ['Reports', 'Review user reports'],
+            settings: ['Settings', 'Manage admin account']
+        };
+        document.getElementById('pageTitle').textContent = titles[page][0];
+        document.getElementById('pageSubtitle').textContent = titles[page][1];
+
+        if (page === 'students') loadStudents();
+        else if (page === 'lectures') loadAdminLectures();
+        else if (page === 'merit') loadAdminMerit();
+        else if (page === 'leaderboard') loadAdminLeaderboard();
+        else if (page === 'chats') loadGroupChats();
+        else if (page === 'reports') loadReports();
+    }
+
+    // ============ DASHBOARD ============
+    async function loadDashboard() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/dashboard`, { headers: getHeaders() });
+            const data = await res.json();
+            if (!data.success) return;
+            const s = data.stats;
+            document.getElementById('dashboardStats').innerHTML = `
+                <div class="stat-card"><div class="stat-icon-wrap b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-label">Total Students</div><div class="stat-value">${s.totalStudents}</div></div>
+                <div class="stat-card"><div class="stat-icon-wrap g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents}</div></div>
+                <div class="stat-card"><div class="stat-icon-wrap o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests}</div></div>
+                <div class="stat-card"><div class="stat-icon-wrap r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg></div><div class="stat-label">Pending Reports</div><div class="stat-value">${s.pendingReports}</div></div>
+                <div class="stat-card"><div class="stat-icon-wrap p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div><div class="stat-label">Lectures</div><div class="stat-value">${s.totalLectures}</div></div>
+            `;
+        } catch (e) {}
+    }
+
+    // ============ STUDENTS ============
+    async function loadStudents() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/students`, { headers: getHeaders() });
+            const data = await res.json();
+            if (!data.success) return;
+            renderStudents(data.students);
+        } catch (e) {}
+    }
+
+    function renderStudents(students) {
+        const c = document.getElementById('studentsTable');
+        if (!students.length) { c.innerHTML = '<div class="empty">No students yet</div>'; return; }
+        c.innerHTML = `<table>
+            <thead><tr>
+                <th>ID</th><th>Username</th><th>Name</th><th>Email</th><th>Field</th>
+                <th>Tests</th><th>Avg</th><th>Status</th><th>Actions</th>
+            </tr></thead>
+            <tbody>${students.map(s => `
+                <tr>
+                    <td>#${s.id}</td>
+                    <td><strong>${s.username}</strong></td>
+                    <td>${s.full_name || '-'}</td>
+                    <td>${s.email || '-'}</td>
+                    <td><span class="badge badge-info">${s.field || '-'}</span></td>
+                    <td>${s.test_count || 0}</td>
+                    <td>${s.avg_score ? s.avg_score.toFixed(1) + '%' : '-'}</td>
+                    <td>${s.is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="viewStudent(${s.id})">View</button>
+                        <button class="btn btn-warning" onclick="warnStudent(${s.id}, '${(s.full_name || s.username).replace(/'/g, "\\'")}')">Warn</button>
+                        <button class="btn btn-danger" onclick="deleteStudent(${s.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('')}</tbody>
+        </table>`;
+    }
+
+    async function viewStudent(id) {
+        try {
+            const res = await fetch(`${API_BASE}/admin/students/${id}`, { headers: getHeaders() });
+            const data = await res.json();
+            if (!data.success) return;
+            renderStudentDetail(data);
+            document.getElementById('studentDetailModal').classList.add('show');
+        } catch (e) {}
+    }
+
+    function renderStudentDetail(d) {
+        const s = d.student;
+        const p = d.profile || {};
+        const attempts = d.attempts || [];
+        const perf = d.performanceScore || 0;
+
+        let html = `
+            <h3>${s.full_name || s.username} <span style="font-size:13px; color:var(--gray); font-weight:400;">@${s.username}</span></h3>
+            
+            <div class="student-detail-section">
+                <h4>Performance Score</h4>
+                <div style="font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:700; color:var(--primary-light);">${perf}%</div>
+                <div class="perf-meter"><div class="perf-fill" style="width:${perf}%"></div></div>
+                <small style="color:var(--gray);">Based on average score (70%) and consistency (30%)</small>
+            </div>
+
+            <div class="student-detail-section">
+                <h4>Account Info</h4>
+                <div class="detail-row"><span class="label">Email:</span><span>${s.email || '-'}</span></div>
+                <div class="detail-row"><span class="label">Field:</span><span>${s.field || '-'}</span></div>
+                <div class="detail-row"><span class="label">Joined:</span><span>${new Date(s.created_at).toLocaleString()}</span></div>
+                <div class="detail-row"><span class="label">Last Login:</span><span>${s.last_login ? new Date(s.last_login).toLocaleString() : 'Never'}</span></div>
+            </div>
+
+            <div class="student-detail-section">
+                <h4>Personal Info</h4>
+                <div class="detail-row"><span class="label">Phone:</span><span>${p.phone || '-'}</span></div>
+                <div class="detail-row"><span class="label">Gender:</span><span>${p.gender || '-'}</span></div>
+                <div class="detail-row"><span class="label">DOB:</span><span>${p.date_of_birth || '-'}</span></div>
+                <div class="detail-row"><span class="label">Father's Name:</span><span>${p.father_name || '-'}</span></div>
+                <div class="detail-row"><span class="label">District:</span><span>${p.district || '-'}</span></div>
+                <div class="detail-row"><span class="label">City:</span><span>${p.city || '-'}</span></div>
+                <div class="detail-row"><span class="label">Province:</span><span>${p.province || '-'}</span></div>
+            </div>
+
+            <div class="student-detail-section">
+                <h4>Academic Record</h4>
+                <div class="detail-row"><span class="label">Matric:</span><span>${p.matric_marks || 0} / ${p.matric_total || 1100} (${p.matric_board || '-'}) ${p.matric_year ? '- ' + p.matric_year : ''}</span></div>
+                <div class="detail-row"><span class="label">FSc/A-Level:</span><span>${p.fsc_marks || 0} / ${p.fsc_total || 1100} (${p.fsc_board || '-'}) - ${p.fsc_part || '-'}</span></div>
+            </div>
+
+            <div class="student-detail-section">
+                <h4>NET Info</h4>
+                <div class="detail-row"><span class="label">Target Field:</span><span>${p.target_field || '-'}</span></div>
+                <div class="detail-row"><span class="label">Planning NET:</span><span>${p.planning_net || '-'}</span></div>
+                <div class="detail-row"><span class="label">Target Score:</span><span>${p.target_score || '-'} / 200</span></div>
+                <div class="detail-row"><span class="label">Last NET:</span><span>${p.last_net_score || 0} (${p.last_net_attempt || '-'})</span></div>
+                <div class="detail-row"><span class="label">Notes:</span><span>${p.additional_notes || '-'}</span></div>
+            </div>
+
+            <div class="student-detail-section">
+                <h4>Test Attempts (${attempts.length})</h4>`;
+        
+        if (!attempts.length) {
+            html += '<p style="color:var(--gray); font-size:13px;">No tests taken yet</p>';
+        } else {
+            html += '<table><thead><tr><th>Type</th><th>Field/Subject</th><th>Score</th><th>%</th><th>Streak</th><th>Date</th></tr></thead><tbody>';
+            attempts.forEach(a => {
+                html += `<tr>
+                    <td>${a.test_type === 'grand' ? '<strong>Grand</strong>' : 'Subject'}</td>
+                    <td>${a.field}${a.subject ? ' - ' + a.subject : ''}</td>
+                    <td>${(a.score || 0).toFixed(1)} / ${a.total_marks}</td>
+                    <td>${(a.percentage || 0).toFixed(1)}%</td>
+                    <td>${a.max_streak || 0}</td>
+                    <td>${a.completed_at ? new Date(a.completed_at).toLocaleDateString() : '-'}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+        }
+
+        html += `</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('studentDetailModal')">Close</button>
+            </div>`;
+        document.getElementById('studentDetailContent').innerHTML = html;
+    }
+
+    function openAddStudent() { document.getElementById('addStudentModal').classList.add('show'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+    async function addStudent() {
+        const body = {
+            username: document.getElementById('newStuUsername').value,
+            password: document.getElementById('newStuPassword').value,
+            fullName: document.getElementById('newStuName').value,
+            email: document.getElementById('newStuEmail').value,
+            field: document.getElementById('newStuField').value
+        };
+        if (!body.username || !body.password) return alert('Username and password required');
+        try {
+            const res = await fetch(`${API_BASE}/admin/students`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (data.success) {
+                closeModal('addStudentModal');
+                document.querySelectorAll('input').forEach(i => i.value = '');
+                loadStudents();
+                alert('Student added! Credentials: ' + body.username + ' / ' + body.password);
+            } else alert(data.message);
+        } catch (e) { alert('Failed'); }
+    }
+
+    async function deleteStudent(id) {
+        if (!confirm('Delete this student? This cannot be undone.')) return;
+        try {
+            await fetch(`${API_BASE}/admin/students/${id}`, { method: 'DELETE', headers: getHeaders() });
+            loadStudents();
+        } catch (e) {}
+    }
+
+    function warnStudent(id, name) {
+        currentWarnStudentId = id;
+        document.getElementById('warnStudentName').textContent = name;
+        document.getElementById('warnMessage').value = '';
+        document.getElementById('warningModal').classList.add('show');
+    }
+
+    async function submitWarning() {
+        const message = document.getElementById('warnMessage').value.trim();
+        if (!message) return alert('Enter warning message');
+        try {
+            await fetch(`${API_BASE}/admin/warning`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId: currentWarnStudentId, message })
+            });
+            closeModal('warningModal');
+            alert('Warning issued');
+        } catch (e) { alert('Failed'); }
+    }
+
+    // ============ LECTURES ============
+    async function loadAdminLectures() {
+        try {
+            const res = await fetch(`${API_BASE}/lectures`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('lecturesTable');
+            if (!data.lectures || !data.lectures.length) { c.innerHTML = '<div class="empty">No lectures yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr>
+                <th>Title</th><th>Field</th><th>Subject</th><th>Instructor</th><th>Difficulty</th><th>Actions</th>
+            </tr></thead><tbody>${data.lectures.map(l => `
+                <tr>
+                    <td><strong>${l.title}</strong></td>
+                    <td><span class="badge badge-info">${l.field}</span></td>
+                    <td>${l.subject}</td>
+                    <td>${l.instructor || '-'}</td>
+                    <td>${l.difficulty || '-'}</td>
+                    <td>
+                        <a href="${l.youtube_url}" target="_blank" class="btn btn-secondary">Open</a>
+                        <button class="btn btn-danger" onclick="deleteLecture(${l.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('')}</tbody></table>`;
+        } catch (e) {}
+    }
+
+    function openAddLecture() { document.getElementById('addLectureModal').classList.add('show'); }
+
+    async function addLecture() {
+        const body = {
+            title: document.getElementById('lecTitle').value,
+            youtubeUrl: document.getElementById('lecUrl').value,
+            field: document.getElementById('lecField').value,
+            subject: document.getElementById('lecSubject').value,
+            topic: document.getElementById('lecTopic').value,
+            instructor: document.getElementById('lecInstructor').value,
+            duration: document.getElementById('lecDuration').value,
+            difficulty: document.getElementById('lecDifficulty').value,
+            description: document.getElementById('lecDesc').value
+        };
+        if (!body.title || !body.youtubeUrl) return alert('Title and URL required');
+        try {
+            const res = await fetch(`${API_BASE}/lectures`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (data.success) {
+                closeModal('addLectureModal');
+                document.querySelectorAll('#addLectureModal input, #addLectureModal textarea').forEach(i => i.value = '');
+                loadAdminLectures();
+            }
+        } catch (e) {}
+    }
+
+    async function deleteLecture(id) {
+        if (!confirm('Delete this lecture?')) return;
+        try {
+            await fetch(`${API_BASE}/lectures/${id}`, { method: 'DELETE', headers: getHeaders() });
+            loadAdminLectures();
+        } catch (e) {}
+    }
+
+    // ============ MERIT ============
+    async function loadAdminMerit() {
+        try {
+            const res = await fetch(`${API_BASE}/merit-lists`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('meritTable');
+            if (!data.merit_lists || !data.merit_lists.length) { c.innerHTML = '<div class="empty">No merit lists yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr>
+                <th>Title</th><th>Field</th><th>Year</th><th>Program</th><th>Actions</th>
+            </tr></thead><tbody>${data.merit_lists.map(m => `
+                <tr>
+                    <td><strong>${m.title}</strong></td>
+                    <td><span class="badge badge-info">${m.field}</span></td>
+                    <td>${m.year}</td>
+                    <td>${m.program || '-'}</td>
+                    <td>
+                        ${m.file_url ? `<a href="${m.file_url}" target="_blank" class="btn btn-secondary">Open</a>` : ''}
+                        <button class="btn btn-danger" onclick="deleteMerit(${m.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('')}</tbody></table>`;
+        } catch (e) {}
+    }
+
+    function openAddMerit() { document.getElementById('addMeritModal').classList.add('show'); }
+
+    async function addMerit() {
+        const body = {
+            title: document.getElementById('merTitle').value,
+            field: document.getElementById('merField').value,
+            year: document.getElementById('merYear').value,
+            program: document.getElementById('merProgram').value,
+            campus: document.getElementById('merCampus').value,
+            fileUrl: document.getElementById('merFileUrl').value,
+            description: document.getElementById('merDesc').value
+        };
+        if (!body.title || !body.year) return alert('Title and year required');
+        try {
+            const res = await fetch(`${API_BASE}/merit-lists`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            if ((await res.json()).success) {
+                closeModal('addMeritModal');
+                document.querySelectorAll('#addMeritModal input, #addMeritModal textarea').forEach(i => { if (i.id !== 'merYear') i.value = ''; });
+                loadAdminMerit();
+            }
+        } catch (e) {}
+    }
+
+    async function deleteMerit(id) {
+        if (!confirm('Delete this merit list?')) return;
+        try {
+            await fetch(`${API_BASE}/merit-lists/${id}`, { method: 'DELETE', headers: getHeaders() });
+            loadAdminMerit();
+        } catch (e) {}
+    }
+
+    // ============ LEADERBOARD ============
+    async function loadAdminLeaderboard() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/leaderboard`, { headers: getHeaders() });
+            const data = await res.json();
+            if (!data.success) return;
+            let html = '';
+            for (const field in data.leaderboards) {
+                const list = data.leaderboards[field];
+                html += `<div class="leaderboard-section">
+                    <h4>${field}</h4>`;
+                if (!list.length) {
+                    html += '<p style="color:var(--gray); font-size:13px;">No data yet</p>';
+                } else {
+                    html += `<table><thead><tr><th>Rank</th><th>Student</th><th>Best Score</th><th>%</th><th>Tests</th></tr></thead><tbody>`;
+                    list.forEach((s, i) => {
+                        html += `<tr>
+                            <td><strong>#${i+1}</strong></td>
+                            <td>${s.full_name || s.username} <small style="color:var(--gray);">@${s.username}</small></td>
+                            <td>${(s.best_score || 0).toFixed(1)}</td>
+                            <td>${(s.best_percentage || 0).toFixed(1)}%</td>
+                            <td>${s.total_tests}</td>
+                        </tr>`;
+                    });
+                    html += '</tbody></table>';
+                }
+                html += '</div>';
+            }
+            document.getElementById('leaderboardContent').innerHTML = html;
+        } catch (e) {}
+    }
+
+    // ============ CHATS ============
+    async function loadGroupChats() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/group-messages`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('chatsContent');
+            if (!data.messages || !data.messages.length) { c.innerHTML = '<div class="empty">No messages</div>'; return; }
+            c.innerHTML = data.messages.map(m => `
+                <div class="chat-message-box">
+                    <span class="author">${m.full_name || m.username}:</span>
+                    <span>${escapeHtml(m.message)}</span>
+                    <span class="time">${new Date(m.sent_at).toLocaleString()}</span>
+                </div>
+            `).join('');
+        } catch (e) {}
+    }
+
+    function escapeHtml(str) {
+        const d = document.createElement('div');
+        d.textContent = str || '';
+        return d.innerHTML;
+    }
+
+    // ============ REPORTS ============
+    async function loadReports() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('reportsTable');
+            if (!data.reports || !data.reports.length) { c.innerHTML = '<div class="empty">No reports</div>'; return; }
+            c.innerHTML = `<table><thead><tr>
+                <th>Reporter</th><th>Reported</th><th>Reason</th><th>Date</th><th>Status</th>
+            </tr></thead><tbody>${data.reports.map(r => `
+                <tr>
+                    <td>${r.reporter_name || r.reporter_username}</td>
+                    <td><strong style="color:var(--danger);">${r.reported_name || r.reported_username}</strong></td>
+                    <td>${escapeHtml(r.reason)}</td>
+                    <td>${new Date(r.created_at).toLocaleString()}</td>
+                    <td><span class="badge badge-warning">${r.status}</span></td>
+                </tr>
+            `).join('')}</tbody></table>`;
+        } catch (e) {}
+    }
+
+    // ============ SETTINGS ============
+    async function changeAdminCreds() {
+        const newUsername = document.getElementById('newAdminUsername').value;
+        const currentPassword = document.getElementById('currentAdminPassword').value;
+        const newPassword = document.getElementById('newAdminPassword').value;
+        const confirmPassword = document.getElementById('confirmAdminPassword').value;
+
+        if (!currentPassword || !newPassword) return alert('Fill required fields');
+        if (newPassword !== confirmPassword) return alert('Passwords do not match');
+
+        try {
+            const res = await fetch(`${API_BASE}/admin/change-password`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPassword, newPassword, newUsername })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert('Credentials updated! Please login again.');
+                logoutAdmin();
+            } else alert(data.message);
+        } catch (e) { alert('Failed'); }
+    }
+
+    checkAdminAuth();
+</script>
+</body>
+</html>
