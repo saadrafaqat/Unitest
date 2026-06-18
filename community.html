@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - NUSTology Prep.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1a56db; --primary-dark: #1e3a8a; --primary-bg: #eff6ff;
+            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
+            --white: #fff; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+        }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--dark); min-height: 100vh; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: white; border-right: 1px solid var(--gray-lighter); padding: 24px 16px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+        .sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 0 12px 24px; border-bottom: 1px solid var(--gray-lighter); margin-bottom: 20px; }
+        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
+        .sidebar-logo .text { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
+        .sidebar-logo .nust { color: var(--primary); }
+        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .menu-section { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding: 16px 12px 8px; }
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
+        .menu-item.active { background: var(--primary); color: white; }
+        .main { flex: 1; margin-left: 260px; min-height: 100vh; }
+        .topbar { background: white; padding: 16px 32px; border-bottom: 1px solid var(--gray-lighter); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
+        .topbar p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+        .logout-btn { background: var(--gray-lighter); border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--dark); font-family: inherit; }
+        .logout-btn:hover { background: var(--danger); color: white; }
+        .content { padding: 32px; max-width: 800px; margin: 0 auto; }
+
+        .create-post {
+            background: white; border: 1px solid var(--gray-lighter); border-radius: 14px;
+            padding: 20px; margin-bottom: 24px;
+        }
+        .create-post-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .my-avatar {
+            width: 44px; height: 44px; border-radius: 50%; background: var(--primary-bg);
+            color: var(--primary); display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 16px; overflow: hidden; flex-shrink: 0;
+        }
+        .my-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .post-input { flex: 1; }
+        .post-input input {
+            width: 100%; padding: 11px 16px; border: 1.5px solid var(--gray-lighter);
+            border-radius: 24px; font-family: inherit; font-size: 14px; background: #f8fafc;
+        }
+        .post-input input:focus { outline: none; border-color: var(--primary); background: white; }
+
+        .expanded-form {
+            display: none; flex-direction: column; gap: 12px;
+        }
+        .expanded-form.show { display: flex; }
+        .expanded-form input, .expanded-form textarea, .expanded-form select {
+            padding: 10px 14px; border: 1.5px solid var(--gray-lighter); border-radius: 8px;
+            font-family: inherit; font-size: 14px;
+        }
+        .expanded-form input:focus, .expanded-form textarea:focus, .expanded-form select:focus {
+            outline: none; border-color: var(--primary);
+        }
+        .expanded-form textarea { resize: vertical; min-height: 100px; }
+        .form-actions { display: flex; justify-content: flex-end; gap: 8px; }
+        .btn-cancel {
+            padding: 8px 18px; background: var(--gray-lighter); border: none; border-radius: 8px;
+            cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600;
+        }
+        .btn-post {
+            padding: 8px 18px; background: var(--primary); color: white; border: none;
+            border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-post:hover { background: var(--primary-dark); }
+
+        .post {
+            background: white; border: 1px solid var(--gray-lighter); border-radius: 14px;
+            margin-bottom: 18px; overflow: hidden;
+        }
+        .post-header {
+            padding: 16px 20px; display: flex; align-items: center; gap: 12px;
+        }
+        .post-author { flex: 1; }
+        .post-author .name { font-weight: 700; font-size: 14px; }
+        .post-author .meta { font-size: 12px; color: var(--gray); }
+        .category-tag {
+            padding: 3px 10px; background: var(--primary-bg); color: var(--primary);
+            border-radius: 20px; font-size: 11px; font-weight: 600;
+        }
+
+        .post-content { padding: 0 20px 16px; }
+        .post-title { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .post-text { font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+
+        .post-stats {
+            padding: 8px 20px; border-top: 1px solid #f1f5f9; display: flex;
+            align-items: center; gap: 16px; font-size: 12px; color: var(--gray);
+        }
+
+        .post-actions {
+            border-top: 1px solid var(--gray-lighter); display: grid; grid-template-columns: 1fr 1fr;
+        }
+        .action-btn {
+            padding: 11px; background: transparent; border: none; cursor: pointer;
+            font-family: inherit; font-size: 14px; font-weight: 600; color: var(--gray);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s;
+        }
+        .action-btn:hover { background: #f8fafc; }
+        .action-btn.liked { color: var(--primary); }
+        .action-btn svg { width: 18px; height: 18px; }
+        .action-btn.liked svg { fill: currentColor; }
+
+        .comments-section {
+            display: none; border-top: 1px solid var(--gray-lighter);
+            padding: 14px 20px; background: #f8fafc;
+        }
+        .comments-section.show { display: block; }
+        .comment {
+            display: flex; gap: 10px; padding: 8px 0;
+        }
+        .comment .my-avatar { width: 32px; height: 32px; font-size: 13px; }
+        .comment-bubble {
+            background: white; padding: 10px 14px; border-radius: 14px;
+            flex: 1; border: 1px solid var(--gray-lighter);
+        }
+        .comment-name { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+        .comment-text { font-size: 13px; line-height: 1.4; }
+        .comment-input {
+            display: flex; gap: 8px; margin-top: 10px;
+        }
+        .comment-input input {
+            flex: 1; padding: 8px 14px; border: 1.5px solid var(--gray-lighter);
+            border-radius: 20px; font-family: inherit; font-size: 13px;
+        }
+        .comment-input input:focus { outline: none; border-color: var(--primary); }
+        .comment-input button {
+            padding: 8px 16px; background: var(--primary); color: white; border: none;
+            border-radius: 20px; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600;
+        }
+
+        .empty { text-align: center; padding: 80px 20px; color: var(--gray); }
+        .empty svg { width: 70px; height: 70px; opacity: 0.3; margin-bottom: 14px; }
+
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .mobile-toggle { display: block; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <div class="text"><span class="nust">NUST</span>ology <div class="prep">Prep.</div></div>
+        </div>
+        <ul class="sidebar-menu">
+            <div class="menu-section">Main</div>
+            <li><a href="student.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+            <li><a href="test.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Take Test</a></li>
+            <li><a href="leaderboard.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Leaderboard</a></li>
+            <div class="menu-section">Learn</div>
+            <li><a href="lectures.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</a></li>
+            <li><a href="aggregate.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>Aggregate Calculator</a></li>
+            <li><a href="merit.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Past Merit Lists</a></li>
+            <li><a href="faq.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>FAQs</a></li>
+            <div class="menu-section">Community</div>
+            <li><a href="chat.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat</a></li>
+            <li><a href="community.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Community</a></li>
+            <div class="menu-section">Account</div>
+            <li><a href="profile.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div>
+                    <h1>Community</h1>
+                    <p>Share questions and help others</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="content">
+            <div class="create-post">
+                <div class="create-post-header">
+                    <div class="my-avatar" id="myAvatar">U</div>
+                    <div class="post-input">
+                        <input type="text" id="postTrigger" placeholder="What's your question or thought?" onfocus="expandForm()" readonly>
+                    </div>
+                </div>
+                <div class="expanded-form" id="expandedForm">
+                    <input type="text" id="postTitle" placeholder="Title (optional)">
+                    <select id="postCategory">
+                        <option value="general">General</option>
+                        <option value="question">Question / Doubt</option>
+                        <option value="tip">Study Tip</option>
+                        <option value="resource">Resource</option>
+                        <option value="motivation">Motivation</option>
+                    </select>
+                    <textarea id="postContent" placeholder="Write your post here..."></textarea>
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="cancelPost()">Cancel</button>
+                        <button class="btn-post" onclick="submitPost()">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="postsContainer">
+                <div class="empty"><p>Loading posts...</p></div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const API_BASE = '/api';
+    let currentUser = null;
+
+    async function checkAuth() {
+        const token = localStorage.getItem('nustology_token');
+        if (!token) { window.location.href = '/index.html'; return; }
+        try {
+            const res = await fetch(`${API_BASE}/auth/verify`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const data = await res.json();
+            if (!data.success) { window.location.href = '/index.html'; return; }
+            currentUser = data.user;
+            const name = currentUser.fullName || currentUser.username;
+            const avatar = document.getElementById('myAvatar');
+            if (currentUser.profilePicture) avatar.innerHTML = `<img src="${currentUser.profilePicture}">`;
+            else avatar.textContent = name[0].toUpperCase();
+            loadPosts();
+        } catch (e) { window.location.href = '/index.html'; }
+    }
+
+    function expandForm() {
+        document.getElementById('expandedForm').classList.add('show');
+        document.getElementById('postTrigger').style.display = 'none';
+        document.getElementById('postContent').focus();
+    }
+    function cancelPost() {
+        document.getElementById('expandedForm').classList.remove('show');
+        document.getElementById('postTrigger').style.display = 'block';
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postContent').value = '';
+    }
+
+    async function submitPost() {
+        const title = document.getElementById('postTitle').value.trim();
+        const content = document.getElementById('postContent').value.trim();
+        const category = document.getElementById('postCategory').value;
+        if (!content) return alert('Please write something');
+        const token = localStorage.getItem('nustology_token');
+        try {
+            await fetch(`${API_BASE}/posts`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, content, category })
+            });
+            cancelPost();
+            loadPosts();
+        } catch (e) { alert('Failed to post'); }
+    }
+
+    async function loadPosts() {
+        const token = localStorage.getItem('nustology_token');
+        try {
+            const res = await fetch(`${API_BASE}/posts`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const data = await res.json();
+            renderPosts(data.posts || []);
+        } catch (e) {
+            document.getElementById('postsContainer').innerHTML = '<div class="empty">Failed to load</div>';
+        }
+    }
+
+    function renderPosts(posts) {
+        const c = document.getElementById('postsContainer');
+        if (!posts.length) {
+            c.innerHTML = `<div class="empty">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <p>No posts yet. Be the first to share!</p>
+            </div>`;
+            return;
+        }
+        c.innerHTML = posts.map(p => {
+            const name = p.full_name || p.username;
+            const initial = name[0].toUpperCase();
+            const avatar = p.profile_picture ? `<img src="${p.profile_picture}">` : initial;
+            const time = timeAgo(p.created_at);
+            return `<div class="post" data-id="${p.id}">
+                <div class="post-header">
+                    <div class="my-avatar">${avatar}</div>
+                    <div class="post-author">
+                        <div class="name">${name}</div>
+                        <div class="meta">@${p.username} • ${time}</div>
+                    </div>
+                    <span class="category-tag">${p.category}</span>
+                </div>
+                <div class="post-content">
+                    ${p.title ? `<div class="post-title">${escapeHtml(p.title)}</div>` : ''}
+                    <div class="post-text">${escapeHtml(p.content)}</div>
+                </div>
+                <div class="post-stats">
+                    <span>${p.likes_count} likes</span>
+                    <span>${p.comments_count} comments</span>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="likePost(${p.id}, this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                        Like
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(${p.id})">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        Comment
+                    </button>
+                </div>
+                <div class="comments-section" id="comments-${p.id}">
+                    <div class="comments-list" id="commentsList-${p.id}"></div>
+                    <div class="comment-input">
+                        <input type="text" id="commentInput-${p.id}" placeholder="Write a comment..." onkeypress="if(event.key==='Enter') addComment(${p.id})">
+                        <button onclick="addComment(${p.id})">Send</button>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    async function likePost(postId, btn) {
+        const token = localStorage.getItem('nustology_token');
+        try {
+            const res = await fetch(`${API_BASE}/posts/${postId}/like`, {
+                method: 'POST', headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (data.success) {
+                btn.classList.toggle('liked', data.liked);
+                loadPosts();
+            }
+        } catch (e) {}
+    }
+
+    async function toggleComments(postId) {
+        const section = document.getElementById(`comments-${postId}`);
+        if (section.classList.contains('show')) {
+            section.classList.remove('show');
+            return;
+        }
+        section.classList.add('show');
+        const token = localStorage.getItem('nustology_token');
+        try {
+            const res = await fetch(`${API_BASE}/posts/${postId}/comments`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            renderComments(postId, data.comments || []);
+        } catch (e) {}
+    }
+
+    function renderComments(postId, comments) {
+        const list = document.getElementById(`commentsList-${postId}`);
+        if (!comments.length) {
+            list.innerHTML = '<div style="font-size:13px; color:var(--gray); padding: 4px 0;">No comments yet</div>';
+            return;
+        }
+        list.innerHTML = comments.map(c => {
+            const name = c.full_name || c.username;
+            const initial = name[0].toUpperCase();
+            const avatar = c.profile_picture ? `<img src="${c.profile_picture}">` : initial;
+            return `<div class="comment">
+                <div class="my-avatar">${avatar}</div>
+                <div class="comment-bubble">
+                    <div class="comment-name">${name}</div>
+                    <div class="comment-text">${escapeHtml(c.comment)}</div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    async function addComment(postId) {
+        const input = document.getElementById(`commentInput-${postId}`);
+        const comment = input.value.trim();
+        if (!comment) return;
+        const token = localStorage.getItem('nustology_token');
+        input.value = '';
+        try {
+            await fetch(`${API_BASE}/posts/${postId}/comments`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ comment })
+            });
+            toggleComments(postId);
+            toggleComments(postId);
+            loadPosts();
+        } catch (e) {}
+    }
+
+    function escapeHtml(str) {
+        const d = document.createElement('div');
+        d.textContent = str || '';
+        return d.innerHTML;
+    }
+
+    function timeAgo(dateStr) {
+        const date = new Date(dateStr);
+        const now = new Date();
+        const sec = Math.floor((now - date) / 1000);
+        if (sec < 60) return 'just now';
+        if (sec < 3600) return Math.floor(sec/60) + 'm ago';
+        if (sec < 86400) return Math.floor(sec/3600) + 'h ago';
+        if (sec < 2592000) return Math.floor(sec/86400) + 'd ago';
+        return date.toLocaleDateString();
+    }
+
+    async function logout() {
+        const token = localStorage.getItem('nustology_token');
+        try { await fetch(`${API_BASE}/auth/logout`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e){}
+        localStorage.clear();
+        window.location.href = '/index.html';
+    }
+
+    checkAuth();
+</script>
+</body>
+</html>
