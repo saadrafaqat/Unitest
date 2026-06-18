@@ -517,7 +517,7 @@ async function submitTest(request, db, headers) {
     }
 
     // NUST style scoring: +1 correct, -0.25 wrong, 0 unattempted
-    const score = correct - (wrong * 0.25);
+     const score = correct;
     const attempt = await db.prepare('SELECT * FROM test_attempts WHERE id = ?').bind(attemptId).first();
     const percentage = (score / attempt.total_marks) * 100;
 
