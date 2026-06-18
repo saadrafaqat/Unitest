@@ -174,6 +174,16 @@ export async function onRequest(context) {
         if (path === 'admin/reports' && method === 'GET') {
             return await adminGetReports(request, db, corsHeaders);
         }
+        // NEW: Update report status (mark as seen/reviewed/resolved/dismissed)
+        if (path.startsWith('admin/reports/') && path.endsWith('/status') && method === 'POST') {
+            const reportId = path.split('/')[2];
+            return await adminUpdateReportStatus(request, db, corsHeaders, reportId);
+        }
+        // NEW: Delete a report
+        if (path.startsWith('admin/reports/') && method === 'DELETE') {
+            const reportId = path.split('/')[2];
+            return await adminDeleteReport(request, db, corsHeaders, reportId);
+        }
         if (path === 'admin/group-messages' && method === 'GET') {
             return await adminGetGroupMessages(request, db, corsHeaders);
         }
@@ -480,7 +490,6 @@ async function submitTest(request, db, headers) {
     if (!student) return json({ success: false, message: 'Unauthorized' }, 401, headers);
 
     const { attemptId, answers, timeTaken } = await request.json();
-    // answers = [{ questionId, questionText, subject, options, correctAnswer, selectedAnswer, markedForReview }]
 
     let correct = 0, wrong = 0, unattempted = 0;
     let currentStreak = 0, maxStreak = 0;
@@ -516,8 +525,7 @@ async function submitTest(request, db, headers) {
         ).run();
     }
 
-    // NUST style scoring: +1 correct, -0.25 wrong, 0 unattempted
-     const score = correct;
+    const score = correct;
     const attempt = await db.prepare('SELECT * FROM test_attempts WHERE id = ?').bind(attemptId).first();
     const percentage = (score / attempt.total_marks) * 100;
 
@@ -661,7 +669,6 @@ async function addLecture(request, db, headers) {
 
     const data = await request.json();
     
-    // Extract YouTube video ID for thumbnail
     let thumbnail = data.thumbnail || '';
     const videoIdMatch = (data.youtubeUrl || '').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([^&\n?#]+)/);
     if (videoIdMatch && !thumbnail) {
@@ -774,7 +781,6 @@ async function getPrivateMessages(request, db, headers, otherId) {
         ORDER BY sent_at ASC
     `).bind(student.id, otherId, otherId, student.id).all();
 
-    // Mark as read
     await db.prepare(
         'UPDATE private_messages SET is_read = 1 WHERE from_id = ? AND to_id = ?'
     ).bind(otherId, student.id).run();
@@ -962,12 +968,11 @@ async function adminGetStudentDetails(request, db, headers, id) {
     const profile = await db.prepare('SELECT * FROM student_profiles WHERE student_id = ?').bind(id).first();
     const attempts = await db.prepare('SELECT * FROM test_attempts WHERE student_id = ? ORDER BY completed_at DESC').bind(id).all();
     
-    // Calculate performance percentage based on tests
     const completedAttempts = (attempts.results || []).filter(a => a.status === 'completed');
     let performanceScore = 0;
     if (completedAttempts.length > 0) {
         const avgPerc = completedAttempts.reduce((sum, a) => sum + a.percentage, 0) / completedAttempts.length;
-        const consistency = Math.min(100, (completedAttempts.length / 10) * 100); // 10 tests = max consistency
+        const consistency = Math.min(100, (completedAttempts.length / 10) * 100);
         performanceScore = Math.round((avgPerc * 0.7) + (consistency * 0.3));
     }
 
@@ -988,11 +993,14 @@ async function adminDeleteStudent(request, db, headers, id) {
     return json({ success: true }, 200, headers);
 }
 
+// ============================================
+// UPDATED: ISSUE WARNING (auto-resolves report)
+// ============================================
 async function adminIssueWarning(request, db, headers) {
     const admin = await getAdmin(request, db);
     if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
 
-    const { studentId, message } = await request.json();
+    const { studentId, message, reportId } = await request.json();
     
     await db.prepare(
         'INSERT INTO warnings (student_id, message) VALUES (?, ?)'
@@ -1001,6 +1009,13 @@ async function adminIssueWarning(request, db, headers) {
     await db.prepare(
         'UPDATE students SET is_warned = 1, warning_message = ? WHERE id = ?'
     ).bind(message, studentId).run();
+
+    // If warning was issued from a report, mark that report as resolved
+    if (reportId) {
+        await db.prepare(
+            'UPDATE reports SET status = ?, admin_note = ?, reviewed_at = CURRENT_TIMESTAMP WHERE id = ?'
+        ).bind('resolved', 'Warning issued to student', reportId).run();
+    }
 
     return json({ success: true }, 200, headers);
 }
@@ -1016,10 +1031,49 @@ async function adminGetReports(request, db, headers) {
         FROM reports r
         JOIN students s1 ON r.reporter_id = s1.id
         JOIN students s2 ON r.reported_id = s2.id
-        ORDER BY r.created_at DESC
+        ORDER BY 
+            CASE r.status 
+                WHEN 'pending' THEN 1 
+                WHEN 'reviewed' THEN 2 
+                WHEN 'resolved' THEN 3 
+                WHEN 'dismissed' THEN 4 
+                ELSE 5 
+            END,
+            r.created_at DESC
     `).all();
 
     return json({ success: true, reports: result.results || [] }, 200, headers);
+}
+
+// ============================================
+// NEW: UPDATE REPORT STATUS
+// ============================================
+async function adminUpdateReportStatus(request, db, headers, reportId) {
+    const admin = await getAdmin(request, db);
+    if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
+
+    const { status, adminNote } = await request.json();
+    // status can be: 'reviewed', 'resolved', 'dismissed', 'pending'
+
+    const validStatuses = ['pending', 'reviewed', 'resolved', 'dismissed'];
+    const newStatus = validStatuses.includes(status) ? status : 'reviewed';
+
+    await db.prepare(
+        'UPDATE reports SET status = ?, admin_note = ?, reviewed_at = CURRENT_TIMESTAMP WHERE id = ?'
+    ).bind(newStatus, adminNote || '', reportId).run();
+
+    return json({ success: true, message: 'Report status updated' }, 200, headers);
+}
+
+// ============================================
+// NEW: DELETE REPORT
+// ============================================
+async function adminDeleteReport(request, db, headers, reportId) {
+    const admin = await getAdmin(request, db);
+    if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
+
+    await db.prepare('DELETE FROM reports WHERE id = ?').bind(reportId).run();
+    return json({ success: true }, 200, headers);
 }
 
 async function adminGetGroupMessages(request, db, headers) {
@@ -1057,7 +1111,7 @@ async function adminGetLeaderboard(request, db, headers) {
     const admin = await getAdmin(request, db);
     if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
 
-    const fields = ['Engineering', 'Medical', 'Business', 'Architecture'];
+    const fields = ['NET-Engineering', 'NET-Applied Sciences', 'NET-Business Studies', 'NET-Architecture', 'NET-Natural Sciences'];
     const leaderboards = {};
 
     for (const field of fields) {
