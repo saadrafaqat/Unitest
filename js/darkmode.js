@@ -1,19 +1,16 @@
 // ============================================
-// NUSTOLOGY PREP - UNIVERSAL DARK MODE
+// NUSTOLOGY PREP - UNIVERSAL DARK MODE v2
 // File: js/darkmode.js
 // Include this in EVERY HTML page
 // ============================================
 
 (function() {
-    // Apply saved theme IMMEDIATELY (before page renders) to avoid flash
     const saved = localStorage.getItem('nustology_theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
 })();
 
-// Inject dark mode CSS into the page
 (function injectDarkModeCSS() {
     const css = `
-        /* ========== UNIVERSAL DARK MODE STYLES ========== */
         :root {
             --dm-transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
@@ -30,17 +27,18 @@
             --gray: #94a3b8 !important;
         }
 
-        /* Body & basic backgrounds */
+        /* ===== BASE ===== */
         [data-theme="dark"] body {
             background: #0f172a !important;
             color: #f1f5f9 !important;
         }
 
-        /* Common containers */
+        /* ===== CONTAINERS ===== */
         [data-theme="dark"] .card,
         [data-theme="dark"] .sidebar,
         [data-theme="dark"] .topbar,
         [data-theme="dark"] .modal,
+        [data-theme="dark"] .modal-box,
         [data-theme="dark"] .stat-card,
         [data-theme="dark"] .field-card,
         [data-theme="dark"] .feature-card,
@@ -49,26 +47,34 @@
         [data-theme="dark"] .subject-card,
         [data-theme="dark"] .test-card:not(.grand),
         [data-theme="dark"] .login-box,
-        [data-theme="dark"] .modal-box,
         [data-theme="dark"] .confirm-box,
         [data-theme="dark"] .palette-box,
         [data-theme="dark"] .onboarding-box,
         [data-theme="dark"] .result-container,
-        [data-theme="dark"] .header {
+        [data-theme="dark"] .header,
+        [data-theme="dark"] .post,
+        [data-theme="dark"] .post-card,
+        [data-theme="dark"] .lecture-card,
+        [data-theme="dark"] .merit-card,
+        [data-theme="dark"] .faq-card,
+        [data-theme="dark"] .leaderboard-item,
+        [data-theme="dark"] .profile-card,
+        [data-theme="dark"] .info-banner,
+        [data-theme="dark"] .result-card {
             background: #1e293b !important;
             color: #f1f5f9 !important;
             border-color: #334155 !important;
         }
 
-        /* Text colors */
+        /* ===== TEXT ===== */
         [data-theme="dark"] h1, [data-theme="dark"] h2,
         [data-theme="dark"] h3, [data-theme="dark"] h4,
         [data-theme="dark"] h5, [data-theme="dark"] h6 {
-            color: #f1f5f9;
+            color: #f1f5f9 !important;
         }
 
         [data-theme="dark"] p,
-        [data-theme="dark"] span,
+        [data-theme="dark"] span:not(.badge):not(.nust):not(.field-code-badge):not(.score-number):not(.score-total):not(.timer-time):not(.label-text):not(.session-count):not(.pill),
         [data-theme="dark"] li,
         [data-theme="dark"] label,
         [data-theme="dark"] td,
@@ -78,11 +84,15 @@
         [data-theme="dark"] .field-content p,
         [data-theme="dark"] .testimonial-text,
         [data-theme="dark"] .feature-card p,
-        [data-theme="dark"] .field-card p {
-            color: #cbd5e1;
+        [data-theme="dark"] .field-card p,
+        [data-theme="dark"] .desc,
+        [data-theme="dark"] .stat-label,
+        [data-theme="dark"] .test-info-text small,
+        [data-theme="dark"] small {
+            color: #cbd5e1 !important;
         }
 
-        /* Tables */
+        /* ===== TABLES ===== */
         [data-theme="dark"] table { background: transparent; }
         [data-theme="dark"] th {
             background: #0f172a !important;
@@ -94,7 +104,7 @@
         }
         [data-theme="dark"] tr:hover { background: #1a2436 !important; }
 
-        /* Forms */
+        /* ===== FORMS ===== */
         [data-theme="dark"] input,
         [data-theme="dark"] select,
         [data-theme="dark"] textarea {
@@ -112,7 +122,7 @@
             border-color: #3b82f6 !important;
         }
 
-        /* Navbar */
+        /* ===== NAVBAR ===== */
         [data-theme="dark"] .navbar {
             background: rgba(15, 23, 42, 0.85) !important;
             border-bottom-color: rgba(51, 65, 85, 0.5) !important;
@@ -121,44 +131,34 @@
             background: rgba(15, 23, 42, 0.95) !important;
         }
 
-        /* Hero & gradient sections */
+        /* ===== HERO ===== */
         [data-theme="dark"] .hero {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1a2436 100%) !important;
         }
-
         [data-theme="dark"] .how-it-works {
             background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
         }
-
         [data-theme="dark"] .testimonials-bg {
             background: #1a2436 !important;
         }
 
-        /* Buttons & badges */
+        /* ===== BUTTONS ===== */
         [data-theme="dark"] .btn-secondary,
         [data-theme="dark"] .back-btn,
         [data-theme="dark"] .logout-btn {
             background: #334155 !important;
             color: #f1f5f9 !important;
         }
-
         [data-theme="dark"] .btn-white {
             background: #1e293b !important;
             color: #60a5fa !important;
         }
-
         [data-theme="dark"] .badge-info {
             background: rgba(59, 130, 246, 0.2) !important;
             color: #60a5fa !important;
         }
 
-        /* Borders */
-        [data-theme="dark"] [class*="border"],
-        [data-theme="dark"] hr {
-            border-color: #334155 !important;
-        }
-
-        /* FAQ */
+        /* ===== FAQ ===== */
         [data-theme="dark"] .faq-item button {
             background: #1e293b !important;
             color: #f1f5f9 !important;
@@ -167,12 +167,12 @@
             color: #94a3b8 !important;
         }
 
-        /* Footer */
+        /* ===== FOOTER ===== */
         [data-theme="dark"] .footer {
             background: #020617 !important;
         }
 
-        /* Sidebar */
+        /* ===== SIDEBAR ===== */
         [data-theme="dark"] .sidebar {
             background: #1a2436 !important;
             border-right-color: #334155 !important;
@@ -192,66 +192,133 @@
             color: #64748b !important;
         }
 
-        /* Topbar */
+        /* ===== TOPBAR ===== */
         [data-theme="dark"] .topbar {
             background: #1e293b !important;
             border-bottom-color: #334155 !important;
         }
 
-        /* Modals */
-        [data-theme="dark"] .modal-overlay,
-        [data-theme="dark"] .modal,
-        [data-theme="dark"] .palette-modal,
-        [data-theme="dark"] .confirm-modal,
-        [data-theme="dark"] .onboarding-overlay {
-            color: #f1f5f9;
-        }
-
-        /* Code/pre */
-        [data-theme="dark"] code, [data-theme="dark"] pre {
+        /* ===== CHAT INTERFACE (NEW FIX) ===== */
+        [data-theme="dark"] .chat-layout,
+        [data-theme="dark"] .chat-sidebar,
+        [data-theme="dark"] .chat-main,
+        [data-theme="dark"] .chat-area,
+        [data-theme="dark"] .users-panel,
+        [data-theme="dark"] .messages-panel,
+        [data-theme="dark"] .chat-container,
+        [data-theme="dark"] .chat-list,
+        [data-theme="dark"] .chat-window,
+        [data-theme="dark"] .chat-messages,
+        [data-theme="dark"] .chat-input-area,
+        [data-theme="dark"] .chat-header,
+        [data-theme="dark"] .conversation-list,
+        [data-theme="dark"] .chat-body,
+        [data-theme="dark"] .main {
             background: #0f172a !important;
-            color: #f1f5f9 !important;
-        }
-
-        /* Chat bubbles */
-        [data-theme="dark"] .chat-msg-box,
-        [data-theme="dark"] .chat-message-box,
-        [data-theme="dark"] .msg-bubble:not(.own) {
-            background: #1a2436 !important;
             color: #f1f5f9 !important;
             border-color: #334155 !important;
         }
 
-        /* Stats and dashboard items */
-        [data-theme="dark"] .stat-icon-wrap.blue {
-            background: rgba(59,130,246,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.green {
-            background: rgba(34,197,94,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.orange {
-            background: rgba(245,158,11,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.purple {
-            background: rgba(147,51,234,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.b {
-            background: rgba(59,130,246,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.g {
-            background: rgba(34,197,94,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.o {
-            background: rgba(245,158,11,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.r {
-            background: rgba(239,68,68,0.2) !important;
-        }
-        [data-theme="dark"] .stat-icon-wrap.p {
-            background: rgba(147,51,234,0.2) !important;
+        /* Chat user list items */
+        [data-theme="dark"] .user-item,
+        [data-theme="dark"] .chat-user,
+        [data-theme="dark"] .user-row,
+        [data-theme="dark"] .conversation-item,
+        [data-theme="dark"] .chat-list-item {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
         }
 
-        /* Quick actions */
+        [data-theme="dark"] .user-item:hover,
+        [data-theme="dark"] .chat-user:hover,
+        [data-theme="dark"] .conversation-item:hover {
+            background: rgba(59, 130, 246, 0.15) !important;
+        }
+
+        [data-theme="dark"] .user-item.active,
+        [data-theme="dark"] .chat-user.active,
+        [data-theme="dark"] .conversation-item.active {
+            background: rgba(59, 130, 246, 0.25) !important;
+        }
+
+        /* Chat tabs (Group/Private) */
+        [data-theme="dark"] .tab-buttons,
+        [data-theme="dark"] .chat-tabs {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        [data-theme="dark"] .tab-btn,
+        [data-theme="dark"] .chat-tab {
+            background: #1e293b !important;
+            color: #cbd5e1 !important;
+        }
+        [data-theme="dark"] .tab-btn.active,
+        [data-theme="dark"] .chat-tab.active {
+            background: #1a56db !important;
+            color: white !important;
+        }
+
+        /* Message bubbles */
+        [data-theme="dark"] .message,
+        [data-theme="dark"] .msg,
+        [data-theme="dark"] .message-bubble,
+        [data-theme="dark"] .msg-bubble:not(.own),
+        [data-theme="dark"] .chat-msg-box,
+        [data-theme="dark"] .chat-message-box,
+        [data-theme="dark"] .message-content {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        [data-theme="dark"] .message.own,
+        [data-theme="dark"] .msg.own,
+        [data-theme="dark"] .msg-bubble.own,
+        [data-theme="dark"] .message-bubble.own {
+            background: #1a56db !important;
+            color: white !important;
+        }
+
+        /* Chat input */
+        [data-theme="dark"] .message-input,
+        [data-theme="dark"] .chat-input,
+        [data-theme="dark"] .input-area input,
+        [data-theme="dark"] .input-area textarea {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        /* Search box */
+        [data-theme="dark"] .search-box,
+        [data-theme="dark"] .search-input {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        /* Chat header bar */
+        [data-theme="dark"] .chat-header,
+        [data-theme="dark"] .chat-top-bar,
+        [data-theme="dark"] .chat-user-info {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        /* ===== STAT ICONS ===== */
+        [data-theme="dark"] .stat-icon-wrap.blue,
+        [data-theme="dark"] .stat-icon-wrap.b { background: rgba(59,130,246,0.2) !important; }
+        [data-theme="dark"] .stat-icon-wrap.green,
+        [data-theme="dark"] .stat-icon-wrap.g { background: rgba(34,197,94,0.2) !important; }
+        [data-theme="dark"] .stat-icon-wrap.orange,
+        [data-theme="dark"] .stat-icon-wrap.o { background: rgba(245,158,11,0.2) !important; }
+        [data-theme="dark"] .stat-icon-wrap.purple,
+        [data-theme="dark"] .stat-icon-wrap.p { background: rgba(147,51,234,0.2) !important; }
+        [data-theme="dark"] .stat-icon-wrap.r { background: rgba(239,68,68,0.2) !important; }
+
+        /* ===== QUICK ACTIONS ===== */
         [data-theme="dark"] .quick-action {
             background: #1e293b !important;
             color: #f1f5f9 !important;
@@ -262,7 +329,7 @@
             color: #60a5fa !important;
         }
 
-        /* Test interface */
+        /* ===== TEST INTERFACE ===== */
         [data-theme="dark"] .test-interface {
             background: #0f172a !important;
         }
@@ -323,7 +390,46 @@
             border-top-color: #334155 !important;
         }
 
-        /* Scrollbar */
+        /* ===== COMMUNITY POSTS ===== */
+        [data-theme="dark"] .post-author,
+        [data-theme="dark"] .post-content,
+        [data-theme="dark"] .post-actions,
+        [data-theme="dark"] .post-comments,
+        [data-theme="dark"] .comment {
+            background: transparent !important;
+            color: #f1f5f9 !important;
+        }
+        [data-theme="dark"] .comment-box {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+        }
+
+        /* ===== LEADERBOARD ===== */
+        [data-theme="dark"] .leaderboard-row,
+        [data-theme="dark"] .rank-item {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        /* ===== LECTURES ===== */
+        [data-theme="dark"] .video-card,
+        [data-theme="dark"] .lecture-item {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        /* ===== AGGREGATE CALCULATOR ===== */
+        [data-theme="dark"] .calculator,
+        [data-theme="dark"] .calc-section,
+        [data-theme="dark"] .result-box {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
+
+        /* ===== SCROLLBAR ===== */
         [data-theme="dark"] ::-webkit-scrollbar-track {
             background: #1e293b;
         }
@@ -334,15 +440,36 @@
             background: #64748b;
         }
 
-        /* Welcome cards keep their gradient */
+        /* ===== KEEP GRADIENTS WHITE ===== */
         [data-theme="dark"] .welcome,
         [data-theme="dark"] .cta-section,
         [data-theme="dark"] .score-display,
         [data-theme="dark"] .timer-box {
             color: white !important;
         }
+        [data-theme="dark"] .welcome h2,
+        [data-theme="dark"] .cta-title,
+        [data-theme="dark"] .score-number,
+        [data-theme="dark"] .score-total {
+            color: white !important;
+        }
 
-        /* ========== UNIVERSAL DARK MODE TOGGLE BUTTON ========== */
+        /* ===== CATCH-ALL FOR WHITE BACKGROUNDS ===== */
+        [data-theme="dark"] [style*="background: white"],
+        [data-theme="dark"] [style*="background:#fff"],
+        [data-theme="dark"] [style*="background: #fff"],
+        [data-theme="dark"] [style*="background:#ffffff"],
+        [data-theme="dark"] [style*="background: #ffffff"],
+        [data-theme="dark"] [style*="background-color: white"],
+        [data-theme="dark"] [style*="background-color:#fff"],
+        [data-theme="dark"] [style*="background-color: #fff"],
+        [data-theme="dark"] [style*="background-color:#ffffff"],
+        [data-theme="dark"] [style*="background-color: #ffffff"] {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+        }
+
+        /* ========== FLOATING DARK MODE TOGGLE BUTTON ========== */
         .nustology-theme-toggle {
             position: fixed;
             bottom: 24px;
@@ -397,9 +524,8 @@
     document.head.appendChild(style);
 })();
 
-// Add the floating dark mode toggle button (auto-added to every page)
+// Add the floating toggle button
 window.addEventListener('DOMContentLoaded', function() {
-    // Don't add if there's already a custom theme toggle on the page
     if (document.querySelector('.theme-toggle')) return;
 
     const btn = document.createElement('button');
@@ -426,7 +552,6 @@ window.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(btn);
 });
 
-// Universal toggle function (callable from any page)
 window.toggleNustologyTheme = function() {
     const current = document.documentElement.getAttribute('data-theme');
     const newTheme = current === 'dark' ? 'light' : 'dark';
@@ -434,5 +559,4 @@ window.toggleNustologyTheme = function() {
     localStorage.setItem('nustology_theme', newTheme);
 };
 
-// Also export with old name for compatibility
 window.toggleTheme = window.toggleNustologyTheme;
