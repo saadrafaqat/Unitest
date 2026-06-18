@@ -50,170 +50,204 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.04);
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
 
         .header-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            object-fit: cover;
+            width: 40px; height: 40px; border-radius: 10px; object-fit: cover;
         }
 
         .header h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 20px; font-weight: 700;
         }
 
         .header h1 .nust { color: var(--primary); }
 
         .back-btn {
-            background: var(--gray-lighter);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--dark);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: var(--transition);
+            background: var(--gray-lighter); border: none; padding: 8px 16px;
+            border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 13px;
+            font-weight: 500; color: var(--dark); text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
         }
 
-        .back-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
+        .back-btn:hover { background: var(--primary); color: white; }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1100px; margin: 0 auto; }
 
-        .page-title {
-            text-align: center;
-            margin-bottom: 32px;
-        }
+        .page-title { text-align: center; margin-bottom: 32px; }
 
         .page-title h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-size: 32px; font-weight: 700; margin-bottom: 8px;
         }
 
-        .page-title p {
-            color: var(--gray);
-            font-size: 15px;
-        }
+        .page-title p { color: var(--gray); font-size: 15px; }
 
         /* Step Indicator */
         .steps {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 32px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; margin-bottom: 32px;
         }
 
         .step-dot {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: white;
-            border: 2px solid var(--gray-lighter);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--gray);
+            width: 36px; height: 36px; border-radius: 50%;
+            background: white; border: 2px solid var(--gray-lighter);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px; color: var(--gray);
             transition: var(--transition);
         }
 
-        .step-dot.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
+        .step-dot.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .step-dot.complete { background: var(--success); border-color: var(--success); color: white; }
+
+        .step-line { width: 60px; height: 2px; background: var(--gray-lighter); }
+        .step-line.active { background: var(--primary); }
+
+        /* Field Selection - NUST Style */
+        .field-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .step-dot.complete {
-            background: var(--success);
-            border-color: var(--success);
-            color: white;
-        }
-
-        .step-line {
-            width: 60px;
-            height: 2px;
-            background: var(--gray-lighter);
-        }
-
-        .step-line.active {
-            background: var(--primary);
-        }
-
-        /* Field Selection */
-        .field-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-
-        .field-card {
+        .field-row {
             background: white;
             border: 2px solid var(--gray-lighter);
-            border-radius: 16px;
-            padding: 28px 24px;
-            text-align: center;
+            border-radius: 14px;
+            padding: 18px 22px;
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .field-card:hover {
+        .field-row:hover {
             border-color: var(--primary-light);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(26, 86, 219, 0.12);
+            box-shadow: 0 6px 20px rgba(26, 86, 219, 0.10);
+            transform: translateY(-2px);
         }
 
-        .field-card.selected {
+        .field-row.selected {
             border-color: var(--primary);
             background: var(--primary-bg);
         }
 
-        .field-card .field-icon-wrap {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
-            margin: 0 auto 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .field-radio {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--gray-lighter);
+            flex-shrink: 0;
+            position: relative;
+            transition: var(--transition);
         }
 
-        .field-card.eng .field-icon-wrap { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: var(--primary); }
-        .field-card.med .field-icon-wrap { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #16a34a; }
-        .field-card.biz .field-icon-wrap { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #d97706; }
-        .field-card.art .field-icon-wrap { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); color: #9333ea; }
+        .field-row.selected .field-radio {
+            border-color: var(--primary);
+        }
 
-        .field-card h3 {
+        .field-row.selected .field-radio::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .field-content {
+            flex: 1;
+        }
+
+        .field-content h3 {
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 17px;
             font-weight: 700;
-            margin-bottom: 4px;
+            color: var(--primary);
+            margin-bottom: 2px;
         }
 
-        .field-card p {
+        .field-content .desc {
             font-size: 12px;
             color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .field-subjects-line {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .field-subjects-line .pill {
+            background: var(--primary-bg);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .field-code-badge {
+            background: var(--primary-bg);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .start-assessment-btn {
+            display: block;
+            width: 100%;
+            max-width: 700px;
+            margin: 24px auto 0;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(26, 86, 219, 0.4);
+        }
+
+        .start-assessment-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 86, 219, 0.5);
+        }
+
+        .start-assessment-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .candidate-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-bg);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .candidate-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
         }
 
         /* Test Type Cards */
@@ -224,24 +258,19 @@
         }
 
         .test-card {
-            background: white;
-            border: 2px solid var(--gray-lighter);
-            border-radius: 16px;
-            padding: 28px;
-            cursor: pointer;
+            background: white; border: 2px solid var(--gray-lighter);
+            border-radius: 16px; padding: 28px; cursor: pointer;
             transition: var(--transition);
         }
 
         .test-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
+            border-color: var(--primary); transform: translateY(-4px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         .test-card.grand {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border-color: transparent;
+            color: white; border-color: transparent;
         }
 
         .test-card.grand h3, .test-card.grand p { color: white; }
@@ -249,470 +278,248 @@
         .test-card.grand .meta-icon { background: rgba(255,255,255,0.2); color: white; }
 
         .test-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 14px;
         }
 
         .test-card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: var(--primary-bg);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 48px; height: 48px; border-radius: 12px;
+            background: var(--primary-bg); color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
         }
 
         .test-card.grand .test-card-icon {
-            background: rgba(255,255,255,0.2);
-            color: white;
+            background: rgba(255,255,255,0.2); color: white;
         }
 
-        .test-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
+        .test-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
 
         .test-card .badge-tag {
-            background: var(--warning);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
+            background: var(--warning); color: white; padding: 4px 10px;
+            border-radius: 20px; font-size: 11px; font-weight: 600;
         }
 
-        .test-card p {
-            font-size: 13px;
-            color: var(--gray);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
+        .test-card p { font-size: 13px; color: var(--gray); margin-bottom: 16px; line-height: 1.6; }
 
         .test-meta {
-            display: flex;
-            gap: 16px;
-            padding-top: 14px;
+            display: flex; gap: 16px; padding-top: 14px;
             border-top: 1px solid var(--gray-lighter);
         }
 
-        .test-card.grand .test-meta {
-            border-top-color: rgba(255,255,255,0.2);
-        }
+        .test-card.grand .test-meta { border-top-color: rgba(255,255,255,0.2); }
 
         .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--gray);
+            display: flex; align-items: center; gap: 6px;
+            font-size: 12px; color: var(--gray);
         }
 
         .meta-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            background: var(--primary-bg);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 22px; height: 22px; border-radius: 6px;
+            background: var(--primary-bg); color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        /* Subject Cards */
+        /* Subject / Grand Test Cards */
         .subjects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
         }
 
         .subject-card {
-            background: white;
-            border: 2px solid var(--gray-lighter);
-            border-radius: 14px;
-            padding: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
+            background: white; border: 2px solid var(--gray-lighter);
+            border-radius: 14px; padding: 20px; cursor: pointer;
+            transition: var(--transition); text-align: center;
         }
 
         .subject-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
+            border-color: var(--primary); transform: translateY(-3px);
             background: var(--primary-bg);
         }
 
         .subject-card .subject-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            margin: 0 auto 12px;
-            background: var(--primary-bg);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
+            width: 50px; height: 50px; border-radius: 12px;
+            margin: 0 auto 12px; background: var(--primary-bg);
+            color: var(--primary); display: flex; align-items: center;
+            justify-content: center; font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 18px;
         }
 
-        .subject-card h4 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .subject-card .count {
-            font-size: 11px;
-            color: var(--gray);
+        .subject-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .subject-card .count { font-size: 12px; color: var(--gray); }
+        .subject-card .weight-badge {
+            display: inline-block; margin-top: 6px; background: var(--warning);
+            color: white; padding: 2px 8px; border-radius: 10px;
+            font-size: 10px; font-weight: 600;
         }
 
         /* Confirm Modal */
         .confirm-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(15,23,42,0.7);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed; inset: 0;
+            background: rgba(15,23,42,0.7); backdrop-filter: blur(8px);
+            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
         }
 
         .confirm-modal.show { display: flex; }
 
         .confirm-box {
-            background: white;
-            border-radius: 16px;
-            max-width: 480px;
-            width: 100%;
-            padding: 32px;
-            text-align: center;
+            background: white; border-radius: 16px; max-width: 480px;
+            width: 100%; padding: 32px; text-align: center;
         }
 
         .confirm-box h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-size: 22px; font-weight: 700; margin-bottom: 8px;
         }
 
-        .confirm-box p {
-            color: var(--gray);
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
+        .confirm-box p { color: var(--gray); margin-bottom: 20px; font-size: 14px; }
 
         .confirm-info {
-            background: var(--primary-bg);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 20px;
-            text-align: left;
+            background: var(--primary-bg); border-radius: 10px;
+            padding: 16px; margin-bottom: 20px; text-align: left;
         }
 
         .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            font-size: 13px;
+            display: flex; justify-content: space-between;
+            padding: 6px 0; font-size: 13px;
         }
 
         .info-row .label { color: var(--gray); }
         .info-row .value { font-weight: 600; }
 
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-        }
+        .modal-buttons { display: flex; gap: 10px; }
 
         .btn {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
+            flex: 1; padding: 12px 20px; border: none; border-radius: 10px;
+            font-family: inherit; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: var(--transition);
         }
 
-        .btn-secondary {
-            background: var(--gray-lighter);
-            color: var(--dark);
-        }
-
+        .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
+        .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-dark); }
 
         /* ========== TEST INTERFACE (NUST STYLE) ========== */
-        .test-interface {
-            display: none;
-            min-height: 100vh;
-            background: #f0f4f8;
-        }
-
+        .test-interface { display: none; min-height: 100vh; background: #f0f4f8; }
         .test-interface.active { display: block; }
 
-        /* Top Title Bar */
         .test-titlebar {
             background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            color: white; padding: 10px 20px;
+            display: flex; align-items: center; justify-content: space-between;
             font-size: 13px;
         }
 
-        .test-titlebar .title-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-        }
+        .test-titlebar .title-left { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .test-titlebar .logo-small { width: 26px; height: 26px; border-radius: 6px; }
+        .test-titlebar .center-text { color: #fca5a5; font-weight: 700; font-size: 15px; }
+        .test-titlebar .student-info { display: flex; align-items: center; gap: 8px; font-size: 12px; }
 
-        .test-titlebar .logo-small {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-        }
-
-        .test-titlebar .center-text {
-            color: #fca5a5;
-            font-weight: 700;
-            font-size: 15px;
-        }
-
-        .test-titlebar .student-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-        }
-
-        /* Header bar with subject name */
         .test-subject-bar {
-            background: var(--primary-bg);
-            border-bottom: 2px solid var(--primary-light);
-            padding: 10px 20px;
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            background: var(--primary-bg); border-bottom: 2px solid var(--primary-light);
+            padding: 10px 20px; color: var(--primary);
+            font-weight: 600; font-size: 14px;
+            display: flex; align-items: center; justify-content: space-between;
         }
 
-        /* Main Test Area */
         .test-main {
-            display: grid;
-            grid-template-columns: 1fr 200px;
-            gap: 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border: 1px solid var(--primary-light);
-            min-height: calc(100vh - 100px);
+            display: grid; grid-template-columns: 1fr 200px; gap: 0;
+            max-width: 1200px; margin: 0 auto; background: white;
+            border: 1px solid var(--primary-light); min-height: calc(100vh - 100px);
         }
 
-        .test-question-area {
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-        }
+        .test-question-area { padding: 0; display: flex; flex-direction: column; }
 
         .question-header {
-            background: var(--primary-bg);
-            border-bottom: 1px solid var(--primary-light);
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 600;
+            background: var(--primary-bg); border-bottom: 1px solid var(--primary-light);
+            padding: 8px 16px; display: flex; align-items: center;
+            justify-content: space-between; font-size: 13px; font-weight: 600;
         }
 
-        .question-number {
-            color: var(--dark);
-        }
-
-        .question-number .num {
-            color: var(--primary);
-        }
-
-        .marks-display {
-            color: var(--dark);
-        }
-
-        .question-content {
-            padding: 16px;
-            flex: 1;
-        }
+        .question-number .num { color: var(--primary); }
+        .question-content { padding: 16px; flex: 1; }
 
         .question-label {
-            background: var(--primary-bg);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: inline-block;
+            background: var(--primary-bg); padding: 6px 12px;
+            border-radius: 4px; font-size: 13px; font-weight: 600;
+            margin-bottom: 10px; display: inline-block;
         }
 
         .question-text {
-            background: white;
-            border: 1px solid var(--gray-lighter);
-            padding: 16px;
-            border-radius: 4px;
-            min-height: 100px;
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--dark);
+            background: white; border: 1px solid var(--gray-lighter);
+            padding: 16px; border-radius: 4px; min-height: 100px;
+            font-size: 15px; line-height: 1.6; color: var(--dark);
         }
 
-        .question-image {
-            max-width: 100%;
-            margin: 12px 0;
-            border-radius: 6px;
+        .question-passage {
+            background: #fef9c3; border-left: 4px solid var(--warning);
+            padding: 12px 16px; border-radius: 4px; margin-bottom: 10px;
+            font-size: 13px; line-height: 1.6; color: var(--dark);
+            font-style: italic;
         }
 
-        .answer-section {
-            padding: 0 16px 16px;
-        }
+        .question-image { max-width: 100%; margin: 12px 0; border-radius: 6px; }
+
+        .answer-section { padding: 0 16px 16px; }
 
         .answer-header {
-            background: var(--primary-bg);
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--dark);
+            background: var(--primary-bg); padding: 8px 12px;
+            border-radius: 4px; font-size: 13px; font-weight: 600;
+            margin-bottom: 10px; color: var(--dark);
         }
 
-        .answer-header .red-text {
-            color: var(--primary);
-            font-weight: 500;
-            font-size: 12px;
-        }
+        .answer-header .red-text { color: var(--primary); font-weight: 500; font-size: 12px; }
 
         .option-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            border: 1px solid var(--gray-lighter);
-            border-radius: 4px;
-            margin-bottom: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-            background: white;
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px; border: 1px solid var(--gray-lighter);
+            border-radius: 4px; margin-bottom: 6px; cursor: pointer;
+            transition: var(--transition); background: white;
         }
 
-        .option-item:hover {
-            border-color: var(--primary);
-            background: var(--primary-bg);
-        }
+        .option-item:hover { border-color: var(--primary); background: var(--primary-bg); }
+        .option-item.selected { border-color: var(--primary); background: var(--primary-bg); }
+        .option-item input[type="radio"] { accent-color: var(--primary); width: 16px; height: 16px; cursor: pointer; }
+        .option-item label { flex: 1; cursor: pointer; font-size: 14px; }
 
-        .option-item.selected {
-            border-color: var(--primary);
-            background: var(--primary-bg);
-        }
-
-        .option-item input[type="radio"] {
-            accent-color: var(--primary);
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .option-item label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* Sidebar - Photo */
         .test-sidebar {
-            background: var(--primary-bg);
-            border-left: 1px solid var(--primary-light);
+            background: var(--primary-bg); border-left: 1px solid var(--primary-light);
             padding: 12px;
         }
 
         .sidebar-section {
-            background: white;
-            border: 1px solid var(--gray-lighter);
-            border-radius: 6px;
-            padding: 14px;
-            text-align: center;
+            background: white; border: 1px solid var(--gray-lighter);
+            border-radius: 6px; padding: 14px; text-align: center;
         }
 
         .sidebar-section h4 {
-            font-size: 12px;
-            color: var(--gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+            font-size: 12px; color: var(--gray); text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 8px;
         }
 
         .photo-box {
-            width: 100%;
-            aspect-ratio: 1;
-            background: #f8fafc;
-            border: 1px dashed var(--gray-lighter);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            font-size: 11px;
-            text-align: center;
-            padding: 12px;
-            object-fit: cover;
+            width: 100%; aspect-ratio: 1; background: #f8fafc;
+            border: 1px dashed var(--gray-lighter); border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gray); font-size: 11px; text-align: center;
+            padding: 12px; object-fit: cover;
         }
 
-        .photo-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 4px;
-        }
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
 
-        /* Bottom Bar - Timer & Buttons */
         .test-bottom {
-            background: var(--primary-bg);
-            border-top: 1px solid var(--primary-light);
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
+            background: var(--primary-bg); border-top: 1px solid var(--primary-light);
+            padding: 10px 14px; display: flex; align-items: center;
+            justify-content: space-between; gap: 16px;
         }
 
         .timer-box {
             background: linear-gradient(135deg, #16a34a, #15803d);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 160px;
-            box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
+            color: white; padding: 8px 14px; border-radius: 6px;
+            display: flex; align-items: center; gap: 10px;
+            min-width: 160px; box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
         }
 
         .timer-box.warning {
@@ -726,177 +533,95 @@
             animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-        }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
-        .timer-info {
-            display: flex;
-            flex-direction: column;
-            font-size: 11px;
-            opacity: 0.9;
-        }
+        .timer-info { display: flex; flex-direction: column; font-size: 11px; opacity: 0.9; }
+        .timer-time { font-family: 'Space Grotesk', monospace; font-size: 22px; font-weight: 700; line-height: 1; }
+        .timer-label { font-size: 10px; opacity: 0.9; margin-top: 2px; }
+        .timer-icon { font-size: 22px; }
 
-        .timer-time {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 22px;
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        .timer-label {
-            font-size: 10px;
-            opacity: 0.9;
-            margin-top: 2px;
-        }
-
-        .timer-icon {
-            font-size: 22px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
+        .nav-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
 
         .nav-btn {
             background: linear-gradient(180deg, #f8fafc, #e2e8f0);
-            border: 1px solid #cbd5e1;
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--dark);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 56px;
-            line-height: 1.2;
+            border: 1px solid #cbd5e1; padding: 6px 12px;
+            border-radius: 5px; cursor: pointer; font-family: inherit;
+            font-size: 11px; font-weight: 600; color: var(--dark);
+            transition: var(--transition); display: flex;
+            flex-direction: column; align-items: center;
+            min-width: 56px; line-height: 1.2;
         }
 
         .nav-btn:hover {
             background: linear-gradient(180deg, var(--primary-bg), var(--primary-bg2));
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: translateY(-1px);
+            border-color: var(--primary); color: var(--primary); transform: translateY(-1px);
         }
 
-        .nav-btn svg {
-            width: 16px;
-            height: 16px;
-            margin-bottom: 2px;
-        }
+        .nav-btn svg { width: 16px; height: 16px; margin-bottom: 2px; }
 
         .nav-btn.save {
             background: linear-gradient(180deg, #dcfce7, #bbf7d0);
-            border-color: #86efac;
-            color: #166534;
+            border-color: #86efac; color: #166534;
         }
 
         .nav-btn.finish-btn {
             background: linear-gradient(180deg, #fee2e2, #fecaca);
-            border-color: #fca5a5;
-            color: #991b1b;
+            border-color: #fca5a5; color: #991b1b;
         }
 
         .test-footer {
-            text-align: center;
-            padding: 12px;
-            background: white;
+            text-align: center; padding: 12px; background: white;
             border-top: 1px solid var(--gray-lighter);
         }
 
         .test-footer a {
-            color: var(--primary);
-            text-decoration: underline;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
+            color: var(--primary); text-decoration: underline;
+            font-size: 14px; font-weight: 500; cursor: pointer;
         }
 
         /* Question Palette Modal */
         .palette-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(15,23,42,0.7);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed; inset: 0;
+            background: rgba(15,23,42,0.7); backdrop-filter: blur(6px);
+            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
         }
 
         .palette-modal.show { display: flex; }
 
         .palette-box {
-            background: white;
-            border-radius: 14px;
-            max-width: 560px;
-            width: 100%;
-            padding: 24px;
-            max-height: 80vh;
-            overflow-y: auto;
+            background: white; border-radius: 14px; max-width: 560px;
+            width: 100%; padding: 24px; max-height: 80vh; overflow-y: auto;
         }
 
         .palette-box h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 6px;
+            font-size: 18px; font-weight: 700; margin-bottom: 6px;
         }
 
-        .palette-box .subtitle {
-            color: var(--gray);
-            font-size: 13px;
-            margin-bottom: 14px;
-        }
+        .palette-box .subtitle { color: var(--gray); font-size: 13px; margin-bottom: 14px; }
 
         .palette-legend {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
-            margin-bottom: 16px;
-            font-size: 12px;
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 6px; margin-bottom: 16px; font-size: 12px;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
 
         .legend-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
+            width: 16px; height: 16px; border-radius: 4px;
             border: 1px solid var(--gray-lighter);
         }
 
         .palette-grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 6px;
-            margin-bottom: 16px;
+            display: grid; grid-template-columns: repeat(10, 1fr);
+            gap: 6px; margin-bottom: 16px;
         }
 
         .palette-btn {
-            width: 100%;
-            aspect-ratio: 1;
-            border: 1.5px solid var(--gray-lighter);
-            border-radius: 5px;
-            background: white;
-            color: var(--dark);
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
+            width: 100%; aspect-ratio: 1; border: 1.5px solid var(--gray-lighter);
+            border-radius: 5px; background: white; color: var(--dark);
+            font-weight: 600; font-size: 12px; cursor: pointer;
+            transition: var(--transition); font-family: inherit;
         }
 
         .palette-btn:hover { transform: scale(1.1); }
@@ -906,101 +631,60 @@
         .palette-btn.unanswered { background: white; }
 
         /* Result Page */
-        .result-page {
-            display: none;
-            min-height: 100vh;
-            padding: 32px;
-            background: #f8fafc;
-        }
-
+        .result-page { display: none; min-height: 100vh; padding: 32px; background: #f8fafc; }
         .result-page.active { display: block; }
 
         .result-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            text-align: center;
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 16px; padding: 40px; text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .result-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 80px; height: 80px; border-radius: 50%;
             background: linear-gradient(135deg, var(--success), #15803d);
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            margin: 0 auto 16px; display: flex; align-items: center;
+            justify-content: center; color: white;
         }
 
         .result-container h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 6px;
+            font-size: 28px; font-weight: 700; margin-bottom: 6px;
         }
 
-        .result-container > p {
-            color: var(--gray);
-            margin-bottom: 28px;
-        }
+        .result-container > p { color: var(--gray); margin-bottom: 28px; }
 
         .score-display {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 28px;
-            border-radius: 14px;
-            margin-bottom: 24px;
+            color: white; padding: 28px; border-radius: 14px; margin-bottom: 24px;
         }
 
         .score-number {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1;
+            font-size: 56px; font-weight: 700; line-height: 1;
         }
 
-        .score-total {
-            font-size: 20px;
-            opacity: 0.8;
-        }
-
-        .score-percentage {
-            font-size: 16px;
-            margin-top: 8px;
-            opacity: 0.95;
-        }
+        .score-total { font-size: 20px; opacity: 0.8; }
+        .score-percentage { font-size: 16px; margin-top: 8px; opacity: 0.95; }
 
         .result-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            margin-bottom: 24px;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 14px; margin-bottom: 24px;
         }
 
         .result-stat {
-            background: #f8fafc;
-            padding: 16px;
-            border-radius: 10px;
+            background: #f8fafc; padding: 16px; border-radius: 10px;
             border: 1px solid var(--gray-lighter);
         }
 
         .result-stat .label {
-            font-size: 11px;
-            color: var(--gray);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 11px; color: var(--gray);
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
         .result-stat .value {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            margin-top: 4px;
+            font-size: 24px; font-weight: 700; margin-top: 4px;
         }
 
         .result-stat.correct .value { color: var(--success); }
@@ -1009,16 +693,12 @@
         .result-stat.streak .value { color: var(--warning); }
 
         .result-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
+            display: flex; gap: 12px; justify-content: center;
         }
 
         .result-actions .btn {
-            flex: 0 1 200px;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            flex: 0 1 200px; text-decoration: none;
+            display: inline-block; text-align: center;
         }
 
         @media (max-width: 768px) {
@@ -1032,26 +712,18 @@
         }
 
         .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.95);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            flex-direction: column;
-            gap: 16px;
+            position: fixed; inset: 0; background: rgba(255,255,255,0.95);
+            display: none; align-items: center; justify-content: center;
+            z-index: 9999; flex-direction: column; gap: 16px;
         }
 
         .loading-overlay.show { display: flex; }
 
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border: 4px solid var(--gray-lighter);
             border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -1091,39 +763,19 @@
                 <div class="step-dot" id="step3">3</div>
             </div>
 
-            <!-- STEP 1: Field Selection -->
+            <!-- STEP 1: Field Selection (NUST Style) -->
             <div id="stepContent1">
-                <h3 style="text-align: center; margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif;">Step 1: Select Your Field</h3>
-                <div class="field-cards">
-                    <div class="field-card eng" onclick="selectField('Engineering')">
-                        <div class="field-icon-wrap">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                        </div>
-                        <h3>Engineering</h3>
-                        <p>SEECS, SCME, SMME, NICE</p>
-                    </div>
-                    <div class="field-card med" onclick="selectField('Medical')">
-                        <div class="field-icon-wrap">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                        </div>
-                        <h3>Medical / BioSciences</h3>
-                        <p>ASAB</p>
-                    </div>
-                    <div class="field-card biz" onclick="selectField('Business')">
-                        <div class="field-icon-wrap">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                        </div>
-                        <h3>Business Studies</h3>
-                        <p>NBS</p>
-                    </div>
-                    <div class="field-card art" onclick="selectField('Architecture')">
-                        <div class="field-icon-wrap">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg>
-                        </div>
-                        <h3>Architecture</h3>
-                        <p>SADA</p>
-                    </div>
+                <div style="text-align:center; margin-bottom:20px;">
+                    <div class="candidate-badge">CANDIDATE: NUST-STUDENT</div>
+                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; color: var(--primary); margin-bottom: 4px;">Select Your Test Field / Stream</h3>
+                    <p style="font-size: 12px; color: var(--danger); font-weight: 600; letter-spacing: 0.5px;">CHOOSE THE APPROPRIATE CATEGORY FOR ASSESSMENT</p>
                 </div>
+                <div class="field-list" id="fieldList">
+                    <!-- Populated by JS -->
+                </div>
+                <button class="start-assessment-btn" id="startAssessmentBtn" onclick="proceedToStep2()" disabled>
+                    Start Assessment
+                </button>
             </div>
 
             <!-- STEP 2: Test Type Selection -->
@@ -1136,16 +788,16 @@
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                             </div>
                         </div>
-                        <h3>Subject-wise Test</h3>
+                        <h3>Subject-wise Practice</h3>
                         <p>Practice individual subjects separately. Focus on one topic at a time.</p>
                         <div class="test-meta">
                             <div class="meta-item">
                                 <div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                                30 min
+                                25-40 min
                             </div>
                             <div class="meta-item">
                                 <div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
-                                25 Qs
+                                20-30 Qs
                             </div>
                         </div>
                     </div>
@@ -1157,8 +809,8 @@
                             </div>
                             <span class="badge-tag">GRAND</span>
                         </div>
-                        <h3>Grand Test</h3>
-                        <p>Full-length NET simulation with all subjects. Real exam experience.</p>
+                        <h3>Grand Test (Full NET)</h3>
+                        <p>Full-length NET simulation with all subjects. Real exam experience. 2 grand tests available.</p>
                         <div class="test-meta">
                             <div class="meta-item">
                                 <div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
@@ -1166,7 +818,7 @@
                             </div>
                             <div class="meta-item">
                                 <div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
-                                200 Qs
+                                Full Length
                             </div>
                         </div>
                     </div>
@@ -1177,7 +829,7 @@
                 </div>
             </div>
 
-            <!-- STEP 3: Subject Selection -->
+            <!-- STEP 3: Subject / Grand Test Selection -->
             <div id="stepContent3" style="display: none;">
                 <h3 style="text-align: center; margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif;" id="step3Title">Step 3: Select Subject</h3>
                 <div class="subjects-grid" id="subjectsGrid"></div>
@@ -1204,23 +856,20 @@
 
     <!-- ========== TEST INTERFACE ========== -->
     <div class="test-interface" id="testInterface">
-        <!-- Top Title Bar -->
         <div class="test-titlebar">
             <div class="title-left">
                 <img src="images/nustology.jpg" class="logo-small" onerror="this.style.display='none'">
                 <span>NUSTology - CBNET</span>
             </div>
-            <div class="center-text" id="testFieldTitle">Engineering Test</div>
+            <div class="center-text" id="testFieldTitle">NUST Entry Test</div>
             <div class="student-info" id="studentInfoBar">Student</div>
         </div>
 
-        <!-- Subject Bar -->
         <div class="test-subject-bar">
             <span id="currentSubjectLabel">Subject Name</span>
             <span id="testProgressLabel">Question 1 of 25</span>
         </div>
 
-        <!-- Main Test Area -->
         <div class="test-main">
             <div class="test-question-area">
                 <div class="question-header">
@@ -1230,6 +879,7 @@
 
                 <div class="question-content">
                     <div class="question-label">Question</div>
+                    <div id="passageContainer"></div>
                     <div class="question-text" id="questionText">Loading question...</div>
                     <img id="questionImage" class="question-image" style="display: none;">
                 </div>
@@ -1252,7 +902,6 @@
             </div>
         </div>
 
-        <!-- Bottom Bar -->
         <div class="test-bottom">
             <div class="timer-box" id="timerBox">
                 <svg class="timer-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -1367,15 +1016,17 @@
         </div>
     </div>
 
-    <!-- Load question bank -->
+    <!-- Load question bank and test engine -->
     <script src="js/questions.js"></script>
+    <script src="js/test.js"></script>
 
     <script>
         const API_BASE = '/api';
         let currentUser = null;
-        let selectedField = '';
-        let selectedTestType = '';
-        let selectedSubject = '';
+        let selectedField = '';      // e.g., 'NET-Engineering'
+        let selectedTestType = '';   // 'subject' or 'grand'
+        let selectedSubject = '';    // e.g., 'mathematics'
+        let selectedGrandNumber = 1; // 1 or 2 for grand tests
         let currentTest = null;
         let testQuestions = [];
         let userAnswers = [];
@@ -1409,6 +1060,41 @@
             } else {
                 document.getElementById('studentPhotoBox').innerHTML = `<div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: var(--primary); color: white; font-size: 36px; font-weight: 700; border-radius: 4px;">${nameInitial}</div>`;
             }
+
+            // Render field list once user is verified
+            renderFieldList();
+        }
+
+        // ============ FIELD LIST RENDERING ============
+        function renderFieldList() {
+            if (typeof QUESTIONS === 'undefined') {
+                document.getElementById('fieldList').innerHTML = '<p style="text-align:center; color:var(--danger);">Question bank not loaded. Please refresh.</p>';
+                return;
+            }
+
+            const fields = QUESTIONS.getFields();
+            const html = fields.map(f => {
+                const subjectsHTML = f.subjects.map(s => 
+                    `<span class="pill">${s.name} ${s.weight}%</span>`
+                ).join('');
+                
+                const cfg = QUESTIONS.getFieldConfig(f.id);
+                const desc = cfg ? cfg.description : '';
+
+                return `
+                    <div class="field-row" onclick="selectField('${f.id}')" data-field="${f.id}">
+                        <div class="field-radio"></div>
+                        <div class="field-content">
+                            <h3>${f.name}</h3>
+                            <p class="desc">${desc}</p>
+                            <div class="field-subjects-line">${subjectsHTML}</div>
+                        </div>
+                        <div class="field-code-badge">${f.code}</div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('fieldList').innerHTML = html;
         }
 
         // ============ STEP NAVIGATION ============
@@ -1424,60 +1110,108 @@
             }
         }
 
-        function selectField(field) {
-            selectedField = field;
+        function selectField(fieldName) {
+            selectedField = fieldName;
+            // Update visual selection
+            document.querySelectorAll('.field-row').forEach(row => {
+                row.classList.toggle('selected', row.dataset.field === fieldName);
+            });
+            // Enable Start Assessment button
+            document.getElementById('startAssessmentBtn').disabled = false;
+        }
+
+        function proceedToStep2() {
+            if (!selectedField) return alert('Please select a field first');
             goToStep(2);
         }
 
         function selectTestType(type) {
             selectedTestType = type;
-            if (type === 'grand') {
-                // Grand test - no subject selection needed
-                selectedSubject = null;
-                showConfirm();
+            renderStep3();
+            goToStep(3);
+        }
+
+        // ============ STEP 3: Render subjects or grand tests ============
+        function renderStep3() {
+            const grid = document.getElementById('subjectsGrid');
+            const title = document.getElementById('step3Title');
+
+            if (selectedTestType === 'grand') {
+                // Show 2 grand test options
+                title.textContent = `Step 3: Select Grand Test (${selectedField})`;
+                const grandTests = QUESTIONS.getGrandTests(selectedField);
+                grid.innerHTML = grandTests.map((gt, idx) => `
+                    <div class="subject-card" onclick="selectGrandTest(${idx + 1})">
+                        <div class="subject-icon">G${idx + 1}</div>
+                        <h4>${gt.title}</h4>
+                        <div class="count">Full Length • 200 Marks</div>
+                        <div class="weight-badge">3 HOURS</div>
+                    </div>
+                `).join('');
             } else {
-                renderSubjects();
-                goToStep(3);
+                // Show subject-wise tests
+                title.textContent = `Step 3: Select Subject (${selectedField})`;
+                const subjects = QUESTIONS.getSubjects(selectedField);
+                grid.innerHTML = subjects.map(s => {
+                    const config = window.SUBJECT_TEST_CONFIG?.[QUESTIONS.getFieldConfig(selectedField).key]?.[s.key];
+                    const qCount = config ? config.questions : 25;
+                    const dur = config ? config.duration : 30;
+                    return `
+                        <div class="subject-card" onclick="selectSubject('${s.key}', '${s.name}')">
+                            <div class="subject-icon">${s.name[0]}</div>
+                            <h4>${s.name}</h4>
+                            <div class="count">${qCount} Questions • ${dur} min</div>
+                            <div class="weight-badge">${s.weight}% Weight</div>
+                        </div>
+                    `;
+                }).join('');
             }
         }
 
-        function renderSubjects() {
-            const subjectMap = {
-                'Engineering': ['Physics', 'Mathematics', 'English', 'Intelligence', 'Chemistry'],
-                'Medical': ['Biology', 'Chemistry', 'Physics', 'English'],
-                'Business': ['Mathematics', 'English', 'Intelligence', 'General Knowledge'],
-                'Architecture': ['English', 'Mathematics', 'Drawing', 'General Knowledge']
-            };
-            const subjects = subjectMap[selectedField] || [];
-            const grid = document.getElementById('subjectsGrid');
-            grid.innerHTML = subjects.map(s => `
-                <div class="subject-card" onclick="selectSubject('${s}')">
-                    <div class="subject-icon">${s[0]}</div>
-                    <h4>${s}</h4>
-                    <div class="count">25 Questions</div>
-                </div>
-            `).join('');
-            document.getElementById('step3Title').textContent = `Step 3: Select Subject (${selectedField})`;
+        function selectSubject(subjectKey, subjectName) {
+            selectedSubject = subjectKey;
+            selectedSubjectName = subjectName;
+            showConfirm();
         }
 
-        function selectSubject(subject) {
-            selectedSubject = subject;
+        function selectGrandTest(num) {
+            selectedGrandNumber = num;
             showConfirm();
         }
 
         function showConfirm() {
             const isGrand = selectedTestType === 'grand';
-            const totalQs = isGrand ? 200 : 25;
-            const duration = isGrand ? 180 : 30;
+            let testInfo;
+            
+            if (isGrand) {
+                testInfo = QUESTIONS.buildGrandTest(selectedField, selectedGrandNumber);
+            } else {
+                testInfo = QUESTIONS.buildSubjectTest(selectedField, selectedSubject);
+            }
+
+            if (!testInfo || !testInfo.questions || testInfo.questions.length === 0) {
+                alert('No questions available for this selection. Please contact admin.');
+                return;
+            }
+
+            const subjectName = isGrand 
+                ? `Grand Test ${selectedGrandNumber} (All Subjects)` 
+                : (testInfo.subjectName || selectedSubject);
+            const totalQs = testInfo.totalQuestions;
+            const duration = Math.floor(testInfo.duration / 60);
+
             const info = `
                 <div class="info-row"><span class="label">Field:</span><span class="value">${selectedField}</span></div>
-                <div class="info-row"><span class="label">Test Type:</span><span class="value">${isGrand ? 'Grand Test (All Subjects)' : selectedSubject + ' Test'}</span></div>
+                <div class="info-row"><span class="label">Test Type:</span><span class="value">${subjectName}</span></div>
                 <div class="info-row"><span class="label">Total Questions:</span><span class="value">${totalQs}</span></div>
                 <div class="info-row"><span class="label">Duration:</span><span class="value">${duration} minutes</span></div>
-                  <div class="info-row"><span class="label">Marking:</span><span class="value">+1 correct, No negative marking</span></div>
+                <div class="info-row"><span class="label">Marking:</span><span class="value">+1 correct, No negative</span></div>
             `;
             document.getElementById('confirmInfo').innerHTML = info;
             document.getElementById('confirmModal').classList.add('show');
+
+            // Cache for use in startTest()
+            window._pendingTest = testInfo;
         }
 
         function closeConfirm() {
@@ -1491,17 +1225,12 @@
             document.getElementById('loadingText').textContent = 'Preparing your test...';
 
             try {
-                // Load questions from questions.js
-                testQuestions = getQuestionsForTest(selectedField, selectedTestType, selectedSubject);
-                
-                if (!testQuestions || testQuestions.length === 0) {
-                    alert('No questions available for this selection. Please contact admin.');
-                    document.getElementById('loadingOverlay').classList.remove('show');
-                    return;
-                }
+                const testInfo = window._pendingTest;
+                if (!testInfo) throw new Error('Test data not prepared');
 
-                const totalMarks = testQuestions.length;
-                const duration = selectedTestType === 'grand' ? 180 * 60 : 30 * 60; // seconds
+                testQuestions = testInfo.questions;
+                const totalMarks = testInfo.totalMarks;
+                const duration = testInfo.duration;
 
                 // Create test attempt on server
                 const token = localStorage.getItem('nustology_token');
@@ -1512,9 +1241,9 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        testType: selectedTestType,
-                        field: selectedField,
-                        subject: selectedSubject,
+                        testType: testInfo.type,
+                        field: testInfo.field,
+                        subject: testInfo.subject || null,
                         totalQuestions: testQuestions.length,
                         totalMarks: totalMarks
                     })
@@ -1534,11 +1263,7 @@
                 document.getElementById('testInterface').classList.add('active');
 
                 // Setup test UI
-                const title = selectedTestType === 'grand' 
-                    ? `${selectedField}/Grand Test (NUST NET)` 
-                    : `${selectedField} (${selectedSubject})`;
-                document.getElementById('testFieldTitle').textContent = title;
-                document.getElementById('currentSubjectLabel').textContent = selectedTestType === 'grand' ? 'Grand Test' : selectedSubject;
+                document.getElementById('testFieldTitle').textContent = testInfo.title;
                 document.getElementById('qTotal').textContent = testQuestions.length;
 
                 renderQuestion();
@@ -1559,19 +1284,28 @@
 
             document.getElementById('qNum').textContent = currentQuestionIndex + 1;
             document.getElementById('testProgressLabel').textContent = `Question ${currentQuestionIndex + 1} of ${testQuestions.length}`;
-            document.getElementById('questionText').innerHTML = q.question;
+            document.getElementById('questionText').innerHTML = q.questionText || q.question;
             document.getElementById('qMarks').textContent = q.marks || 1;
 
-            // Show subject for grand test
-            if (selectedTestType === 'grand' && q.subject) {
-                document.getElementById('currentSubjectLabel').textContent = `Grand Test - ${q.subject}`;
+            // Show subject indicator
+            const subjLabel = q.subject ? formatSubjectName(q.subject) : selectedField;
+            document.getElementById('currentSubjectLabel').textContent = 
+                selectedTestType === 'grand' ? `Grand Test - ${subjLabel}` : subjLabel;
+
+            // Passage (for reading comprehension)
+            const passageContainer = document.getElementById('passageContainer');
+            if (q.passage) {
+                passageContainer.innerHTML = `<div class="question-passage">${q.passage}</div>`;
+            } else {
+                passageContainer.innerHTML = '';
             }
 
             // Question image
             const imgEl = document.getElementById('questionImage');
             if (q.image) {
-                imgEl.src = q.image;
+                imgEl.src = q.image.startsWith('http') ? q.image : `images/${q.image}`;
                 imgEl.style.display = 'block';
+                imgEl.onerror = () => { imgEl.style.display = 'none'; };
             } else {
                 imgEl.style.display = 'none';
             }
@@ -1586,7 +1320,7 @@
                 </div>
             `).join('');
 
-            // Update review button
+            // Update review button visual
             const reviewBtn = document.getElementById('reviewBtn');
             if (userAnswers[currentQuestionIndex].markedForReview) {
                 reviewBtn.style.background = 'linear-gradient(180deg, #fef3c7, #fde68a)';
@@ -1599,6 +1333,20 @@
             }
         }
 
+        function formatSubjectName(key) {
+            const map = {
+                'mathematics': 'Mathematics',
+                'physics': 'Physics',
+                'chemistry': 'Chemistry',
+                'biology': 'Biology',
+                'english': 'English',
+                'quantitative_mathematics': 'Quantitative Mathematics',
+                'design_aptitude': 'Design Aptitude',
+                'intelligence': 'Intelligence'
+            };
+            return map[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+        }
+
         function selectOption(index) {
             userAnswers[currentQuestionIndex].selected = index;
             renderQuestion();
@@ -1607,7 +1355,6 @@
         // ============ NAVIGATION ============
         function saveAnswer() {
             showToast('Answer saved!');
-            // Auto move to next
             if (currentQuestionIndex < testQuestions.length - 1) {
                 setTimeout(nextQuestion, 300);
             }
@@ -1688,10 +1435,16 @@
         }
 
         function updateTimerDisplay() {
-            const mins = Math.floor(timeRemaining / 60);
-            const secs = timeRemaining % 60;
-            document.getElementById('timerDisplay').textContent = 
-                `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            const h = Math.floor(timeRemaining / 3600);
+            const m = Math.floor((timeRemaining % 3600) / 60);
+            const s = timeRemaining % 60;
+            let displayStr;
+            if (h > 0) {
+                displayStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            } else {
+                displayStr = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+            document.getElementById('timerDisplay').textContent = displayStr;
             updTimerStyle();
         }
 
@@ -1712,8 +1465,8 @@
             document.getElementById('loadingText').textContent = 'Submitting your test...';
 
             const answers = testQuestions.map((q, i) => ({
-                questionId: q.id || i,
-                questionText: q.question,
+                questionId: q.id,
+                questionText: q.questionText || q.question,
                 subject: q.subject || selectedSubject || 'General',
                 options: q.options,
                 correctAnswer: q.correctAnswer,
