@@ -149,6 +149,11 @@ export async function onRequest(context) {
         if (path === 'warnings/my' && method === 'GET') {
             return await getMyWarnings(request, db, corsHeaders);
         }
+        // NEW: Student dismisses a warning
+        if (path.startsWith('warnings/') && path.endsWith('/dismiss') && method === 'POST') {
+            const warningId = path.split('/')[1];
+            return await dismissWarning(request, db, corsHeaders, warningId);
+        }
 
         // ============ ADMIN ROUTES ============
         if (path === 'admin/dashboard' && method === 'GET') {
@@ -174,12 +179,10 @@ export async function onRequest(context) {
         if (path === 'admin/reports' && method === 'GET') {
             return await adminGetReports(request, db, corsHeaders);
         }
-        // NEW: Update report status (mark as seen/reviewed/resolved/dismissed)
         if (path.startsWith('admin/reports/') && path.endsWith('/status') && method === 'POST') {
             const reportId = path.split('/')[2];
             return await adminUpdateReportStatus(request, db, corsHeaders, reportId);
         }
-        // NEW: Delete a report
         if (path.startsWith('admin/reports/') && method === 'DELETE') {
             const reportId = path.split('/')[2];
             return await adminDeleteReport(request, db, corsHeaders, reportId);
@@ -354,8 +357,12 @@ async function getStudentProfile(request, db, headers) {
         'SELECT * FROM student_profiles WHERE student_id = ?'
     ).bind(student.id).first();
 
+    // Get unread warnings less than 2 days old
     const warnings = await db.prepare(
-        'SELECT * FROM warnings WHERE student_id = ? AND is_read = 0'
+        `SELECT * FROM warnings 
+         WHERE student_id = ? AND is_read = 0 
+         AND datetime(issued_at) > datetime('now', '-2 days')
+         ORDER BY issued_at DESC`
     ).bind(student.id).all();
 
     return json({ 
@@ -380,7 +387,6 @@ async function updateStudentProfile(request, db, headers) {
 
     const data = await request.json();
 
-    // Check if profile exists
     const existing = await db.prepare(
         'SELECT id FROM student_profiles WHERE student_id = ?'
     ).bind(student.id).first();
@@ -429,7 +435,6 @@ async function updateStudentProfile(request, db, headers) {
         ).run();
     }
 
-    // Update student field and mark profile complete
     await db.prepare(
         'UPDATE students SET profile_complete = 1, field = ? WHERE id = ?'
     ).bind(data.targetField || student.field, student.id).run();
@@ -891,15 +896,50 @@ async function addComment(request, db, headers, postId) {
     return json({ success: true }, 200, headers);
 }
 
+// ============================================
+// WARNINGS
+// ============================================
+
 async function getMyWarnings(request, db, headers) {
     const student = await getStudent(request, db);
     if (!student) return json({ success: false, message: 'Unauthorized' }, 401, headers);
 
+    // Only fetch unread warnings less than 2 days old
     const result = await db.prepare(
-        'SELECT * FROM warnings WHERE student_id = ? ORDER BY issued_at DESC'
+        `SELECT * FROM warnings 
+         WHERE student_id = ? 
+         AND is_read = 0 
+         AND datetime(issued_at) > datetime('now', '-2 days')
+         ORDER BY issued_at DESC`
     ).bind(student.id).all();
 
     return json({ success: true, warnings: result.results || [] }, 200, headers);
+}
+
+// NEW: Student dismisses a warning
+async function dismissWarning(request, db, headers, warningId) {
+    const student = await getStudent(request, db);
+    if (!student) return json({ success: false, message: 'Unauthorized' }, 401, headers);
+
+    // Mark warning as read (only for this student's warnings)
+    await db.prepare(
+        'UPDATE warnings SET is_read = 1 WHERE id = ? AND student_id = ?'
+    ).bind(warningId, student.id).run();
+
+    // If no more unread warnings, clear the is_warned flag
+    const remaining = await db.prepare(
+        `SELECT COUNT(*) as count FROM warnings 
+         WHERE student_id = ? AND is_read = 0
+         AND datetime(issued_at) > datetime('now', '-2 days')`
+    ).bind(student.id).first();
+
+    if (remaining.count === 0) {
+        await db.prepare(
+            'UPDATE students SET is_warned = 0 WHERE id = ?'
+        ).bind(student.id).run();
+    }
+
+    return json({ success: true, message: 'Warning dismissed' }, 200, headers);
 }
 
 // ============================================
@@ -953,7 +993,7 @@ async function adminAddStudent(request, db, headers) {
 
     await db.prepare(
         'INSERT INTO students (username, password, full_name, email, field) VALUES (?, ?, ?, ?, ?)'
-    ).bind(username, password, fullName || '', email || '', field || 'Engineering').run();
+    ).bind(username, password, fullName || '', email || '', field || 'NET-Engineering').run();
 
     return json({ success: true, message: 'Student added' }, 200, headers);
 }
@@ -993,9 +1033,6 @@ async function adminDeleteStudent(request, db, headers, id) {
     return json({ success: true }, 200, headers);
 }
 
-// ============================================
-// UPDATED: ISSUE WARNING (auto-resolves report)
-// ============================================
 async function adminIssueWarning(request, db, headers) {
     const admin = await getAdmin(request, db);
     if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
@@ -1045,16 +1082,11 @@ async function adminGetReports(request, db, headers) {
     return json({ success: true, reports: result.results || [] }, 200, headers);
 }
 
-// ============================================
-// NEW: UPDATE REPORT STATUS
-// ============================================
 async function adminUpdateReportStatus(request, db, headers, reportId) {
     const admin = await getAdmin(request, db);
     if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
 
     const { status, adminNote } = await request.json();
-    // status can be: 'reviewed', 'resolved', 'dismissed', 'pending'
-
     const validStatuses = ['pending', 'reviewed', 'resolved', 'dismissed'];
     const newStatus = validStatuses.includes(status) ? status : 'reviewed';
 
@@ -1065,9 +1097,6 @@ async function adminUpdateReportStatus(request, db, headers, reportId) {
     return json({ success: true, message: 'Report status updated' }, 200, headers);
 }
 
-// ============================================
-// NEW: DELETE REPORT
-// ============================================
 async function adminDeleteReport(request, db, headers, reportId) {
     const admin = await getAdmin(request, db);
     if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
