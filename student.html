@@ -1051,17 +1051,71 @@
     }
 
     function renderWarnings(warnings) {
-        const container = document.getElementById('warningContainer');
-        container.innerHTML = warnings.map(w => `
-            <div class="warning-banner">
+    const container = document.getElementById('warningContainer');
+    const now = new Date();
+    const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000; // 2 days in milliseconds
+
+    // Filter: only show warnings less than 2 days old
+    const activeWarnings = warnings.filter(w => {
+        const issuedAt = new Date(w.issued_at);
+        const ageMs = now - issuedAt;
+        return ageMs < TWO_DAYS_MS;
+    });
+
+    if (activeWarnings.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = activeWarnings.map(w => {
+        const issuedAt = new Date(w.issued_at);
+        const ageMs = now - issuedAt;
+        const hoursLeft = Math.ceil((TWO_DAYS_MS - ageMs) / (60 * 60 * 1000));
+        const expiresIn = hoursLeft > 24 
+            ? `${Math.ceil(hoursLeft / 24)} day(s) left` 
+            : `${hoursLeft} hour(s) left`;
+        
+        return `
+            <div class="warning-banner" id="warning-${w.id}">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <div>
+                <div style="flex:1;">
                     <strong>Warning from Admin:</strong>
                     <p style="margin-top:4px;">${w.message}</p>
+                    <small style="opacity:0.7; font-size:11px;">Auto-expires in ${expiresIn}</small>
                 </div>
+                <button class="warning-close-btn" onclick="dismissWarning(${w.id})" title="Dismiss this warning">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
             </div>
-        `).join('');
+        `;
+    }).join('');
+}
+
+// Dismiss warning function
+async function dismissWarning(warningId) {
+    if (!confirm('Dismiss this warning? You will not see it again.')) return;
+    
+    const banner = document.getElementById(`warning-${warningId}`);
+    if (banner) {
+        banner.style.transition = 'all 0.3s ease';
+        banner.style.opacity = '0';
+        banner.style.transform = 'translateX(20px)';
+        setTimeout(() => banner.remove(), 300);
     }
+
+    try {
+        const token = localStorage.getItem('nustology_token');
+        await fetch(`${API_BASE}/warnings/${warningId}/dismiss`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+    } catch (e) {
+        console.error('Failed to dismiss warning:', e);
+    }
+}
 
     // ========== ONBOARDING ==========
     async function submitOnboarding(e) {
