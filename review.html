@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Review - NUSTology Prep.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #1e3a8a;
+            --primary-bg: #eff6ff;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-lighter: #e2e8f0;
+            --white: #ffffff;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .header {
+            background: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+        }
+        .header .nust { color: var(--primary); }
+
+        .back-btn {
+            background: var(--gray-lighter);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .back-btn:hover { background: var(--primary); color: white; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .summary {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .summary-title h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .summary-title p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .score-big {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 160px;
+        }
+
+        .score-big .num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .score-big .label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .stat {
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--gray-lighter);
+        }
+
+        .stat .v {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat .l {
+            font-size: 11px;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-top: 4px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .stat.correct { background: #f0fdf4; border-color: #bbf7d0; }
+        .stat.correct .v { color: var(--success); }
+        .stat.wrong { background: #fef2f2; border-color: #fecaca; }
+        .stat.wrong .v { color: var(--danger); }
+        .stat.skip { background: #f8fafc; }
+        .stat.skip .v { color: var(--gray); }
+        .stat.streak { background: #fffbeb; border-color: #fde68a; }
+        .stat.streak .v { color: var(--warning); }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 8px 14px;
+            background: white;
+            border: 1.5px solid var(--gray-lighter);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+
+        .filter-tab:hover { border-color: var(--primary); }
+        .filter-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .q-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--gray-lighter);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        .q-card.correct { border-left-color: var(--success); }
+        .q-card.wrong { border-left-color: var(--danger); }
+        .q-card.skipped { border-left-color: var(--warning); }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .q-num-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .q-number {
+            background: var(--primary-bg);
+            color: var(--primary);
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .q-subject {
+            background: #f3f4f6;
+            color: var(--gray);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .q-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .q-status.correct { background: #dcfce7; color: var(--success); }
+        .q-status.wrong { background: #fee2e2; color: var(--danger); }
+        .q-status.skipped { background: #fef3c7; color: var(--warning); }
+
+        .q-text {
+            font-size: 15px;
+            margin-bottom: 14px;
+            line-height: 1.6;
+        }
+
+        .opts {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .opt {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1.5px solid var(--gray-lighter);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opt-letter {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--gray-lighter);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .opt.correct-ans {
+            background: #f0fdf4;
+            border-color: var(--success);
+        }
+        .opt.correct-ans .opt-letter {
+            background: var(--success);
+            color: white;
+        }
+
+        .opt.wrong-ans {
+            background: #fef2f2;
+            border-color: var(--danger);
+        }
+        .opt.wrong-ans .opt-letter {
+            background: var(--danger);
+            color: white;
+        }
+
+        .opt-tag {
+            margin-left: auto;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .tag-correct { background: var(--success); color: white; }
+        .tag-your { background: var(--danger); color: white; }
+        .tag-your-correct { background: var(--success); color: white; }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        @media (max-width: 768px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .summary-header { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1><span class="nust">NUST</span>ology Prep.</h1>
+        <a href="student.html" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+        <div class="summary" id="summaryCard">
+            <div class="loading">Loading test review...</div>
+        </div>
+
+        <div class="filter-tabs" id="filterTabs" style="display: none;">
+            <button class="filter-tab active" onclick="filterQuestions('all')">All Questions</button>
+            <button class="filter-tab" onclick="filterQuestions('correct')">Correct Only</button>
+            <button class="filter-tab" onclick="filterQuestions('wrong')">Wrong Only</button>
+            <button class="filter-tab" onclick="filterQuestions('skipped')">Skipped Only</button>
+        </div>
+
+        <div class="questions-list" id="questionsList"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        const params = new URLSearchParams(window.location.search);
+        const attemptId = params.get('id');
+        let allAnswers = [];
+
+        async function loadReview() {
+            const token = localStorage.getItem('nustology_token');
+            if (!token) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            if (!attemptId) {
+                document.getElementById('summaryCard').innerHTML = '<div class="empty">No test ID provided</div>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/tests/review/${attemptId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message);
+
+                renderSummary(data.attempt);
+                allAnswers = data.answers;
+                renderQuestions(allAnswers);
+                document.getElementById('filterTabs').style.display = 'flex';
+            } catch (err) {
+                document.getElementById('summaryCard').innerHTML = `<div class="empty">Error: ${err.message}</div>`;
+            }
+        }
+
+        function renderSummary(a) {
+            const testTitle = a.test_type === 'grand' ? 'Grand Test' : `${a.subject} Test`;
+            const date = new Date(a.completed_at).toLocaleString();
+            document.getElementById('summaryCard').innerHTML = `
+                <div class="summary-header">
+                    <div class="summary-title">
+                        <h2>${testTitle}</h2>
+                        <p>${a.field} • Completed ${date}</p>
+                    </div>
+                    <div class="score-big">
+                        <div class="num">${a.score.toFixed(1)}</div>
+                        <div class="label">out of ${a.total_marks} (${a.percentage.toFixed(1)}%)</div>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat correct">
+                        <div class="v">${a.correct_answers}</div>
+                        <div class="l">Correct</div>
+                    </div>
+                    <div class="stat wrong">
+                        <div class="v">${a.wrong_answers}</div>
+                        <div class="l">Wrong</div>
+                    </div>
+                    <div class="stat skip">
+                        <div class="v">${a.unattempted}</div>
+                        <div class="l">Skipped</div>
+                    </div>
+                    <div class="stat streak">
+                        <div class="v">${a.max_streak}</div>
+                        <div class="l">Max Streak</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderQuestions(answers) {
+            const list = document.getElementById('questionsList');
+            if (!answers.length) {
+                list.innerHTML = '<div class="empty">No questions to show</div>';
+                return;
+            }
+
+            list.innerHTML = answers.map((a, idx) => {
+                const isSkipped = a.selected_answer === null || a.selected_answer === undefined;
+                const isCorrect = a.is_correct === 1;
+                const status = isSkipped ? 'skipped' : (isCorrect ? 'correct' : 'wrong');
+                const statusText = isSkipped ? 'Not Attempted' : (isCorrect ? 'Correct' : 'Wrong');
+
+                const opts = a.options.map((opt, i) => {
+                    let cls = 'opt';
+                    let tag = '';
+                    const isCorrectOpt = i === a.correct_answer;
+                    const isUserChoice = i === a.selected_answer;
+
+                    if (isCorrectOpt) {
+                        cls += ' correct-ans';
+                        tag = `<span class="opt-tag tag-correct">Correct Answer</span>`;
+                    }
+                    if (isUserChoice && !isCorrectOpt) {
+                        cls += ' wrong-ans';
+                        tag = `<span class="opt-tag tag-your">Your Answer</span>`;
+                    }
+                    if (isUserChoice && isCorrectOpt) {
+                        tag = `<span class="opt-tag tag-your-correct">Your Answer ✓</span>`;
+                    }
+
+                    return `
+                        <div class="${cls}">
+                            <div class="opt-letter">${String.fromCharCode(65+i)}</div>
+                            <span>${opt}</span>
+                            ${tag}
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="q-card ${status}">
+                        <div class="q-header">
+                            <div class="q-num-badge">
+                                <span class="q-number">Q${idx + 1}</span>
+                                ${a.question_subject ? `<span class="q-subject">${a.question_subject}</span>` : ''}
+                            </div>
+                            <span class="q-status ${status}">${statusText}</span>
+                        </div>
+                        <div class="q-text">${a.question_text}</div>
+                        <div class="opts">${opts}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterQuestions(type) {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let filtered = allAnswers;
+            if (type === 'correct') filtered = allAnswers.filter(a => a.is_correct === 1);
+            else if (type === 'wrong') filtered = allAnswers.filter(a => a.is_correct === 0 && a.selected_answer !== null && a.selected_answer !== undefined);
+            else if (type === 'skipped') filtered = allAnswers.filter(a => a.selected_answer === null || a.selected_answer === undefined);
+
+            renderQuestions(filtered);
+        }
+
+        loadReview();
+    </script>
+
+</body>
+</html>
