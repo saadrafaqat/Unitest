@@ -1,7 +1,7 @@
 // ============================================
 // NUSTOLOGY PREP - SILENT CODE PROTECTION
 // File: js/protection.js
-// Just blocks shortcuts silently - no visual effects
+// Blocks inspect/source but allows COPY (including right-click copy)
 // ============================================
 
 (function() {
@@ -10,8 +10,18 @@
     // Skip on admin page
     if (window.location.pathname.includes('admin')) return;
 
-    // ============ 1. BLOCK RIGHT CLICK ============
+    // ============ 1. SMART RIGHT-CLICK HANDLING ============
+    // Allow right-click ONLY if there's selected text (for copy menu)
+    // Block right-click on images and empty areas
     document.addEventListener('contextmenu', function(e) {
+        const selection = window.getSelection().toString().trim();
+        
+        // If user has selected text, allow right-click (for copy menu)
+        if (selection.length > 0) {
+            return true; // Allow context menu
+        }
+        
+        // Otherwise, block it
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -58,9 +68,12 @@
             e.stopPropagation();
             return false;
         }
+
+        // NOTE: Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A are NOT blocked
+        // Users can copy, paste, cut, and select all freely
     }, true);
 
-    // ============ 3. BLOCK IMAGE DRAGGING ============
+    // ============ 3. BLOCK IMAGE DRAGGING (but allow copy) ============
     document.addEventListener('dragstart', function(e) {
         if (e.target.tagName === 'IMG') {
             e.preventDefault();
