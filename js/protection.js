@@ -16,8 +16,8 @@
     style.textContent = `
         @keyframes nustologyShake {
             0%, 100% { transform: translateX(0); }
-            10% { transform: translateX(-6px); }
-            20% { transform: translateX(6px); }
+            10% { transform: translateX(-3px); }
+            20% { transform: translateX(3px); }
             30% { transform: translateX(-5px); }
             40% { transform: translateX(5px); }
             50% { transform: translateX(-3px); }
