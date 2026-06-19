@@ -4,231 +4,519 @@
     <script src="js/protection.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <meta name="theme-color" content="#1a56db">
     <title>My Profile - NUSTology Prep.</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --primary: #1a56db; --primary-dark: #1e3a8a; --primary-bg: #eff6ff;
-            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
-            --white: #fff; --danger: #ef4444; --success: #22c55e; --warning: #f59e0b;
+            --primary: #1a56db;
+            --primary-dark: #1e3a8a;
+            --primary-bg: #eff6ff;
+            --primary-bg2: #dbeafe;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-light: #94a3b8;
+            --gray-lighter: #e2e8f0;
+            --white: #fff;
+            --bg: #f8fafc;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --radius: 10px;
+            --radius-lg: 14px;
+            --border: #e2e8f0;
         }
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--dark); min-height: 100vh; }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            min-height: 100vh;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
         .layout { display: flex; min-height: 100vh; }
+
+        /* ========== SIDEBAR ========== */
         .sidebar {
-            width: 260px; background: white; border-right: 1px solid var(--gray-lighter);
-            padding: 24px 16px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100;
+            width: 250px;
+            background: #fff;
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
         }
         .sidebar-logo {
             display: flex; align-items: center; gap: 10px;
-            padding: 0 12px 24px; border-bottom: 1px solid var(--gray-lighter); margin-bottom: 20px;
+            padding: 0 10px 18px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
         }
-        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
-        .sidebar-logo .text { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
+        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+        .sidebar-logo .text { font-size: 16px; font-weight: 700; line-height: 1.2; }
         .sidebar-logo .nust { color: var(--primary); }
-        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 12px; display: block; }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
         .menu-section {
-            font-size: 11px; font-weight: 600; color: #94a3b8;
-            text-transform: uppercase; letter-spacing: 1px; padding: 16px 12px 8px;
+            font-size: 10px; font-weight: 700; color: var(--gray-light);
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 14px 12px 6px;
         }
         .menu-item {
-            display: flex; align-items: center; gap: 12px; padding: 11px 14px;
-            border-radius: 10px; color: var(--gray); text-decoration: none;
-            font-size: 14px; font-weight: 500; transition: all 0.3s;
+            display: flex; align-items: center; gap: 11px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: var(--gray); text-decoration: none;
+            font-size: 14px; font-weight: 500;
+            min-height: 40px;
+            transition: background 0.2s, color 0.2s;
         }
-        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item svg { width: 18px; height: 18px; flex-shrink: 0; }
         .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: white; }
-        .main { flex: 1; margin-left: 260px; min-height: 100vh; }
+        .menu-item.active { background: var(--primary); color: #fff; }
+
+        /* ========== MAIN ========== */
+        .main {
+            flex: 1;
+            margin-left: 250px;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+
         .topbar {
-            background: white; padding: 16px 32px; border-bottom: 1px solid var(--gray-lighter);
+            background: #fff;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 50;
+            min-height: 60px;
         }
-        .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
-        .topbar p { font-size: 13px; color: var(--gray); margin-top: 2px; }
-        .logout-btn {
-            background: var(--gray-lighter); border: none; padding: 8px 14px;
-            border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--dark);
-            font-family: inherit;
-        }
-        .logout-btn:hover { background: var(--danger); color: white; }
-        .content { padding: 32px; max-width: 1100px; margin: 0 auto; }
+        .topbar-title h1 { font-size: 18px; font-weight: 700; line-height: 1.2; }
+        .topbar-title p { font-size: 12px; color: var(--gray); margin-top: 1px; }
 
-        .profile-header-card {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 20px; padding: 32px; color: white; margin-bottom: 24px;
-            display: flex; align-items: center; gap: 24px; position: relative; overflow: hidden;
-        }
-        .profile-header-card::before {
-            content: ''; position: absolute; top: -50%; right: -10%;
-            width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.08);
-        }
-        .profile-avatar-large {
-            width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,0.2);
-            display: flex; align-items: center; justify-content: center; font-size: 44px;
-            font-weight: 700; font-family: 'Space Grotesk', sans-serif; flex-shrink: 0;
-            border: 4px solid rgba(255,255,255,0.3); overflow: hidden; position: relative; z-index: 2;
-        }
-        .profile-avatar-large img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        .profile-header-info { position: relative; z-index: 2; flex: 1; }
-        .profile-header-info h2 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; }
-        .profile-header-info .username { opacity: 0.85; margin-top: 2px; font-size: 14px; }
-        .profile-header-info .field-tag {
-            display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px;
-            border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 10px;
-        }
-
-        .tabs {
-            display: flex; gap: 4px; background: white; padding: 6px;
-            border-radius: 12px; margin-bottom: 24px; border: 1px solid var(--gray-lighter);
-            overflow-x: auto;
-        }
-        .tab-btn {
-            padding: 10px 18px; background: transparent; border: none; border-radius: 8px;
-            font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
-            color: var(--gray); transition: all 0.2s; white-space: nowrap;
-        }
-        .tab-btn:hover { background: var(--primary-bg); color: var(--primary); }
-        .tab-btn.active { background: var(--primary); color: white; }
-
-        .card {
-            background: white; border: 1px solid var(--gray-lighter); border-radius: 16px;
-            padding: 28px; margin-bottom: 20px;
-        }
-        .card h3 {
-            font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700;
-            margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--gray-lighter);
+        .topbar-left {
             display: flex; align-items: center; gap: 10px;
         }
-        .card h3 svg { width: 20px; height: 20px; color: var(--primary); }
 
+        .logout-btn {
+            background: var(--gray-lighter);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px; font-weight: 600;
+            color: var(--dark);
+            font-family: inherit;
+            min-height: 36px;
+        }
+        .logout-btn:hover { background: var(--danger); color: #fff; }
+
+        .mobile-toggle {
+            display: none;
+            background: var(--gray-lighter); border: none;
+            cursor: pointer; padding: 8px;
+            border-radius: 8px;
+            width: 40px; height: 40px;
+            align-items: center; justify-content: center;
+        }
+        .mobile-toggle svg { width: 20px; height: 20px; }
+
+        .content {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ========== ALERT ========== */
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            font-size: 13px; font-weight: 500;
+            display: none;
+        }
+        .alert.show { display: block; }
+        .alert.success { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
+        .alert.error { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+        .alert.warning { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .alert.info { background: var(--primary-bg); color: var(--primary); border: 1px solid var(--primary-bg2); }
+
+        /* ========== APPROVAL BANNER ========== */
+        .approval-banner {
+            padding: 14px 18px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 14px;
+        }
+        .approval-banner.pending { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .approval-banner.approved { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .approval-banner.rejected { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+        .approval-banner svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+        /* ========== PROFILE HEADER CARD ========== */
+        .profile-header-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            color: #fff;
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 18px;
+        }
+        .profile-avatar-large {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 36px; font-weight: 700;
+            flex-shrink: 0;
+            border: 3px solid rgba(255,255,255,0.3);
+            overflow: hidden;
+        }
+        .profile-avatar-large img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+        }
+        .profile-header-info { flex: 1; min-width: 0; }
+        .profile-header-info h2 {
+            font-size: 22px; font-weight: 700;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .profile-header-info .username { opacity: 0.85; margin-top: 2px; font-size: 13px; }
+        .profile-header-info .field-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 11px;
+            border-radius: 20px;
+            font-size: 12px; font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* ========== TABS ========== */
+        .tabs {
+            display: flex; gap: 4px;
+            background: #fff;
+            padding: 5px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .tab-btn {
+            padding: 10px 16px;
+            background: transparent;
+            border: none; border-radius: 8px;
+            font-family: inherit; font-size: 13px; font-weight: 600;
+            cursor: pointer;
+            color: var(--gray);
+            white-space: nowrap;
+            min-height: 38px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .tab-btn:hover { background: var(--primary-bg); color: var(--primary); }
+        .tab-btn.active { background: var(--primary); color: #fff; }
+
+        /* ========== CARD ========== */
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .card h3 {
+            font-size: 16px; font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .card h3 svg { width: 18px; height: 18px; color: var(--primary); }
+
+        /* ========== FORM ========== */
         .form-row {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
         }
         .form-row.full { grid-template-columns: 1fr; }
         .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
         .form-group { display: flex; flex-direction: column; }
         .form-group label {
-            font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px;
+            font-size: 13px; font-weight: 600;
+            color: var(--dark); margin-bottom: 5px;
         }
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 10px 14px; border: 1.5px solid var(--gray-lighter); border-radius: 8px;
-            font-family: inherit; font-size: 14px; transition: all 0.2s;
+        .required { color: var(--danger); }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 13px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit; font-size: 14px;
+            background: #fff;
+            color: var(--dark);
+            min-height: 42px;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none; border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
         }
-        .form-group textarea { resize: vertical; min-height: 80px; }
-        .form-group small { font-size: 11px; color: var(--gray); margin-top: 4px; }
+        .form-group input:disabled {
+            background: #f8fafc; color: var(--gray);
+        }
+        .form-group textarea {
+            resize: vertical; min-height: 80px;
+        }
+        .form-group small {
+            font-size: 11px; color: var(--gray); margin-top: 4px;
+        }
 
+        /* ========== BUTTONS ========== */
         .btn {
-            padding: 12px 24px; border: none; border-radius: 10px;
-            font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 22px;
+            border: none; border-radius: 8px;
+            font-family: inherit; font-size: 14px; font-weight: 600;
+            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 6px;
+            min-height: 42px;
+            transition: background 0.2s, color 0.2s;
         }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); }
         .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
-        .btn-danger { background: var(--danger); color: white; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .save-bar { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-
-        .alert {
-            padding: 12px 16px; border-radius: 10px; margin-bottom: 16px;
-            font-size: 13px; font-weight: 500; display: none;
+        .save-bar {
+            display: flex; gap: 10px;
+            justify-content: flex-end;
+            margin-top: 16px;
         }
-        .alert.show { display: block; }
-        .alert.success { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
-        .alert.error { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
 
-        .photo-upload { display: flex; align-items: center; gap: 20px; }
+        /* ========== PROFILE PICTURE UPLOAD ========== */
+        .photo-upload {
+            display: flex; align-items: center;
+            gap: 18px; flex-wrap: wrap;
+        }
         .photo-preview {
-            width: 100px; height: 100px; border-radius: 50%; background: var(--primary-bg);
-            display: flex; align-items: center; justify-content: center; font-size: 36px;
-            font-weight: 700; color: var(--primary); border: 3px solid var(--gray-lighter);
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: var(--primary-bg);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 36px; font-weight: 700; color: var(--primary);
+            border: 3px solid var(--border);
             overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
         }
-        .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-preview img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .photo-actions {
+            flex: 1; min-width: 200px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .upload-btn-label {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px;
+            padding: 11px 18px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 14px; font-weight: 600;
+            cursor: pointer;
+            min-height: 42px;
+        }
+        .upload-btn-label:hover { background: var(--primary-dark); }
+        .upload-btn-label input[type=file] { display: none; }
+        .upload-btn-label svg { width: 18px; height: 18px; }
 
-        .mobile-toggle {
-            display: none; background: none; border: none; cursor: pointer; padding: 8px;
+        .upload-hint {
+            font-size: 12px; color: var(--gray);
         }
 
         .info-display {
-            background: var(--primary-bg); border-radius: 8px; padding: 12px 16px;
-            font-size: 13px; color: var(--primary); margin-bottom: 16px;
+            background: var(--primary-bg);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 13px; color: var(--primary);
+            margin-bottom: 14px;
         }
 
-        @media (max-width: 1024px) {
-            .form-row, .form-row.three { grid-template-columns: 1fr; }
+        /* ========== BOTTOM NAV (MOBILE) ========== */
+        .bottom-nav {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            padding: 6px 0;
+            z-index: 90;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
         }
+        .bottom-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2px;
+        }
+        .bottom-nav a {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 3px;
+            padding: 6px 4px;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 10px; font-weight: 500;
+            min-height: 50px;
+        }
+        .bottom-nav a svg { width: 20px; height: 20px; }
+        .bottom-nav a.active { color: var(--primary); }
+
+        /* ========== SIDEBAR OVERLAY ========== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+                width: 250px;
+            }
             .sidebar.open { transform: translateX(0); }
-            .main { margin-left: 0; }
-            .mobile-toggle { display: block; }
-            .profile-header-card { flex-direction: column; text-align: center; }
-            .content { padding: 20px; }
+            .main { margin-left: 0; padding-bottom: 70px; }
+            .mobile-toggle { display: flex; }
+            .bottom-nav { display: block; }
+
+            .topbar { padding: 10px 14px; }
+            .topbar-title h1 { font-size: 16px; }
+            .topbar-title p { display: none; }
+
+            .content { padding: 14px; }
+
+            .profile-header-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 22px 18px;
+            }
+            .profile-header-info h2 { font-size: 20px; }
+
+            .form-row,
+            .form-row.three { grid-template-columns: 1fr; gap: 12px; }
+
+            .card { padding: 18px 16px; }
+            .card h3 { font-size: 15px; }
+
+            .tabs { padding: 4px; }
+            .tab-btn { padding: 8px 12px; font-size: 12px; }
+
+            .save-bar { flex-direction: column; }
+            .save-bar .btn { width: 100%; }
+
+            .photo-upload { flex-direction: column; text-align: center; }
+            .photo-actions { width: 100%; align-items: stretch; }
         }
     </style>
 </head>
 <body>
 
 <div class="layout">
+    <!-- SIDEBAR OVERLAY for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
-            <div class="text"><span class="nust">NUST</span>ology <div class="prep">Prep.</div></div>
+            <img src="images/nustology.jpg" alt="NUSTology" onerror="this.style.display='none'">
+            <div class="text">
+                <span class="nust">NUST</span>ology
+                <span class="prep">Prep.</span>
+            </div>
         </div>
         <ul class="sidebar-menu">
             <div class="menu-section">Main</div>
             <li><a href="student.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                Dashboard</a></li>
+                Dashboard
+            </a></li>
             <li><a href="test.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                Take Test</a></li>
+                Take Test
+            </a></li>
             <li><a href="leaderboard.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                Leaderboard</a></li>
+                Leaderboard
+            </a></li>
+            <li><a href="notifications.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                Notifications
+            </a></li>
+
             <div class="menu-section">Learn</div>
             <li><a href="lectures.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
-                Video Lectures</a></li>
+                Video Lectures
+            </a></li>
+            <li><a href="pdfs.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                PDFs
+            </a></li>
+            <li><a href="notes.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+                Notes
+            </a></li>
             <li><a href="aggregate.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
-                Aggregate Calculator</a></li>
+                Aggregate Calculator
+            </a></li>
             <li><a href="merit.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                Past Merit Lists</a></li>
+                Past Merit Lists
+            </a></li>
             <li><a href="faq.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-                FAQs</a></li>
+                FAQs
+            </a></li>
+
             <div class="menu-section">Community</div>
             <li><a href="chat.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Chat</a></li>
+                Chat
+            </a></li>
             <li><a href="community.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                Community</a></li>
+                Community
+            </a></li>
+
             <div class="menu-section">Account</div>
             <li><a href="profile.html" class="menu-item active">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                My Profile</a></li>
+                My Profile
+            </a></li>
         </ul>
     </aside>
 
     <main class="main">
         <div class="topbar">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <div class="topbar-left">
+                <button class="mobile-toggle" onclick="openSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </button>
-                <div>
+                <div class="topbar-title">
                     <h1>My Profile</h1>
                     <p>Manage your account and information</p>
                 </div>
@@ -239,6 +527,10 @@
         <div class="content">
             <div id="alertBox" class="alert"></div>
 
+            <!-- Approval Status Banner -->
+            <div id="approvalBanner" style="display:none;"></div>
+
+            <!-- Profile Header -->
             <div class="profile-header-card">
                 <div class="profile-avatar-large" id="profileAvatarBig">U</div>
                 <div class="profile-header-info">
@@ -248,11 +540,12 @@
                 </div>
             </div>
 
+            <!-- Tabs -->
             <div class="tabs">
                 <button class="tab-btn active" onclick="switchTab('account', this)">Account</button>
-                <button class="tab-btn" onclick="switchTab('personal', this)">Personal Info</button>
-                <button class="tab-btn" onclick="switchTab('academic', this)">Academic Record</button>
-                <button class="tab-btn" onclick="switchTab('net', this)">NET Info</button>
+                <button class="tab-btn" onclick="switchTab('personal', this)">Personal</button>
+                <button class="tab-btn" onclick="switchTab('academic', this)">Academic</button>
+                <button class="tab-btn" onclick="switchTab('preferences', this)">Preferences</button>
                 <button class="tab-btn" onclick="switchTab('security', this)">Security</button>
             </div>
 
@@ -265,12 +558,13 @@
                     </h3>
                     <div class="photo-upload">
                         <div class="photo-preview" id="photoPreview">U</div>
-                        <div>
-                            <div class="form-group">
-                                <label>Profile Picture URL</label>
-                                <input type="url" id="profilePicUrl" placeholder="https://example.com/your-photo.jpg">
-                                <small>Paste an image URL (you can upload to imgur.com or similar)</small>
-                            </div>
+                        <div class="photo-actions">
+                            <label class="upload-btn-label">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <span id="uploadBtnText">Upload from Device</span>
+                                <input type="file" id="profilePicFile" accept="image/jpeg,image/png,image/webp" onchange="uploadProfilePic(event)">
+                            </label>
+                            <span class="upload-hint">JPG, PNG, WebP. Max 2MB. Works on PC and mobile.</span>
                         </div>
                     </div>
                 </div>
@@ -283,22 +577,22 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" id="username" disabled style="background:#f8fafc;">
+                            <input type="text" id="username" disabled>
                             <small>Username cannot be changed</small>
                         </div>
                         <div class="form-group">
-                            <label>Full Name *</label>
+                            <label>Full Name <span class="required">*</span></label>
                             <input type="text" id="fullName" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Email *</label>
-                            <input type="email" id="email" required>
+                            <label>Email <span class="required">*</span></label>
+                            <input type="email" id="email" required autocomplete="email">
                         </div>
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="tel" id="phone" placeholder="03XX-XXXXXXX">
+                            <input type="tel" id="phone" placeholder="03XX-XXXXXXX" autocomplete="tel">
                         </div>
                     </div>
                     <div class="save-bar">
@@ -314,7 +608,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
                         Personal Details
                     </h3>
-                    <div class="form-row three">
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Date of Birth</label>
                             <input type="date" id="dateOfBirth">
@@ -327,15 +621,21 @@
                                 <option value="Female">Female</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Father's Name</label>
                             <input type="text" id="fatherName">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label>Father's Occupation</label>
                             <input type="text" id="fatherOccupation">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>CNIC / B-Form</label>
+                            <input type="text" id="cnic" placeholder="XXXXX-XXXXXXX-X">
                         </div>
                         <div class="form-group">
                             <label>Province</label>
@@ -376,35 +676,51 @@
             <!-- TAB: ACADEMIC -->
             <div class="tab-content" id="tab-academic" style="display:none;">
                 <div class="card">
-                    <h3>Matric / O-Level</h3>
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>
+                        Matric / O-Level
+                    </h3>
                     <div class="form-row three">
                         <div class="form-group">
                             <label>Marks Obtained</label>
-                            <input type="number" id="matricMarks">
+                            <input type="number" id="matricMarks" min="0" max="1100">
                         </div>
                         <div class="form-group">
                             <label>Total Marks</label>
                             <input type="number" id="matricTotal" value="1100">
                         </div>
                         <div class="form-group">
-                            <label>Year</label>
-                            <input type="text" id="matricYear">
+                            <label>Grade</label>
+                            <select id="matricGrade">
+                                <option value="">Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="form-row full">
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Board</label>
-                            <input type="text" id="matricBoard">
+                            <input type="text" id="matricBoard" placeholder="e.g., FBISE">
+                        </div>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <input type="text" id="matricYear" placeholder="e.g., 2023">
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3>FSc / A-Level</h3>
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>
+                        FSc / A-Level
+                    </h3>
                     <div class="form-row three">
                         <div class="form-group">
                             <label>Marks</label>
-                            <input type="number" id="fscMarks">
+                            <input type="number" id="fscMarks" min="0" max="1100">
                         </div>
                         <div class="form-group">
                             <label>Total Marks</label>
@@ -419,7 +735,17 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row three">
+                        <div class="form-group">
+                            <label>Grade</label>
+                            <select id="fscGrade">
+                                <option value="">Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>Board</label>
                             <input type="text" id="fscBoard">
@@ -435,20 +761,66 @@
                 </div>
             </div>
 
-            <!-- TAB: NET INFO -->
-            <div class="tab-content" id="tab-net" style="display:none;">
+            <!-- TAB: PREFERENCES (NET + Degree Preferences) -->
+            <div class="tab-content" id="tab-preferences" style="display:none;">
                 <div class="card">
-                    <h3>NET Information</h3>
-                    <div class="form-row">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        Degree Category
+                    </h3>
+                    <div class="info-display">Your degree category determines which tests and resources you can access. Contact admin to change.</div>
+                    <div class="form-row full">
                         <div class="form-group">
-                            <label>Target Field</label>
-                            <select id="targetField">
-                                <option value="Engineering">Engineering</option>
-                                <option value="Medical">Medical / BioSciences</option>
-                                <option value="Business">Business Studies</option>
-                                <option value="Architecture">Architecture & Design</option>
-                            </select>
+                            <label>Selected Category</label>
+                            <input type="text" id="degreeCategory" disabled>
                         </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Degree Preferences (in order)
+                    </h3>
+                    <div class="info-display">Select your top 5 preferred degree programs in order of priority.</div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Preference 1</label>
+                            <select id="preference1"><option value="">Select preference</option></select>
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Preference 2</label>
+                            <select id="preference2"><option value="">Select preference</option></select>
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Preference 3</label>
+                            <select id="preference3"><option value="">Select preference</option></select>
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Preference 4</label>
+                            <select id="preference4"><option value="">Select preference</option></select>
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Preference 5</label>
+                            <select id="preference5"><option value="">Select preference</option></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        NET Plans
+                    </h3>
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Preferred Campus</label>
                             <select id="preferredCampus">
@@ -458,8 +830,6 @@
                                 <option value="Risalpur (MCE)">Risalpur (MCE)</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label>Planning to Give NET</label>
                             <select id="planningNet">
@@ -470,16 +840,18 @@
                                 <option value="All NETs">All NETs</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Target Score (out of 200)</label>
                             <input type="number" id="targetScore" min="0" max="200">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label>Last NET Score</label>
                             <input type="number" id="lastNetScore" min="0" max="200">
                         </div>
+                    </div>
+                    <div class="form-row full">
                         <div class="form-group">
                             <label>Last NET Attempt</label>
                             <input type="text" id="lastNetAttempt" placeholder="e.g., NET-1 2024">
@@ -492,7 +864,7 @@
                         </div>
                     </div>
                     <div class="save-bar">
-                        <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+                        <button class="btn btn-primary" onclick="saveProfile()">Save All Preferences</button>
                     </div>
                 </div>
             </div>
@@ -504,21 +876,21 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         Change Password
                     </h3>
-                    <div class="info-display">For security, you'll be logged out after changing your password.</div>
+                    <div class="info-display">For security, you will be logged out after changing your password.</div>
                     <div class="form-row full">
                         <div class="form-group">
                             <label>Current Password</label>
-                            <input type="password" id="currentPassword">
+                            <input type="password" id="currentPassword" autocomplete="current-password">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>New Password</label>
-                            <input type="password" id="newPassword">
+                            <input type="password" id="newPassword" autocomplete="new-password">
                         </div>
                         <div class="form-group">
                             <label>Confirm New Password</label>
-                            <input type="password" id="confirmPassword">
+                            <input type="password" id="confirmPassword" autocomplete="new-password">
                         </div>
                     </div>
                     <div class="save-bar">
@@ -530,15 +902,114 @@
     </main>
 </div>
 
+<!-- BOTTOM NAV (Mobile only) -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-grid">
+        <a href="student.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            Home
+        </a>
+        <a href="test.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Tests
+        </a>
+        <a href="lectures.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+            Learn
+        </a>
+        <a href="leaderboard.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Rank
+        </a>
+        <a href="profile.html" class="active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+            Profile
+        </a>
+    </div>
+</nav>
+
 <script>
     const API_BASE = '/api';
-    let currentUser = null, currentProfile = null;
+    let currentUser = null;
+    let currentProfile = null;
+
+    // ========== PREFERENCES BY CATEGORY ==========
+    const PREFERENCES_MAP = {
+        'Engineering': [
+            'SEECS - School of Electrical Engineering & Computer Science',
+            'SMME - School of Mechanical & Manufacturing Engineering',
+            'SCEE - School of Civil & Environmental Engineering',
+            'SADA - School of Art, Design & Architecture',
+            'SCME - School of Chemical & Materials Engineering',
+            'SNS - School of Natural Sciences',
+            'IGIS - Institute of Geographical Information Systems',
+            'IESE - Institute of Environmental Sciences & Engineering',
+            'NIT - NUST Institute of Technology',
+            'MCS - Military College of Signals',
+            'MCE - Military College of Engineering',
+            'PNS Jauhar - Naval Engineering'
+        ],
+        'CS': [
+            'SEECS - BS Computer Science',
+            'SEECS - BS Software Engineering',
+            'SEECS - BS Electrical Engineering',
+            'MCS - BS Computer Science',
+            'RIMMS - BS Data Science',
+            'IESE - BS Environmental Engineering'
+        ],
+        'Computing': [
+            'SEECS - BS Computer Science',
+            'SEECS - BS Software Engineering',
+            'SEECS - BS Artificial Intelligence',
+            'MCS - BS Computer Science',
+            'RIMMS - BS Data Science'
+        ],
+        'Applied Sciences': [
+            'ASAB - Atta-ur-Rahman School of Applied Biosciences',
+            'SNS - School of Natural Sciences (Biology)',
+            'SNS - School of Natural Sciences (Chemistry)',
+            'SNS - School of Natural Sciences (Physics)',
+            'IBBT - Institute of Biomedical & Health Sciences',
+            'IESE - Environmental Sciences'
+        ],
+        'Business': [
+            'NBS - NUST Business School (BBA)',
+            'NBS - NUST Business School (BS Accounting & Finance)',
+            'NBS - NUST Business School (BS Economics)',
+            'ASAB - BS Food Science & Technology',
+            'RIMMS - BS Management Sciences'
+        ],
+        'Architecture': [
+            'SADA - BS Architecture',
+            'SADA - BS Industrial Design',
+            'SADA - BS City & Regional Planning',
+            'SADA - BS Architectural Engineering'
+        ],
+        'Natural Sciences': [
+            'SNS - BS Mathematics',
+            'SNS - BS Physics',
+            'SNS - BS Chemistry',
+            'SNS - BS Computational Sciences',
+            'SEECS - BS Applied Mathematics',
+            'RIMMS - BS Statistics'
+        ]
+    };
 
     function showAlert(type, msg) {
         const a = document.getElementById('alertBox');
         a.className = `alert ${type} show`;
         a.textContent = msg;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => a.classList.remove('show'), 4000);
+    }
+
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('sidebarOverlay').classList.add('show');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
     }
 
     function switchTab(tab, btn) {
@@ -546,6 +1017,49 @@
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('tab-' + tab).style.display = 'block';
         btn.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Populate preference dropdowns
+    function populatePreferences(category) {
+        const prefs = PREFERENCES_MAP[category] || PREFERENCES_MAP['Engineering'];
+        for (let i = 1; i <= 5; i++) {
+            const select = document.getElementById('preference' + i);
+            const currentVal = select.value;
+            select.innerHTML = '<option value="">Select preference</option>';
+            prefs.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p; opt.textContent = p;
+                select.appendChild(opt);
+            });
+            if (currentVal) select.value = currentVal;
+        }
+    }
+
+    function showApprovalBanner() {
+        const banner = document.getElementById('approvalBanner');
+        const status = currentUser.approvalStatus;
+
+        if (status === 'approved' || currentUser.isApproved) {
+            banner.style.display = 'none';
+            return;
+        }
+
+        if (status === 'pending') {
+            banner.className = 'approval-banner pending';
+            banner.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <div>Your account is pending admin approval. Some features may be limited until verified.</div>
+            `;
+            banner.style.display = 'flex';
+        } else if (status === 'rejected') {
+            banner.className = 'approval-banner rejected';
+            banner.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                <div>Your registration was rejected. Please contact admin for details.</div>
+            `;
+            banner.style.display = 'flex';
+        }
     }
 
     async function loadProfile() {
@@ -570,14 +1084,14 @@
         const name = currentUser.fullName || currentUser.username;
         document.getElementById('profileNameDisplay').textContent = name;
         document.getElementById('profileUsername').textContent = '@' + currentUser.username;
-        document.getElementById('profileFieldTag').textContent = currentUser.field || 'Engineering';
-        
+        document.getElementById('profileFieldTag').textContent = currentUser.degreeCategory || currentUser.field || 'Engineering';
+
         const initial = name[0].toUpperCase();
         const avatar = document.getElementById('profileAvatarBig');
         const preview = document.getElementById('photoPreview');
         if (currentUser.profilePicture) {
-            avatar.innerHTML = `<img src="${currentUser.profilePicture}">`;
-            preview.innerHTML = `<img src="${currentUser.profilePicture}">`;
+            avatar.innerHTML = `<img src="${currentUser.profilePicture}" alt="Profile">`;
+            preview.innerHTML = `<img src="${currentUser.profilePicture}" alt="Profile">`;
         } else {
             avatar.textContent = initial;
             preview.textContent = initial;
@@ -586,28 +1100,41 @@
         document.getElementById('username').value = currentUser.username;
         document.getElementById('fullName').value = currentUser.fullName || '';
         document.getElementById('email').value = currentUser.email || '';
-        document.getElementById('profilePicUrl').value = currentUser.profilePicture || '';
+        document.getElementById('phone').value = currentUser.phone || (currentProfile?.phone) || '';
+
+        document.getElementById('degreeCategory').value = currentUser.degreeCategory || currentUser.field || 'Engineering';
+        populatePreferences(currentUser.degreeCategory || 'Engineering');
 
         if (currentProfile) {
-            document.getElementById('phone').value = currentProfile.phone || '';
             document.getElementById('dateOfBirth').value = currentProfile.date_of_birth || '';
             document.getElementById('gender').value = currentProfile.gender || '';
             document.getElementById('fatherName').value = currentProfile.father_name || '';
             document.getElementById('fatherOccupation').value = currentProfile.father_occupation || '';
+            document.getElementById('cnic').value = currentProfile.cnic || '';
             document.getElementById('district').value = currentProfile.district || '';
             document.getElementById('city').value = currentProfile.city || '';
             document.getElementById('province').value = currentProfile.province || '';
             document.getElementById('address').value = currentProfile.address || '';
+
             document.getElementById('matricMarks').value = currentProfile.matric_marks || '';
             document.getElementById('matricTotal').value = currentProfile.matric_total || 1100;
             document.getElementById('matricBoard').value = currentProfile.matric_board || '';
             document.getElementById('matricYear').value = currentProfile.matric_year || '';
+            document.getElementById('matricGrade').value = currentProfile.matric_grade || '';
+
             document.getElementById('fscMarks').value = currentProfile.fsc_marks || '';
             document.getElementById('fscTotal').value = currentProfile.fsc_total || 1100;
             document.getElementById('fscBoard').value = currentProfile.fsc_board || '';
             document.getElementById('fscYear').value = currentProfile.fsc_year || '';
             document.getElementById('fscPart').value = currentProfile.fsc_part || 'Part 1';
-            document.getElementById('targetField').value = currentProfile.target_field || currentUser.field || 'Engineering';
+            document.getElementById('fscGrade').value = currentProfile.fsc_grade || '';
+
+            document.getElementById('preference1').value = currentProfile.preference_1 || '';
+            document.getElementById('preference2').value = currentProfile.preference_2 || '';
+            document.getElementById('preference3').value = currentProfile.preference_3 || '';
+            document.getElementById('preference4').value = currentProfile.preference_4 || '';
+            document.getElementById('preference5').value = currentProfile.preference_5 || '';
+
             document.getElementById('preferredCampus').value = currentProfile.preferred_campus || 'Islamabad (H-12)';
             document.getElementById('planningNet').value = currentProfile.planning_net || 'NET-1 (Feb)';
             document.getElementById('targetScore').value = currentProfile.target_score || '';
@@ -615,6 +1142,70 @@
             document.getElementById('lastNetAttempt').value = currentProfile.last_net_attempt || '';
             document.getElementById('additionalNotes').value = currentProfile.additional_notes || '';
         }
+
+        showApprovalBanner();
+    }
+
+    // ========== UPLOAD PROFILE PICTURE FROM DEVICE ==========
+    async function uploadProfilePic(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Validate
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            showAlert('error', 'Only JPG, PNG, WebP images allowed');
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+            showAlert('error', 'Image must be under 2MB');
+            return;
+        }
+
+        const uploadText = document.getElementById('uploadBtnText');
+        uploadText.textContent = 'Uploading...';
+
+        // Show preview immediately
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('photoPreview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
+
+        const token = localStorage.getItem('nustology_token');
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const res = await fetch(`${API_BASE}/student/upload-profile-pic`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                showAlert('success', 'Profile picture updated!');
+                // Update both avatars
+                document.getElementById('photoPreview').innerHTML = `<img src="${data.url}" alt="Profile">`;
+                document.getElementById('profileAvatarBig').innerHTML = `<img src="${data.url}" alt="Profile">`;
+                // Update stored user
+                if (currentUser) {
+                    currentUser.profilePicture = data.url;
+                    localStorage.setItem('nustology_user', JSON.stringify({
+                        ...JSON.parse(localStorage.getItem('nustology_user') || '{}'),
+                        profilePicture: data.url
+                    }));
+                }
+            } else {
+                showAlert('error', data.message || 'Upload failed');
+            }
+        } catch (e) {
+            showAlert('error', 'Network error during upload');
+        }
+
+        uploadText.textContent = 'Upload from Device';
+        event.target.value = '';
     }
 
     async function saveAccount() {
@@ -622,7 +1213,7 @@
         const body = {
             fullName: document.getElementById('fullName').value,
             email: document.getElementById('email').value,
-            profilePicture: document.getElementById('profilePicUrl').value
+            profilePicture: currentUser.profilePicture || ''
         };
         try {
             const res = await fetch(`${API_BASE}/student/update-account`, {
@@ -633,6 +1224,11 @@
             const data = await res.json();
             if (data.success) {
                 showAlert('success', 'Account updated successfully!');
+                // Update stored user
+                const user = JSON.parse(localStorage.getItem('nustology_user') || '{}');
+                user.fullName = body.fullName;
+                user.email = body.email;
+                localStorage.setItem('nustology_user', JSON.stringify(user));
                 setTimeout(() => location.reload(), 800);
             } else {
                 showAlert('error', data.message);
@@ -648,20 +1244,33 @@
             gender: document.getElementById('gender').value,
             fatherName: document.getElementById('fatherName').value,
             fatherOccupation: document.getElementById('fatherOccupation').value,
+            cnic: document.getElementById('cnic').value,
             district: document.getElementById('district').value,
             city: document.getElementById('city').value,
             province: document.getElementById('province').value,
             address: document.getElementById('address').value,
+
             matricMarks: parseInt(document.getElementById('matricMarks').value) || 0,
             matricTotal: parseInt(document.getElementById('matricTotal').value) || 1100,
             matricBoard: document.getElementById('matricBoard').value,
             matricYear: document.getElementById('matricYear').value,
+            matricGrade: document.getElementById('matricGrade').value,
+
             fscMarks: parseInt(document.getElementById('fscMarks').value) || 0,
             fscTotal: parseInt(document.getElementById('fscTotal').value) || 1100,
             fscBoard: document.getElementById('fscBoard').value,
             fscYear: document.getElementById('fscYear').value,
             fscPart: document.getElementById('fscPart').value,
-            targetField: document.getElementById('targetField').value,
+            fscGrade: document.getElementById('fscGrade').value,
+
+            degreeCategory: currentUser.degreeCategory || 'Engineering',
+            preference1: document.getElementById('preference1').value,
+            preference2: document.getElementById('preference2').value,
+            preference3: document.getElementById('preference3').value,
+            preference4: document.getElementById('preference4').value,
+            preference5: document.getElementById('preference5').value,
+
+            targetField: currentUser.degreeCategory || 'Engineering',
             preferredCampus: document.getElementById('preferredCampus').value,
             planningNet: document.getElementById('planningNet').value,
             targetScore: parseInt(document.getElementById('targetScore').value) || 0,
@@ -676,7 +1285,7 @@
                 body: JSON.stringify(data)
             });
             const result = await res.json();
-            if (result.success) showAlert('success', 'Profile saved!');
+            if (result.success) showAlert('success', 'Profile saved successfully!');
             else showAlert('error', result.message);
         } catch (e) { showAlert('error', 'Failed to save'); }
     }
@@ -707,7 +1316,12 @@
 
     async function logout() {
         const token = localStorage.getItem('nustology_token');
-        try { await fetch(`${API_BASE}/auth/logout`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e){}
+        try {
+            await fetch(`${API_BASE}/auth/logout`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+        } catch(e){}
         localStorage.removeItem('nustology_token');
         localStorage.removeItem('nustology_user');
         window.location.href = '/index.html';
@@ -715,6 +1329,5 @@
 
     loadProfile();
 </script>
-<script src="js/darkmode.js"></script>
 </body>
 </html>
