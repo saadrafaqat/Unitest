@@ -1,6 +1,7 @@
 // ============================================
-// NUSTOLOGY PREP - UNIVERSAL DARK MODE v4
+// NUSTOLOGY PREP - UNIVERSAL DARK MODE v6
 // File: js/darkmode.js
+// FIXED: Logo display + Dark mode button position + Mobile
 // ============================================
 
 (function() {
@@ -31,6 +32,20 @@
 
         [data-theme="dark"] body { background: #0f172a !important; color: #f1f5f9 !important; }
 
+        /* ============ FIX LOGO DISPLAY (No cropping issues) ============ */
+        .nav-logo img,
+        .sidebar-logo img,
+        .header-logo,
+        .logo-small,
+        .modal-logo img,
+        .login-logo-wrap img {
+            object-fit: contain !important;
+            object-position: center !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+
+        /* ============ CONTAINERS / CARDS ============ */
         [data-theme="dark"] .card,
         [data-theme="dark"] .sidebar,
         [data-theme="dark"] .topbar,
@@ -53,6 +68,9 @@
         [data-theme="dark"] .post-card,
         [data-theme="dark"] .post-composer,
         [data-theme="dark"] .compose-card,
+        [data-theme="dark"] .compose-box,
+        [data-theme="dark"] .post-create,
+        [data-theme="dark"] .new-post,
         [data-theme="dark"] .lecture-card,
         [data-theme="dark"] .video-card,
         [data-theme="dark"] .merit-card,
@@ -60,21 +78,20 @@
         [data-theme="dark"] .faq-item,
         [data-theme="dark"] .leaderboard-item,
         [data-theme="dark"] .profile-card,
-        [data-theme="dark"] .info-banner,
-        [data-theme="dark"] .result-card,
-        [data-theme="dark"] .filter-bar,
-        [data-theme="dark"] .filter-section,
         [data-theme="dark"] .help-card,
         [data-theme="dark"] .contact-card,
+        [data-theme="dark"] .still-questions,
         [data-theme="dark"] .still-questions-card,
         [data-theme="dark"] .calc-card,
         [data-theme="dark"] .calculator,
-        [data-theme="dark"] .empty-state {
+        [data-theme="dark"] .filter-bar,
+        [data-theme="dark"] .filter-section {
             background: #1e293b !important;
             color: #f1f5f9 !important;
             border-color: #334155 !important;
         }
 
+        /* ============ INLINE WHITE BACKGROUNDS ============ */
         [data-theme="dark"] *[style*="background: white" i],
         [data-theme="dark"] *[style*="background:white" i],
         [data-theme="dark"] *[style*="background: #fff" i],
@@ -84,22 +101,16 @@
         [data-theme="dark"] *[style*="background-color: white" i],
         [data-theme="dark"] *[style*="background-color:white" i],
         [data-theme="dark"] *[style*="background-color: #fff" i],
-        [data-theme="dark"] *[style*="background-color:#fff" i],
-        [data-theme="dark"] *[style*="background-color: #ffffff" i],
-        [data-theme="dark"] *[style*="background-color:#ffffff" i] {
+        [data-theme="dark"] *[style*="background-color:#fff" i] {
             background: #1e293b !important;
-            color: #f1f5f9 !important;
         }
 
+        /* ============ TEXT COLORS ============ */
         [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
         [data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
             color: #f1f5f9 !important;
         }
 
-        [data-theme="dark"] p,
-        [data-theme="dark"] li,
-        [data-theme="dark"] label,
-        [data-theme="dark"] td,
         [data-theme="dark"] .menu-item,
         [data-theme="dark"] .desc,
         [data-theme="dark"] .stat-label,
@@ -107,6 +118,7 @@
             color: #cbd5e1 !important;
         }
 
+        /* ============ FORM INPUTS ============ */
         [data-theme="dark"] input,
         [data-theme="dark"] select,
         [data-theme="dark"] textarea {
@@ -118,17 +130,38 @@
         [data-theme="dark"] textarea::placeholder {
             color: #64748b !important;
         }
+        [data-theme="dark"] input:focus,
+        [data-theme="dark"] select:focus,
+        [data-theme="dark"] textarea:focus {
+            border-color: #3b82f6 !important;
+        }
 
+        /* ============ TABLES ============ */
         [data-theme="dark"] table { background: transparent; }
-        [data-theme="dark"] th { background: #0f172a !important; color: #94a3b8 !important; }
-        [data-theme="dark"] td { border-color: #334155 !important; color: #cbd5e1 !important; }
-        [data-theme="dark"] tr:hover td { background: #1a2436 !important; }
+        [data-theme="dark"] th {
+            background: #0f172a !important;
+            color: #94a3b8 !important;
+        }
+        [data-theme="dark"] td {
+            border-color: #334155 !important;
+            color: #cbd5e1 !important;
+            background: transparent !important;
+        }
+        [data-theme="dark"] tr:hover td {
+            background: rgba(59, 130, 246, 0.1) !important;
+        }
+        [data-theme="dark"] table td strong,
+        [data-theme="dark"] table td b {
+            color: #f1f5f9 !important;
+        }
 
+        /* ============ NAVBAR ============ */
         [data-theme="dark"] .navbar {
             background: rgba(15, 23, 42, 0.85) !important;
             border-bottom-color: rgba(51, 65, 85, 0.5) !important;
         }
 
+        /* ============ HERO ============ */
         [data-theme="dark"] .hero {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1a2436 100%) !important;
         }
@@ -139,6 +172,7 @@
             background: #1a2436 !important;
         }
 
+        /* ============ BUTTONS ============ */
         [data-theme="dark"] .btn-secondary,
         [data-theme="dark"] .back-btn,
         [data-theme="dark"] .logout-btn {
@@ -146,8 +180,10 @@
             color: #f1f5f9 !important;
         }
 
+        /* ============ FOOTER ============ */
         [data-theme="dark"] .footer { background: #020617 !important; }
 
+        /* ============ SIDEBAR ============ */
         [data-theme="dark"] .sidebar {
             background: #1a2436 !important;
             border-right-color: #334155 !important;
@@ -163,12 +199,13 @@
         }
         [data-theme="dark"] .menu-section { color: #64748b !important; }
 
+        /* ============ TOPBAR ============ */
         [data-theme="dark"] .topbar {
             background: #1e293b !important;
             border-bottom-color: #334155 !important;
         }
 
-        /* CHAT */
+        /* ============ CHAT ============ */
         [data-theme="dark"] .chat-layout,
         [data-theme="dark"] .chat-sidebar,
         [data-theme="dark"] .chat-main,
@@ -180,6 +217,7 @@
         [data-theme="dark"] .chat-window,
         [data-theme="dark"] .chat-messages,
         [data-theme="dark"] .chat-input-area,
+        [data-theme="dark"] .input-area,
         [data-theme="dark"] .chat-header,
         [data-theme="dark"] .conversation-list,
         [data-theme="dark"] .chat-body {
@@ -199,74 +237,150 @@
             background: #1e293b !important;
             color: #f1f5f9 !important;
         }
+        [data-theme="dark"] .chat-input,
+        [data-theme="dark"] .message-input,
+        [data-theme="dark"] .chat-input-area input,
+        [data-theme="dark"] .input-area input {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
+        }
 
+        /* ============ TABS ============ */
+        [data-theme="dark"] .tab-buttons,
+        [data-theme="dark"] .chat-tabs,
+        [data-theme="dark"] .profile-tabs,
+        [data-theme="dark"] .faq-tabs,
+        [data-theme="dark"] .filter-tabs,
+        [data-theme="dark"] .nav-tabs {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        [data-theme="dark"] .tab-btn,
+        [data-theme="dark"] .chat-tab,
+        [data-theme="dark"] .profile-tab,
+        [data-theme="dark"] .faq-tab,
+        [data-theme="dark"] .filter-tab,
+        [data-theme="dark"] .field-tab {
+            background: #1e293b !important;
+            color: #cbd5e1 !important;
+            border-color: #334155 !important;
+        }
+        [data-theme="dark"] .tab-btn.active,
+        [data-theme="dark"] .chat-tab.active,
+        [data-theme="dark"] .profile-tab.active,
+        [data-theme="dark"] .faq-tab.active,
+        [data-theme="dark"] .filter-tab.active,
+        [data-theme="dark"] .field-tab.active {
+            background: #1a56db !important;
+            color: white !important;
+            border-color: #1a56db !important;
+        }
+
+        /* ============ FAQ ============ */
+        [data-theme="dark"] .faq-item {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        [data-theme="dark"] .faq-item button,
+        [data-theme="dark"] .faq-question {
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+        }
+        [data-theme="dark"] .faq-answer,
+        [data-theme="dark"] .faq-answer p {
+            background: #1e293b !important;
+            color: #cbd5e1 !important;
+        }
+
+        /* ============ STAT ICONS ============ */
         [data-theme="dark"] .stat-icon-wrap.blue, [data-theme="dark"] .stat-icon-wrap.b { background: rgba(59,130,246,0.2) !important; }
         [data-theme="dark"] .stat-icon-wrap.green, [data-theme="dark"] .stat-icon-wrap.g { background: rgba(34,197,94,0.2) !important; }
         [data-theme="dark"] .stat-icon-wrap.orange, [data-theme="dark"] .stat-icon-wrap.o { background: rgba(245,158,11,0.2) !important; }
         [data-theme="dark"] .stat-icon-wrap.purple, [data-theme="dark"] .stat-icon-wrap.p { background: rgba(147,51,234,0.2) !important; }
         [data-theme="dark"] .stat-icon-wrap.r { background: rgba(239,68,68,0.2) !important; }
 
+        /* ============ QUICK ACTIONS ============ */
         [data-theme="dark"] .quick-action {
-            background: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
         }
 
+        /* ============ TEST INTERFACE ============ */
         [data-theme="dark"] .test-interface { background: #0f172a !important; }
         [data-theme="dark"] .test-main { background: #1e293b !important; }
         [data-theme="dark"] .question-content,
         [data-theme="dark"] .question-text {
-            background: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
         }
         [data-theme="dark"] .option-item {
-            background: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
+            background: #1e293b !important;
+            color: #f1f5f9 !important;
+            border-color: #334155 !important;
         }
         [data-theme="dark"] .option-item:hover {
-            background: rgba(59, 130, 246, 0.15) !important; border-color: #3b82f6 !important;
+            background: rgba(59, 130, 246, 0.15) !important;
+            border-color: #3b82f6 !important;
         }
         [data-theme="dark"] .option-item.selected {
-            background: rgba(59, 130, 246, 0.25) !important; border-color: #3b82f6 !important;
+            background: rgba(59, 130, 246, 0.25) !important;
+            border-color: #3b82f6 !important;
         }
         [data-theme="dark"] .question-passage {
-            background: rgba(245, 158, 11, 0.15) !important; color: #fde68a !important;
+            background: rgba(245, 158, 11, 0.15) !important;
+            color: #fde68a !important;
         }
         [data-theme="dark"] .test-sidebar,
         [data-theme="dark"] .sessions-bar,
         [data-theme="dark"] .test-bottom,
         [data-theme="dark"] .test-subject-bar {
-            background: #1a2436 !important; color: #f1f5f9 !important;
+            background: #1a2436 !important;
+            color: #f1f5f9 !important;
         }
         [data-theme="dark"] .test-top-bar {
-            background: #1e293b !important; border-color: #3b82f6 !important;
+            background: #1e293b !important;
+            border-color: #3b82f6 !important;
         }
         [data-theme="dark"] .question-header,
         [data-theme="dark"] .answer-header,
         [data-theme="dark"] .question-label {
-            background: rgba(59, 130, 246, 0.15) !important; color: #f1f5f9 !important;
+            background: rgba(59, 130, 246, 0.15) !important;
+            color: #f1f5f9 !important;
         }
 
+        /* ============ SCROLLBAR ============ */
         [data-theme="dark"] ::-webkit-scrollbar-track { background: #1e293b; }
         [data-theme="dark"] ::-webkit-scrollbar-thumb { background: #475569; }
 
+        /* ============ GRADIENT SECTIONS - WHITE TEXT ============ */
         [data-theme="dark"] .welcome,
         [data-theme="dark"] .cta-section,
         [data-theme="dark"] .score-display,
-        [data-theme="dark"] .timer-box {
+        [data-theme="dark"] .timer-box,
+        [data-theme="dark"] .info-banner,
+        [data-theme="dark"] .profile-header,
+        [data-theme="dark"] .profile-banner {
             color: white !important;
         }
-        [data-theme="dark"] .welcome h2,
-        [data-theme="dark"] .cta-title,
-        [data-theme="dark"] .score-number {
+        [data-theme="dark"] .welcome *:not(.welcome-btn):not(.welcome-btn *),
+        [data-theme="dark"] .cta-section *,
+        [data-theme="dark"] .info-banner *,
+        [data-theme="dark"] .profile-header *,
+        [data-theme="dark"] .profile-banner * {
             color: white !important;
         }
 
-        /* ============================
-           FLOATING DARK MODE TOGGLE
-           ============================ */
+        /* ============ FLOATING DARK MODE TOGGLE ============ */
         .nustology-theme-toggle {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 50px;
-            height: 50px;
+            top: 80px;
+            right: 20px;
+            bottom: auto;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: #1a56db;
             color: white;
@@ -283,7 +397,7 @@
             transform: scale(1.1) rotate(15deg);
             box-shadow: 0 6px 20px rgba(26, 86, 219, 0.5);
         }
-        .nustology-theme-toggle svg { width: 22px; height: 22px; }
+        .nustology-theme-toggle svg { width: 18px; height: 18px; }
         .nustology-theme-toggle .icon-sun { display: none; }
         .nustology-theme-toggle .icon-moon { display: block; }
         [data-theme="dark"] .nustology-theme-toggle {
@@ -294,9 +408,7 @@
         [data-theme="dark"] .nustology-theme-toggle .icon-sun { display: block; }
         [data-theme="dark"] .nustology-theme-toggle .icon-moon { display: none; }
 
-        /* ============================
-           SIDEBAR CLOSE BUTTON (Mobile)
-           ============================ */
+        /* ============ SIDEBAR CLOSE BUTTON (Mobile) ============ */
         .sidebar-close-mobile {
             display: none;
             position: absolute;
@@ -316,31 +428,22 @@
         }
         .sidebar-close-mobile svg { width: 18px; height: 18px; }
 
-        /* ============================
-           UNIVERSAL MOBILE RESPONSIVE
-           ============================ */
+        /* ============ MOBILE RESPONSIVE ============ */
         @media (max-width: 768px) {
-            /* Move dark mode button to TOP-RIGHT on mobile, smaller */
+            /* Dark mode button on mobile - TOP RIGHT, small */
             .nustology-theme-toggle {
                 top: 70px;
                 right: 12px;
-                bottom: auto !important;
-                width: 36px;
-                height: 36px;
+                width: 34px;
+                height: 34px;
             }
-            .nustology-theme-toggle svg { width: 16px; height: 16px; }
+            .nustology-theme-toggle svg { width: 15px; height: 15px; }
 
-            /* Show close button inside sidebar on mobile */
-            .sidebar.open .sidebar-close-mobile {
-                display: flex !important;
-            }
+            .sidebar.open .sidebar-close-mobile { display: flex !important; }
 
-            /* Sidebar */
             .sidebar {
                 position: fixed !important;
-                left: 0;
-                top: 0;
-                bottom: 0;
+                left: 0; top: 0; bottom: 0;
                 width: 260px !important;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
@@ -350,21 +453,8 @@
             .sidebar.open { transform: translateX(0) !important; }
             .sidebar.collapsed { transform: translateX(-100%) !important; }
 
-            /* Sidebar overlay backdrop */
-            .sidebar.open::after {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 260px;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: -1;
-            }
-
             .main { margin-left: 0 !important; width: 100% !important; }
 
-            /* Compact topbar */
             .topbar {
                 padding: 10px 12px !important;
                 flex-wrap: nowrap;
@@ -376,7 +466,7 @@
             .topbar-text { min-width: 0; overflow: hidden; }
             .topbar-text h1, .topbar-text p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .topbar-right { gap: 6px !important; flex-shrink: 0; }
-            
+
             .user-info .name { display: none !important; }
             .user-info { padding: 3px 6px !important; }
             .user-avatar { width: 28px !important; height: 28px !important; }
@@ -392,7 +482,6 @@
             }
             .sidebar-toggle svg { width: 18px !important; height: 18px !important; }
 
-            /* Hide topbar theme toggle on mobile (we have floating one) */
             .topbar .theme-toggle { display: none !important; }
 
             .content { padding: 14px !important; }
@@ -412,7 +501,7 @@
             }
             .welcome h2 { font-size: 20px !important; }
 
-            /* ============ CHAT MOBILE FIX ============ */
+            /* ============ CHAT MOBILE - FIX SEND BUTTON OVERLAP ============ */
             .chat-layout, .chat-container, .chat-main {
                 display: flex !important;
                 flex-direction: column !important;
@@ -439,14 +528,13 @@
                 flex: 1 !important;
                 overflow-y: auto !important;
                 padding: 12px !important;
-                padding-bottom: 80px !important;
+                padding-bottom: 20px !important;
             }
             .message, .msg-bubble {
                 max-width: 80% !important;
                 font-size: 14px !important;
             }
-            
-            /* CRITICAL: Sticky chat input at bottom, NOT covered by browser bar */
+
             .chat-input-area, .input-area, .chat-input-container {
                 position: sticky !important;
                 bottom: 0 !important;
@@ -455,6 +543,7 @@
                 z-index: 100 !important;
                 border-top: 1px solid #e2e8f0 !important;
                 padding-bottom: 14px !important;
+                padding-right: 60px !important;
             }
             [data-theme="dark"] .chat-input-area,
             [data-theme="dark"] .input-area,
@@ -468,14 +557,20 @@
                 padding: 10px 14px !important;
             }
 
+            /* On chat page: move dark mode button to top to avoid send button */
+            body[data-chat-page="true"] .nustology-theme-toggle,
+            .chat-page .nustology-theme-toggle {
+                top: 70px !important;
+                right: 12px !important;
+                bottom: auto !important;
+            }
+
             .tab-buttons, .chat-tabs { display: flex !important; width: 100% !important; }
             .tab-btn, .chat-tab { flex: 1 !important; padding: 10px !important; font-size: 13px !important; }
 
-            /* Tables scrollable */
             .table-container { overflow-x: auto !important; }
             table { font-size: 12px !important; }
 
-            /* Modals */
             .modal, .modal-box {
                 max-width: 95% !important;
                 margin: 10px !important;
@@ -487,8 +582,7 @@
             /* ============ TEST INTERFACE MOBILE ============ */
             .test-main { grid-template-columns: 1fr !important; }
             .test-sidebar { display: none !important; }
-            
-            /* CRITICAL: Remove empty space, give more room to question */
+
             .test-top-bar { padding: 6px 10px !important; font-size: 11px !important; }
             .test-subject-bar { padding: 6px 10px !important; font-size: 12px !important; }
             .question-header { padding: 6px 10px !important; font-size: 12px !important; }
@@ -516,13 +610,13 @@
                 min-width: 46px !important;
             }
             .nav-btn svg { width: 14px !important; height: 14px !important; }
-            
+
             .timer-box {
                 padding: 6px 12px !important;
                 min-width: auto !important;
             }
             .timer-time { font-size: 18px !important; }
-            
+
             .goto-box { padding: 4px 8px !important; }
             .goto-box label { font-size: 10px !important; }
             .goto-box input { width: 40px !important; padding: 3px 5px !important; }
@@ -551,8 +645,20 @@
             }
             .hero-title { font-size: 30px !important; }
             .hero-visual { display: none !important; }
-
             .features-grid { grid-template-columns: 1fr !important; }
+
+            /* Navbar mobile fix */
+            .nav-logo { font-size: 16px !important; gap: 8px !important; }
+            .nav-logo img { width: 32px !important; height: 32px !important; }
+            .nav-container { padding: 0 12px !important; height: 60px !important; gap: 6px; }
+            .nav-actions { gap: 6px !important; }
+            .theme-toggle { width: 36px !important; height: 36px !important; }
+            .theme-toggle svg { width: 16px !important; height: 16px !important; }
+            .nav-actions .btn-outline { display: none !important; }
+            .nav-actions .btn-primary {
+                padding: 8px 14px !important;
+                font-size: 13px !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -562,6 +668,14 @@
             .palette-grid { grid-template-columns: repeat(5, 1fr) !important; }
             .field-code-badge { display: none !important; }
         }
+
+        /* ============ CHAT PAGE - DARK MODE BUTTON POSITION ============ */
+        /* When on chat page, ALWAYS put dark mode button on top to avoid send button */
+        body.chat-page .nustology-theme-toggle {
+            top: 80px !important;
+            right: 20px !important;
+            bottom: auto !important;
+        }
     `;
     const style = document.createElement('style');
     style.id = 'nustology-darkmode-styles';
@@ -569,22 +683,45 @@
     document.head.appendChild(style);
 })();
 
+// AGGRESSIVE JS OVERRIDE - Only inline white backgrounds
 function applyDarkModeOverrides() {
     if (document.documentElement.getAttribute('data-theme') !== 'dark') return;
+    
     document.querySelectorAll('*').forEach(el => {
+        if (!el.style || !el.style.cssText) return;
+        
         const inlineBg = el.style.background || el.style.backgroundColor;
         if (inlineBg) {
             const lower = inlineBg.toLowerCase();
-            if (lower.includes('white') || lower.includes('#fff') || lower.includes('#ffffff') ||
-                lower.includes('rgb(255, 255, 255)') || lower.includes('rgb(255,255,255)')) {
+            if (
+                lower.includes('white') ||
+                lower === '#fff' || lower === '#ffffff' ||
+                lower.includes('#fff ') || lower.includes('#ffffff ') ||
+                lower.includes('rgb(255, 255, 255)') ||
+                lower.includes('rgb(255,255,255)')
+            ) {
                 el.style.setProperty('background', '#1e293b', 'important');
-                el.style.setProperty('color', '#f1f5f9', 'important');
+                const inlineColor = el.style.color;
+                if (inlineColor) {
+                    const colorLower = inlineColor.toLowerCase();
+                    if (colorLower.includes('#0') || colorLower.includes('#1') ||
+                        colorLower.includes('black') || colorLower.includes('dark')) {
+                        el.style.setProperty('color', '#f1f5f9', 'important');
+                    }
+                }
             }
         }
     });
 }
 
-// Inject sidebar close button on mobile
+// Detect chat page and add class
+function detectChatPage() {
+    if (window.location.pathname.includes('chat')) {
+        document.body.classList.add('chat-page');
+    }
+}
+
+// Sidebar close button
 function injectSidebarCloseButton() {
     const sidebar = document.querySelector('.sidebar');
     if (!sidebar || sidebar.querySelector('.sidebar-close-mobile')) return;
@@ -603,7 +740,6 @@ function injectSidebarCloseButton() {
     };
     sidebar.appendChild(closeBtn);
     
-    // Also close sidebar when clicking outside on mobile
     document.addEventListener('click', function(e) {
         if (window.innerWidth > 768) return;
         if (!sidebar.contains(e.target) && !e.target.closest('.sidebar-toggle')) {
@@ -613,6 +749,7 @@ function injectSidebarCloseButton() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
+    detectChatPage();
     applyDarkModeOverrides();
     injectSidebarCloseButton();
 
