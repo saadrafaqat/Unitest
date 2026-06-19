@@ -1,37 +1,22 @@
 # ============================================
 # NUSTOLOGY PREP - CLOUDFLARE CONFIGURATION
-# File: wrangler.toml
 # ============================================
 
 name = "nustology-prep"
 compatibility_date = "2024-09-01"
 pages_build_output_dir = "."
 
-# ============================================
 # D1 DATABASE
-# ============================================
 [[d1_databases]]
 binding = "DB"
 database_name = "nustology-db"
 database_id = "fda742a1-207b-4bd6-8345-2ac57228a329"
 
-# ============================================
-# R2 OBJECT STORAGE (File Uploads)
-# For: PDFs, Notes, Profile Pictures,
-#      Payment Screenshots
-# ============================================
-[[r2_buckets]]
-binding = "R2_BUCKET"
-bucket_name = "nustology-files"
-
-# ============================================
 # ENVIRONMENT VARIABLES
-# ============================================
 [vars]
-# R2 Public URL - Replace with your actual
-# R2 public domain after setup
-R2_PUBLIC_URL = "https://files.nustology-prep.com"
-
-# Site Info
+CLOUDINARY_CLOUD_NAME = "dmvcr0fub"
+CLOUDINARY_API_KEY = "473931283467353"
+CLOUDINARY_API_SECRET = "Fg1TNHl-kjBVxo-UzTkTxGnqfac"
+CLOUDINARY_UPLOAD_PRESET = "nustology_uploads"
 SITE_NAME = "NUSTology Prep"
 ENVIRONMENT = "production"
