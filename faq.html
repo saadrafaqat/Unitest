@@ -4,143 +4,350 @@
     <script src="js/protection.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <meta name="theme-color" content="#1a56db">
     <title>FAQs - NUSTology Prep.</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #1a56db; --primary-dark: #1e3a8a; --primary-bg: #eff6ff;
-            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
-            --white: #fff; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
-        }
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--dark); min-height: 100vh; }
-        .layout { display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: white; border-right: 1px solid var(--gray-lighter); padding: 24px 16px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
-        .sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 0 12px 24px; border-bottom: 1px solid var(--gray-lighter); margin-bottom: 20px; }
-        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
-        .sidebar-logo .text { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
-        .sidebar-logo .nust { color: var(--primary); }
-        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-        .menu-section { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding: 16px 12px 8px; }
-        .menu-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; }
-        .menu-item svg { width: 18px; height: 18px; }
-        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: white; }
-        .main { flex: 1; margin-left: 260px; min-height: 100vh; }
-        .topbar { background: white; padding: 16px 32px; border-bottom: 1px solid var(--gray-lighter); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
-        .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
-        .topbar p { font-size: 13px; color: var(--gray); margin-top: 2px; }
-        .logout-btn { background: var(--gray-lighter); border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--dark); font-family: inherit; }
-        .logout-btn:hover { background: var(--danger); color: white; }
-        .content { padding: 32px; max-width: 900px; margin: 0 auto; }
 
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #1e3a8a;
+            --primary-bg: #eff6ff;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-lighter: #e2e8f0;
+            --white: #fff;
+            --bg: #f8fafc;
+            --border: #e2e8f0;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 10px;
+            --radius-lg: 14px;
+        }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            min-height: 100vh;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .layout { display: flex; min-height: 100vh; }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.25s ease;
+        }
+        .sidebar-logo {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0 10px 18px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+        .sidebar-logo .text { font-size: 16px; font-weight: 700; line-height: 1.2; }
+        .sidebar-logo .nust { color: var(--primary); }
+        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 12px; display: block; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+        .menu-section {
+            font-size: 10px; font-weight: 700; color: #94a3b8;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 14px 12px 6px;
+        }
+        .menu-item {
+            display: flex; align-items: center; gap: 11px;
+            padding: 10px 12px; border-radius: 8px;
+            color: var(--gray); text-decoration: none;
+            font-size: 14px; font-weight: 500;
+            min-height: 40px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .menu-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
+        .menu-item.active { background: var(--primary); color: #fff; }
+
+        /* ========== MAIN ========== */
+        .main {
+            flex: 1;
+            margin-left: 250px;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+        .topbar {
+            background: #fff;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 50;
+            min-height: 60px;
+            gap: 10px;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .topbar h1 { font-size: 18px; font-weight: 700; line-height: 1.2; }
+        .topbar p { font-size: 12px; color: var(--gray); margin-top: 1px; }
+        .mobile-toggle {
+            display: none;
+            background: var(--gray-lighter); border: none;
+            cursor: pointer; padding: 0;
+            border-radius: 8px;
+            width: 40px; height: 40px;
+            align-items: center; justify-content: center;
+        }
+        .mobile-toggle svg { width: 20px; height: 20px; }
+        .logout-btn {
+            background: var(--gray-lighter); border: none;
+            padding: 8px 14px; border-radius: 8px;
+            cursor: pointer; font-size: 13px; font-weight: 600;
+            color: var(--dark); font-family: inherit;
+            min-height: 38px;
+        }
+        .logout-btn:hover { background: var(--danger); color: #fff; }
+
+        .content { padding: 20px; max-width: 900px; margin: 0 auto; }
+
+        /* ========== HERO ========== */
         .faq-hero {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; padding: 32px; border-radius: 16px; margin-bottom: 24px; text-align: center;
+            color: #fff;
+            padding: 26px 22px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 18px;
+            text-align: center;
         }
-        .faq-hero h2 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; margin-bottom: 8px; }
-        .faq-hero p { opacity: 0.9; }
+        .faq-hero h2 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .faq-hero p {
+            opacity: 0.95;
+            font-size: 14px;
+        }
 
+        /* ========== SEARCH ========== */
         .search-box {
-            background: white; padding: 14px 20px; border-radius: 12px;
-            border: 1px solid var(--gray-lighter); margin-bottom: 20px;
-            display: flex; align-items: center; gap: 10px;
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+            display: flex; align-items: center;
+            gap: 10px;
+            min-height: 48px;
         }
-        .search-box svg { width: 20px; height: 20px; color: var(--gray); }
+        .search-box svg {
+            width: 18px; height: 18px;
+            color: var(--gray); flex-shrink: 0;
+        }
         .search-box input {
-            flex: 1; border: none; outline: none; font-family: inherit; font-size: 14px;
+            flex: 1;
+            border: none; outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            background: transparent;
         }
 
+        /* ========== CATEGORY TABS ========== */
         .category-tabs {
-            display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+            display: flex; gap: 6px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
         }
         .cat-tab {
-            padding: 8px 16px; background: white; border: 1.5px solid var(--gray-lighter);
-            border-radius: 20px; font-family: inherit; font-size: 13px; font-weight: 500;
-            cursor: pointer; color: var(--gray); transition: all 0.2s;
+            padding: 8px 14px;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 13px; font-weight: 600;
+            cursor: pointer;
+            color: var(--gray);
+            white-space: nowrap;
+            min-height: 36px;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
         }
-        .cat-tab:hover { border-color: var(--primary); color: var(--primary); }
-        .cat-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .cat-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .cat-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
 
+        /* ========== FAQ ITEM ========== */
         .faq-item {
-            background: white; border: 1px solid var(--gray-lighter); border-radius: 12px;
-            margin-bottom: 12px; overflow: hidden; transition: all 0.2s;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            overflow: hidden;
         }
-        .faq-item:hover { border-color: var(--primary); }
         .faq-q {
-            width: 100%; padding: 18px 22px; background: white; border: none;
-            text-align: left; font-family: inherit; font-size: 15px; font-weight: 600;
-            cursor: pointer; display: flex; justify-content: space-between;
-            align-items: center; gap: 16px; color: var(--dark);
+            width: 100%;
+            padding: 16px 18px;
+            background: #fff;
+            border: none;
+            text-align: left;
+            font-family: inherit;
+            font-size: 14px; font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            color: var(--dark);
+            min-height: 56px;
         }
-        .faq-q svg { width: 22px; height: 22px; flex-shrink: 0; transition: transform 0.3s; color: var(--primary); }
+        .faq-q svg {
+            width: 18px; height: 18px;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+            color: var(--primary);
+        }
         .faq-item.open .faq-q svg { transform: rotate(180deg); }
         .faq-a {
-            max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
         }
-        .faq-item.open .faq-a { max-height: 500px; }
+        .faq-item.open .faq-a { max-height: 600px; }
         .faq-a-content {
-            padding: 0 22px 18px; color: var(--gray); font-size: 14px; line-height: 1.7;
+            padding: 0 18px 16px;
+            color: var(--gray);
+            font-size: 14px;
+            line-height: 1.6;
         }
         .faq-cat-badge {
-            display: inline-block; padding: 3px 10px; background: var(--primary-bg);
-            color: var(--primary); border-radius: 20px; font-size: 11px; font-weight: 600;
-            margin-bottom: 12px;
+            display: inline-block;
+            padding: 3px 10px;
+            background: var(--primary-bg);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
+        /* ========== CONTACT CARD ========== */
         .contact-card {
-            background: white; border: 1px solid var(--gray-lighter); border-radius: 14px;
-            padding: 24px; margin-top: 30px; text-align: center;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            margin-top: 24px;
+            text-align: center;
         }
-        .contact-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 6px; }
-        .contact-card p { color: var(--gray); margin-bottom: 16px; font-size: 14px; }
-        .contact-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .contact-card h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+        .contact-card p {
+            color: var(--gray);
+            margin-bottom: 14px;
+            font-size: 13px;
+        }
+        .contact-buttons {
+            display: flex; gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
         .contact-btn {
-            padding: 10px 18px; background: var(--primary); color: white;
-            text-decoration: none; border-radius: 8px; font-size: 13px; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 6px;
+            padding: 10px 16px;
+            background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px; font-weight: 600;
+            display: inline-flex; align-items: center;
+            gap: 6px;
+            min-height: 42px;
         }
         .contact-btn:hover { background: var(--primary-dark); }
+        .contact-btn svg { width: 14px; height: 14px; }
 
-        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        /* ========== BOTTOM NAV ========== */
+        .bottom-nav {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            padding: 6px 0;
+            z-index: 90;
+        }
+        .bottom-nav-grid {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+        }
+        .bottom-nav a {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 3px; padding: 6px 4px;
+            text-decoration: none; color: var(--gray);
+            font-size: 10px; font-weight: 500;
+            min-height: 50px;
+        }
+        .bottom-nav a svg { width: 20px; height: 20px; }
+        .bottom-nav a.active { color: var(--primary); }
+
+        .sidebar-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 99;
+        }
+        .sidebar-overlay.show { display: block; }
+
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
-            .main { margin-left: 0; }
-            .mobile-toggle { display: block; }
-            .content { padding: 20px; }
-        }
-        [data-theme="dark"] .still-questions,
-        [data-theme="dark"] .contact-card,
-        [data-theme="dark"] .help-section,
-        [data-theme="dark"] .faq-footer-card,
-        [data-theme="dark"] .faq-bottom-card {
-            background: #1e293b !important;
-            color: #f1f5f9 !important;
-            border-color: #334155 !important;
-        }
-        [data-theme="dark"] .still-questions h3,
-        [data-theme="dark"] .still-questions p {
-            color: #f1f5f9 !important;
+            .main { margin-left: 0; padding-bottom: 70px; }
+            .mobile-toggle { display: flex; }
+            .bottom-nav { display: block; }
+            .content { padding: 14px; }
+            .topbar { padding: 10px 14px; }
+            .topbar p { display: none; }
+            .faq-hero { padding: 22px 18px; }
+            .faq-hero h2 { font-size: 19px; }
+            .faq-q { padding: 14px 16px; font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
 <div class="layout">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
             <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
-            <div class="text"><span class="nust">NUST</span>ology <div class="prep">Prep.</div></div>
+            <div class="text"><span class="nust">NUST</span>ology <span class="prep">Prep.</span></div>
         </div>
         <ul class="sidebar-menu">
             <div class="menu-section">Main</div>
             <li><a href="student.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
             <li><a href="test.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Take Test</a></li>
             <li><a href="leaderboard.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Leaderboard</a></li>
+            <li><a href="notifications.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</a></li>
             <div class="menu-section">Learn</div>
             <li><a href="lectures.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</a></li>
+            <li><a href="pdfs.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</a></li>
+            <li><a href="notes.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</a></li>
             <li><a href="aggregate.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>Aggregate Calculator</a></li>
             <li><a href="merit.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Past Merit Lists</a></li>
             <li><a href="faq.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>FAQs</a></li>
@@ -154,13 +361,13 @@
 
     <main class="main">
         <div class="topbar">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <div class="topbar-left">
+                <button class="mobile-toggle" onclick="openSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </button>
                 <div>
                     <h1>FAQs</h1>
-                    <p>Frequently Asked Questions about NUST NET</p>
+                    <p>Frequently Asked Questions</p>
                 </div>
             </div>
             <button class="logout-btn" onclick="logout()">Logout</button>
@@ -192,12 +399,12 @@
                 <h3>Still have questions?</h3>
                 <p>Contact our admin team for personalized help</p>
                 <div class="contact-buttons">
-                    <a href="https://wa.me/923001234567" target="_blank" class="contact-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    <a href="https://wa.me/923251534943" target="_blank" class="contact-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                         WhatsApp
                     </a>
                     <a href="mailto:nustologyprep@gmail.com" class="contact-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         Email
                     </a>
                 </div>
@@ -206,7 +413,20 @@
     </main>
 </div>
 
+<!-- BOTTOM NAV (Mobile) -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-grid">
+        <a href="student.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
+        <a href="test.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Tests</a>
+        <a href="faq.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQs</a>
+        <a href="leaderboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Rank</a>
+        <a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>Profile</a>
+    </div>
+</nav>
+
 <script>
+    const API_BASE = '/api';
+
     const FAQS = [
         { cat: 'general', q: 'What is the NUST Entry Test (NET)?', a: 'The NUST Entry Test (NET) is a mandatory standardized test for admission to all undergraduate programs at the National University of Sciences and Technology (NUST), Pakistan. It evaluates candidates in Mathematics, Physics, Chemistry, Biology, English, and Intelligence based on the chosen field.' },
         { cat: 'general', q: 'When is the NET conducted?', a: 'NUST conducts NET 3-4 times during the admission cycle: NET-1 (February), NET-2 (March/April), NET-3 (June), and NET-4 (July/August). You can attempt multiple NETs.' },
@@ -216,22 +436,53 @@
         { cat: 'exam', q: 'What is the duration of NET?', a: 'NET duration is typically 3 hours (180 minutes) for the complete test. You can navigate freely between questions and mark questions for review.' },
         { cat: 'exam', q: 'What is the syllabus for NET?', a: 'NET syllabus is based on FSc/HSSC/A-Levels curriculum. For Engineering: Mathematics (Algebra, Trigonometry, Calculus, Analytical Geometry), Physics (Mechanics, Electricity, Magnetism, Optics, Modern Physics), English (Grammar, Comprehension, Vocabulary), and Intelligence. NUST publishes detailed topic lists before each admission cycle.' },
         { cat: 'exam', q: 'Can I use a calculator in NET?', a: 'No, calculators are NOT allowed in NET. All calculations must be done mentally or on rough paper provided at the test center.' },
-        { cat: 'aggregate', q: 'How is the NUST aggregate calculated?', a: 'NUST aggregate formula: NET Score (75%) + FSc/HSSC (15%) + Matric/SSC (10%). For example, if NET = 80%, FSc = 90%, Matric = 95%, then aggregate = (80×0.75) + (90×0.15) + (95×0.10) = 60 + 13.5 + 9.5 = 83%.' },
+        { cat: 'aggregate', q: 'How is the NUST aggregate calculated?', a: 'NUST aggregate formula: NET Score (75%) + FSc/HSSC (15%) + Matric/SSC (10%). For example, if NET = 80%, FSc = 90%, Matric = 95%, then aggregate = (80x0.75) + (90x0.15) + (95x0.10) = 60 + 13.5 + 9.5 = 83%.' },
         { cat: 'aggregate', q: 'What aggregate is needed for SEECS?', a: 'For SEECS (Computer Science/Software Engineering), the typical merit closes around 85-89%. For other competitive programs like SMME, it usually closes around 82-86%. Merit varies each year based on number of applicants and seats.' },
         { cat: 'aggregate', q: 'How can I calculate my expected aggregate?', a: 'Use our Aggregate Calculator (in the sidebar menu). Enter your expected NET, FSc, and Matric marks to instantly see your aggregate and the program range you may qualify for.' },
         { cat: 'admission', q: 'When does NUST admission open?', a: 'NUST admission typically opens in November-December for the upcoming academic year (starting in September). The exact dates are announced on the official NUST admissions website (ugadmissions.nust.edu.pk).' },
         { cat: 'admission', q: 'What programs does NUST offer?', a: 'NUST offers programs in Engineering (SEECS, SCME, SMME, NICE, etc.), Medical Sciences (ASAB), Business (NBS), Architecture (SADA), and more. Each has separate merit lists.' },
         { cat: 'admission', q: 'How do I apply for NUST?', a: 'Apply online at ugadmissions.nust.edu.pk. Pay the registration fee, register for NET, take the test, and submit your final program preferences after NET results.' },
         { cat: 'admission', q: 'What documents are required?', a: 'You need: Matric/O-Level certificate and transcript, FSc/A-Level certificate (or Part-1 for current students), CNIC/B-Form, recent photographs, and admission fee challan.' },
-        { cat: 'platform', q: 'How do I get access to NUSTology Prep?', a: 'Contact our admin team via WhatsApp or email. After payment, you will receive your unique login credentials within 24 hours.' },
+        { cat: 'platform', q: 'How do I register on NUSTology Prep?', a: 'Click the Register button on the homepage. Fill out your personal details, academic info, select your degree category, choose preferences, create login credentials, then submit payment proof. Admin will approve your account within 24 hours.' },
         { cat: 'platform', q: 'Can I take tests from mobile?', a: 'Yes, NUSTology Prep is fully responsive. However, for the best test experience, we recommend using a laptop/desktop to simulate the actual NET environment.' },
         { cat: 'platform', q: 'How accurate are the mock tests?', a: 'Our mock tests are designed by experts following the latest NUST NET pattern. They cover all topics with similar difficulty and question style. Many students score within 10-15 marks of their mock test scores in the actual NET.' },
         { cat: 'platform', q: 'Can I see my mistakes after the test?', a: 'Yes! After every test, you get a detailed review showing each question, your answer, the correct answer, and your overall performance stats with subject-wise analysis.' },
-        { cat: 'platform', q: 'Is there a refund policy?', a: 'Refunds are processed only if access has not been granted. Once credentials are issued, no refunds apply. Contact admin within 24 hours of payment for any issues.' }
+        { cat: 'platform', q: 'I forgot my password. What should I do?', a: 'Click "Forgot password?" on the login screen and submit your email. The admin will reset your password and send you a new one via email or WhatsApp.' },
+        { cat: 'platform', q: 'Why can I only see tests for my own category?', a: 'When you register, you select a degree category (Engineering, CS, Business, etc.). The platform shows only tests, PDFs and notes that match your category for focused preparation. Contact admin to change your category if needed.' }
     ];
 
     let currentCategory = 'all';
     let searchQuery = '';
+
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('sidebarOverlay').classList.add('show');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+
+    async function checkAuth() {
+        const token = localStorage.getItem('nustology_token');
+        if (!token) { window.location.href = '/index.html'; return; }
+        try {
+            const res = await fetch(`${API_BASE}/auth/verify`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (!data.success) {
+                localStorage.clear();
+                window.location.href = '/index.html';
+                return;
+            }
+            if (!data.user.isApproved) {
+                window.location.href = '/payment-pending.html';
+            }
+        } catch (e) {
+            window.location.href = '/index.html';
+        }
+    }
 
     function renderFaqs() {
         let filtered = FAQS;
@@ -243,20 +494,20 @@
 
         const list = document.getElementById('faqList');
         if (!filtered.length) {
-            list.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--gray);">No FAQs match your search</div>';
+            list.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--gray); font-size: 14px;">No FAQs match your search</div>';
             return;
         }
 
         list.innerHTML = filtered.map((f, i) => `
             <div class="faq-item" id="faq-${i}">
                 <button class="faq-q" onclick="toggleFaq(${i})">
-                    <span>${f.q}</span>
+                    <span>${escapeHtml(f.q)}</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
                 <div class="faq-a">
                     <div class="faq-a-content">
-                        <span class="faq-cat-badge">${f.cat}</span>
-                        <div>${f.a}</div>
+                        <span class="faq-cat-badge">${escapeHtml(f.cat)}</span>
+                        <div>${escapeHtml(f.a)}</div>
                     </div>
                 </div>
             </div>
@@ -279,16 +530,29 @@
         renderFaqs();
     }
 
+    function escapeHtml(str) {
+        if (!str) return '';
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+    }
+
     async function logout() {
+        if (!confirm('Logout?')) return;
         const token = localStorage.getItem('nustology_token');
-        try { await fetch('/api/auth/logout', { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e){}
-        localStorage.clear();
+        try {
+            await fetch(`${API_BASE}/auth/logout`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+        } catch(e){}
+        localStorage.removeItem('nustology_token');
+        localStorage.removeItem('nustology_user');
         window.location.href = '/index.html';
     }
 
-    if (!localStorage.getItem('nustology_token')) window.location.href = '/index.html';
+    checkAuth();
     renderFaqs();
 </script>
-<script src="js/darkmode.js"></script>
 </body>
 </html>
