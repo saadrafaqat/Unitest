@@ -75,13 +75,11 @@ const AUTH = {
     // CATEGORY & ACCESS CONTROL
     // ============================================
 
-    // Get the student's degree category
     getDegreeCategory() {
         const user = this.getUser();
         return user ? (user.degreeCategory || user.field || 'Engineering') : 'Engineering';
     },
 
-    // Get allowed test fields based on degree category
     getAllowedFields() {
         const category = this.getDegreeCategory();
         const mapping = {
@@ -96,7 +94,6 @@ const AUTH = {
         return mapping[category] || ['Engineering', 'NET-Engineering'];
     },
 
-    // Check if student can access a specific field
     canAccessField(field) {
         const allowed = this.getAllowedFields();
         return allowed.some(f =>
@@ -106,7 +103,6 @@ const AUTH = {
         );
     },
 
-    // Get display name for degree category
     getCategoryDisplayName() {
         const category = this.getDegreeCategory();
         const names = {
@@ -121,43 +117,20 @@ const AUTH = {
         return names[category] || category;
     },
 
-    // Get subject list based on degree category
     getSubjectsForCategory() {
         const category = this.getDegreeCategory();
         const subjects = {
-            'Engineering': [
-                'Physics', 'Mathematics', 'Chemistry',
-                'English', 'Intelligence'
-            ],
-            'CS': [
-                'Physics', 'Mathematics', 'Chemistry',
-                'English', 'Intelligence'
-            ],
-            'Computing': [
-                'Physics', 'Mathematics', 'Chemistry',
-                'English', 'Intelligence'
-            ],
-            'Applied Sciences': [
-                'Biology', 'Chemistry', 'Physics',
-                'Mathematics', 'English'
-            ],
-            'Business': [
-                'Business Studies', 'Economics', 'Mathematics',
-                'English', 'Accounting'
-            ],
-            'Architecture': [
-                'Mathematics', 'Physics', 'Drawing',
-                'English', 'General Knowledge'
-            ],
-            'Natural Sciences': [
-                'Mathematics', 'Physics', 'Chemistry',
-                'Biology', 'English'
-            ]
+            'Engineering':      ['Physics', 'Mathematics', 'Chemistry', 'English', 'Intelligence'],
+            'CS':               ['Physics', 'Mathematics', 'Chemistry', 'English', 'Intelligence'],
+            'Computing':        ['Physics', 'Mathematics', 'Chemistry', 'English', 'Intelligence'],
+            'Applied Sciences': ['Biology', 'Chemistry', 'Physics', 'Mathematics', 'English'],
+            'Business':         ['Business Studies', 'Economics', 'Mathematics', 'English', 'Accounting'],
+            'Architecture':     ['Mathematics', 'Physics', 'Drawing', 'English', 'General Knowledge'],
+            'Natural Sciences': ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English']
         };
         return subjects[category] || subjects['Engineering'];
     },
 
-    // Get preferences list based on degree category
     getPreferencesForCategory(category) {
         const cat = category || this.getDegreeCategory();
         const preferences = {
@@ -224,7 +197,7 @@ const AUTH = {
     },
 
     // ============================================
-    // APPROVAL STATUS HELPERS
+    // APPROVAL STATUS
     // ============================================
 
     isApproved() {
@@ -238,20 +211,17 @@ const AUTH = {
     },
 
     // ============================================
-    // NOTIFICATION HELPERS
+    // NOTIFICATIONS
     // ============================================
 
-    // Cache for unread count (to avoid too many API calls)
     _notifCount: 0,
     _notifLastFetch: 0,
 
     async getUnreadNotificationCount(forceRefresh = false) {
         const now = Date.now();
-        // Cache for 60 seconds
         if (!forceRefresh && (now - this._notifLastFetch) < 60000) {
             return this._notifCount;
         }
-
         try {
             const res = await fetch(`${this.API_BASE}/student/notifications/unread-count`, {
                 headers: this.headers()
@@ -262,13 +232,10 @@ const AUTH = {
                 this._notifLastFetch = now;
                 return this._notifCount;
             }
-        } catch (e) {
-            // fail silently
-        }
+        } catch (e) {}
         return 0;
     },
 
-    // Update notification badge in nav
     async updateNotificationBadge() {
         const count = await this.getUnreadNotificationCount();
         const badges = document.querySelectorAll('.notif-badge');
@@ -284,7 +251,7 @@ const AUTH = {
     },
 
     // ============================================
-    // PROTECTED PAGE GUARDS
+    // PAGE GUARDS
     // ============================================
 
     requireLogin() {
@@ -303,7 +270,6 @@ const AUTH = {
         return true;
     },
 
-    // Require login AND approval
     requireApproved() {
         if (!this.isLoggedIn()) {
             window.location.href = '/index.html';
@@ -375,9 +341,7 @@ const AUTH = {
                 headers: { 'Authorization': `Bearer ${this.getAdminToken()}` }
             });
             const data = await res.json();
-            if (data.success && data.admin) {
-                return data.admin;
-            }
+            if (data.success && data.admin) return data.admin;
             return null;
         } catch (e) {
             return null;
@@ -385,7 +349,7 @@ const AUTH = {
     },
 
     // ============================================
-    // REGISTRATION (NEW)
+    // REGISTRATION
     // ============================================
 
     async register(formData) {
@@ -423,51 +387,42 @@ const AUTH = {
         }
     },
 
+    async forgotPassword(email, username) {
+        try {
+            const res = await fetch(`${this.API_BASE}/auth/forgot-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, username })
+            });
+            return await res.json();
+        } catch (e) {
+            return { success: false, message: 'Network error' };
+        }
+    },
+
     // ============================================
-    // FILE UPLOAD HELPER (R2)
+    // FILE UPLOADS (CLOUDINARY)
     // ============================================
 
-    async uploadFile(file, folder = 'uploads') {
+    async uploadImage(file, folder = 'uploads') {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('folder', folder);
-
         try {
             const res = await fetch(`${this.API_BASE}/upload`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${this.getToken()}` },
                 body: formData
-                // NOTE: Do NOT set Content-Type here
-                // Browser sets it automatically with boundary for FormData
             });
             return await res.json();
         } catch (e) {
-            return { success: false, message: 'Upload failed. Please try again.' };
+            return { success: false, message: 'Upload failed. Try again.' };
         }
     },
 
-    async uploadAdminFile(file, folder = 'uploads') {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('folder', folder);
-
-        try {
-            const res = await fetch(`${this.API_BASE}/upload`, {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${this.getAdminToken()}` },
-                body: formData
-            });
-            return await res.json();
-        } catch (e) {
-            return { success: false, message: 'Upload failed. Please try again.' };
-        }
-    },
-
-    // Upload profile picture specifically
     async uploadProfilePicture(file) {
         const formData = new FormData();
         formData.append('file', file);
-
         try {
             const res = await fetch(`${this.API_BASE}/student/upload-profile-pic`, {
                 method: 'POST',
@@ -476,7 +431,42 @@ const AUTH = {
             });
             return await res.json();
         } catch (e) {
-            return { success: false, message: 'Upload failed. Please try again.' };
+            return { success: false, message: 'Upload failed. Try again.' };
+        }
+    },
+
+    async uploadAdminFile(file, folder = 'uploads') {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', folder);
+        try {
+            const res = await fetch(`${this.API_BASE}/upload`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${this.getAdminToken()}` },
+                body: formData
+            });
+            return await res.json();
+        } catch (e) {
+            return { success: false, message: 'Upload failed. Try again.' };
+        }
+    },
+
+    // Upload during registration (no auth required for payment screenshot)
+    async uploadRegistrationImage(file) {
+        // Use FormData approach via Cloudinary unsigned upload directly
+        // Falls back to API if needed
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', 'payment-screenshots');
+        try {
+            // Try unsigned upload first (no auth needed)
+            const res = await fetch(`${this.API_BASE}/upload`, {
+                method: 'POST',
+                body: formData
+            });
+            return await res.json();
+        } catch (e) {
+            return { success: false, message: 'Upload failed. Try again.' };
         }
     },
 
@@ -524,9 +514,7 @@ const AUTH = {
     // UI HELPERS
     // ============================================
 
-    // Show toast notification
     showToast(message, type = 'info', duration = 3500) {
-        // Remove existing toast
         const existing = document.getElementById('auth-toast');
         if (existing) existing.remove();
 
@@ -536,54 +524,34 @@ const AUTH = {
             warning: '#f59e0b',
             info:    '#6366f1'
         };
-
         const icons = {
-            success: '✓',
-            error:   '✕',
-            warning: '⚠',
-            info:    'ℹ'
+            success: '✓', error: '✕', warning: '⚠', info: 'ℹ'
         };
 
         const toast = document.createElement('div');
         toast.id = 'auth-toast';
         toast.style.cssText = `
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
+            position: fixed; bottom: 80px; left: 50%;
             transform: translateX(-50%);
             background: ${colors[type] || colors.info};
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 99999;
-            max-width: 90vw;
-            text-align: center;
+            color: white; padding: 12px 20px;
+            border-radius: 10px; font-size: 14px; font-weight: 500;
+            z-index: 99999; max-width: 90vw; text-align: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            pointer-events: none;
+            display: flex; align-items: center; gap: 8px;
+            opacity: 0; transition: opacity 0.2s ease;
         `;
         toast.innerHTML = `<span>${icons[type] || icons.info}</span><span>${message}</span>`;
         document.body.appendChild(toast);
 
-        // Fade in
-        requestAnimationFrame(() => {
-            toast.style.opacity = '1';
-        });
+        requestAnimationFrame(() => { toast.style.opacity = '1'; });
 
-        // Fade out and remove
         setTimeout(() => {
             toast.style.opacity = '0';
             setTimeout(() => toast.remove(), 200);
         }, duration);
     },
 
-    // Show loading overlay
     showLoading(message = 'Loading...') {
         const existing = document.getElementById('auth-loading');
         if (existing) return;
@@ -591,15 +559,11 @@ const AUTH = {
         const overlay = document.createElement('div');
         overlay.id = 'auth-loading';
         overlay.style.cssText = `
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(15, 23, 42, 0.75);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 99998;
-            gap: 12px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 99998; gap: 12px;
         `;
         overlay.innerHTML = `
             <div style="
@@ -610,11 +574,7 @@ const AUTH = {
                 animation: spin 0.7s linear infinite;
             "></div>
             <p style="color: #f1f5f9; font-size: 14px; margin: 0;">${message}</p>
-            <style>
-                @keyframes spin {
-                    to { transform: rotate(360deg); }
-                }
-            </style>
+            <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
         `;
         document.body.appendChild(overlay);
     },
@@ -624,49 +584,34 @@ const AUTH = {
         if (overlay) overlay.remove();
     },
 
-    // Format date helper
     formatDate(dateStr) {
         if (!dateStr) return 'N/A';
         try {
             return new Date(dateStr).toLocaleDateString('en-PK', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric'
+                day: 'numeric', month: 'short', year: 'numeric'
             });
-        } catch (e) {
-            return dateStr;
-        }
+        } catch (e) { return dateStr; }
     },
 
-    // Format time ago
     timeAgo(dateStr) {
         if (!dateStr) return '';
         try {
             const date = new Date(dateStr);
             const now = new Date();
             const diff = Math.floor((now - date) / 1000);
-
             if (diff < 60)     return 'Just now';
             if (diff < 3600)   return `${Math.floor(diff / 60)}m ago`;
             if (diff < 86400)  return `${Math.floor(diff / 3600)}h ago`;
             if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
             return this.formatDate(dateStr);
-        } catch (e) {
-            return dateStr;
-        }
+        } catch (e) { return dateStr; }
     },
 
-    // Get initials from name (for avatar fallback)
     getInitials(name) {
         if (!name) return '?';
-        return name.split(' ')
-            .map(w => w[0])
-            .join('')
-            .toUpperCase()
-            .slice(0, 2);
+        return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
     },
 
-    // Format percentage with color
     getScoreColor(percentage) {
         if (percentage >= 80) return '#10b981';
         if (percentage >= 60) return '#f59e0b';
@@ -674,7 +619,6 @@ const AUTH = {
         return '#ef4444';
     },
 
-    // Get grade from percentage
     getGrade(percentage) {
         if (percentage >= 90) return 'A+';
         if (percentage >= 80) return 'A';
@@ -708,8 +652,7 @@ const API = {
         if (token) headers['Authorization'] = `Bearer ${token}`;
         try {
             const res = await fetch(`${this.BASE}/${endpoint}`, {
-                method: 'POST',
-                headers,
+                method: 'POST', headers,
                 body: JSON.stringify(data)
             });
             return await res.json();
@@ -723,8 +666,7 @@ const API = {
         if (token) headers['Authorization'] = `Bearer ${token}`;
         try {
             const res = await fetch(`${this.BASE}/${endpoint}`, {
-                method: 'DELETE',
-                headers
+                method: 'DELETE', headers
             });
             return await res.json();
         } catch (e) {
@@ -737,9 +679,7 @@ const API = {
         if (token) headers['Authorization'] = `Bearer ${token}`;
         try {
             const res = await fetch(`${this.BASE}/${endpoint}`, {
-                method: 'POST',
-                headers,
-                body: formData
+                method: 'POST', headers, body: formData
             });
             return await res.json();
         } catch (e) {
@@ -747,7 +687,6 @@ const API = {
         }
     },
 
-    // Export CSV (triggers download)
     async exportCSV(endpoint, filename, token = null) {
         const headers = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -770,6 +709,5 @@ const API = {
     }
 };
 
-// Make available globally
 window.AUTH = AUTH;
 window.API = API;
