@@ -612,6 +612,42 @@
             .steps-container::before { display: none; }
         }
         @media (max-width: 768px) {
+            /* Logo and brand fits on one line */
+            .nav-logo {
+                font-size: 16px !important;
+                gap: 8px !important;
+                flex-shrink: 1;
+                min-width: 0;
+            }
+            .nav-logo img {
+                width: 32px !important;
+                height: 32px !important;
+                flex-shrink: 0;
+            }
+            .nav-logo span { display: inline-block !important; white-space: nowrap; }
+            .nav-logo .prep { font-size: 14px !important; }
+            
+            /* Compact nav */
+            .nav-container { padding: 0 12px !important; height: 60px !important; gap: 6px; }
+            .nav-actions { gap: 6px !important; }
+            
+            /* Smaller theme toggle in navbar */
+            .theme-toggle {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            .theme-toggle svg { width: 16px !important; height: 16px !important; }
+            
+            /* Hide Admin button on mobile */
+            .nav-actions .btn-outline { display: none !important; }
+            
+            /* Compact Login button */
+            .nav-actions .btn-primary {
+                padding: 8px 14px !important;
+                font-size: 13px !important;
+            }
+            .nav-actions .btn-primary svg { width: 14px !important; height: 14px !important; }
+        @media (max-width: 768px) {
             .nav-links {
                 display: none; position: fixed; top: 72px; left: 0; right: 0;
                 background: var(--white); flex-direction: column;
