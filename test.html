@@ -4,263 +4,346 @@
     <script src="js/protection.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <meta name="theme-color" content="#1a56db">
     <title>Test - NUSTology Prep.</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --primary: #1a56db; --primary-dark: #1e3a8a; --primary-light: #3b82f6;
-            --primary-bg: #eff6ff; --primary-bg2: #dbeafe;
-            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
-            --white: #ffffff; --danger: #ef4444; --success: #22c55e; --warning: #f59e0b;
-            --transition: all 0.3s ease;
-        }
-        body {
-            font-family: 'Inter', sans-serif; background: #f8fafc;
-            color: var(--dark); min-height: 100vh;
+            --primary: #1a56db;
+            --primary-dark: #1e3a8a;
+            --primary-light: #3b82f6;
+            --primary-bg: #eff6ff;
+            --primary-bg2: #dbeafe;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-lighter: #e2e8f0;
+            --white: #fff;
+            --bg: #f8fafc;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --radius: 10px;
+            --radius-lg: 14px;
         }
 
-        /* ===== SELECTION PAGE ===== */
-        .selection-page { min-height: 100vh; padding: 32px; }
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            min-height: 100vh;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* ========== SELECTION PAGE ========== */
+        .selection-page { min-height: 100vh; padding: 16px; }
 
         .header {
-            background: white; padding: 16px 24px; border-radius: 14px;
-            margin-bottom: 24px; display: flex; align-items: center;
-            justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            background: #fff;
+            padding: 12px 18px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 18px;
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid var(--border);
+            gap: 10px;
         }
-
-        .header-left { display: flex; align-items: center; gap: 12px; }
-        .header-logo { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
-        .header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; }
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .header-logo { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+        .header h1 { font-size: 16px; font-weight: 700; }
         .header h1 .nust { color: var(--primary); }
+        .header h1 .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
 
         .back-btn {
-            background: var(--gray-lighter); border: none; padding: 8px 16px;
-            border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 13px;
-            font-weight: 500; color: var(--dark); text-decoration: none;
-            display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
+            background: var(--gray-lighter);
+            border: none; padding: 8px 14px;
+            border-radius: 8px; cursor: pointer;
+            font-family: inherit; font-size: 13px;
+            font-weight: 600; color: var(--dark);
+            text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px;
+            min-height: 38px;
         }
-        .back-btn:hover { background: var(--primary); color: white; }
+        .back-btn:hover { background: var(--primary); color: #fff; }
+        .back-btn svg { width: 14px; height: 14px; }
 
-        .container { max-width: 1100px; margin: 0 auto; }
-        .page-title { text-align: center; margin-bottom: 32px; }
-        .page-title h2 {
-            font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin-bottom: 8px;
+        .container { max-width: 1000px; margin: 0 auto; }
+        .page-title { text-align: center; margin-bottom: 24px; }
+        .page-title h2 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+        .page-title p { color: var(--gray); font-size: 14px; }
+
+        .access-info-banner {
+            background: var(--primary-bg);
+            border: 1px solid var(--primary-bg2);
+            color: var(--primary);
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            font-size: 13px;
+            display: flex; align-items: flex-start; gap: 10px;
         }
-        .page-title p { color: var(--gray); font-size: 15px; }
+        .access-info-banner svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
 
-        .steps { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px; }
-        .step-dot {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: white; border: 2px solid var(--gray-lighter);
+        .steps {
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 14px; color: var(--gray); transition: var(--transition);
+            gap: 8px; margin-bottom: 24px;
         }
-        .step-dot.active { background: var(--primary); border-color: var(--primary); color: white; }
-        .step-dot.complete { background: var(--success); border-color: var(--success); color: white; }
-        .step-line { width: 60px; height: 2px; background: var(--gray-lighter); }
+        .step-dot {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #fff; border: 2px solid var(--gray-lighter);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 13px; color: var(--gray);
+        }
+        .step-dot.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+        .step-dot.complete { background: var(--success); border-color: var(--success); color: #fff; }
+        .step-line { width: 40px; height: 2px; background: var(--gray-lighter); }
         .step-line.active { background: var(--primary); }
 
-        .candidate-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--primary-bg); color: var(--primary);
-            padding: 6px 14px; border-radius: 20px; font-size: 12px;
-            font-weight: 600; margin-bottom: 12px;
-        }
-        .candidate-badge::before {
-            content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--success);
-        }
-
         .field-list {
-            display: flex; flex-direction: column; gap: 14px;
+            display: flex; flex-direction: column; gap: 10px;
             max-width: 700px; margin: 0 auto;
         }
         .field-row {
-            background: white; border: 2px solid var(--gray-lighter);
-            border-radius: 14px; padding: 18px 22px; cursor: pointer;
-            transition: var(--transition); display: flex; align-items: center; gap: 16px;
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 14px 18px;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 14px;
+            transition: border-color 0.2s, background 0.2s;
         }
-        .field-row:hover {
-            border-color: var(--primary-light);
-            box-shadow: 0 6px 20px rgba(26, 86, 219, 0.10);
-            transform: translateY(-2px);
-        }
+        .field-row:hover { border-color: var(--primary-light); }
         .field-row.selected { border-color: var(--primary); background: var(--primary-bg); }
+        .field-row.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f1f5f9;
+        }
+        .field-row.locked:hover { border-color: var(--border); }
+
         .field-radio {
-            width: 22px; height: 22px; border-radius: 50%;
-            border: 2px solid var(--gray-lighter); flex-shrink: 0;
-            position: relative; transition: var(--transition);
+            width: 20px; height: 20px; border-radius: 50%;
+            border: 2px solid var(--gray-lighter);
+            flex-shrink: 0; position: relative;
         }
         .field-row.selected .field-radio { border-color: var(--primary); }
         .field-row.selected .field-radio::after {
-            content: ''; position: absolute; inset: 4px;
+            content: ''; position: absolute; inset: 3px;
             border-radius: 50%; background: var(--primary);
         }
-        .field-content { flex: 1; }
+        .field-content { flex: 1; min-width: 0; }
         .field-content h3 {
-            font-family: 'Space Grotesk', sans-serif; font-size: 17px;
-            font-weight: 700; color: var(--primary); margin-bottom: 2px;
+            font-size: 15px; font-weight: 700;
+            color: var(--primary); margin-bottom: 2px;
         }
-        .field-content .desc { font-size: 12px; color: var(--gray); margin-bottom: 8px; }
-        .field-subjects-line { display: flex; gap: 8px; flex-wrap: wrap; }
+        .field-row.locked .field-content h3 { color: var(--gray); }
+        .field-content .desc { font-size: 12px; color: var(--gray); margin-bottom: 6px; }
+        .field-subjects-line { display: flex; gap: 5px; flex-wrap: wrap; }
         .field-subjects-line .pill {
             background: var(--primary-bg); color: var(--primary);
-            padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500;
+            padding: 2px 8px; border-radius: 20px;
+            font-size: 10px; font-weight: 500;
         }
         .field-code-badge {
             background: var(--primary-bg); color: var(--primary);
-            padding: 5px 12px; border-radius: 6px; font-size: 12px;
-            font-weight: 700; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.5px;
+            padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+            flex-shrink: 0;
         }
+        .lock-icon {
+            background: var(--gray-lighter);
+            color: var(--gray);
+            padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .lock-icon svg { width: 12px; height: 12px; }
+
         .start-assessment-btn {
-            display: block; width: 100%; max-width: 700px;
-            margin: 24px auto 0; padding: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; border: none; border-radius: 12px;
-            font-family: inherit; font-size: 16px; font-weight: 700;
-            cursor: pointer; transition: var(--transition);
-            box-shadow: 0 4px 14px rgba(26, 86, 219, 0.4);
+            display: block; width: 100%;
+            max-width: 700px;
+            margin: 18px auto 0;
+            padding: 14px;
+            background: var(--primary);
+            color: #fff; border: none;
+            border-radius: var(--radius-lg);
+            font-family: inherit; font-size: 15px; font-weight: 700;
+            cursor: pointer;
+            min-height: 48px;
         }
-        .start-assessment-btn:hover:not(:disabled) {
-            transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26, 86, 219, 0.5);
-        }
+        .start-assessment-btn:hover:not(:disabled) { background: var(--primary-dark); }
         .start-assessment-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .test-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .test-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
         .test-card {
-            background: white; border: 2px solid var(--gray-lighter);
-            border-radius: 16px; padding: 28px; cursor: pointer; transition: var(--transition);
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
         }
-        .test-card:hover {
-            border-color: var(--primary); transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
+        .test-card:hover { border-color: var(--primary); }
         .test-card.grand {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white; border-color: transparent;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff; border-color: transparent;
         }
-        .test-card.grand h3, .test-card.grand p { color: white; }
+        .test-card.grand h3,
+        .test-card.grand p { color: #fff; }
         .test-card.grand .meta-item { color: rgba(255,255,255,0.85); }
-        .test-card.grand .meta-icon { background: rgba(255,255,255,0.2); color: white; }
-        .test-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .test-card.grand .meta-icon { background: rgba(255,255,255,0.2); color: #fff; }
+        .test-card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 12px;
+        }
         .test-card-icon {
-            width: 48px; height: 48px; border-radius: 12px;
+            width: 42px; height: 42px; border-radius: 10px;
             background: var(--primary-bg); color: var(--primary);
             display: flex; align-items: center; justify-content: center;
         }
-        .test-card.grand .test-card-icon { background: rgba(255,255,255,0.2); color: white; }
-        .test-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .test-card.grand .test-card-icon { background: rgba(255,255,255,0.2); color: #fff; }
+        .test-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
         .test-card .badge-tag {
-            background: var(--warning); color: white; padding: 4px 10px;
-            border-radius: 20px; font-size: 11px; font-weight: 600;
+            background: var(--warning); color: #fff;
+            padding: 3px 10px; border-radius: 20px;
+            font-size: 10px; font-weight: 700;
         }
-        .test-card p { font-size: 13px; color: var(--gray); margin-bottom: 16px; line-height: 1.6; }
-        .test-meta { display: flex; gap: 16px; padding-top: 14px; border-top: 1px solid var(--gray-lighter); }
+        .test-card p { font-size: 13px; color: var(--gray); margin-bottom: 14px; line-height: 1.5; }
+        .test-meta {
+            display: flex; gap: 14px; padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
         .test-card.grand .test-meta { border-top-color: rgba(255,255,255,0.2); }
-        .meta-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray); }
+        .meta-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 12px; color: var(--gray);
+        }
         .meta-icon {
-            width: 22px; height: 22px; border-radius: 6px;
+            width: 20px; height: 20px; border-radius: 5px;
             background: var(--primary-bg); color: var(--primary);
             display: flex; align-items: center; justify-content: center;
         }
 
-        .subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
         .subject-card {
-            background: white; border: 2px solid var(--gray-lighter);
-            border-radius: 14px; padding: 20px; cursor: pointer;
-            transition: var(--transition); text-align: center;
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.2s, background 0.2s;
         }
-        .subject-card:hover {
-            border-color: var(--primary); transform: translateY(-3px); background: var(--primary-bg);
-        }
+        .subject-card:hover { border-color: var(--primary); background: var(--primary-bg); }
         .subject-card .subject-icon {
-            width: 50px; height: 50px; border-radius: 12px;
-            margin: 0 auto 12px; background: var(--primary-bg); color: var(--primary);
+            width: 44px; height: 44px; border-radius: 10px;
+            margin: 0 auto 10px;
+            background: var(--primary-bg); color: var(--primary);
             display: flex; align-items: center; justify-content: center;
-            font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px;
+            font-weight: 700; font-size: 17px;
         }
-        .subject-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-        .subject-card .count { font-size: 12px; color: var(--gray); }
+        .subject-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .subject-card .count { font-size: 11px; color: var(--gray); }
         .subject-card .weight-badge {
-            display: inline-block; margin-top: 6px; background: var(--warning);
-            color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600;
+            display: inline-block; margin-top: 6px;
+            background: var(--warning); color: #fff;
+            padding: 2px 8px; border-radius: 10px;
+            font-size: 10px; font-weight: 600;
         }
 
-        /* Confirm Modal */
+        /* ========== CONFIRM MODAL ========== */
         .confirm-modal {
             display: none; position: fixed; inset: 0;
-            background: rgba(15,23,42,0.7); backdrop-filter: blur(8px);
-            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+            background: rgba(15,23,42,0.5);
+            z-index: 1000;
+            align-items: center; justify-content: center;
+            padding: 16px;
         }
         .confirm-modal.show { display: flex; }
         .confirm-box {
-            background: white; border-radius: 16px; max-width: 480px;
-            width: 100%; padding: 32px; text-align: center;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            max-width: 440px;
+            width: 100%;
+            padding: 26px 22px;
+            text-align: center;
         }
-        .confirm-box h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 22px; font-weight: 700; margin-bottom: 8px;
-        }
-        .confirm-box p { color: var(--gray); margin-bottom: 20px; font-size: 14px; }
+        .confirm-box h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+        .confirm-box p { color: var(--gray); margin-bottom: 16px; font-size: 13px; }
         .confirm-info {
-            background: var(--primary-bg); border-radius: 10px;
-            padding: 16px; margin-bottom: 20px; text-align: left;
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 18px;
+            text-align: left;
         }
-        .info-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; }
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 5px 0; font-size: 13px;
+        }
         .info-row .label { color: var(--gray); }
         .info-row .value { font-weight: 600; }
         .modal-buttons { display: flex; gap: 10px; }
         .btn {
-            flex: 1; padding: 12px 20px; border: none; border-radius: 10px;
+            flex: 1; padding: 12px 18px;
+            border: none; border-radius: 8px;
             font-family: inherit; font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: var(--transition);
+            cursor: pointer;
+            min-height: 44px;
         }
         .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
-        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary { background: var(--primary); color: #fff; }
         .btn-primary:hover { background: var(--primary-dark); }
 
-        /* ===== TEST INTERFACE (NUST STYLE) ===== */
+        /* ========== TEST INTERFACE ========== */
         .test-interface { display: none; min-height: 100vh; background: #eaf2fb; }
         .test-interface.active { display: block; }
 
-        /* Top Subject + Title Bar (NUST Blue Style) */
         .test-top-bar {
-            background: white;
+            background: #fff;
             border: 2px solid #3b82f6;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 16px;
-            font-size: 14px;
-            margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 9px 14px;
+            font-size: 13px;
             max-width: 1200px;
+            margin: 0 auto;
+            gap: 10px;
         }
         .test-top-bar .subject-name {
             color: var(--success);
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 700; font-size: 13px;
         }
         .test-top-bar .center-title {
             color: var(--danger);
-            font-weight: 700;
-            font-size: 14px;
-            text-align: center;
-            flex: 1;
+            font-weight: 700; font-size: 13px;
+            text-align: center; flex: 1;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .test-top-bar .user-code {
             color: var(--danger);
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 700; font-size: 13px;
+            white-space: nowrap;
         }
 
-        /* Main test Container */
         .test-main {
             display: grid;
-            grid-template-columns: 1fr 200px;
+            grid-template-columns: 1fr 180px;
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: #fff;
             border-left: 2px solid #3b82f6;
             border-right: 2px solid #3b82f6;
             min-height: calc(100vh - 100px);
@@ -271,300 +354,267 @@
         .question-header {
             background: var(--primary-bg);
             border-bottom: 1px solid #3b82f6;
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 8px 14px;
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 13px; font-weight: 600;
         }
         .question-number .num { color: var(--primary); font-weight: 700; }
-        .marks-display { color: var(--dark); }
 
-        .question-content { padding: 14px 16px; flex: 1; }
-
+        .question-content { padding: 12px 14px; flex: 1; }
         .question-label {
             background: var(--primary-bg);
-            padding: 6px 14px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 5px 12px; border-radius: 4px;
+            font-size: 12px; font-weight: 600;
             margin-bottom: 10px;
-            display: inline-block;
-            color: var(--dark);
+            display: inline-block; color: var(--dark);
         }
-
         .question-passage {
             background: #fef9c3;
             border-left: 4px solid var(--warning);
-            padding: 12px 16px;
+            padding: 12px 14px;
             border-radius: 4px;
             margin-bottom: 10px;
-            font-size: 13px;
-            line-height: 1.6;
-            color: var(--dark);
-            font-style: italic;
+            font-size: 13px; line-height: 1.6;
+            color: var(--dark); font-style: italic;
         }
-
         .question-text {
-            background: white;
-            border: 1px solid var(--gray-lighter);
+            background: #fff;
+            border: 1px solid var(--border);
             padding: 14px;
             border-radius: 4px;
             min-height: 80px;
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--dark);
+            font-size: 14px; line-height: 1.6;
         }
-
         .question-image { max-width: 100%; margin: 12px 0; border-radius: 6px; }
 
-        .answer-section { padding: 0 16px 16px; }
+        .answer-section { padding: 0 14px 14px; }
         .answer-header {
-            background: var(--primary-bg); padding: 8px 12px;
-            border-radius: 4px; font-size: 13px; font-weight: 600;
-            margin-bottom: 10px; color: var(--dark);
+            background: var(--primary-bg);
+            padding: 7px 12px; border-radius: 4px;
+            font-size: 12px; font-weight: 600;
+            margin-bottom: 8px;
         }
-        .answer-header .red-text { color: var(--primary); font-weight: 500; font-size: 12px; }
+        .answer-header .red-text {
+            color: var(--primary); font-weight: 500; font-size: 11px;
+        }
 
         .option-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 14px; border: 1px solid var(--gray-lighter);
-            border-radius: 4px; margin-bottom: 6px; cursor: pointer;
-            transition: var(--transition); background: white;
+            display: flex; align-items: center; gap: 11px;
+            padding: 10px 13px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            background: #fff;
+            transition: border-color 0.2s, background 0.2s;
+            min-height: 44px;
         }
         .option-item:hover { border-color: var(--primary); background: var(--primary-bg); }
         .option-item.selected { border-color: var(--primary); background: var(--primary-bg); }
-        .option-item input[type="radio"] { accent-color: var(--primary); width: 16px; height: 16px; cursor: pointer; }
+        .option-item input[type="radio"] {
+            accent-color: var(--primary);
+            width: 16px; height: 16px;
+            cursor: pointer; flex-shrink: 0;
+        }
         .option-item label { flex: 1; cursor: pointer; font-size: 14px; }
 
-        /* Right Sidebar - Photo */
         .test-sidebar {
             background: var(--primary-bg);
             border-left: 1px solid #3b82f6;
-            padding: 12px;
+            padding: 10px;
         }
         .sidebar-section {
-            background: white; border: 1px solid var(--gray-lighter);
-            border-radius: 6px; padding: 14px; text-align: center;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
         }
         .sidebar-section h4 {
-            font-size: 11px; color: var(--danger); text-transform: uppercase;
-            letter-spacing: 1px; margin-bottom: 8px; font-weight: 600;
+            font-size: 11px;
+            color: var(--danger);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
         .photo-box {
-            width: 100%; aspect-ratio: 1; background: #f8fafc;
-            border: 1px solid var(--danger); border-radius: 4px;
+            width: 100%; aspect-ratio: 1;
+            background: #f8fafc;
+            border: 1px solid var(--danger);
+            border-radius: 4px;
             display: flex; align-items: center; justify-content: center;
-            color: var(--gray); font-size: 11px; text-align: center;
-            padding: 8px; overflow: hidden;
+            color: var(--gray);
+            font-size: 11px; text-align: center;
+            padding: 6px; overflow: hidden;
         }
         .photo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
         .photo-initial {
             display: flex; align-items: center; justify-content: center;
-            width: 100%; height: 100%; background: var(--primary);
-            color: white; font-size: 48px; font-weight: 700;
-            font-family: 'Space Grotesk', sans-serif; border-radius: 4px;
+            width: 100%; height: 100%;
+            background: var(--primary); color: #fff;
+            font-size: 40px; font-weight: 700;
+            border-radius: 4px;
         }
 
-        /* Sessions Bar (for Grand Test) */
         .sessions-bar {
-            background: white;
-            border-bottom: 1px solid var(--gray-lighter);
-            padding: 10px 16px;
-            display: flex;
-            gap: 8px;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 8px 14px;
+            display: flex; gap: 6px;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             align-items: center;
         }
         .sessions-bar .label-text {
-            font-size: 12px;
-            color: var(--gray);
-            font-weight: 600;
-            margin-right: 4px;
+            font-size: 11px; color: var(--gray);
+            font-weight: 700; margin-right: 4px;
             white-space: nowrap;
         }
         .session-tab {
-            padding: 6px 14px;
-            border: 1.5px solid var(--gray-lighter);
+            padding: 6px 12px;
+            border: 1.5px solid var(--border);
             border-radius: 20px;
-            background: white;
+            background: #fff;
             font-family: inherit;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px; font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
             white-space: nowrap;
             color: var(--dark);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            display: inline-flex; align-items: center; gap: 6px;
+            min-height: 32px;
         }
-        .session-tab:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        .session-tab.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
+        .session-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .session-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
         .session-tab .session-count {
             background: rgba(255,255,255,0.3);
-            padding: 1px 6px;
-            border-radius: 10px;
-            font-size: 10px;
-        }
-        .session-tab.active .session-count {
-            background: rgba(255,255,255,0.3);
+            padding: 1px 6px; border-radius: 10px; font-size: 10px;
         }
         .session-tab:not(.active) .session-count {
             background: var(--gray-lighter);
             color: var(--gray);
         }
 
-        /* Bottom Bar - Timer & Buttons */
         .test-bottom {
             background: var(--primary-bg);
             border: 2px solid #3b82f6;
             border-top: none;
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 10px 12px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px;
+            max-width: 1200px; margin: 0 auto;
             flex-wrap: wrap;
         }
 
         .timer-box {
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            color: white; padding: 8px 14px; border-radius: 6px;
-            display: flex; align-items: center; gap: 10px;
-            min-width: 160px; box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
+            background: var(--success);
+            color: #fff;
+            padding: 7px 12px;
+            border-radius: 6px;
+            display: flex; align-items: center; gap: 9px;
+            min-width: 140px;
         }
-        .timer-box.warning {
-            background: linear-gradient(135deg, var(--warning), #d97706);
-            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
-        }
-        .timer-box.danger {
-            background: linear-gradient(135deg, var(--danger), #dc2626);
-            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-        .timer-time {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 22px; font-weight: 700; line-height: 1;
-        }
-        .timer-label { font-size: 10px; opacity: 0.9; margin-top: 2px; }
-        .timer-icon { font-size: 22px; }
+        .timer-box.warning { background: var(--warning); }
+        .timer-box.danger { background: var(--danger); }
+        .timer-time { font-size: 20px; font-weight: 700; line-height: 1; }
+        .timer-label { font-size: 10px; opacity: 0.9; }
+        .timer-icon { width: 20px; height: 20px; }
 
-        /* "Go to Question" Input Box */
         .goto-box {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: white;
-            padding: 5px 10px;
+            display: flex; align-items: center; gap: 5px;
+            background: #fff;
+            padding: 4px 8px;
             border: 1.5px solid #3b82f6;
             border-radius: 6px;
         }
         .goto-box label {
-            font-size: 11px;
-            color: var(--dark);
-            font-weight: 600;
-            white-space: nowrap;
+            font-size: 11px; color: var(--dark);
+            font-weight: 600; white-space: nowrap;
         }
         .goto-box input {
-            width: 50px;
-            padding: 4px 6px;
-            border: 1px solid var(--gray-lighter);
+            width: 45px; padding: 3px 6px;
+            border: 1px solid var(--border);
             border-radius: 4px;
-            font-family: inherit;
-            font-size: 12px;
+            font-family: inherit; font-size: 12px;
             text-align: center;
         }
         .goto-box input:focus { outline: none; border-color: var(--primary); }
         .goto-box button {
             padding: 4px 10px;
             background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: 600;
+            color: #fff; border: none; border-radius: 4px;
+            font-family: inherit; font-size: 11px; font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
         }
         .goto-box button:hover { background: var(--primary-dark); }
 
-        .nav-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
-
+        .nav-buttons { display: flex; gap: 5px; flex-wrap: wrap; }
         .nav-btn {
-            background: linear-gradient(180deg, #f8fafc, #e2e8f0);
-            border: 1px solid #cbd5e1; padding: 6px 10px;
-            border-radius: 5px; cursor: pointer; font-family: inherit;
-            font-size: 10px; font-weight: 600; color: var(--dark);
-            transition: var(--transition); display: flex;
-            flex-direction: column; align-items: center;
-            min-width: 54px; line-height: 1.2;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 6px 9px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 10px; font-weight: 600;
+            color: var(--dark);
+            display: flex; flex-direction: column;
+            align-items: center;
+            min-width: 50px; line-height: 1.2;
         }
         .nav-btn:hover {
-            background: linear-gradient(180deg, var(--primary-bg), var(--primary-bg2));
-            border-color: var(--primary); color: var(--primary); transform: translateY(-1px);
+            background: var(--primary-bg);
+            border-color: var(--primary);
+            color: var(--primary);
         }
-        .nav-btn svg { width: 16px; height: 16px; margin-bottom: 2px; }
-        .nav-btn.save {
-            background: linear-gradient(180deg, #dcfce7, #bbf7d0);
-            border-color: #86efac; color: #166534;
-        }
-        .nav-btn.section-btn {
-            background: linear-gradient(180deg, var(--primary-light), var(--primary));
-            border-color: var(--primary); color: white;
-        }
-        .nav-btn.section-btn:hover { background: linear-gradient(180deg, var(--primary), var(--primary-dark)); color: white; }
-        .nav-btn.finish-btn {
-            background: linear-gradient(180deg, #fee2e2, #fecaca);
-            border-color: #fca5a5; color: #991b1b;
-        }
+        .nav-btn svg { width: 14px; height: 14px; margin-bottom: 2px; }
+        .nav-btn.save { background: #dcfce7; border-color: #86efac; color: #166534; }
+        .nav-btn.section-btn { background: var(--primary-light); border-color: var(--primary); color: #fff; }
+        .nav-btn.section-btn:hover { background: var(--primary-dark); color: #fff; }
+        .nav-btn.finish-btn { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
         .nav-btn:disabled {
             opacity: 0.4; cursor: not-allowed;
             background: var(--gray-lighter); color: var(--gray);
         }
 
         .test-footer {
-            text-align: center; padding: 12px; background: white;
-            border-top: 1px solid var(--gray-lighter);
+            text-align: center;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid var(--border);
             max-width: 1200px; margin: 0 auto;
         }
         .test-footer a {
-            color: var(--primary); text-decoration: underline;
-            font-size: 14px; font-weight: 500; cursor: pointer;
+            color: var(--primary);
+            text-decoration: underline;
+            font-size: 13px; font-weight: 600;
+            cursor: pointer;
         }
 
-        /* Palette Modal */
+        /* ========== PALETTE MODAL ========== */
         .palette-modal {
             display: none; position: fixed; inset: 0;
-            background: rgba(15,23,42,0.7); backdrop-filter: blur(6px);
-            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+            background: rgba(15,23,42,0.5);
+            z-index: 1000;
+            align-items: center; justify-content: center;
+            padding: 16px;
         }
         .palette-modal.show { display: flex; }
         .palette-box {
-            background: white; border-radius: 14px; max-width: 600px;
-            width: 100%; padding: 24px; max-height: 80vh; overflow-y: auto;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            max-width: 580px;
+            width: 100%;
+            padding: 22px 18px;
+            max-height: 85vh;
+            overflow-y: auto;
         }
-        .palette-box h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px; font-weight: 700; margin-bottom: 6px;
-        }
-        .palette-box .subtitle { color: var(--gray); font-size: 13px; margin-bottom: 14px; }
+        .palette-box h3 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+        .palette-box .subtitle { color: var(--gray); font-size: 12px; margin-bottom: 14px; }
         .palette-section {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             padding-bottom: 12px;
-            border-bottom: 1px solid var(--gray-lighter);
+            border-bottom: 1px solid var(--border);
         }
         .palette-section:last-child { border-bottom: none; }
         .palette-section h4 {
@@ -573,102 +623,132 @@
         }
         .palette-legend {
             display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 6px; margin-bottom: 16px; font-size: 12px;
+            gap: 6px; margin-bottom: 14px;
+            font-size: 11px;
         }
         .legend-item { display: flex; align-items: center; gap: 6px; }
-        .legend-dot { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--gray-lighter); }
+        .legend-dot {
+            width: 16px; height: 16px; border-radius: 4px;
+            border: 1px solid var(--border);
+        }
         .palette-grid {
-            display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
         }
         .palette-btn {
-            width: 100%; aspect-ratio: 1; border: 1.5px solid var(--gray-lighter);
-            border-radius: 5px; background: white; color: var(--dark);
-            font-weight: 600; font-size: 12px; cursor: pointer;
-            transition: var(--transition); font-family: inherit;
+            width: 100%; aspect-ratio: 1;
+            border: 1.5px solid var(--border);
+            border-radius: 5px;
+            background: #fff;
+            color: var(--dark);
+            font-weight: 600; font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
         }
-        .palette-btn:hover { transform: scale(1.1); }
-        .palette-btn.current { border-color: var(--primary); background: var(--primary); color: white; }
-        .palette-btn.answered { background: #16a34a; color: white; border-color: #16a34a; }
-        .palette-btn.marked { background: var(--warning); color: white; border-color: var(--warning); }
+        .palette-btn.current { border-color: var(--primary); background: var(--primary); color: #fff; }
+        .palette-btn.answered { background: var(--success); color: #fff; border-color: var(--success); }
+        .palette-btn.marked { background: var(--warning); color: #fff; border-color: var(--warning); }
 
-        /* Result Page */
-        .result-page { display: none; min-height: 100vh; padding: 32px; background: #f8fafc; }
+        /* ========== RESULT PAGE ========== */
+        .result-page { display: none; min-height: 100vh; padding: 20px; background: var(--bg); }
         .result-page.active { display: block; }
         .result-container {
-            max-width: 800px; margin: 0 auto; background: white;
-            border-radius: 16px; padding: 40px; text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            max-width: 720px; margin: 0 auto;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 30px 24px;
+            text-align: center;
+            border: 1px solid var(--border);
         }
         .result-icon {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--success), #15803d);
-            margin: 0 auto 16px; display: flex; align-items: center;
-            justify-content: center; color: white;
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: var(--success);
+            margin: 0 auto 14px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
         }
-        .result-container h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px; font-weight: 700; margin-bottom: 6px;
-        }
-        .result-container > p { color: var(--gray); margin-bottom: 28px; }
+        .result-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .result-container > p { color: var(--gray); margin-bottom: 24px; }
         .score-display {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; padding: 28px; border-radius: 14px; margin-bottom: 24px;
+            color: #fff;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
         }
-        .score-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 56px; font-weight: 700; line-height: 1;
-        }
-        .score-total { font-size: 20px; opacity: 0.8; }
-        .score-percentage { font-size: 16px; margin-top: 8px; opacity: 0.95; }
+        .score-number { font-size: 48px; font-weight: 700; line-height: 1; }
+        .score-total { font-size: 18px; opacity: 0.8; }
+        .score-percentage { font-size: 15px; margin-top: 6px; opacity: 0.95; }
         .result-stats {
-            display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 14px; margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
         }
         .result-stat {
-            background: #f8fafc; padding: 16px; border-radius: 10px;
-            border: 1px solid var(--gray-lighter);
+            background: var(--bg);
+            padding: 14px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
         }
         .result-stat .label {
             font-size: 11px; color: var(--gray);
-            text-transform: uppercase; letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
-        .result-stat .value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px; font-weight: 700; margin-top: 4px;
-        }
+        .result-stat .value { font-size: 22px; font-weight: 700; margin-top: 4px; }
         .result-stat.correct .value { color: var(--success); }
         .result-stat.wrong .value { color: var(--danger); }
         .result-stat.unattempt .value { color: var(--gray); }
         .result-stat.streak .value { color: var(--warning); }
-        .result-actions { display: flex; gap: 12px; justify-content: center; }
+        .result-actions {
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+        }
         .result-actions .btn {
-            flex: 0 1 200px; text-decoration: none;
-            display: inline-block; text-align: center;
+            flex: 0 1 200px;
+            text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center;
         }
 
-        @media (max-width: 768px) {
-            .test-main { grid-template-columns: 1fr; }
-            .test-sidebar { display: none; }
-            .nav-btn { font-size: 9px; min-width: 44px; padding: 5px 8px; }
-            .timer-box { min-width: 130px; }
-            .test-bottom { flex-direction: column; }
-            .palette-grid { grid-template-columns: repeat(5, 1fr); }
-            .result-stats { grid-template-columns: repeat(2, 1fr); }
-        }
-
+        /* ========== LOADING OVERLAY ========== */
         .loading-overlay {
-            position: fixed; inset: 0; background: rgba(255,255,255,0.95);
+            position: fixed; inset: 0;
+            background: rgba(255,255,255,0.95);
             display: none; align-items: center; justify-content: center;
-            z-index: 9999; flex-direction: column; gap: 16px;
+            z-index: 9999;
+            flex-direction: column; gap: 14px;
         }
         .loading-overlay.show { display: flex; }
         .spinner {
-            width: 50px; height: 50px;
-            border: 4px solid var(--gray-lighter);
+            width: 44px; height: 44px;
+            border: 3px solid var(--gray-lighter);
             border-top-color: var(--primary);
-            border-radius: 50%; animation: spin 0.8s linear infinite;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .test-main { grid-template-columns: 1fr; }
+            .test-sidebar { display: none; }
+            .nav-btn { font-size: 9px; min-width: 42px; padding: 5px 6px; }
+            .timer-box { min-width: 120px; }
+            .test-bottom { flex-direction: column; align-items: stretch; }
+            .nav-buttons { justify-content: center; }
+            .palette-grid { grid-template-columns: repeat(5, 1fr); }
+            .result-stats { grid-template-columns: repeat(2, 1fr); }
+            .page-title h2 { font-size: 20px; }
+            .test-types { grid-template-columns: 1fr; }
+            .header { padding: 10px 12px; }
+            .header h1 { font-size: 14px; }
+            .header h1 .prep { font-size: 12px; }
+            .header-logo { width: 28px; height: 28px; }
+            .result-container { padding: 24px 18px; }
+            .score-number { font-size: 38px; }
+            .result-actions .btn { flex: 1 1 100%; }
+        }
     </style>
 </head>
 <body>
@@ -683,11 +763,11 @@
     <div class="header">
         <div class="header-left">
             <img src="images/nustology.jpg" alt="" class="header-logo" onerror="this.style.display='none'">
-            <h1><span class="nust">NUST</span>ology Prep.</h1>
+            <h1><span class="nust">NUST</span>ology <span class="prep">Prep.</span></h1>
         </div>
         <a href="student.html" class="back-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Back to Dashboard
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Dashboard
         </a>
     </div>
 
@@ -695,6 +775,11 @@
         <div class="page-title">
             <h2>Take a Mock Test</h2>
             <p>Practice in a real NUST CBT environment</p>
+        </div>
+
+        <div class="access-info-banner" id="accessBanner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>Loading your access information...</div>
         </div>
 
         <div class="steps">
@@ -707,61 +792,57 @@
 
         <!-- Step 1: Field -->
         <div id="stepContent1">
-            <div style="text-align:center; margin-bottom:20px;">
-                <div class="candidate-badge">CANDIDATE: NUST-STUDENT</div>
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; color: var(--primary); margin-bottom: 4px;">Select Your Test Field / Stream</h3>
-                <p style="font-size: 12px; color: var(--danger); font-weight: 600; letter-spacing: 0.5px;">CHOOSE THE APPROPRIATE CATEGORY FOR ASSESSMENT</p>
-            </div>
+            <h3 style="text-align:center; font-size:18px; font-weight:700; margin-bottom: 14px;">Step 1: Select Your Field</h3>
             <div class="field-list" id="fieldList"></div>
             <button class="start-assessment-btn" id="startAssessmentBtn" onclick="proceedToStep2()" disabled>
-                Start Assessment
+                Continue to Test Type
             </button>
         </div>
 
         <!-- Step 2: Test Type -->
         <div id="stepContent2" style="display: none;">
-            <h3 style="text-align: center; margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif;">Step 2: Choose Test Type</h3>
+            <h3 style="text-align: center; font-size: 18px; font-weight: 700; margin-bottom: 16px;">Step 2: Choose Test Type</h3>
             <div class="test-types">
                 <div class="test-card" onclick="selectTestType('subject')">
                     <div class="test-card-header">
                         <div class="test-card-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
                         </div>
                     </div>
                     <h3>Subject-wise Practice</h3>
                     <p>Practice individual subjects separately. Focus on one topic at a time.</p>
                     <div class="test-meta">
-                        <div class="meta-item"><div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div> 25-40 min</div>
-                        <div class="meta-item"><div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div> 20-30 Qs</div>
+                        <div class="meta-item"><div class="meta-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div> 25-40 min</div>
+                        <div class="meta-item"><div class="meta-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div> 20-30 Qs</div>
                     </div>
                 </div>
 
                 <div class="test-card grand" onclick="selectTestType('grand')">
                     <div class="test-card-header">
                         <div class="test-card-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                         </div>
                         <span class="badge-tag">GRAND</span>
                     </div>
                     <h3>Grand Test (Full NET)</h3>
-                    <p>Full-length NET simulation with separate sections for each subject. Navigate between sessions freely.</p>
+                    <p>Full-length NET simulation with separate sections for each subject.</p>
                     <div class="test-meta">
-                        <div class="meta-item"><div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div> 3 hours</div>
-                        <div class="meta-item"><div class="meta-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div> Full Length</div>
+                        <div class="meta-item"><div class="meta-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div> 3 hours</div>
+                        <div class="meta-item"><div class="meta-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div> Full Length</div>
                     </div>
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center; margin-top: 18px;">
                 <button class="btn btn-secondary" onclick="goToStep(1)" style="max-width: 200px;">← Back</button>
             </div>
         </div>
 
         <!-- Step 3: Subject or Grand Test -->
         <div id="stepContent3" style="display: none;">
-            <h3 style="text-align: center; margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif;" id="step3Title">Step 3: Select Subject</h3>
+            <h3 style="text-align: center; font-size: 18px; font-weight: 700; margin-bottom: 16px;" id="step3Title">Step 3: Select Subject</h3>
             <div class="subjects-grid" id="subjectsGrid"></div>
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center; margin-top: 18px;">
                 <button class="btn btn-secondary" onclick="goToStep(2)" style="max-width: 200px;">← Back</button>
             </div>
         </div>
@@ -772,7 +853,7 @@
 <div class="confirm-modal" id="confirmModal">
     <div class="confirm-box">
         <h3>Ready to Start?</h3>
-        <p>Once you start, the timer will begin. Make sure you're ready.</p>
+        <p>Once you start, the timer will begin. Make sure you are ready.</p>
         <div class="confirm-info" id="confirmInfo"></div>
         <div class="modal-buttons">
             <button class="btn btn-secondary" onclick="closeConfirm()">Cancel</button>
@@ -781,20 +862,16 @@
     </div>
 </div>
 
-<!-- TEST INTERFACE (NUST STYLE) -->
+<!-- TEST INTERFACE -->
 <div class="test-interface" id="testInterface">
-
-    <!-- Top Bar -->
     <div class="test-top-bar">
         <span class="subject-name" id="currentSubjectLabel">Subject</span>
-        <span class="center-title" id="testFieldTitle">Engineering / NUST NET</span>
+        <span class="center-title" id="testFieldTitle">NUST NET</span>
         <span class="user-code" id="studentInfoBar">STUDENT</span>
     </div>
 
-    <!-- Sessions Bar (only for Grand Test) -->
     <div class="sessions-bar" id="sessionsBar" style="display:none;">
         <span class="label-text">Sections:</span>
-        <!-- Filled by JS -->
     </div>
 
     <div class="test-main">
@@ -822,22 +899,20 @@
         <div class="test-sidebar">
             <div class="sidebar-section">
                 <h4>Photograph</h4>
-                <div class="photo-box" id="studentPhotoBox">Your Image here</div>
+                <div class="photo-box" id="studentPhotoBox">Your Photo</div>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Bar -->
     <div class="test-bottom">
         <div class="timer-box" id="timerBox">
-            <svg class="timer-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <div>
                 <div class="timer-time" id="timerDisplay">30:00</div>
                 <div class="timer-label">Remaining</div>
             </div>
         </div>
 
-        <!-- Go to Question Box -->
         <div class="goto-box">
             <label>Go to Q#</label>
             <input type="number" id="gotoQInput" min="1" placeholder="1">
@@ -873,14 +948,6 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                 Palette
             </button>
-            <button class="nav-btn" onclick="firstQuestion()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
-                First
-            </button>
-            <button class="nav-btn" onclick="lastQuestion()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
-                Last
-            </button>
             <button class="nav-btn finish-btn" onclick="confirmFinish()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                 Finish
@@ -899,8 +966,8 @@
         <h3>Question Palette</h3>
         <p class="subtitle">Click any question to jump to it</p>
         <div class="palette-legend">
-            <div class="legend-item"><div class="legend-dot" style="background: white;"></div> Not Answered</div>
-            <div class="legend-item"><div class="legend-dot" style="background: #16a34a;"></div> Answered</div>
+            <div class="legend-item"><div class="legend-dot" style="background: #fff;"></div> Not Answered</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--success);"></div> Answered</div>
             <div class="legend-item"><div class="legend-dot" style="background: var(--warning);"></div> Marked for Review</div>
             <div class="legend-item"><div class="legend-dot" style="background: var(--primary);"></div> Current Question</div>
         </div>
@@ -915,10 +982,10 @@
 <div class="result-page" id="resultPage">
     <div class="result-container">
         <div class="result-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <h2>Test Completed!</h2>
-        <p>Here's how you performed</p>
+        <p>Here is how you performed</p>
 
         <div class="score-display">
             <div>
@@ -948,22 +1015,43 @@
 <script>
     const API_BASE = '/api';
     let currentUser = null;
+    let allowedFields = [];
+    let degreeCategory = '';
     let selectedField = '';
     let selectedTestType = '';
     let selectedSubject = '';
     let selectedGrandNumber = 1;
     let testInfo = null;
-    let testQuestions = [];           // ALL questions (flat array, used for submission)
-    let sessionedQuestions = [];      // Array of sessions, each having { subject, name, questions, startIndex }
+    let testQuestions = [];
+    let sessionedQuestions = [];
     let userAnswers = [];
     let currentSessionIndex = 0;
-    let currentQuestionIndex = 0;     // Index within current session
+    let currentQuestionIndex = 0;
     let timerInterval = null;
     let timeRemaining = 0;
     let testAttemptId = null;
     let testStartTime = null;
 
-    // ============ AUTH ============
+    // Mapping for category access
+    const FIELD_ACCESS_MAP = {
+        'Engineering':       ['Engineering', 'NET-Engineering'],
+        'CS':                ['Engineering', 'NET-Engineering'],
+        'Computing':         ['Engineering', 'NET-Engineering'],
+        'Applied Sciences':  ['Applied Sciences', 'NET-Applied Sciences'],
+        'Business':          ['Business', 'NET-Business Studies'],
+        'Architecture':      ['Architecture', 'NET-Architecture'],
+        'Natural Sciences':  ['Natural Sciences', 'NET-Natural Sciences']
+    };
+
+    function canAccessField(fieldId) {
+        if (!allowedFields || allowedFields.length === 0) return true;
+        return allowedFields.some(f =>
+            f.toLowerCase() === fieldId.toLowerCase() ||
+            fieldId.toLowerCase().includes(f.toLowerCase()) ||
+            f.toLowerCase().includes(fieldId.toLowerCase())
+        );
+    }
+
     async function checkAuth() {
         const token = localStorage.getItem('nustology_token');
         if (!token) { window.location.href = '/index.html'; return; }
@@ -972,7 +1060,18 @@
         });
         const data = await res.json();
         if (!data.success) { window.location.href = '/index.html'; return; }
+
         currentUser = data.user;
+
+        // Check approval
+        if (!currentUser.isApproved) {
+            window.location.href = '/payment-pending.html';
+            return;
+        }
+
+        degreeCategory = currentUser.degreeCategory || currentUser.field || 'Engineering';
+        allowedFields = FIELD_ACCESS_MAP[degreeCategory] || ['Engineering', 'NET-Engineering'];
+
         const nameInitial = (currentUser.fullName || currentUser.username)[0].toUpperCase();
         document.getElementById('studentInfoBar').textContent = (currentUser.fullName || currentUser.username).toUpperCase();
         if (currentUser.profilePicture) {
@@ -980,28 +1079,43 @@
         } else {
             document.getElementById('studentPhotoBox').innerHTML = `<div class="photo-initial">${nameInitial}</div>`;
         }
+
+        renderAccessBanner();
         renderFieldList();
     }
 
-    // ============ FIELD LIST ============
+    function renderAccessBanner() {
+        document.getElementById('accessBanner').innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div>
+                <strong>Your Category: ${degreeCategory}</strong> &mdash; You can access ${allowedFields.join(', ')} tests only.
+            </div>
+        `;
+    }
+
     function renderFieldList() {
         if (typeof QUESTIONS === 'undefined') {
-            document.getElementById('fieldList').innerHTML = '<p style="text-align:center; color:var(--danger);">Question bank not loaded. Please refresh.</p>';
+            document.getElementById('fieldList').innerHTML = '<p style="text-align:center; color:var(--danger); padding:20px;">Question bank not loaded. Please refresh.</p>';
             return;
         }
         const fields = QUESTIONS.getFields();
         document.getElementById('fieldList').innerHTML = fields.map(f => {
-            const subjectsHTML = f.subjects.map(s => `<span class="pill">${s.name} ${s.weight}%</span>`).join('');
+            const subjectsHTML = f.subjects.slice(0, 3).map(s => `<span class="pill">${s.name}</span>`).join('');
             const cfg = QUESTIONS.getFieldConfig(f.id);
+            const hasAccess = canAccessField(f.id);
+
             return `
-                <div class="field-row" onclick="selectField('${f.id}')" data-field="${f.id}">
+                <div class="field-row ${hasAccess ? '' : 'locked'}" ${hasAccess ? `onclick="selectField('${f.id}')"` : ''} data-field="${f.id}">
                     <div class="field-radio"></div>
                     <div class="field-content">
                         <h3>${f.name}</h3>
                         <p class="desc">${cfg ? cfg.description : ''}</p>
                         <div class="field-subjects-line">${subjectsHTML}</div>
                     </div>
-                    <div class="field-code-badge">${f.code}</div>
+                    ${hasAccess
+                        ? `<div class="field-code-badge">${f.code}</div>`
+                        : `<div class="lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Locked</div>`
+                    }
                 </div>
             `;
         }).join('');
@@ -1017,9 +1131,14 @@
         for (let i = 1; i < 3; i++) {
             document.getElementById(`line${i}`).classList.toggle('active', i < step);
         }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function selectField(fieldName) {
+        if (!canAccessField(fieldName)) {
+            alert(`Access denied. Your category (${degreeCategory}) does not allow access to ${fieldName}.`);
+            return;
+        }
         selectedField = fieldName;
         document.querySelectorAll('.field-row').forEach(row => {
             row.classList.toggle('selected', row.dataset.field === fieldName);
@@ -1042,18 +1161,18 @@
         const grid = document.getElementById('subjectsGrid');
         const title = document.getElementById('step3Title');
         if (selectedTestType === 'grand') {
-            title.textContent = `Step 3: Select Grand Test (${selectedField})`;
+            title.textContent = `Step 3: Select Grand Test`;
             const grandTests = QUESTIONS.getGrandTests(selectedField);
             grid.innerHTML = grandTests.map((gt, idx) => `
                 <div class="subject-card" onclick="selectGrandTest(${idx + 1})">
                     <div class="subject-icon">G${idx + 1}</div>
                     <h4>${gt.title}</h4>
-                    <div class="count">Full Length • 200 Marks</div>
+                    <div class="count">200 Marks</div>
                     <div class="weight-badge">3 HOURS</div>
                 </div>
             `).join('');
         } else {
-            title.textContent = `Step 3: Select Subject (${selectedField})`;
+            title.textContent = `Step 3: Select Subject`;
             const subjects = QUESTIONS.getSubjects(selectedField);
             grid.innerHTML = subjects.map(s => {
                 const config = window.SUBJECT_TEST_CONFIG?.[QUESTIONS.getFieldConfig(selectedField).key]?.[s.key];
@@ -1063,7 +1182,7 @@
                     <div class="subject-card" onclick="selectSubject('${s.key}', '${s.name}')">
                         <div class="subject-icon">${s.name[0]}</div>
                         <h4>${s.name}</h4>
-                        <div class="count">${qCount} Questions • ${dur} min</div>
+                        <div class="count">${qCount} Qs • ${dur} min</div>
                         <div class="weight-badge">${s.weight}% Weight</div>
                     </div>
                 `;
@@ -1091,15 +1210,14 @@
             return;
         }
         const subjectName = isGrand
-            ? `Grand Test ${selectedGrandNumber} (All Sections)`
+            ? `Grand Test ${selectedGrandNumber}`
             : (testInfo.subjectName || selectedSubject);
         const duration = Math.floor(testInfo.duration / 60);
         document.getElementById('confirmInfo').innerHTML = `
             <div class="info-row"><span class="label">Field:</span><span class="value">${selectedField}</span></div>
             <div class="info-row"><span class="label">Test Type:</span><span class="value">${subjectName}</span></div>
-            <div class="info-row"><span class="label">Total Questions:</span><span class="value">${testInfo.totalQuestions}</span></div>
+            <div class="info-row"><span class="label">Questions:</span><span class="value">${testInfo.totalQuestions}</span></div>
             <div class="info-row"><span class="label">Duration:</span><span class="value">${duration} minutes</span></div>
-            <div class="info-row"><span class="label">Marking:</span><span class="value">+1 correct, No negative</span></div>
             ${isGrand ? `<div class="info-row"><span class="label">Sections:</span><span class="value">${testInfo.subjectBreakdown.length}</span></div>` : ''}
         `;
         document.getElementById('confirmModal').classList.add('show');
@@ -1107,19 +1225,14 @@
 
     function closeConfirm() { document.getElementById('confirmModal').classList.remove('show'); }
 
-    // ============ START TEST ============
     async function startTest() {
         closeConfirm();
         document.getElementById('loadingOverlay').classList.add('show');
         document.getElementById('loadingText').textContent = 'Preparing your test...';
         try {
-            // Build sessioned structure
             if (selectedTestType === 'grand') {
-                // Group questions by subject (preserving order from buildGrandTest output)
-                // Re-build to preserve subject ORDER
                 buildGrandSessions();
             } else {
-                // Single session for subject test
                 sessionedQuestions = [{
                     subject: testInfo.subject,
                     name: testInfo.subjectName || selectedSubject,
@@ -1132,7 +1245,6 @@
             const totalMarks = testInfo.totalMarks;
             const duration = testInfo.duration;
 
-            // Save to server
             const token = localStorage.getItem('nustology_token');
             const res = await fetch(`${API_BASE}/tests/start`, {
                 method: 'POST',
@@ -1146,7 +1258,11 @@
                 })
             });
             const data = await res.json();
-            if (!data.success) throw new Error(data.message);
+            if (!data.success) {
+                alert(data.message || 'Failed to start test');
+                document.getElementById('loadingOverlay').classList.remove('show');
+                return;
+            }
 
             testAttemptId = data.attemptId;
             userAnswers = testQuestions.map(() => ({ selected: null, markedForReview: false }));
@@ -1159,7 +1275,6 @@
             document.getElementById('testInterface').classList.add('active');
             document.getElementById('testFieldTitle').textContent = testInfo.title;
 
-            // Show sections bar only for grand test
             if (selectedTestType === 'grand') {
                 document.getElementById('sessionsBar').style.display = 'flex';
                 document.getElementById('nextSectionBtn').style.display = 'flex';
@@ -1170,14 +1285,12 @@
             renderQuestion();
             startTimer();
         } catch (err) {
-            console.error(err);
             alert('Failed to start test: ' + err.message);
         } finally {
             document.getElementById('loadingOverlay').classList.remove('show');
         }
     }
 
-    // Build sessions for grand test by re-fetching per subject to preserve order
     function buildGrandSessions() {
         const fieldCfg = QUESTIONS.getFieldConfig(selectedField);
         const fieldKey = fieldCfg.key;
@@ -1204,7 +1317,6 @@
                 field: fieldKey,
                 image: q.d || null
             }));
-
             sessionedQuestions.push({
                 subject: subjectKey,
                 name: subjCfg.name,
@@ -1216,7 +1328,6 @@
         });
     }
 
-    // ============ RENDER SESSIONS BAR ============
     function renderSessionsBar() {
         const bar = document.getElementById('sessionsBar');
         const html = '<span class="label-text">Sections:</span>' + sessionedQuestions.map((s, idx) => {
@@ -1259,7 +1370,6 @@
         }
     }
 
-    // ============ RENDER QUESTION ============
     function renderQuestion() {
         const session = sessionedQuestions[currentSessionIndex];
         const q = session.questions[currentQuestionIndex];
@@ -1292,7 +1402,7 @@
 
         const reviewBtn = document.getElementById('reviewBtn');
         if (userAnswers[globalIdx].markedForReview) {
-            reviewBtn.style.background = 'linear-gradient(180deg, #fef3c7, #fde68a)';
+            reviewBtn.style.background = '#fef3c7';
             reviewBtn.style.borderColor = 'var(--warning)';
             reviewBtn.style.color = '#92400e';
         } else {
@@ -1301,7 +1411,6 @@
             reviewBtn.style.color = '';
         }
 
-        // Update Next/Prev section buttons state
         document.getElementById('prevSectionBtn').disabled = currentSessionIndex === 0;
         document.getElementById('nextSectionBtn').disabled = currentSessionIndex === sessionedQuestions.length - 1;
     }
@@ -1327,7 +1436,6 @@
             currentQuestionIndex++;
             renderQuestion();
         } else if (currentSessionIndex < sessionedQuestions.length - 1) {
-            // Auto-move to next section
             nextSection();
         }
     }
@@ -1344,12 +1452,6 @@
         }
     }
 
-    function firstQuestion() { currentQuestionIndex = 0; renderQuestion(); }
-    function lastQuestion() {
-        currentQuestionIndex = sessionedQuestions[currentSessionIndex].questions.length - 1;
-        renderQuestion();
-    }
-
     function markForReview() {
         const session = sessionedQuestions[currentSessionIndex];
         const globalIdx = session.startIndex + currentQuestionIndex;
@@ -1362,7 +1464,7 @@
         const num = parseInt(input.value, 10);
         const session = sessionedQuestions[currentSessionIndex];
         if (isNaN(num) || num < 1 || num > session.questions.length) {
-            alert(`Please enter a number between 1 and ${session.questions.length}`);
+            alert(`Enter a number between 1 and ${session.questions.length}`);
             return;
         }
         currentQuestionIndex = num - 1;
@@ -1370,7 +1472,6 @@
         input.value = '';
     }
 
-    // ============ PALETTE ============
     function openPalette() {
         const content = document.getElementById('paletteContent');
         let html = '';
@@ -1400,7 +1501,6 @@
         closePalette();
     }
 
-    // ============ TIMER ============
     function startTimer() {
         updateTimerDisplay();
         timerInterval = setInterval(() => {
@@ -1408,7 +1508,7 @@
             updateTimerDisplay();
             if (timeRemaining <= 0) {
                 clearInterval(timerInterval);
-                alert('Time is up! Test will be submitted automatically.');
+                alert('Time is up! Submitting your test...');
                 submitTest();
             }
         }, 1000);
@@ -1418,10 +1518,9 @@
         const h = Math.floor(timeRemaining / 3600);
         const m = Math.floor((timeRemaining % 3600) / 60);
         const s = timeRemaining % 60;
-        document.getElementById('timerDisplay').textContent =
-            h > 0
-                ? `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
-                : `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        document.getElementById('timerDisplay').textContent = h > 0
+            ? `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+            : `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         const box = document.getElementById('timerBox');
         box.classList.remove('warning', 'danger');
         if (timeRemaining <= 300) box.classList.add('danger');
@@ -1431,7 +1530,7 @@
     function confirmFinish() {
         const unanswered = userAnswers.filter(a => a.selected === null).length;
         const msg = unanswered > 0
-            ? `You have ${unanswered} unanswered question(s). Are you sure you want to finish?`
+            ? `You have ${unanswered} unanswered question(s). Finish anyway?`
             : 'Are you sure you want to finish the test?';
         if (confirm(msg)) submitTest();
     }
@@ -1486,9 +1585,8 @@
         const toast = document.createElement('div');
         toast.style.cssText = `
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--success); color: white; padding: 10px 20px;
+            background: var(--success); color: white; padding: 10px 18px;
             border-radius: 6px; z-index: 10000; font-weight: 500; font-size: 13px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         `;
         toast.textContent = message;
         document.body.appendChild(toast);
