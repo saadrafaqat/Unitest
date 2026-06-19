@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/protection.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <meta name="theme-color" content="#1a56db">
+    <title>Pending Approval - NUSTology Prep.</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #1e3a8a;
+            --primary-bg: #eff6ff;
+            --primary-bg2: #dbeafe;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --gray-lighter: #e2e8f0;
+            --white: #fff;
+            --bg: #f8fafc;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --radius: 10px;
+            --radius-lg: 14px;
+            --border: #e2e8f0;
+        }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-size: 15px;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .logo-top {
+            text-align: center; margin-bottom: 18px;
+        }
+        .logo-top a {
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--dark);
+            font-size: 16px; font-weight: 700;
+        }
+        .logo-top img { width: 32px; height: 32px; border-radius: 8px; }
+        .logo-top .nust { color: var(--primary); }
+        .logo-top .prep { color: var(--gray); font-weight: 400; font-size: 13px; }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        .status-icon {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .status-icon svg { width: 40px; height: 40px; }
+        .status-icon.pending {
+            background: #fef3c7; color: var(--warning);
+        }
+        .status-icon.approved {
+            background: #f0fdf4; color: var(--success);
+        }
+        .status-icon.rejected {
+            background: #fef2f2; color: var(--danger);
+        }
+
+        h1 {
+            font-size: 24px; font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: var(--gray); font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px; font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+        .status-badge.pending {
+            background: #fef3c7; color: #92400e;
+        }
+        .status-badge.approved {
+            background: #f0fdf4; color: #166534;
+        }
+        .status-badge.rejected {
+            background: #fef2f2; color: #991b1b;
+        }
+
+        .info-section {
+            background: var(--primary-bg);
+            border: 1px solid var(--primary-bg2);
+            border-radius: var(--radius);
+            padding: 18px;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .info-section h3 {
+            font-size: 14px; font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .info-section h3 svg { width: 16px; height: 16px; }
+        .info-section ul {
+            margin: 0; padding-left: 20px;
+            font-size: 13px; color: var(--dark);
+        }
+        .info-section ul li { margin-bottom: 6px; }
+
+        .payment-info {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .payment-info h4 {
+            font-size: 13px; font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 13px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .label { color: var(--gray); }
+        .info-row .value { font-weight: 600; color: var(--dark); }
+
+        .actions {
+            display: flex; flex-direction: column; gap: 10px;
+        }
+
+        .btn {
+            padding: 13px 22px;
+            border: none; border-radius: 8px;
+            font-family: inherit; font-size: 14px; font-weight: 600;
+            cursor: pointer; text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 6px;
+            min-height: 46px;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
+        .btn-secondary:hover { background: #cbd5e1; }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:hover { background: #16a34a; }
+
+        .contact-section {
+            text-align: center;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+        .contact-section p {
+            font-size: 13px; color: var(--gray);
+            margin-bottom: 8px;
+        }
+        .contact-links {
+            display: flex; justify-content: center;
+            gap: 8px; flex-wrap: wrap;
+        }
+        .contact-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px;
+            background: var(--primary-bg);
+            color: var(--primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px; font-weight: 600;
+        }
+        .contact-link:hover { background: var(--primary-bg2); }
+        .contact-link svg { width: 14px; height: 14px; }
+
+        .refresh-note {
+            font-size: 12px; color: var(--gray);
+            margin-top: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 26px 18px; }
+            h1 { font-size: 20px; }
+            .status-icon { width: 64px; height: 64px; }
+            .status-icon svg { width: 32px; height: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="logo-top">
+        <a href="/index.html">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <span><span class="nust">NUST</span>ology <span class="prep">Prep.</span></span>
+        </a>
+    </div>
+
+    <div class="card" id="statusCard">
+        <!-- Content dynamically loaded -->
+        <div class="status-icon pending">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h1>Loading status...</h1>
+        <p class="subtitle">Please wait</p>
+    </div>
+</div>
+
+<script>
+    const API_BASE = '/api';
+
+    async function loadStatus() {
+        const token = localStorage.getItem('nustology_token');
+        const user = JSON.parse(localStorage.getItem('nustology_user') || 'null');
+
+        if (!token || !user) {
+            // Not logged in - just show pending message based on registration
+            renderPendingScreen();
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/auth/verify`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+
+            if (data.success && data.user) {
+                localStorage.setItem('nustology_user', JSON.stringify(data.user));
+                renderStatusScreen(data.user);
+            } else {
+                renderPendingScreen();
+            }
+        } catch (e) {
+            renderPendingScreen();
+        }
+    }
+
+    function renderStatusScreen(user) {
+        const card = document.getElementById('statusCard');
+        const status = user.approvalStatus || 'pending';
+
+        if (status === 'approved' && user.isApproved) {
+            card.innerHTML = `
+                <div class="status-icon approved">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h1>Account Approved!</h1>
+                <p class="subtitle">Your registration has been approved by the admin</p>
+                <div class="status-badge approved">Active Account</div>
+
+                <div class="info-section">
+                    <h3>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Your account is ready
+                    </h3>
+                    <ul>
+                        <li>Login with your username and password</li>
+                        <li>Complete your profile information</li>
+                        <li>Start taking practice tests</li>
+                        <li>Access all study materials</li>
+                    </ul>
+                </div>
+
+                <div class="actions">
+                    <a href="/student.html" class="btn btn-success">
+                        Go to Dashboard
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                </div>
+            `;
+            // Auto redirect after 3 sec
+            setTimeout(() => window.location.href = '/student.html', 3000);
+        } else if (status === 'rejected') {
+            card.innerHTML = `
+                <div class="status-icon rejected">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <h1>Registration Rejected</h1>
+                <p class="subtitle">Unfortunately, your registration could not be approved</p>
+                <div class="status-badge rejected">Rejected</div>
+
+                <div class="info-section" style="background: #fef2f2; border-color: #fecaca;">
+                    <h3 style="color: var(--danger);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        What you can do
+                    </h3>
+                    <ul>
+                        <li>Contact admin to know the reason</li>
+                        <li>Submit a new registration with correct details</li>
+                        <li>Ensure your payment proof is clear and valid</li>
+                    </ul>
+                </div>
+
+                <div class="actions">
+                    <a href="/register.html" class="btn btn-primary">Register Again</a>
+                    <a href="/index.html" class="btn btn-secondary">Back to Home</a>
+                </div>
+
+                ${renderContactSection()}
+            `;
+        } else {
+            // pending
+            renderPendingScreen(user);
+        }
+    }
+
+    function renderPendingScreen(user) {
+        const card = document.getElementById('statusCard');
+        const username = user ? `@${user.username}` : '';
+        const userName = user ? user.fullName : '';
+
+        card.innerHTML = `
+            <div class="status-icon pending">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h1>Awaiting Approval</h1>
+            <p class="subtitle">${userName ? `Hi ${userName}, your` : 'Your'} registration is being reviewed</p>
+            <div class="status-badge pending">⏳ Pending</div>
+
+            ${user ? `
+                <div class="payment-info">
+                    <h4>Account Details</h4>
+                    <div class="info-row">
+                        <span class="label">Username:</span>
+                        <span class="value">${username}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Email:</span>
+                        <span class="value">${user.email || '-'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Category:</span>
+                        <span class="value">${user.degreeCategory || user.field || '-'}</span>
+                    </div>
+                </div>
+            ` : ''}
+
+            <div class="info-section">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    What happens next?
+                </h3>
+                <ul>
+                    <li>Admin will verify your payment within 24 hours</li>
+                    <li>Once approved, you can login and access all features</li>
+                    <li>You will be notified via email or WhatsApp</li>
+                    <li>Check back here later or login again</li>
+                </ul>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" onclick="checkStatusAgain()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    Check Status Now
+                </button>
+                <a href="/index.html" class="btn btn-secondary">Back to Home</a>
+            </div>
+
+            <p class="refresh-note">This page automatically refreshes every 30 seconds</p>
+            ${renderContactSection()}
+        `;
+    }
+
+    function renderContactSection() {
+        return `
+            <div class="contact-section">
+                <p>Need help or have questions?</p>
+                <div class="contact-links">
+                    <a href="https://wa.me/923251534943" target="_blank" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </a>
+                    <a href="mailto:nustologyprep@gmail.com" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Email
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+
+    function checkStatusAgain() {
+        loadStatus();
+    }
+
+    // Auto-refresh every 30 seconds
+    setInterval(loadStatus, 30000);
+
+    loadStatus();
+</script>
+</body>
+</html>
