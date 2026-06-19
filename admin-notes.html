@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <meta name="theme-color" content="#1e3a8a">
+    <title>Admin - Notes - NUSTology Prep.</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1e3a8a; --primary-light: #1a56db; --primary-bg: #eff6ff;
+            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
+            --bg: #f8fafc; --border: #e2e8f0;
+            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+            --radius: 10px; --radius-lg: 14px;
+        }
+        html { -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg); color: var(--dark);
+            min-height: 100vh; font-size: 15px; line-height: 1.5;
+        }
+        .layout { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 250px; background: var(--dark); color: #fff;
+            padding: 20px 14px; position: fixed;
+            top: 0; left: 0; bottom: 0;
+            overflow-y: auto; z-index: 100;
+            transition: transform 0.25s ease;
+        }
+        .sidebar-logo {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0 10px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 16px;
+        }
+        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; }
+        .admin-badge { background: var(--danger); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+        .sidebar-logo .text { font-size: 15px; font-weight: 700; color: #fff; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+        .menu-section {
+            font-size: 10px; font-weight: 700; color: #64748b;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 14px 12px 6px;
+        }
+        .menu-item {
+            display: flex; align-items: center; gap: 11px;
+            padding: 10px 12px; border-radius: 8px;
+            color: #cbd5e1; font-size: 14px; font-weight: 500;
+            text-decoration: none; min-height: 40px;
+        }
+        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .menu-item.active { background: var(--primary-light); color: #fff; }
+
+        .main { flex: 1; margin-left: 250px; min-height: 100vh; }
+        .topbar {
+            background: #fff; padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 50; min-height: 60px;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .topbar h1 { font-size: 18px; font-weight: 700; }
+        .topbar p { font-size: 12px; color: var(--gray); }
+        .mobile-toggle {
+            display: none; background: var(--gray-lighter); border: none;
+            cursor: pointer; padding: 0; border-radius: 8px;
+            width: 40px; height: 40px;
+            align-items: center; justify-content: center;
+        }
+        .mobile-toggle svg { width: 20px; height: 20px; }
+        .logout-btn {
+            background: var(--danger); color: #fff; border: none;
+            padding: 8px 14px; border-radius: 8px;
+            cursor: pointer; font-size: 13px; font-weight: 600;
+            font-family: inherit; min-height: 38px;
+        }
+
+        .content { padding: 20px; max-width: 1300px; margin: 0 auto; }
+
+        .card {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 20px; margin-bottom: 18px;
+        }
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 14px; border-bottom: 1px solid var(--border);
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .card-header h2 { font-size: 17px; font-weight: 700; }
+
+        .btn {
+            padding: 9px 14px; border: none; border-radius: 8px;
+            cursor: pointer; font-family: inherit;
+            font-size: 13px; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px;
+            min-height: 38px;
+        }
+        .btn-primary { background: var(--primary-light); color: #fff; }
+        .btn-primary:hover { background: var(--primary); }
+        .btn-danger { background: var(--danger); color: #fff; }
+        .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .form-row.full { grid-template-columns: 1fr; }
+        .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px 13px;
+            border: 1.5px solid var(--border); border-radius: 8px;
+            font-family: inherit; font-size: 14px; min-height: 42px;
+        }
+        .form-group textarea { min-height: 70px; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--primary-light);
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border); border-radius: var(--radius);
+            padding: 24px; text-align: center; cursor: pointer;
+            position: relative; transition: border-color 0.2s, background 0.2s;
+        }
+        .file-upload:hover { border-color: var(--primary-light); background: var(--primary-bg); }
+        .file-upload input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .file-upload svg { width: 36px; height: 36px; color: var(--gray); margin: 0 auto 8px; }
+        .file-upload .text { font-size: 13px; font-weight: 600; }
+        .file-upload .hint { font-size: 11px; color: var(--gray); margin-top: 4px; }
+        .file-info {
+            background: var(--primary-bg); padding: 10px 14px;
+            border-radius: 8px; font-size: 13px;
+            margin-top: 10px; display: none;
+        }
+        .file-info.show { display: block; }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th, td { text-align: left; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        th { background: #f8fafc; font-weight: 700; color: var(--gray); font-size: 11px; text-transform: uppercase; }
+        tr:hover { background: #f8fafc; }
+        .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-info { background: var(--primary-bg); color: var(--primary-light); }
+        .badge-warning { background: #fef3c7; color: var(--warning); }
+
+        .filter-bar {
+            display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;
+        }
+        .filter-bar select, .filter-bar input {
+            padding: 8px 12px; border: 1.5px solid var(--border);
+            border-radius: 8px; font-family: inherit; font-size: 13px; min-height: 38px;
+        }
+        .filter-bar input { flex: 1; min-width: 180px; }
+
+        .empty { text-align: center; padding: 40px; color: var(--gray); }
+
+        .alert {
+            padding: 12px 16px; border-radius: 8px;
+            margin-bottom: 14px; font-size: 13px; display: none;
+        }
+        .alert.show { display: block; }
+        .alert.success { background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
+        .alert.error { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+
+        .spinner {
+            display: inline-block; width: 14px; height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff; border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-right: 6px; vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+        .sidebar-overlay.show { display: block; }
+
+        @media (max-width: 1024px) {
+            .form-row, .form-row.three { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .mobile-toggle { display: flex; }
+            .content { padding: 14px; }
+            .topbar p { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <div>
+                <div class="text">NUSTology</div>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <div class="menu-section">Overview</div>
+            <li><a href="admin.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a></li>
+            <li><a href="admin-analytics.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Analytics
+            </a></li>
+
+            <div class="menu-section">Manage</div>
+            <li><a href="admin-pdfs.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                PDFs / Past Papers
+            </a></li>
+            <li><a href="admin-notes.html" class="menu-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+                Notes / Formulas
+            </a></li>
+            <li><a href="admin-notifications.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+                Notifications
+            </a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-toggle" onclick="openSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div>
+                    <h1>Notes / Formulas</h1>
+                    <p>Upload formula sheets, short notes and summaries</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+        </div>
+
+        <div class="content">
+            <div class="alert" id="alertBox"></div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>Upload New Note</h2>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="noteTitle" placeholder="e.g., Physics Formula Sheet">
+                    </div>
+                    <div class="form-group">
+                        <label>Note Type *</label>
+                        <select id="noteType">
+                            <option value="formula_sheet">Formula Sheet</option>
+                            <option value="short_notes">Short Notes</option>
+                            <option value="summary">Summary</option>
+                            <option value="cheat_sheet">Cheat Sheet</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row three">
+                    <div class="form-group">
+                        <label>Field *</label>
+                        <select id="noteField">
+                            <option value="Engineering">Engineering</option>
+                            <option value="Applied Sciences">Applied Sciences</option>
+                            <option value="Business">Business</option>
+                            <option value="Architecture">Architecture</option>
+                            <option value="Natural Sciences">Natural Sciences</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject *</label>
+                        <input type="text" id="noteSubject" placeholder="e.g., Physics">
+                    </div>
+                    <div class="form-group">
+                        <label>Chapter (optional)</label>
+                        <input type="text" id="noteChapter" placeholder="e.g., Mechanics">
+                    </div>
+                </div>
+
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label>Description (optional)</label>
+                        <textarea id="noteDesc" placeholder="Brief description..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label>File * (PDF or Image, Max 20MB)</label>
+                        <div class="file-upload">
+                            <input type="file" id="noteFile" accept="application/pdf,image/jpeg,image/png,image/webp" onchange="showFileInfo(event)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <div class="text">Click to select file</div>
+                            <div class="hint">PDF, JPG, PNG, WebP. Max 20MB.</div>
+                        </div>
+                        <div class="file-info" id="fileInfo"></div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="uploadBtn" onclick="uploadNote()" style="width:100%; padding:13px; font-size:15px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span id="uploadBtnText">Upload Note</span>
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>All Uploaded Notes</h2>
+                    <button class="btn btn-secondary" onclick="loadNotes()">Refresh</button>
+                </div>
+                <div class="filter-bar">
+                    <input type="text" id="searchNote" placeholder="Search by title..." oninput="filterNotes()">
+                    <select id="filterField" onchange="loadNotes()">
+                        <option value="">All Fields</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Applied Sciences">Applied Sciences</option>
+                        <option value="Business">Business</option>
+                        <option value="Architecture">Architecture</option>
+                        <option value="Natural Sciences">Natural Sciences</option>
+                    </select>
+                    <select id="filterSubject" onchange="loadNotes()">
+                        <option value="">All Subjects</option>
+                    </select>
+                </div>
+                <div class="table-container" id="notesTable">
+                    <div class="empty">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const API_BASE = '/api';
+    let allNotes = [];
+
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('sidebarOverlay').classList.add('show');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+
+    function getHeaders() {
+        return { 'Authorization': `Bearer ${localStorage.getItem('nustology_admin_token')}` };
+    }
+
+    function checkAuth() {
+        if (!localStorage.getItem('nustology_admin_token')) {
+            window.location.href = '/admin.html';
+            return false;
+        }
+        return true;
+    }
+
+    function logoutAdmin() {
+        if (!confirm('Logout?')) return;
+        localStorage.removeItem('nustology_admin_token');
+        window.location.href = '/admin.html';
+    }
+
+    function showAlert(type, msg) {
+        const a = document.getElementById('alertBox');
+        a.className = `alert ${type} show`;
+        a.textContent = msg;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => a.classList.remove('show'), 4500);
+    }
+
+    function showFileInfo(event) {
+        const file = event.target.files[0];
+        const info = document.getElementById('fileInfo');
+        if (file) {
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            info.innerHTML = `<strong>${escapeHtml(file.name)}</strong><br>Type: ${file.type} • Size: ${sizeMB} MB`;
+            info.classList.add('show');
+        } else {
+            info.classList.remove('show');
+        }
+    }
+
+    async function uploadNote() {
+        const title = document.getElementById('noteTitle').value.trim();
+        const subject = document.getElementById('noteSubject').value.trim();
+        const field = document.getElementById('noteField').value;
+        const chapter = document.getElementById('noteChapter').value.trim();
+        const description = document.getElementById('noteDesc').value.trim();
+        const noteType = document.getElementById('noteType').value;
+        const fileInput = document.getElementById('noteFile');
+        const file = fileInput.files[0];
+
+        if (!title || !subject || !field) {
+            return showAlert('error', 'Title, Subject and Field are required');
+        }
+        if (!file) {
+            return showAlert('error', 'Please select a file');
+        }
+        const allowed = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+        if (!allowed.includes(file.type)) {
+            return showAlert('error', 'Only PDF and image files allowed');
+        }
+        if (file.size > 20 * 1024 * 1024) {
+            return showAlert('error', 'File must be under 20MB');
+        }
+
+        const btn = document.getElementById('uploadBtn');
+        const btnText = document.getElementById('uploadBtnText');
+        btn.disabled = true;
+        btnText.innerHTML = '<span class="spinner"></span> Uploading...';
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('title', title);
+        formData.append('subject', subject);
+        formData.append('field', field);
+        formData.append('chapter', chapter);
+        formData.append('description', description);
+        formData.append('noteType', noteType);
+
+        try {
+            const res = await fetch(`${API_BASE}/admin/notes`, {
+                method: 'POST',
+                headers: getHeaders(),
+                body: formData
+            });
+            const data = await res.json();
+            if (data.success) {
+                showAlert('success', 'Note uploaded successfully! Students will be notified.');
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteSubject').value = '';
+                document.getElementById('noteChapter').value = '';
+                document.getElementById('noteDesc').value = '';
+                fileInput.value = '';
+                document.getElementById('fileInfo').classList.remove('show');
+                loadNotes();
+            } else {
+                showAlert('error', data.message || 'Upload failed');
+            }
+        } catch (e) {
+            showAlert('error', 'Network error during upload');
+        }
+
+        btn.disabled = false;
+        btnText.textContent = 'Upload Note';
+    }
+
+    async function loadNotes() {
+        const field = document.getElementById('filterField').value;
+        const subject = document.getElementById('filterSubject').value;
+        const params = new URLSearchParams();
+        if (field) params.set('field', field);
+        if (subject) params.set('subject', subject);
+
+        try {
+            const res = await fetch(`${API_BASE}/admin/notes?${params.toString()}`, { headers: getHeaders() });
+            const data = await res.json();
+            if (data.success) {
+                allNotes = data.notes;
+                populateSubjectFilter();
+                renderNotes(allNotes);
+            }
+        } catch (e) {
+            document.getElementById('notesTable').innerHTML = '<div class="empty">Failed to load</div>';
+        }
+    }
+
+    function populateSubjectFilter() {
+        const subjects = [...new Set(allNotes.map(n => n.subject).filter(Boolean))];
+        const select = document.getElementById('filterSubject');
+        const currentVal = select.value;
+        select.innerHTML = '<option value="">All Subjects</option>' +
+            subjects.map(s => `<option value="${s}" ${s === currentVal ? 'selected' : ''}>${s}</option>`).join('');
+    }
+
+    function filterNotes() {
+        const search = document.getElementById('searchNote').value.toLowerCase().trim();
+        let filtered = allNotes;
+        if (search) {
+            filtered = filtered.filter(n =>
+                (n.title || '').toLowerCase().includes(search) ||
+                (n.description || '').toLowerCase().includes(search)
+            );
+        }
+        renderNotes(filtered);
+    }
+
+    function renderNotes(notes) {
+        const c = document.getElementById('notesTable');
+        if (!notes.length) { c.innerHTML = '<div class="empty">No notes uploaded yet</div>'; return; }
+        c.innerHTML = `<table><thead><tr>
+            <th>Title</th><th>Field</th><th>Subject</th><th>Type</th>
+            <th>Size</th><th>Views</th><th>Date</th><th>Actions</th>
+        </tr></thead><tbody>${notes.map(n => `
+            <tr>
+                <td>
+                    <strong>${escapeHtml(n.title)}</strong>
+                    ${n.chapter ? `<br><small style="color:var(--gray);">${escapeHtml(n.chapter)}</small>` : ''}
+                </td>
+                <td><span class="badge badge-info">${escapeHtml(n.field)}</span></td>
+                <td>${escapeHtml(n.subject)}</td>
+                <td><span class="badge badge-warning">${escapeHtml((n.note_type || '').replace('_', ' '))}</span></td>
+                <td><small>${n.file_size || '-'}</small></td>
+                <td>${n.download_count || 0}</td>
+                <td><small>${new Date(n.uploaded_at).toLocaleDateString()}</small></td>
+                <td>
+                    <div style="display:flex; gap:4px;">
+                        <a href="${n.file_url}" target="_blank" class="btn btn-secondary">Open</a>
+                        <button class="btn btn-danger" onclick="deleteNote(${n.id})">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('')}</tbody></table>`;
+    }
+
+    async function deleteNote(id) {
+        if (!confirm('Delete this note permanently?')) return;
+        try {
+            const res = await fetch(`${API_BASE}/admin/notes/${id}`, {
+                method: 'DELETE', headers: getHeaders()
+            });
+            if ((await res.json()).success) {
+                showAlert('success', 'Note deleted');
+                loadNotes();
+            }
+        } catch (e) {
+            showAlert('error', 'Failed to delete');
+        }
+    }
+
+    function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    if (checkAuth()) loadNotes();
+</script>
+</body>
+</html>
