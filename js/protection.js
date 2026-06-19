@@ -1,7 +1,7 @@
 // ============================================
-// NUSTOLOGY PREP - SILENT CODE PROTECTION
+// NUSTOLOGY PREP - STRICT CODE PROTECTION
 // File: js/protection.js
-// Blocks inspect/source but allows COPY (including right-click copy)
+// Blocks: shortcuts, right-click, copy, selection
 // ============================================
 
 (function() {
@@ -10,36 +10,26 @@
     // Skip on admin page
     if (window.location.pathname.includes('admin')) return;
 
-    // ============ 1. SMART RIGHT-CLICK HANDLING ============
-    // Allow right-click ONLY if there's selected text (for copy menu)
-    // Block right-click on images and empty areas
+    // ============ 1. BLOCK RIGHT CLICK ============
     document.addEventListener('contextmenu', function(e) {
-        const selection = window.getSelection().toString().trim();
-        
-        // If user has selected text, allow right-click (for copy menu)
-        if (selection.length > 0) {
-            return true; // Allow context menu
-        }
-        
-        // Otherwise, block it
         e.preventDefault();
         e.stopPropagation();
         return false;
     }, true);
 
-    // ============ 2. BLOCK KEYBOARD SHORTCUTS ============
+    // ============ 2. BLOCK ALL KEYBOARD SHORTCUTS ============
     document.addEventListener('keydown', function(e) {
         const key = e.key ? e.key.toLowerCase() : '';
         const code = e.keyCode;
 
-        // F12 - Open DevTools
+        // F12 - DevTools
         if (key === 'f12' || code === 123) {
             e.preventDefault();
             e.stopPropagation();
             return false;
         }
 
-        // Ctrl/Cmd + Shift + I, J, C, K - DevTools shortcuts
+        // Ctrl/Cmd + Shift + I, J, C, K - DevTools
         if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
             if (['i', 'j', 'c', 'k'].includes(key) || [73, 74, 67, 75].includes(code)) {
                 e.preventDefault();
@@ -55,7 +45,7 @@
             return false;
         }
 
-        // Ctrl/Cmd + S - Save Page
+        // Ctrl/Cmd + S - Save
         if ((e.ctrlKey || e.metaKey) && (key === 's' || code === 83)) {
             e.preventDefault();
             e.stopPropagation();
@@ -69,16 +59,99 @@
             return false;
         }
 
-        // NOTE: Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A are NOT blocked
-        // Users can copy, paste, cut, and select all freely
+        // Ctrl/Cmd + C - Copy (BLOCKED, except in input fields)
+        if ((e.ctrlKey || e.metaKey) && (key === 'c' || code === 67) && !e.shiftKey) {
+            const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+            if (tag !== 'input' && tag !== 'textarea') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
+
+        // Ctrl/Cmd + X - Cut (BLOCKED, except in input fields)
+        if ((e.ctrlKey || e.metaKey) && (key === 'x' || code === 88)) {
+            const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+            if (tag !== 'input' && tag !== 'textarea') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
+
+        // Ctrl/Cmd + A - Select All (BLOCKED, except in input fields)
+        if ((e.ctrlKey || e.metaKey) && (key === 'a' || code === 65)) {
+            const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+            if (tag !== 'input' && tag !== 'textarea') {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
     }, true);
 
-    // ============ 3. BLOCK IMAGE DRAGGING (but allow copy) ============
-    document.addEventListener('dragstart', function(e) {
-        if (e.target.tagName === 'IMG') {
+    // ============ 3. BLOCK TEXT SELECTION (CSS) ============
+    const style = document.createElement('style');
+    style.id = 'nustology-no-select-style';
+    style.textContent = `
+        body, body * {
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-touch-callout: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+        /* Allow selection in input/textarea */
+        input, textarea, [contenteditable="true"] {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+            -webkit-touch-callout: default !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // ============ 4. BLOCK SELECTION (JS) ============
+    document.addEventListener('selectstart', function(e) {
+        const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+        if (tag !== 'input' && tag !== 'textarea') {
             e.preventDefault();
             return false;
         }
+    }, true);
+
+    // ============ 5. BLOCK COPY EVENT ============
+    document.addEventListener('copy', function(e) {
+        const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+        if (tag !== 'input' && tag !== 'textarea') {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }, true);
+
+    // ============ 6. BLOCK CUT EVENT ============
+    document.addEventListener('cut', function(e) {
+        const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+        if (tag !== 'input' && tag !== 'textarea') {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }, true);
+
+    // ============ 7. BLOCK DRAG ============
+    document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+        return false;
+    }, true);
+
+    // ============ 8. BLOCK DROP ============
+    document.addEventListener('drop', function(e) {
+        e.preventDefault();
+        return false;
     }, true);
 
 })();
