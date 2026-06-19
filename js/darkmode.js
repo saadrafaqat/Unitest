@@ -654,11 +654,297 @@
 
         @media (max-width: 768px) {
             .nustology-theme-toggle {
-                bottom: 16px;
-                right: 16px;
+                bottom: 80px;
+                right: 12px;
                 width: 44px;
                 height: 44px;
             }
+        }
+
+        /* ============================
+           UNIVERSAL MOBILE RESPONSIVE FIX
+           ============================ */
+        @media (max-width: 768px) {
+            /* Sidebar - hidden by default on mobile */
+            .sidebar {
+                position: fixed !important;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 280px !important;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+            }
+            .sidebar.open { transform: translateX(0) !important; }
+            .sidebar.collapsed { transform: translateX(-100%) !important; }
+            
+            /* Main content full width on mobile */
+            .main {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            
+            /* Topbar mobile adjustments */
+            .topbar {
+                padding: 12px 16px !important;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .topbar h1 { font-size: 18px !important; }
+            .topbar p { font-size: 11px !important; }
+            .topbar-left { gap: 10px !important; }
+            
+            .user-info .name { display: none !important; }
+            .user-info { padding: 4px 8px !important; }
+            
+            /* Content padding */
+            .content { padding: 16px !important; }
+            
+            /* Grids stack vertically */
+            .grid-2col,
+            .grid,
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+            
+            /* Forms */
+            .form-row,
+            .form-row.three {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Welcome card */
+            .welcome {
+                flex-direction: column !important;
+                text-align: center !important;
+                padding: 20px !important;
+            }
+            .welcome h2 { font-size: 22px !important; }
+            
+            /* ============ CHAT MOBILE ============ */
+            .chat-layout,
+            .chat-container,
+            .chat-main {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                grid-template-columns: 1fr !important;
+            }
+            
+            .chat-sidebar,
+            .users-panel,
+            .conversation-list,
+            .chat-list {
+                width: 100% !important;
+                max-width: 100% !important;
+                max-height: 40vh;
+                overflow-y: auto;
+                border-right: none !important;
+                border-bottom: 1px solid #334155 !important;
+            }
+            
+            .chat-area,
+            .messages-panel,
+            .chat-window,
+            .chat-body {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-height: 60vh;
+            }
+            
+            .chat-header,
+            .chat-top-bar {
+                padding: 10px 14px !important;
+            }
+            
+            .chat-messages {
+                padding: 12px !important;
+            }
+            
+            .message,
+            .msg,
+            .message-bubble,
+            .msg-bubble {
+                max-width: 85% !important;
+                font-size: 14px !important;
+            }
+            
+            .chat-input-area,
+            .input-area {
+                padding: 10px !important;
+            }
+            
+            .chat-input,
+            .message-input,
+            .input-area input {
+                font-size: 14px !important;
+                padding: 10px 14px !important;
+            }
+            
+            .tab-buttons,
+            .chat-tabs {
+                display: flex !important;
+                width: 100% !important;
+            }
+            
+            .tab-btn,
+            .chat-tab {
+                flex: 1 !important;
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+            
+            .user-item,
+            .chat-user,
+            .conversation-item,
+            .chat-list-item {
+                padding: 10px 12px !important;
+            }
+            
+            /* Tables scrollable */
+            .table-container {
+                overflow-x: auto !important;
+            }
+            table {
+                font-size: 12px !important;
+            }
+            
+            /* Modals */
+            .modal,
+            .modal-box {
+                max-width: 95% !important;
+                margin: 10px !important;
+                padding: 20px !important;
+            }
+            
+            .modal-actions,
+            .quick-actions {
+                flex-direction: column !important;
+            }
+            
+            .modal-actions button {
+                width: 100% !important;
+            }
+            
+            /* ============ TEST INTERFACE MOBILE ============ */
+            .test-main {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .test-sidebar {
+                display: none !important;
+            }
+            
+            .test-bottom {
+                flex-direction: column !important;
+                gap: 8px !important;
+                padding: 8px !important;
+            }
+            
+            .nav-buttons {
+                flex-wrap: wrap !important;
+                gap: 4px !important;
+                justify-content: center !important;
+            }
+            
+            .nav-btn {
+                font-size: 10px !important;
+                padding: 5px 8px !important;
+                min-width: 50px !important;
+            }
+            
+            .timer-box {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+            
+            .goto-box {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+            
+            .sessions-bar {
+                overflow-x: auto !important;
+                white-space: nowrap;
+                padding: 8px !important;
+            }
+            
+            .session-tab {
+                font-size: 11px !important;
+                padding: 5px 10px !important;
+            }
+            
+            .palette-grid {
+                grid-template-columns: repeat(5, 1fr) !important;
+            }
+            
+            /* Field selection */
+            .field-list {
+                gap: 10px !important;
+            }
+            
+            .field-row {
+                padding: 14px !important;
+                flex-wrap: wrap;
+            }
+            
+            .field-code-badge {
+                font-size: 10px !important;
+                padding: 3px 8px !important;
+            }
+            
+            /* Profile */
+            .profile-header {
+                padding: 20px !important;
+            }
+            
+            .profile-tabs {
+                overflow-x: auto !important;
+                white-space: nowrap;
+            }
+            
+            /* Hero */
+            .hero-content {
+                grid-template-columns: 1fr !important;
+                padding: 30px 16px !important;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 32px !important;
+            }
+            
+            .hero-visual {
+                display: none !important;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        /* Tablet adjustments */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .grid-2col,
+            .grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        /* Extra small phones */
+        @media (max-width: 480px) {
+            .topbar h1 { font-size: 16px !important; }
+            .content { padding: 12px !important; }
+            .card { padding: 14px !important; }
+            .modal-box { padding: 16px !important; }
+            .palette-grid { grid-template-columns: repeat(4, 1fr) !important; }
+            .field-code-badge { display: none !important; }
         }
     `;
     const style = document.createElement('style');
