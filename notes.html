@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/protection.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <meta name="theme-color" content="#1a56db">
+    <title>Notes / Formulas - NUSTology Prep.</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1a56db; --primary-dark: #1e3a8a; --primary-bg: #eff6ff;
+            --primary-bg2: #dbeafe; --dark: #0f172a; --gray: #64748b;
+            --gray-lighter: #e2e8f0; --bg: #f8fafc; --border: #e2e8f0;
+            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+            --radius: 10px; --radius-lg: 14px;
+        }
+        html { -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg); color: var(--dark); min-height: 100vh;
+            font-size: 15px; line-height: 1.5;
+        }
+        .layout { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 250px; background: #fff; border-right: 1px solid var(--border);
+            padding: 20px 14px; position: fixed; top: 0; left: 0; bottom: 0;
+            overflow-y: auto; z-index: 100; transition: transform 0.25s ease;
+        }
+        .sidebar-logo {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0 10px 18px; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+        }
+        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+        .sidebar-logo .text { font-size: 16px; font-weight: 700; line-height: 1.2; }
+        .sidebar-logo .nust { color: var(--primary); }
+        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 12px; display: block; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+        .menu-section {
+            font-size: 10px; font-weight: 700; color: #94a3b8;
+            text-transform: uppercase; letter-spacing: 1px; padding: 14px 12px 6px;
+        }
+        .menu-item {
+            display: flex; align-items: center; gap: 11px; padding: 10px 12px;
+            border-radius: 8px; color: var(--gray); text-decoration: none;
+            font-size: 14px; font-weight: 500; min-height: 40px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .menu-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
+        .menu-item.active { background: var(--primary); color: #fff; }
+
+        .main { flex: 1; margin-left: 250px; padding-bottom: 70px; }
+        .topbar {
+            background: #fff; padding: 10px 20px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 50; min-height: 60px;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .topbar-text h1 { font-size: 18px; font-weight: 700; }
+        .topbar-text p { font-size: 12px; color: var(--gray); margin-top: 1px; }
+        .mobile-toggle {
+            display: none; background: var(--gray-lighter); border: none;
+            cursor: pointer; padding: 0; border-radius: 8px;
+            width: 40px; height: 40px; align-items: center; justify-content: center;
+        }
+        .mobile-toggle svg { width: 20px; height: 20px; }
+        .logout-btn {
+            background: var(--gray-lighter); border: none; padding: 8px 14px;
+            border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
+            color: var(--dark); font-family: inherit; min-height: 38px;
+        }
+        .logout-btn:hover { background: var(--danger); color: #fff; }
+
+        .content { padding: 20px; max-width: 1200px; margin: 0 auto; }
+
+        .filter-bar {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 16px;
+            margin-bottom: 18px;
+            display: grid; grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px; align-items: end;
+        }
+        .filter-group label {
+            display: block; font-size: 12px; font-weight: 600;
+            color: var(--gray); margin-bottom: 4px;
+        }
+        .filter-group select, .filter-group input {
+            width: 100%; padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px; font-family: inherit; font-size: 14px;
+            background: #fff; color: var(--dark); min-height: 42px;
+        }
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none; border-color: var(--primary);
+        }
+        .clear-btn {
+            padding: 10px 16px; background: var(--gray-lighter); color: var(--dark);
+            border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+            cursor: pointer; min-height: 42px; font-family: inherit;
+        }
+        .clear-btn:hover { background: #cbd5e1; }
+
+        .access-banner {
+            background: var(--primary-bg); border: 1px solid var(--primary-bg2);
+            color: var(--primary); padding: 12px 16px;
+            border-radius: var(--radius); margin-bottom: 16px;
+            font-size: 13px; display: flex; align-items: center; gap: 10px;
+        }
+        .access-banner svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+        .notes-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .note-card {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 18px;
+            display: flex; flex-direction: column; gap: 10px;
+            transition: border-color 0.2s;
+        }
+        .note-card:hover { border-color: var(--primary); }
+        .note-icon {
+            width: 44px; height: 44px;
+            background: #f3e8ff; color: #9333ea;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .note-icon svg { width: 24px; height: 24px; }
+        .note-icon.formula { background: #fef3c7; color: #d97706; }
+        .note-icon.short { background: #dcfce7; color: #16a34a; }
+        .note-icon.cheat { background: #fce7f3; color: #db2777; }
+        .note-icon.summary { background: var(--primary-bg); color: var(--primary); }
+
+        .note-title {
+            font-size: 15px; font-weight: 700; line-height: 1.3;
+            color: var(--dark);
+        }
+        .note-desc { font-size: 13px; color: var(--gray); }
+        .note-meta {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;
+        }
+        .note-tag {
+            background: var(--primary-bg); color: var(--primary);
+            padding: 3px 9px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
+        }
+        .note-tag.type {
+            background: #fef3c7; color: #92400e;
+        }
+        .note-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 12px; border-top: 1px solid var(--border); margin-top: auto;
+        }
+        .note-info-small { font-size: 11px; color: var(--gray); }
+        .note-view-btn {
+            background: var(--primary); color: #fff;
+            border: none; padding: 8px 14px;
+            border-radius: 8px; font-size: 13px; font-weight: 600;
+            cursor: pointer; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px;
+            min-height: 38px;
+        }
+        .note-view-btn:hover { background: var(--primary-dark); }
+        .note-view-btn svg { width: 14px; height: 14px; }
+
+        .empty-state {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 50px 20px;
+            text-align: center; color: var(--gray);
+        }
+        .empty-state svg {
+            width: 56px; height: 56px;
+            margin-bottom: 14px; color: var(--gray-lighter);
+        }
+        .empty-state h3 { font-size: 16px; color: var(--dark); margin-bottom: 6px; }
+        .empty-state p { font-size: 14px; }
+
+        .loading {
+            text-align: center; padding: 40px;
+            color: var(--gray); font-size: 14px;
+        }
+
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0;
+            background: #fff; border-top: 1px solid var(--border);
+            padding: 6px 0; z-index: 90;
+        }
+        .bottom-nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+        .bottom-nav a {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 3px; padding: 6px 4px;
+            text-decoration: none; color: var(--gray);
+            font-size: 10px; font-weight: 500; min-height: 50px;
+        }
+        .bottom-nav a svg { width: 20px; height: 20px; }
+        .bottom-nav a.active { color: var(--primary); }
+
+        .sidebar-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 99;
+        }
+        .sidebar-overlay.show { display: block; }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .mobile-toggle { display: flex; }
+            .bottom-nav { display: block; }
+            .content { padding: 14px; }
+            .filter-bar { grid-template-columns: 1fr; gap: 10px; }
+            .notes-grid { grid-template-columns: 1fr; }
+            .topbar-text p { display: none; }
+            .topbar { padding: 10px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <div class="text"><span class="nust">NUST</span>ology <span class="prep">Prep.</span></div>
+        </div>
+        <ul class="sidebar-menu">
+            <div class="menu-section">Main</div>
+            <li><a href="student.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+            <li><a href="test.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Take Test</a></li>
+            <li><a href="leaderboard.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Leaderboard</a></li>
+            <li><a href="notifications.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</a></li>
+            <div class="menu-section">Learn</div>
+            <li><a href="lectures.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</a></li>
+            <li><a href="pdfs.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</a></li>
+            <li><a href="notes.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</a></li>
+            <li><a href="aggregate.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>Aggregate Calculator</a></li>
+            <li><a href="merit.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Past Merit Lists</a></li>
+            <li><a href="faq.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>FAQs</a></li>
+            <div class="menu-section">Community</div>
+            <li><a href="chat.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat</a></li>
+            <li><a href="community.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Community</a></li>
+            <div class="menu-section">Account</div>
+            <li><a href="profile.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-toggle" onclick="openSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div class="topbar-text">
+                    <h1>Notes / Formulas</h1>
+                    <p>Quick reference materials for revision</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="content">
+            <div class="access-banner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <div id="accessText">Loading...</div>
+            </div>
+
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label>Subject</label>
+                    <select id="filterSubject" onchange="loadNotes()">
+                        <option value="">All Subjects</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Type</label>
+                    <select id="filterType" onchange="loadNotes()">
+                        <option value="">All Types</option>
+                        <option value="formula_sheet">Formula Sheets</option>
+                        <option value="short_notes">Short Notes</option>
+                        <option value="summary">Summaries</option>
+                        <option value="cheat_sheet">Cheat Sheets</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Search</label>
+                    <input type="text" id="filterSearch" placeholder="Search by title..." oninput="filterAndRender()">
+                </div>
+                <button class="clear-btn" onclick="clearFilters()">Clear</button>
+            </div>
+
+            <div id="notesList">
+                <div class="loading">Loading notes...</div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<nav class="bottom-nav">
+    <div class="bottom-nav-grid">
+        <a href="student.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
+        <a href="test.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Tests</a>
+        <a href="notes.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes</a>
+        <a href="leaderboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Rank</a>
+        <a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>Profile</a>
+    </div>
+</nav>
+
+<script>
+    const API_BASE = '/api';
+    let currentUser = null;
+    let allNotes = [];
+
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('sidebarOverlay').classList.add('show');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+
+    function getNoteIconClass(type) {
+        const map = {
+            'formula_sheet': 'formula',
+            'short_notes': 'short',
+            'cheat_sheet': 'cheat',
+            'summary': 'summary'
+        };
+        return map[type] || '';
+    }
+
+    async function checkAuth() {
+        const token = localStorage.getItem('nustology_token');
+        if (!token) { window.location.href = '/index.html'; return; }
+        try {
+            const res = await fetch(`${API_BASE}/student/me`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const data = await res.json();
+            if (!data.success) { window.location.href = '/index.html'; return; }
+            currentUser = data.student;
+            if (!currentUser.isApproved) { window.location.href = '/payment-pending.html'; return; }
+
+            document.getElementById('accessText').innerHTML =
+                `<strong>Category: ${currentUser.degreeCategory || 'Engineering'}</strong> &mdash; Showing notes available for your category only.`;
+
+            loadNotes();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function loadNotes() {
+        const token = localStorage.getItem('nustology_token');
+        const subject = document.getElementById('filterSubject').value;
+        const type = document.getElementById('filterType').value;
+
+        const params = new URLSearchParams();
+        if (subject) params.set('subject', subject);
+        if (type) params.set('type', type);
+
+        try {
+            const res = await fetch(`${API_BASE}/notes?${params.toString()}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (data.success) {
+                allNotes = data.notes || [];
+                populateSubjectFilter();
+                renderNotes(allNotes);
+            }
+        } catch (e) {
+            document.getElementById('notesList').innerHTML =
+                '<div class="empty-state"><h3>Error loading notes</h3></div>';
+        }
+    }
+
+    function populateSubjectFilter() {
+        const subjects = [...new Set(allNotes.map(n => n.subject).filter(Boolean))];
+        const select = document.getElementById('filterSubject');
+        const currentVal = select.value;
+        select.innerHTML = '<option value="">All Subjects</option>' +
+            subjects.map(s => `<option value="${s}" ${s === currentVal ? 'selected' : ''}>${s}</option>`).join('');
+    }
+
+    function filterAndRender() {
+        const search = document.getElementById('filterSearch').value.toLowerCase().trim();
+        let filtered = allNotes;
+        if (search) {
+            filtered = filtered.filter(n =>
+                (n.title || '').toLowerCase().includes(search) ||
+                (n.description || '').toLowerCase().includes(search) ||
+                (n.chapter || '').toLowerCase().includes(search)
+            );
+        }
+        renderNotes(filtered);
+    }
+
+    function renderNotes(notes) {
+        const container = document.getElementById('notesList');
+        if (!notes || notes.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+                    <h3>No notes found</h3>
+                    <p>Try adjusting your filters or check back later.</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = '<div class="notes-grid">' + notes.map(n => `
+            <div class="note-card">
+                <div class="note-icon ${getNoteIconClass(n.note_type)}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </div>
+                <div class="note-title">${escapeHtml(n.title)}</div>
+                ${n.description ? `<div class="note-desc">${escapeHtml(n.description)}</div>` : ''}
+                <div class="note-meta">
+                    <span class="note-tag">${escapeHtml(n.subject)}</span>
+                    ${n.chapter ? `<span class="note-tag">${escapeHtml(n.chapter)}</span>` : ''}
+                    <span class="note-tag type">${escapeHtml((n.note_type || 'other').replace('_', ' '))}</span>
+                </div>
+                <div class="note-footer">
+                    <div class="note-info-small">${n.file_size || ''} • ${n.download_count || 0} views</div>
+                    <a href="${n.file_url}" target="_blank" class="note-view-btn" onclick="trackDownload(${n.id})">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        View
+                    </a>
+                </div>
+            </div>
+        `).join('') + '</div>';
+    }
+
+    async function trackDownload(id) {
+        try {
+            const token = localStorage.getItem('nustology_token');
+            await fetch(`${API_BASE}/notes/${id}/download`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+        } catch (e) {}
+    }
+
+    function clearFilters() {
+        document.getElementById('filterSubject').value = '';
+        document.getElementById('filterType').value = '';
+        document.getElementById('filterSearch').value = '';
+        loadNotes();
+    }
+
+    function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    async function logout() {
+        if (!confirm('Logout?')) return;
+        const token = localStorage.getItem('nustology_token');
+        try { await fetch(`${API_BASE}/auth/logout`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } }); } catch (e) {}
+        localStorage.removeItem('nustology_token');
+        localStorage.removeItem('nustology_user');
+        window.location.href = '/index.html';
+    }
+
+    checkAuth();
+</script>
+</body>
+</html>
