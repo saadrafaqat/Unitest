@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
+    <meta name="theme-color" content="#1e3a8a">
+    <title>Admin - Analytics - NUSTology Prep.</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1e3a8a; --primary-light: #1a56db; --primary-bg: #eff6ff;
+            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
+            --bg: #f8fafc; --border: #e2e8f0;
+            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+            --radius: 10px; --radius-lg: 14px;
+        }
+        html { -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg); color: var(--dark);
+            min-height: 100vh; font-size: 15px; line-height: 1.5;
+        }
+        .layout { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 250px; background: var(--dark); color: #fff;
+            padding: 20px 14px; position: fixed;
+            top: 0; left: 0; bottom: 0;
+            overflow-y: auto; z-index: 100;
+            transition: transform 0.25s ease;
+        }
+        .sidebar-logo {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0 10px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 16px;
+        }
+        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; }
+        .admin-badge { background: var(--danger); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+        .sidebar-logo .text { font-size: 15px; font-weight: 700; color: #fff; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+        .menu-section {
+            font-size: 10px; font-weight: 700; color: #64748b;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 14px 12px 6px;
+        }
+        .menu-item {
+            display: flex; align-items: center; gap: 11px;
+            padding: 10px 12px; border-radius: 8px;
+            color: #cbd5e1; font-size: 14px; font-weight: 500;
+            text-decoration: none; min-height: 40px;
+        }
+        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .menu-item.active { background: var(--primary-light); color: #fff; }
+
+        .main { flex: 1; margin-left: 250px; min-height: 100vh; }
+        .topbar {
+            background: #fff; padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 50; min-height: 60px;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .topbar h1 { font-size: 18px; font-weight: 700; }
+        .topbar p { font-size: 12px; color: var(--gray); }
+        .mobile-toggle {
+            display: none; background: var(--gray-lighter); border: none;
+            cursor: pointer; padding: 0; border-radius: 8px;
+            width: 40px; height: 40px;
+            align-items: center; justify-content: center;
+        }
+        .mobile-toggle svg { width: 20px; height: 20px; }
+        .logout-btn {
+            background: var(--danger); color: #fff; border: none;
+            padding: 8px 14px; border-radius: 8px;
+            cursor: pointer; font-size: 13px; font-weight: 600;
+            font-family: inherit; min-height: 38px;
+        }
+
+        .content { padding: 20px; max-width: 1300px; margin: 0 auto; }
+
+        /* ========== HERO STATS ========== */
+        .stats-hero {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; margin-bottom: 18px;
+        }
+        .stat-card-big {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 18px;
+        }
+        .stat-card-big .label {
+            font-size: 12px; color: var(--gray); margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .stat-card-big .value { font-size: 28px; font-weight: 700; line-height: 1; }
+        .stat-card-big .sub { font-size: 12px; color: var(--gray); margin-top: 6px; }
+
+        /* ========== CARDS ========== */
+        .card {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 20px; margin-bottom: 18px;
+        }
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 14px; border-bottom: 1px solid var(--border);
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .card-header h2 { font-size: 17px; font-weight: 700; }
+
+        .grid-2col {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 18px; margin-bottom: 18px;
+        }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th, td { text-align: left; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        th { background: #f8fafc; font-weight: 700; color: var(--gray); font-size: 11px; text-transform: uppercase; }
+        tr:hover { background: #f8fafc; }
+        .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-info { background: var(--primary-bg); color: var(--primary-light); }
+        .badge-success { background: #dcfce7; color: var(--success); }
+        .badge-warning { background: #fef3c7; color: var(--warning); }
+
+        /* ========== PROGRESS BAR ========== */
+        .progress-row {
+            display: flex; align-items: center;
+            gap: 12px; padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .progress-row:last-child { border-bottom: none; }
+        .progress-label {
+            flex: 0 0 140px;
+            font-size: 13px; font-weight: 600;
+        }
+        .progress-bar-wrap { flex: 1; }
+        .progress-bar {
+            height: 8px; background: var(--gray-lighter);
+            border-radius: 6px; overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary));
+            border-radius: 6px;
+            transition: width 0.4s ease;
+        }
+        .progress-value {
+            flex: 0 0 60px;
+            text-align: right;
+            font-size: 13px; font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        .empty { text-align: center; padding: 30px; color: var(--gray); }
+
+        .resource-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+        }
+        .resource-stat {
+            text-align: center;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 10px;
+        }
+        .resource-stat .icon {
+            width: 36px; height: 36px;
+            background: var(--primary-bg);
+            color: var(--primary-light);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 8px;
+        }
+        .resource-stat .icon svg { width: 18px; height: 18px; }
+        .resource-stat .num { font-size: 22px; font-weight: 700; }
+        .resource-stat .lbl { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+        .sidebar-overlay.show { display: block; }
+
+        @media (max-width: 1024px) {
+            .stats-hero { grid-template-columns: repeat(2, 1fr); }
+            .grid-2col { grid-template-columns: 1fr; }
+            .resource-stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .mobile-toggle { display: flex; }
+            .content { padding: 14px; }
+            .topbar p { display: none; }
+            .progress-row { flex-direction: column; align-items: stretch; gap: 6px; }
+            .progress-label, .progress-value { flex: none; text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
+            <div>
+                <div class="text">NUSTology</div>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <div class="menu-section">Overview</div>
+            <li><a href="admin.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a></li>
+            <li><a href="admin-analytics.html" class="menu-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Analytics
+            </a></li>
+
+            <div class="menu-section">Manage</div>
+            <li><a href="admin-pdfs.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                PDFs / Past Papers
+            </a></li>
+            <li><a href="admin-notes.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+                Notes / Formulas
+            </a></li>
+            <li><a href="admin-notifications.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+                Notifications
+            </a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-toggle" onclick="openSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div>
+                    <h1>Analytics & Reports</h1>
+                    <p>Platform statistics and insights</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+        </div>
+
+        <div class="content">
+            <!-- HERO STATS -->
+            <div class="stats-hero" id="statsHero"></div>
+
+            <!-- CATEGORY BREAKDOWN -->
+            <div class="grid-2col">
+                <div class="card">
+                    <div class="card-header"><h2>Category Breakdown</h2></div>
+                    <div id="categoryBreakdown"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h2>Resource Stats</h2></div>
+                    <div class="resource-stats" id="resourceStats"></div>
+                </div>
+            </div>
+
+            <!-- TEST ANALYTICS -->
+            <div class="card">
+                <div class="card-header"><h2>Most Attempted Tests</h2></div>
+                <div class="table-container" id="popularTests"></div>
+            </div>
+
+            <!-- SUBJECT PERFORMANCE -->
+            <div class="card">
+                <div class="card-header"><h2>Subject Performance (Platform-wide)</h2></div>
+                <div class="table-container" id="subjectPerformance"></div>
+            </div>
+
+            <!-- TOP STUDENTS -->
+            <div class="card">
+                <div class="card-header"><h2>Top 10 Students</h2></div>
+                <div class="table-container" id="topStudents"></div>
+            </div>
+
+            <!-- RECENT REGISTRATION TREND -->
+            <div class="card">
+                <div class="card-header"><h2>Registration Trend (Last 30 Days)</h2></div>
+                <div class="table-container" id="regTrend"></div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const API_BASE = '/api';
+
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('sidebarOverlay').classList.add('show');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+
+    function getHeaders() {
+        return { 'Authorization': `Bearer ${localStorage.getItem('nustology_admin_token')}` };
+    }
+
+    function checkAuth() {
+        if (!localStorage.getItem('nustology_admin_token')) {
+            window.location.href = '/admin.html';
+            return false;
+        }
+        return true;
+    }
+
+    function logoutAdmin() {
+        if (!confirm('Logout?')) return;
+        localStorage.removeItem('nustology_admin_token');
+        window.location.href = '/admin.html';
+    }
+
+    async function loadAnalytics() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/analytics`, { headers: getHeaders() });
+            const data = await res.json();
+            if (!data.success) return;
+            const a = data.analytics;
+
+            // Hero Stats
+            document.getElementById('statsHero').innerHTML = `
+                <div class="stat-card-big">
+                    <div class="label">Total Students</div>
+                    <div class="value" style="color: var(--primary-light);">${a.students.total}</div>
+                    <div class="sub">All registered users</div>
+                </div>
+                <div class="stat-card-big">
+                    <div class="label">Active Students</div>
+                    <div class="value" style="color: var(--success);">${a.students.active}</div>
+                    <div class="sub">Approved & active</div>
+                </div>
+                <div class="stat-card-big">
+                    <div class="label">Pending Approvals</div>
+                    <div class="value" style="color: var(--warning);">${a.students.pending}</div>
+                    <div class="sub">Awaiting verification</div>
+                </div>
+                <div class="stat-card-big">
+                    <div class="label">Tests Completed</div>
+                    <div class="value" style="color: #9333ea;">${a.tests.total}</div>
+                    <div class="sub">Avg score: ${a.tests.avgScore}%</div>
+                </div>
+            `;
+
+            // Category Breakdown
+            const totalCat = a.students.categoryBreakdown.reduce((s, c) => s + c.count, 0);
+            const catContainer = document.getElementById('categoryBreakdown');
+            if (a.students.categoryBreakdown.length) {
+                catContainer.innerHTML = a.students.categoryBreakdown.map(c => {
+                    const pct = totalCat > 0 ? (c.count / totalCat * 100).toFixed(1) : 0;
+                    return `
+                        <div class="progress-row">
+                            <div class="progress-label">${escapeHtml(c.degree_category)}</div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width:${pct}%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-value">${c.count}</div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                catContainer.innerHTML = '<div class="empty">No data</div>';
+            }
+
+            // Resource Stats
+            document.getElementById('resourceStats').innerHTML = `
+                <div class="resource-stat">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                    <div class="num">${a.resources.pdfs}</div>
+                    <div class="lbl">PDFs (${a.resources.pdfDownloads} downloads)</div>
+                </div>
+                <div class="resource-stat">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
+                    <div class="num">${a.resources.notes}</div>
+                    <div class="lbl">Notes (${a.resources.noteDownloads} views)</div>
+                </div>
+                <div class="resource-stat">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+                    <div class="num">${a.resources.lectures}</div>
+                    <div class="lbl">Video Lectures</div>
+                </div>
+            `;
+
+            // Popular Tests
+            const pop = document.getElementById('popularTests');
+            if (a.tests.popularTests.length) {
+                pop.innerHTML = `<table><thead><tr>
+                    <th>Type</th><th>Field</th><th>Attempts</th><th>Avg Score</th>
+                </tr></thead><tbody>${a.tests.popularTests.map(t => `
+                    <tr>
+                        <td><span class="badge badge-info">${escapeHtml(t.test_type)}</span></td>
+                        <td>${escapeHtml(t.field)}</td>
+                        <td><strong>${t.attempts}</strong></td>
+                        <td>${t.avg_score}%</td>
+                    </tr>
+                `).join('')}</tbody></table>`;
+            } else {
+                pop.innerHTML = '<div class="empty">No tests taken yet</div>';
+            }
+
+            // Subject Performance
+            const subj = document.getElementById('subjectPerformance');
+            if (a.tests.subjectPerformance.length) {
+                subj.innerHTML = `<table><thead><tr>
+                    <th>Subject</th><th>Attempts</th><th>Avg Score</th><th>Best Score</th>
+                </tr></thead><tbody>${a.tests.subjectPerformance.map(s => `
+                    <tr>
+                        <td><strong>${escapeHtml(s.subject)}</strong></td>
+                        <td>${s.total_attempts}</td>
+                        <td>${s.avg_score}%</td>
+                        <td><span class="badge badge-success">${s.best_score}%</span></td>
+                    </tr>
+                `).join('')}</tbody></table>`;
+            } else {
+                subj.innerHTML = '<div class="empty">No data yet</div>';
+            }
+
+            // Top Students
+            const top = document.getElementById('topStudents');
+            if (a.topStudents.length) {
+                top.innerHTML = `<table><thead><tr>
+                    <th>Rank</th><th>Student</th><th>Category</th><th>Avg Score</th><th>Best</th><th>Tests</th>
+                </tr></thead><tbody>${a.topStudents.map((s, i) => `
+                    <tr>
+                        <td><strong>#${i+1}</strong></td>
+                        <td>${escapeHtml(s.full_name || s.username)} <small style="color:var(--gray);">@${escapeHtml(s.username)}</small></td>
+                        <td><span class="badge badge-info">${escapeHtml(s.degree_category || '-')}</span></td>
+                        <td><strong>${s.avg_score}%</strong></td>
+                        <td>${(s.best_score || 0).toFixed(1)}%</td>
+                        <td>${s.total_tests}</td>
+                    </tr>
+                `).join('')}</tbody></table>`;
+            } else {
+                top.innerHTML = '<div class="empty">No students have taken tests yet</div>';
+            }
+
+            // Registration Trend
+            const trend = document.getElementById('regTrend');
+            if (a.registrations.recentTrend.length) {
+                const maxCount = Math.max(...a.registrations.recentTrend.map(r => r.count));
+                trend.innerHTML = a.registrations.recentTrend.map(r => {
+                    const pct = (r.count / maxCount * 100).toFixed(1);
+                    return `
+                        <div class="progress-row">
+                            <div class="progress-label">${r.date}</div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width:${pct}%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-value">${r.count}</div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                trend.innerHTML = '<div class="empty">No recent registrations</div>';
+            }
+
+        } catch (e) {
+            console.error('Analytics error:', e);
+        }
+    }
+
+    function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    if (checkAuth()) loadAnalytics();
+</script>
+</body>
+</html>
