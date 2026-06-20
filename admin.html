@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#1a56db">
     <title>Admin Panel - NUSTology Prep.</title>
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #1a56db;
@@ -28,13 +28,10 @@
             --shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
 
-        html { -webkit-text-size-adjust: 100%; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--dark);
-            min-height: 100vh;
             font-size: 14px;
             line-height: 1.5;
         }
@@ -64,12 +61,6 @@
         }
         .sidebar-logo img { width: 32px; height: 32px; border-radius: 6px; }
         .sidebar-logo .text { font-size: 15px; font-weight: 700; color: #fff; }
-        .admin-badge {
-            background: var(--danger); color: #fff;
-            padding: 1px 6px; border-radius: 3px;
-            font-size: 8px; font-weight: 700;
-            margin-left: 4px;
-        }
 
         .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 1px; }
         .menu-section {
@@ -82,12 +73,17 @@
             display: flex; align-items: center; gap: 10px;
             padding: 8px 10px;
             border-radius: 6px;
-            color: #94a3b8; cursor: pointer;
-            font-size: 13px; font-weight: 500;
-            border: none; background: none; width: 100%;
-            text-align: left; font-family: inherit;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
             min-height: 34px;
             transition: background 0.15s, color 0.15s;
+            cursor: pointer;
             text-decoration: none;
         }
         .menu-item svg { width: 16px; height: 16px; flex-shrink: 0; }
@@ -141,8 +137,10 @@
         .logout-btn {
             background: var(--danger); color: #fff;
             border: none; padding: 6px 12px;
-            border-radius: 6px; cursor: pointer;
-            font-size: 12px; font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
             font-family: inherit;
             min-height: 32px;
         }
@@ -216,16 +214,12 @@
         .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
         .btn-sm { padding: 4px 10px; font-size: 12px; min-height: 28px; }
-        .btn svg { width: 16px; height: 16px; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn svg { width: 14px; height: 14px; }
 
         /* TABLE */
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 500px; }
-        th, td {
-            text-align: left; padding: 8px 10px;
-            border-bottom: 1px solid var(--border);
-        }
+        th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
         th {
             background: #f8fafc; font-weight: 600;
             color: var(--gray); font-size: 10px;
@@ -254,7 +248,8 @@
             padding: 6px 10px;
             border: 1.5px solid var(--border);
             border-radius: 6px;
-            font-family: inherit; font-size: 12px;
+            font-family: inherit;
+            font-size: 12px;
             min-height: 32px;
             background: #fff;
         }
@@ -287,7 +282,6 @@
             font-size: 14px;
             min-height: 42px;
             background: #fff;
-            transition: border-color 0.15s;
         }
         .form-group textarea { min-height: 80px; resize: vertical; }
         .form-group input:focus,
@@ -295,10 +289,8 @@
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
-        /* URL Input with Icon */
         .url-input-wrap {
             display: flex;
             align-items: center;
@@ -307,17 +299,9 @@
             padding: 6px 12px;
             border-radius: 6px;
             border: 1.5px solid var(--border);
-            transition: border-color 0.15s;
         }
-        .url-input-wrap:focus-within {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-        }
-        .url-input-wrap .icon {
-            font-size: 18px;
-            color: var(--gray);
-            flex-shrink: 0;
-        }
+        .url-input-wrap:focus-within { border-color: var(--primary-light); }
+        .url-input-wrap .icon { font-size: 18px; color: var(--gray); flex-shrink: 0; }
         .url-input-wrap input {
             border: none;
             background: transparent;
@@ -330,21 +314,12 @@
         .url-input-wrap input:focus { outline: none; }
 
         .detail-row {
-            display: grid;
-            grid-template-columns: 130px 1fr;
-            gap: 8px;
-            padding: 4px 0;
-            font-size: 13px;
+            display: grid; grid-template-columns: 130px 1fr;
+            gap: 8px; padding: 4px 0; font-size: 13px;
         }
         .detail-row .label { color: var(--gray); font-weight: 500; }
 
-        .empty {
-            text-align: center;
-            padding: 40px 16px;
-            color: var(--gray);
-            font-size: 14px;
-        }
-        .empty .icon { font-size: 48px; margin-bottom: 10px; display: block; }
+        .empty { text-align: center; padding: 40px 16px; color: var(--gray); font-size: 14px; }
 
         /* CHART */
         .chart-container {
@@ -373,19 +348,8 @@
             min-height: 4px;
             transition: height 0.4s;
         }
-        .chart-bar-label {
-            font-size: 9px;
-            color: var(--gray);
-            margin-top: 4px;
-            text-align: center;
-            word-break: break-all;
-        }
-        .chart-bar-value {
-            font-size: 9px;
-            font-weight: 600;
-            margin-bottom: 2px;
-            color: var(--dark);
-        }
+        .chart-bar-label { font-size: 9px; color: var(--gray); margin-top: 4px; text-align: center; }
+        .chart-bar-value { font-size: 9px; font-weight: 600; margin-bottom: 2px; color: var(--dark); }
 
         /* MODAL */
         .modal {
@@ -406,19 +370,8 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        .modal-box h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--dark);
-        }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
+        .modal-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--dark); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; flex-wrap: wrap; }
 
         /* LOGIN */
         .login-overlay {
@@ -436,34 +389,18 @@
             padding: 28px 22px;
             max-width: 360px; width: 100%;
         }
-        .login-box h2 {
-            text-align: center;
-            font-size: 18px; font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-        .login-subtitle {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 11px;
-            margin-bottom: 18px;
-        }
-        .login-form-group {
-            margin-bottom: 12px;
-        }
-        .login-form-group label {
-            display: block;
-            font-size: 12px; font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 3px;
-        }
+        .login-box h2 { text-align: center; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .login-subtitle { text-align: center; color: #94a3b8; font-size: 11px; margin-bottom: 18px; }
+        .login-form-group { margin-bottom: 12px; }
+        .login-form-group label { display: block; font-size: 12px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
         .login-form-group input {
             width: 100%;
             padding: 10px 12px;
             background: #f1f5f9;
             border: 2px solid transparent;
             border-radius: 6px;
-            font-family: inherit; font-size: 14px;
+            font-family: inherit;
+            font-size: 14px;
             color: #0f172a;
             min-height: 40px;
         }
@@ -507,13 +444,12 @@
             .topbar p { display: none; }
             .form-row, .form-row.three { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .detail-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- LOGIN OVERLAY -->
+<!-- LOGIN -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
         <h2>NUSTology <span style="color:#60a5fa;">Admin</span></h2>
@@ -544,24 +480,24 @@
         </div>
         <ul class="sidebar-menu">
             <div class="menu-section">Main</div>
-            <li><button class="menu-item active" data-page="dashboard" onclick="showPage('dashboard', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button></li>
-            <li><button class="menu-item" data-page="students" onclick="showPage('students', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Students <span class="menu-count" id="studentCount">0</span></button></li>
-            <li><button class="menu-item" data-page="registrations" onclick="showPage('registrations', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Registrations <span class="menu-count" id="pendingRegCount" style="display:none;">0</span></button></li>
+            <li><button class="menu-item active" onclick="showPage('dashboard', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button></li>
+            <li><button class="menu-item" onclick="showPage('students', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Students <span class="menu-count" id="studentCount">0</span></button></li>
+            <li><button class="menu-item" onclick="showPage('registrations', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Registrations <span class="menu-count" id="pendingRegCount" style="display:none;">0</span></button></li>
 
             <div class="menu-section">Uploads</div>
-            <li><button class="menu-item" data-page="pdfs" onclick="showPage('pdfs', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</button></li>
-            <li><button class="menu-item" data-page="notes" onclick="showPage('notes', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</button></li>
-            <li><button class="menu-item" data-page="lectures" onclick="showPage('lectures', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</button></li>
-            <li><button class="menu-item" data-page="merit" onclick="showPage('merit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Merit Lists</button></li>
+            <li><button class="menu-item" onclick="showPage('pdfs', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</button></li>
+            <li><button class="menu-item" onclick="showPage('notes', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</button></li>
+            <li><button class="menu-item" onclick="showPage('lectures', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</button></li>
+            <li><button class="menu-item" onclick="showPage('merit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Merit Lists</button></li>
 
             <div class="menu-section">Communication</div>
-            <li><button class="menu-item" data-page="notifications" onclick="showPage('notifications', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</button></li>
+            <li><button class="menu-item" onclick="showPage('notifications', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</button></li>
 
             <div class="menu-section">Analytics</div>
-            <li><button class="menu-item" data-page="analytics" onclick="showPage('analytics', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</button></li>
+            <li><button class="menu-item" onclick="showPage('analytics', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</button></li>
 
             <div class="menu-section">System</div>
-            <li><button class="menu-item" data-page="settings" onclick="showPage('settings', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>Settings</button></li>
+            <li><button class="menu-item" onclick="showPage('settings', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>Settings</button></li>
         </ul>
     </aside>
 
@@ -586,11 +522,11 @@
                 <div class="card">
                     <div class="card-header"><h2>Quick Actions</h2></div>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelector('[data-page=\"registrations\"]'))">📋 Review Registrations</button>
-                        <button class="btn btn-primary" onclick="showPage('students', document.querySelector('[data-page=\"students\"]'))">👥 Manage Students</button>
-                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelector('[data-page=\"pdfs\"]'))">📄 Add PDF Link</button>
-                        <button class="btn btn-success" onclick="showPage('notes', document.querySelector('[data-page=\"notes\"]'))">📝 Add Note Link</button>
-                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelector('[data-page=\"settings\"]'))">⚙️ Settings</button>
+                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelector('#sidebar .menu-item:nth-child(3)'))">📋 Registrations</button>
+                        <button class="btn btn-primary" onclick="showPage('students', document.querySelector('#sidebar .menu-item:nth-child(2)'))">👥 Students</button>
+                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelector('#sidebar .menu-item:nth-child(4)'))">📄 PDFs</button>
+                        <button class="btn btn-success" onclick="showPage('notes', document.querySelector('#sidebar .menu-item:nth-child(5)'))">📝 Notes</button>
+                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelector('#sidebar .menu-item:last-child'))">⚙️ Settings</button>
                     </div>
                 </div>
                 <div class="card">
@@ -609,14 +545,14 @@
                     <div class="filter-bar">
                         <input type="text" id="stuSearch" placeholder="Search..." oninput="loadStudents()">
                         <select id="stuCategoryFilter" onchange="loadStudents()">
-                            <option value="">All Categories</option>
+                            <option value="">All</option>
                             <option value="Engineering">Engineering</option>
                             <option value="CS">CS</option>
                             <option value="Business">Business</option>
                             <option value="Architecture">Architecture</option>
                         </select>
                         <select id="stuStatusFilter" onchange="loadStudents()">
-                            <option value="">All Status</option>
+                            <option value="">All</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -642,16 +578,16 @@
                 </div>
             </div>
 
-            <!-- PDFs - SIMPLE LINK MANAGEMENT -->
+            <!-- PDFs -->
             <div class="page" id="page-pdfs">
                 <div class="card">
                     <div class="card-header"><h2>📄 Add PDF / Past Paper Link</h2></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Title *</label><input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering Paper"></div>
-                        <div class="form-group"><label>Field *</label><select id="pdfField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option><option>Natural Sciences</option></select></div>
+                        <div class="form-group"><label>Title *</label><input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering"></div>
+                        <div class="form-group"><label>Field *</label><select id="pdfField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Subject</label><select id="pdfSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
+                        <div class="form-group"><label>Subject</label><select id="pdfSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option></select></div>
                         <div class="form-group"><label>Year</label><input type="text" id="pdfYear" placeholder="e.g., 2024"></div>
                     </div>
                     <div class="form-row full">
@@ -659,32 +595,31 @@
                             <label>File URL *</label>
                             <div class="url-input-wrap">
                                 <span class="icon">🔗</span>
-                                <input type="url" id="pdfUrl" placeholder="https://drive.google.com/... or https://res.cloudinary.com/...">
+                                <input type="url" id="pdfUrl" placeholder="https://drive.google.com/...">
                             </div>
                         </div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Description</label><textarea id="pdfDesc" rows="2" placeholder="Brief description..."></textarea></div>
+                        <div class="form-group"><label>Description</label><textarea id="pdfDesc" rows="2"></textarea></div>
                     </div>
-                    <button class="btn btn-success" onclick="addPDFLink()">➕ Add PDF Link</button>
+                    <button class="btn btn-success" onclick="addPDF()">➕ Add PDF</button>
                 </div>
-
                 <div class="card">
                     <div class="card-header"><h2>Uploaded PDFs</h2></div>
                     <div class="table-container" id="pdfsTable"></div>
                 </div>
             </div>
 
-            <!-- NOTES - SIMPLE LINK MANAGEMENT -->
+            <!-- NOTES -->
             <div class="page" id="page-notes">
                 <div class="card">
                     <div class="card-header"><h2>📝 Add Notes / Formula Link</h2></div>
                     <div class="form-row">
                         <div class="form-group"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g., Physics Formula Sheet"></div>
-                        <div class="form-group"><label>Field *</label><select id="noteField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option><option>Natural Sciences</option></select></div>
+                        <div class="form-group"><label>Field *</label><select id="noteField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Subject</label><select id="noteSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
+                        <div class="form-group"><label>Subject</label><select id="noteSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option></select></div>
                         <div class="form-group"><label>Topic</label><input type="text" id="noteTopic" placeholder="e.g., Kinematics"></div>
                     </div>
                     <div class="form-row full">
@@ -692,16 +627,15 @@
                             <label>File URL *</label>
                             <div class="url-input-wrap">
                                 <span class="icon">🔗</span>
-                                <input type="url" id="noteUrl" placeholder="https://drive.google.com/... or https://res.cloudinary.com/...">
+                                <input type="url" id="noteUrl" placeholder="https://drive.google.com/...">
                             </div>
                         </div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Description</label><textarea id="noteDesc" rows="2" placeholder="Brief description..."></textarea></div>
+                        <div class="form-group"><label>Description</label><textarea id="noteDesc" rows="2"></textarea></div>
                     </div>
-                    <button class="btn btn-success" onclick="addNoteLink()">➕ Add Note Link</button>
+                    <button class="btn btn-success" onclick="addNote()">➕ Add Notes</button>
                 </div>
-
                 <div class="card">
                     <div class="card-header"><h2>Uploaded Notes</h2></div>
                     <div class="table-container" id="notesTable"></div>
@@ -729,7 +663,7 @@
                 <div class="card">
                     <div class="card-header"><h2>📢 Send Notification</h2></div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Target</label><select id="notifTarget"><option value="all">All Students</option><option value="active">Active Only</option><option value="engineering">Engineering</option><option value="cs">CS</option><option value="business">Business</option></select></div>
+                        <div class="form-group"><label>Target</label><select id="notifTarget"><option value="all">All</option><option value="active">Active Only</option><option value="engineering">Engineering</option><option value="cs">CS</option><option value="business">Business</option></select></div>
                     </div>
                     <div class="form-row full">
                         <div class="form-group"><label>Message *</label><textarea id="notifMessage" rows="3"></textarea></div>
@@ -765,9 +699,9 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>New Password</label><input type="password" id="newAdminPassword"></div>
-                        <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmAdminPassword"></div>
+                        <div class="form-group"><label>Confirm</label><input type="password" id="confirmAdminPassword"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="changeAdminCreds()">Update Credentials</button>
+                    <button class="btn btn-primary" onclick="changeAdminCreds()">Update</button>
                 </div>
                 <div class="card">
                     <h2 style="margin-bottom:10px;">🏦 Bank Details</h2>
@@ -786,7 +720,7 @@
                     <div class="form-row">
                         <div class="form-group"><label>Registration Fee (Rs.)</label><input type="number" id="set_registration_fee" value="500"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+                    <button class="btn btn-primary" onclick="saveSettings()">Save</button>
                 </div>
             </div>
         </div>
@@ -806,7 +740,7 @@
             <div class="form-group"><label>Email</label><input type="email" id="newStuEmail"></div>
         </div>
         <div class="form-row full">
-            <div class="form-group"><label>Category</label><select id="newStuField"><option>Engineering</option><option>CS</option><option>Computing</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
+            <div class="form-group"><label>Category</label><select id="newStuField"><option>Engineering</option><option>CS</option><option>Business</option><option>Architecture</option></select></div>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
@@ -819,14 +753,7 @@
     <div class="modal-box">
         <h3>🎬 Add Video Lecture</h3>
         <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div></div>
-        <div class="form-row full">
-            <div class="form-group"><label>YouTube URL *</label>
-                <div class="url-input-wrap">
-                    <span class="icon">▶</span>
-                    <input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=...">
-                </div>
-            </div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=..."></div></div>
         <div class="form-row">
             <div class="form-group"><label>Field</label><select id="lecField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
             <div class="form-group"><label>Subject</label><select id="lecSubject"><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
@@ -853,12 +780,7 @@
         </div>
         <div class="form-row">
             <div class="form-group"><label>Campus</label><input type="text" id="merCampus"></div>
-            <div class="form-group"><label>File URL</label>
-                <div class="url-input-wrap">
-                    <span class="icon">🔗</span>
-                    <input type="url" id="merFileUrl" placeholder="https://drive.google.com/...">
-                </div>
-            </div>
+            <div class="form-group"><label>File URL</label><input type="url" id="merFileUrl" placeholder="https://drive.google.com/..."></div>
         </div>
         <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="merDesc" rows="2"></textarea></div></div>
         <div class="modal-actions">
@@ -869,9 +791,7 @@
 </div>
 
 <div class="modal" id="studentDetailModal">
-    <div class="modal-box" style="max-width:850px;">
-        <div id="studentDetailContent"></div>
-    </div>
+    <div class="modal-box"><div id="studentDetailContent"></div></div>
 </div>
 
 <div class="modal" id="registrationDetailModal">
@@ -906,6 +826,7 @@
     let currentRejectRegId = null;
     let currentResetStudentId = null;
 
+    // ============ SIDEBAR ============
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
         document.getElementById('sidebarOverlay').classList.add('show');
@@ -1010,6 +931,8 @@
         document.getElementById('pageSubtitle').textContent = titles[page]?.[1] || '';
 
         closeSidebar();
+        
+        // Load data for the page
         if (page === 'registrations') loadRegistrations();
         else if (page === 'students') loadStudents();
         else if (page === 'pdfs') loadPDFs();
@@ -1033,7 +956,6 @@
                 <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value">${s.pendingStudents || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests || 0}</div></div>
-                <div class="stat-card"><div class="stat-label">Documents</div><div class="stat-value">${s.totalDocs || 0}</div></div>
             `;
             document.getElementById('studentCount').textContent = s.totalStudents || 0;
             if (s.pendingStudents > 0) {
@@ -1134,12 +1056,10 @@
             const data = await res.json();
             if (data.success) {
                 closeModal('resetPwdModal');
-                alert(`Password reset successfully!\nNew Password: ${newPassword}`);
+                alert(`Password reset: ${newPassword}`);
                 loadStudents();
-            } else {
-                alert(data.message || 'Failed to reset password');
             }
-        } catch (e) { alert('Failed to reset password'); }
+        } catch (e) { alert('Failed'); }
     }
 
     function openAddStudent() { document.getElementById('addStudentModal').classList.add('show'); }
@@ -1257,7 +1177,7 @@
         try {
             const res = await fetch(`${API_BASE}/admin/student-test/${attemptId}`, { headers: getHeaders() });
             const data = await res.json();
-            if (!data.success) return alert('Failed to load test: ' + (data.message || 'Unknown error'));
+            if (!data.success) return alert('Failed to load test');
 
             let html = `
                 <h3>📝 Test Review</h3>
@@ -1301,7 +1221,7 @@
 
             html += `</div>
                 <div class="modal-actions">
-                    <button class="btn btn-secondary" onclick="closeModal('studentDetailModal'); viewStudent(${studentId})">Back to Student</button>
+                    <button class="btn btn-secondary" onclick="closeModal('studentDetailModal'); viewStudent(${studentId})">Back</button>
                     <button class="btn btn-secondary" onclick="closeModal('studentDetailModal')">Close</button>
                 </div>
             `;
@@ -1428,7 +1348,7 @@
     }
 
     // ============ PDF LINKS ============
-    async function addPDFLink() {
+    async function addPDF() {
         const title = document.getElementById('pdfTitle').value.trim();
         const field = document.getElementById('pdfField').value;
         const subject = document.getElementById('pdfSubject').value;
@@ -1436,35 +1356,24 @@
         const url = document.getElementById('pdfUrl').value.trim();
         const desc = document.getElementById('pdfDesc').value.trim();
 
-        if (!title || !url) {
-            alert('Please fill in Title and File URL');
-            return;
-        }
+        if (!title || !url) return alert('Title and URL required');
 
         try {
             const res = await fetch(`${API_BASE}/pdfs`, {
                 method: 'POST',
                 headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title, field, subject, year,
-                    file_url: url,
-                    description: desc
-                })
+                body: JSON.stringify({ title, field, subject, year, file_url: url, description: desc })
             });
             const data = await res.json();
             if (data.success) {
-                alert('PDF link added successfully!');
+                alert('PDF added!');
                 document.getElementById('pdfTitle').value = '';
                 document.getElementById('pdfYear').value = '';
                 document.getElementById('pdfUrl').value = '';
                 document.getElementById('pdfDesc').value = '';
                 loadPDFs();
-            } else {
-                alert('Failed to add: ' + (data.message || 'Unknown error'));
             }
-        } catch (e) {
-            alert('Error: ' + e.message);
-        }
+        } catch (e) { alert('Error: ' + e.message); }
     }
 
     async function loadPDFs() {
@@ -1487,7 +1396,7 @@
     }
 
     async function deletePDF(id) {
-        if (!confirm('Delete this PDF?')) return;
+        if (!confirm('Delete?')) return;
         try {
             await fetch(`${API_BASE}/pdfs/${id}`, { method: 'DELETE', headers: getHeaders() });
             loadPDFs();
@@ -1495,7 +1404,7 @@
     }
 
     // ============ NOTES LINKS ============
-    async function addNoteLink() {
+    async function addNote() {
         const title = document.getElementById('noteTitle').value.trim();
         const field = document.getElementById('noteField').value;
         const subject = document.getElementById('noteSubject').value;
@@ -1503,35 +1412,24 @@
         const url = document.getElementById('noteUrl').value.trim();
         const desc = document.getElementById('noteDesc').value.trim();
 
-        if (!title || !url) {
-            alert('Please fill in Title and File URL');
-            return;
-        }
+        if (!title || !url) return alert('Title and URL required');
 
         try {
             const res = await fetch(`${API_BASE}/notes`, {
                 method: 'POST',
                 headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title, field, subject, topic,
-                    file_url: url,
-                    description: desc
-                })
+                body: JSON.stringify({ title, field, subject, topic, file_url: url, description: desc })
             });
             const data = await res.json();
             if (data.success) {
-                alert('Note link added successfully!');
+                alert('Note added!');
                 document.getElementById('noteTitle').value = '';
                 document.getElementById('noteTopic').value = '';
                 document.getElementById('noteUrl').value = '';
                 document.getElementById('noteDesc').value = '';
                 loadNotes();
-            } else {
-                alert('Failed to add: ' + (data.message || 'Unknown error'));
             }
-        } catch (e) {
-            alert('Error: ' + e.message);
-        }
+        } catch (e) { alert('Error: ' + e.message); }
     }
 
     async function loadNotes() {
@@ -1554,7 +1452,7 @@
     }
 
     async function deleteNote(id) {
-        if (!confirm('Delete this note?')) return;
+        if (!confirm('Delete?')) return;
         try {
             await fetch(`${API_BASE}/notes/${id}`, { method: 'DELETE', headers: getHeaders() });
             loadNotes();
@@ -1656,7 +1554,7 @@
                     if (i.id !== 'merYear') i.value = '';
                 });
                 loadAdminMerit();
-                alert('Merit list added!');
+                alert('Merit added!');
             }
         } catch (e) {}
     }
@@ -1699,7 +1597,7 @@
             if (data.success) {
                 document.getElementById('notifMessage').value = '';
                 loadNotifications();
-                alert('Notification sent!');
+                alert('Sent!');
             }
         } catch (e) {}
     }
@@ -1714,7 +1612,7 @@
             document.getElementById('analyticsStats').innerHTML = `
                 <div class="stat-card"><div class="stat-label">Total Tests</div><div class="stat-value">${data.totalTests || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Avg Score</div><div class="stat-value">${(data.avgScore || 0).toFixed(1)}%</div></div>
-                <div class="stat-card"><div class="stat-label">Students Active</div><div class="stat-value">${data.activeStudents || 0}</div></div>
+                <div class="stat-card"><div class="stat-label">Active Students</div><div class="stat-value">${data.activeStudents || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Completion Rate</div><div class="stat-value">${(data.completionRate || 0).toFixed(1)}%</div></div>
             `;
 
@@ -1784,7 +1682,7 @@
                 headers: { ...getHeaders(), 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            if ((await res.json()).success) alert('Settings saved!');
+            if ((await res.json()).success) alert('Saved!');
         } catch (e) {}
     }
 
