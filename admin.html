@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="js/protection.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
@@ -218,7 +217,7 @@
         }
         .card-header h2 { font-size: 16px; font-weight: 700; }
 
-        /* BUTTONS - Minimal */
+        /* BUTTONS */
         .btn {
             padding: 6px 14px;
             border: none;
@@ -245,7 +244,6 @@
         .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
         .btn-sm { padding: 4px 8px; font-size: 12px; min-height: 28px; }
-        .btn svg { width: 14px; height: 14px; }
 
         /* TABLE */
         .table-container { overflow-x: auto; }
@@ -512,7 +510,7 @@
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN OVERLAY -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
         <h2>NUSTology <span>Admin</span></h2>
@@ -520,11 +518,11 @@
         <div class="login-form">
             <div class="login-form-group">
                 <label>Username</label>
-                <input type="text" id="adminUsername" placeholder="Admin username" autocomplete="username">
+                <input type="text" id="adminUsername" placeholder="admin" autocomplete="username" value="admin">
             </div>
             <div class="login-form-group">
                 <label>Password</label>
-                <input type="password" id="adminPassword" placeholder="Admin password" autocomplete="current-password" onkeypress="if(event.key==='Enter') doAdminLogin()">
+                <input type="password" id="adminPassword" placeholder="admin123" autocomplete="current-password" value="admin123" onkeypress="if(event.key==='Enter') doAdminLogin()">
             </div>
             <button class="login-btn" onclick="doAdminLogin()">Sign In</button>
             <div class="login-error" id="loginError"></div>
@@ -1078,7 +1076,7 @@
         if (status === 'pending') return '<span class="badge badge-warning">Pending</span>';
         if (status === 'approved') return '<span class="badge badge-success">Approved</span>';
         if (status === 'rejected') return '<span class="badge badge-danger">Rejected</span>';
-        return `<span class="badge">${status}</span>';
+        return `<span class="badge">${status}</span>`;
     }
 
     // ============ STUDENTS ============
