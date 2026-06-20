@@ -2114,7 +2114,7 @@
                     <td>${escapeHtml(p.subject || '-')}</td>
                     <td>${p.download_count || 0}</td>
                     <td><div class="actions-cell">
-                        ${p.file_url ? `<a href="${p.file_url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
+                        ${p.file_url ? `<a href="${fixCloudinaryPdfUrl(p.file_url)}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
                         <button class="btn btn-danger btn-sm" onclick="deletePdf(${p.id})">Delete</button>
                     </div></td>
                 </tr>`).join('')}
@@ -2542,6 +2542,15 @@
     function escapeJsString(s) {
         if (!s) return '';
         return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
+    }
+    // Auto-fix Cloudinary PDF URLs that were uploaded as 'image'
+    function fixCloudinaryPdfUrl(url) {
+        if (!url) return url;
+        // If it's a Cloudinary PDF stored as image, convert to raw
+        if (url.includes('res.cloudinary.com') && url.includes('/image/upload/') && url.toLowerCase().endsWith('.pdf')) {
+            return url.replace('/image/upload/', '/raw/upload/');
+        }
+        return url;
     }
 
     // Drag & drop
