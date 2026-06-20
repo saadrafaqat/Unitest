@@ -41,7 +41,7 @@
 
         .layout { display: flex; min-height: 100vh; }
 
-        /* ========== SIDEBAR ========== */
+        /* SIDEBAR */
         .sidebar {
             width: 220px;
             background: var(--dark);
@@ -111,7 +111,7 @@
         }
         .sidebar-overlay.show { display: block; }
 
-        /* ========== MAIN ========== */
+        /* MAIN */
         .main {
             flex: 1;
             margin-left: 220px;
@@ -150,7 +150,7 @@
 
         .content { padding: 16px; max-width: 1400px; margin: 0 auto; }
 
-        /* ========== STATS ========== */
+        /* STATS */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -167,7 +167,7 @@
         .stat-label { font-size: 11px; color: var(--gray); }
         .stat-value { font-size: 20px; font-weight: 700; }
 
-        /* ========== PAGES ========== */
+        /* PAGES */
         .page { display: none; }
         .page.active { display: block; }
 
@@ -190,27 +190,77 @@
         }
         .card-header h2 { font-size: 16px; font-weight: 700; }
 
+        /* BUTTONS - Simple & Clean */
         .btn {
-            padding: 6px 12px;
-            border: none; border-radius: 6px;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
-            font-family: inherit; font-size: 12px; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 4px;
-            min-height: 32px;
-            transition: background 0.15s;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 36px;
+            transition: all 0.15s;
             text-decoration: none;
         }
         .btn-primary { background: var(--primary-light); color: #fff; }
         .btn-primary:hover { background: var(--primary-dark); }
+
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:hover { background: #16a34a; }
+
         .btn-danger { background: var(--danger); color: #fff; }
         .btn-danger:hover { background: #b91c1c; }
+
         .btn-warning { background: var(--warning); color: #fff; }
-        .btn-success { background: var(--success); color: #fff; }
+        .btn-warning:hover { background: #d97706; }
+
         .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
-        .btn-sm { padding: 4px 8px; font-size: 11px; min-height: 26px; }
-        .btn svg { width: 13px; height: 13px; }
 
+        .btn-outline { background: transparent; color: var(--primary-light); border: 2px solid var(--primary-light); }
+        .btn-outline:hover { background: var(--primary-light); color: #fff; }
+
+        .btn-sm { padding: 4px 10px; font-size: 12px; min-height: 28px; }
+        .btn svg { width: 16px; height: 16px; }
+
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Upload Button - Special */
+        .btn-upload {
+            background: var(--success);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 6px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+            transition: background 0.15s;
+        }
+        .btn-upload:hover { background: #16a34a; }
+        .btn-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            left: 0;
+            top: 0;
+        }
+        .btn-upload-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* TABLE */
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 500px; }
         th, td {
@@ -234,6 +284,7 @@
         .badge-warning { background: #fef3c7; color: var(--warning); }
         .badge-info { background: var(--primary-bg); color: var(--primary-light); }
 
+        /* FILTER */
         .filter-bar {
             display: flex; gap: 8px;
             margin-bottom: 10px;
@@ -251,59 +302,126 @@
         }
         .filter-bar input { flex: 1; min-width: 140px; }
 
+        /* FORMS */
         .form-row {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 10px; margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
         .form-row.full { grid-template-columns: 1fr; }
+
         .form-group label {
             display: block;
-            font-size: 12px; font-weight: 600;
-            margin-bottom: 3px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--dark);
         }
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 8px 10px;
+            padding: 10px 12px;
             border: 1.5px solid var(--border);
             border-radius: 6px;
-            font-family: inherit; font-size: 13px;
-            min-height: 36px;
+            font-family: inherit;
+            font-size: 14px;
+            min-height: 42px;
             background: #fff;
+            transition: border-color 0.15s;
         }
-        .form-group textarea { min-height: 60px; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            outline: none; border-color: var(--primary-light);
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
-        .url-input-with-icon {
+        /* FILE UPLOAD AREA */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: #fafafa;
+        }
+        .upload-area:hover {
+            border-color: var(--primary-light);
+            background: var(--primary-bg);
+        }
+        .upload-area.dragover {
+            border-color: var(--success);
+            background: #f0fdf4;
+        }
+        .upload-area .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .upload-area p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        .upload-area .sub-text {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            height: 6px;
+            background: var(--gray-lighter);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+            display: none;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: var(--primary-light);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+        .progress-bar.show { display: block; }
+
+        /* FILE PREVIEW */
+        .file-preview {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            padding: 10px 14px;
             background: #f8fafc;
-            padding: 6px 12px;
             border-radius: 6px;
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
+            margin-top: 10px;
         }
-        .url-input-with-icon input {
-            border: none;
-            background: transparent;
-            padding: 6px 0;
+        .file-preview .name {
+            font-weight: 500;
             flex: 1;
-            font-family: inherit;
             font-size: 13px;
         }
-        .url-input-with-icon input:focus { outline: none; }
-        .url-input-with-icon .icon {
+        .file-preview .size {
             color: var(--gray);
-            font-size: 16px;
+            font-size: 12px;
         }
+        .file-preview .remove {
+            color: var(--danger);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 1;
+        }
+        .file-preview .remove:hover { color: #b91c1c; }
 
-        /* ========== MODAL ========== */
+        /* MODAL */
         .modal {
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,0.4);
@@ -316,30 +434,47 @@
         .modal-box {
             background: #fff;
             border-radius: var(--radius-lg);
-            max-width: 750px; width: 100%;
-            padding: 20px;
-            max-height: 90vh; overflow-y: auto;
+            max-width: 750px;
+            width: 100%;
+            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .modal-box h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+        .modal-box h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
         .modal-actions {
-            display: flex; gap: 8px;
-            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
             justify-content: flex-end;
             flex-wrap: wrap;
         }
 
         .detail-row {
-            display: grid; grid-template-columns: 130px 1fr;
-            gap: 8px; padding: 4px 0; font-size: 13px;
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 13px;
         }
         .detail-row .label { color: var(--gray); font-weight: 500; }
 
-        .empty { text-align: center; padding: 30px 16px; color: var(--gray); font-size: 13px; }
+        .empty {
+            text-align: center;
+            padding: 40px 16px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        .empty .icon { font-size: 48px; margin-bottom: 10px; display: block; }
 
-        /* ========== CHART ========== */
+        /* CHART */
         .chart-container {
             position: relative;
-            height: 200px;
+            height: 180px;
             margin: 10px 0;
         }
         .chart-bars {
@@ -370,8 +505,14 @@
             text-align: center;
             word-break: break-all;
         }
+        .chart-bar-value {
+            font-size: 9px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: var(--dark);
+        }
 
-        /* ========== LOGIN ========== */
+        /* LOGIN */
         .login-overlay {
             position: fixed; inset: 0;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -448,21 +589,7 @@
         }
         .login-error.show { display: block; }
 
-        .file-type-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            background: var(--gray-lighter);
-            color: var(--gray);
-        }
-        .file-type-badge.pdf { background: #fee2e2; color: var(--danger); }
-        .file-type-badge.doc { background: #dbeafe; color: var(--primary-light); }
-        .file-type-badge.drive { background: #fef3c7; color: var(--warning); }
-        .file-type-badge.cloud { background: #dcfce7; color: var(--success); }
-
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); width: 260px; }
             .sidebar.open { transform: translateX(0); }
@@ -473,6 +600,7 @@
             .topbar p { display: none; }
             .form-row, .form-row.three { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .detail-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -513,9 +641,9 @@
             <li><button class="menu-item" onclick="showPage('students', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Students <span class="menu-count" id="studentCount">0</span></button></li>
             <li><button class="menu-item" onclick="showPage('registrations', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Registrations <span class="menu-count" id="pendingRegCount" style="display:none;">0</span></button></li>
 
-            <div class="menu-section">Manage Documents</div>
-            <li><a href="admin-pdfs.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</a></li>
-            <li><a href="admin-notes.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</a></li>
+            <div class="menu-section">Uploads</div>
+            <li><button class="menu-item" onclick="showPage('pdfs', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</button></li>
+            <li><button class="menu-item" onclick="showPage('notes', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</button></li>
             <li><button class="menu-item" onclick="showPage('lectures', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</button></li>
             <li><button class="menu-item" onclick="showPage('merit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Merit Lists</button></li>
 
@@ -550,12 +678,12 @@
                 <div class="stats-grid" id="dashboardStats"></div>
                 <div class="card">
                     <div class="card-header"><h2>Quick Actions</h2></div>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelectorAll('.menu-item')[2])">Review Registrations</button>
-                        <button class="btn btn-primary" onclick="showPage('students', document.querySelectorAll('.menu-item')[1])">Manage Students</button>
-                        <a href="admin-pdfs.html" class="btn btn-primary">Manage PDFs</a>
-                        <a href="admin-notes.html" class="btn btn-primary">Manage Notes</a>
-                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelectorAll('.menu-item')[7])">Settings</button>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelectorAll('.menu-item')[2])">📋 Review Registrations</button>
+                        <button class="btn btn-primary" onclick="showPage('students', document.querySelectorAll('.menu-item')[1])">👥 Manage Students</button>
+                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelectorAll('.menu-item')[3])">📄 Upload PDF</button>
+                        <button class="btn btn-success" onclick="showPage('notes', document.querySelectorAll('.menu-item')[4])">📝 Upload Notes</button>
+                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelectorAll('.menu-item')[8])">⚙️ Settings</button>
                     </div>
                 </div>
                 <div class="card">
@@ -569,7 +697,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>All Students</h2>
-                        <button class="btn btn-primary" onclick="openAddStudent()">+ Add</button>
+                        <button class="btn btn-primary" onclick="openAddStudent()">+ Add Student</button>
                     </div>
                     <div class="filter-bar">
                         <input type="text" id="stuSearch" placeholder="Search..." oninput="loadStudents()">
@@ -577,8 +705,6 @@
                             <option value="">All Categories</option>
                             <option value="Engineering">Engineering</option>
                             <option value="CS">CS</option>
-                            <option value="Computing">Computing</option>
-                            <option value="Applied Sciences">Applied Sciences</option>
                             <option value="Business">Business</option>
                             <option value="Architecture">Architecture</option>
                         </select>
@@ -609,12 +735,140 @@
                 </div>
             </div>
 
+            <!-- PDFs UPLOAD -->
+            <div class="page" id="page-pdfs">
+                <div class="card">
+                    <div class="card-header"><h2>📄 Upload PDF / Past Paper</h2></div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Title *</label>
+                            <input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering Paper">
+                        </div>
+                        <div class="form-group">
+                            <label>Field *</label>
+                            <select id="pdfField">
+                                <option value="Engineering">Engineering</option>
+                                <option value="Applied Sciences">Applied Sciences</option>
+                                <option value="Business">Business</option>
+                                <option value="Architecture">Architecture</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select id="pdfSubject">
+                                <option value="">All Subjects</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Biology">Biology</option>
+                                <option value="English">English</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <input type="text" id="pdfYear" placeholder="e.g., 2024">
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="pdfDesc" rows="2" placeholder="Brief description..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Upload PDF File *</label>
+                            <div class="upload-area" id="pdfDropArea" onclick="document.getElementById('pdfFileInput').click()">
+                                <span class="icon">📄</span>
+                                <p><strong>Click to upload</strong> or drag & drop</p>
+                                <p class="sub-text">PDF files up to 10MB</p>
+                                <input type="file" id="pdfFileInput" accept=".pdf" style="display:none" onchange="handleFileSelect('pdf')">
+                                <div class="progress-bar" id="pdfProgress"><div class="fill" id="pdfProgressFill"></div></div>
+                                <div id="pdfPreview" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="uploadPDF()" id="pdfUploadBtn">📤 Upload PDF</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h2>Uploaded PDFs</h2></div>
+                    <div class="table-container" id="pdfsTable"></div>
+                </div>
+            </div>
+
+            <!-- NOTES UPLOAD -->
+            <div class="page" id="page-notes">
+                <div class="card">
+                    <div class="card-header"><h2>📝 Upload Notes / Formulas</h2></div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Title *</label>
+                            <input type="text" id="noteTitle" placeholder="e.g., Physics Formulas - Full">
+                        </div>
+                        <div class="form-group">
+                            <label>Field *</label>
+                            <select id="noteField">
+                                <option value="Engineering">Engineering</option>
+                                <option value="Applied Sciences">Applied Sciences</option>
+                                <option value="Business">Business</option>
+                                <option value="Architecture">Architecture</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select id="noteSubject">
+                                <option value="">All Subjects</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Biology">Biology</option>
+                                <option value="English">English</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Topic</label>
+                            <input type="text" id="noteTopic" placeholder="e.g., Kinematics">
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="noteDesc" rows="2" placeholder="Brief description..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group">
+                            <label>Upload File *</label>
+                            <div class="upload-area" id="noteDropArea" onclick="document.getElementById('noteFileInput').click()">
+                                <span class="icon">📝</span>
+                                <p><strong>Click to upload</strong> or drag & drop</p>
+                                <p class="sub-text">PDF, DOC, DOCX files up to 10MB</p>
+                                <input type="file" id="noteFileInput" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect('note')">
+                                <div class="progress-bar" id="noteProgress"><div class="fill" id="noteProgressFill"></div></div>
+                                <div id="notePreview" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="uploadNote()" id="noteUploadBtn">📤 Upload Notes</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h2>Uploaded Notes</h2></div>
+                    <div class="table-container" id="notesTable"></div>
+                </div>
+            </div>
+
             <!-- LECTURES -->
             <div class="page" id="page-lectures">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Video Lectures</h2>
-                        <button class="btn btn-primary" onclick="openAddLecture()">+ Add</button>
+                        <h2>🎬 Video Lectures</h2>
+                        <button class="btn btn-primary" onclick="openAddLecture()">+ Add Lecture</button>
                     </div>
                     <div class="table-container" id="lecturesTable"></div>
                 </div>
@@ -624,8 +878,8 @@
             <div class="page" id="page-merit">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Merit Lists</h2>
-                        <button class="btn btn-primary" onclick="openAddMerit()">+ Add</button>
+                        <h2>🏆 Merit Lists</h2>
+                        <button class="btn btn-primary" onclick="openAddMerit()">+ Add Merit List</button>
                     </div>
                     <div class="table-container" id="meritTable"></div>
                 </div>
@@ -634,7 +888,7 @@
             <!-- NOTIFICATIONS -->
             <div class="page" id="page-notifications">
                 <div class="card">
-                    <div class="card-header"><h2>Send Notification</h2></div>
+                    <div class="card-header"><h2>📢 Send Notification</h2></div>
                     <div class="form-row full">
                         <div class="form-group">
                             <label>Target Students</label>
@@ -664,7 +918,7 @@
             <!-- ANALYTICS -->
             <div class="page" id="page-analytics">
                 <div class="card">
-                    <div class="card-header"><h2>Platform Analytics</h2></div>
+                    <div class="card-header"><h2>📊 Platform Analytics</h2></div>
                     <div class="stats-grid" id="analyticsStats"></div>
                 </div>
                 <div class="card">
@@ -680,7 +934,7 @@
             <!-- SETTINGS -->
             <div class="page" id="page-settings">
                 <div class="card">
-                    <h2 style="margin-bottom:10px;">Admin Credentials</h2>
+                    <h2 style="margin-bottom:10px;">🔐 Admin Credentials</h2>
                     <div class="form-row">
                         <div class="form-group"><label>New Username</label><input type="text" id="newAdminUsername"></div>
                         <div class="form-group"><label>Current Password</label><input type="password" id="currentAdminPassword"></div>
@@ -689,10 +943,10 @@
                         <div class="form-group"><label>New Password</label><input type="password" id="newAdminPassword"></div>
                         <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmAdminPassword"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="changeAdminCreds()">Update</button>
+                    <button class="btn btn-primary" onclick="changeAdminCreds()">Update Credentials</button>
                 </div>
                 <div class="card">
-                    <h2 style="margin-bottom:10px;">Bank Details</h2>
+                    <h2 style="margin-bottom:10px;">🏦 Bank Details</h2>
                     <div class="form-row">
                         <div class="form-group"><label>Bank Name</label><input type="text" id="set_bank_name"></div>
                         <div class="form-group"><label>Account Title</label><input type="text" id="set_bank_account_title"></div>
@@ -708,7 +962,7 @@
                     <div class="form-row">
                         <div class="form-group"><label>Registration Fee (Rs.)</label><input type="number" id="set_registration_fee" value="500"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+                    <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
                 </div>
             </div>
         </div>
@@ -718,7 +972,7 @@
 <!-- MODALS -->
 <div class="modal" id="addStudentModal">
     <div class="modal-box">
-        <h3>Add Student</h3>
+        <h3>➕ Add Student</h3>
         <div class="form-row">
             <div class="form-group"><label>Username *</label><input type="text" id="newStuUsername"></div>
             <div class="form-group"><label>Password *</label><input type="text" id="newStuPassword"></div>
@@ -742,24 +996,19 @@
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addStudent()">Add</button>
+            <button class="btn btn-primary" onclick="addStudent()">Add Student</button>
         </div>
     </div>
 </div>
 
 <div class="modal" id="addLectureModal">
     <div class="modal-box">
-        <h3>Add Video Lecture</h3>
+        <h3>🎬 Add Video Lecture</h3>
         <div class="form-row full">
             <div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div>
         </div>
         <div class="form-row full">
-            <div class="form-group"><label>YouTube URL *</label>
-                <div class="url-input-with-icon">
-                    <span class="icon">▶</span>
-                    <input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=...">
-                </div>
-            </div>
+            <div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=..."></div>
         </div>
         <div class="form-row">
             <div class="form-group"><label>Field</label><select id="lecField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
@@ -771,14 +1020,14 @@
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addLectureModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addLecture()">Add</button>
+            <button class="btn btn-primary" onclick="addLecture()">Add Lecture</button>
         </div>
     </div>
 </div>
 
 <div class="modal" id="addMeritModal">
     <div class="modal-box">
-        <h3>Add Merit List Link</h3>
+        <h3>🏆 Add Merit List</h3>
         <div class="form-row full">
             <div class="form-group"><label>Title *</label><input type="text" id="merTitle"></div>
         </div>
@@ -789,25 +1038,20 @@
         </div>
         <div class="form-row">
             <div class="form-group"><label>Campus</label><input type="text" id="merCampus"></div>
-            <div class="form-group"><label>File URL *</label>
-                <div class="url-input-with-icon">
-                    <span class="icon">🔗</span>
-                    <input type="url" id="merFileUrl" placeholder="https://drive.google.com/... or https://res.cloudinary.com/...">
-                </div>
-            </div>
+            <div class="form-group"><label>File URL</label><input type="url" id="merFileUrl" placeholder="https://drive.google.com/..."></div>
         </div>
         <div class="form-row full">
             <div class="form-group"><label>Description</label><textarea id="merDesc" rows="2"></textarea></div>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addMeritModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addMerit()">Add</button>
+            <button class="btn btn-primary" onclick="addMerit()">Add Merit List</button>
         </div>
     </div>
 </div>
 
 <div class="modal" id="studentDetailModal">
-    <div class="modal-box" style="max-width: 850px;">
+    <div class="modal-box" style="max-width:850px;">
         <div id="studentDetailContent"></div>
     </div>
 </div>
@@ -818,20 +1062,20 @@
 
 <div class="modal" id="resetPwdModal">
     <div class="modal-box">
-        <h3>Reset Password for <span id="resetPwdName"></span></h3>
+        <h3>🔑 Reset Password</h3>
         <div class="form-row full">
             <div class="form-group"><label>New Password</label><input type="text" id="resetNewPassword" placeholder="Min 6 chars"></div>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('resetPwdModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="confirmResetPassword()">Reset</button>
+            <button class="btn btn-primary" onclick="confirmResetPassword()">Reset Password</button>
         </div>
     </div>
 </div>
 
 <div class="modal" id="rejectRegModal">
     <div class="modal-box">
-        <h3>Reject Registration</h3>
+        <h3>❌ Reject Registration</h3>
         <div class="form-row full">
             <div class="form-group"><label>Reason *</label><textarea id="rejectReason" rows="3"></textarea></div>
         </div>
@@ -842,11 +1086,18 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-core/2.13.0/cloudinary-core-shrinkwrap.min.js"></script>
+
 <script>
     const API_BASE = '/api';
     let allRegistrations = [];
     let currentRejectRegId = null;
     let currentResetStudentId = null;
+    let selectedFile = null;
+
+    // Cloudinary Config - CHANGE THESE TO YOUR VALUES
+    const CLOUDINARY_CLOUD_NAME = 'your-cloud-name'; // Your Cloudinary cloud name
+    const CLOUDINARY_UPLOAD_PRESET = 'your-upload-preset'; // Your upload preset name
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
@@ -876,6 +1127,8 @@
         document.getElementById('loginOverlay').classList.add('hidden');
         document.getElementById('mainApp').style.display = 'flex';
         loadDashboard();
+        loadPDFs();
+        loadNotes();
         return true;
     }
 
@@ -925,26 +1178,241 @@
         return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
     }
 
-    function getFileType(url) {
-        if (!url) return 'link';
-        const u = url.toLowerCase();
-        if (u.includes('drive.google.com')) return 'drive';
-        if (u.includes('res.cloudinary.com')) return 'cloud';
-        if (u.includes('.pdf')) return 'pdf';
-        if (u.includes('.doc') || u.includes('.docx')) return 'doc';
-        return 'link';
+    // ============ FILE UPLOAD HELPERS ============
+    function handleFileSelect(type) {
+        const input = document.getElementById(type + 'FileInput');
+        const file = input.files[0];
+        if (!file) return;
+
+        const preview = document.getElementById(type + 'Preview');
+        preview.style.display = 'block';
+        preview.innerHTML = `
+            <div class="file-preview">
+                <span>📄</span>
+                <span class="name">${escapeHtml(file.name)}</span>
+                <span class="size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                <span class="remove" onclick="removeFile('${type}')">×</span>
+            </div>
+        `;
+        selectedFile = file;
+        document.getElementById(type + 'UploadBtn').disabled = false;
     }
 
-    function getFileBadge(url) {
-        const type = getFileType(url);
-        const labels = {
-            pdf: 'PDF',
-            doc: 'DOC',
-            drive: 'Drive',
-            cloud: 'Cloud',
-            link: 'Link'
-        };
-        return `<span class="file-type-badge ${type}">${labels[type]}</span>`;
+    function removeFile(type) {
+        document.getElementById(type + 'FileInput').value = '';
+        document.getElementById(type + 'Preview').style.display = 'none';
+        document.getElementById(type + 'Preview').innerHTML = '';
+        selectedFile = null;
+        document.getElementById(type + 'UploadBtn').disabled = true;
+    }
+
+    function uploadToCloudinary(file, folder, onProgress) {
+        return new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+            formData.append('folder', folder);
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`);
+
+            xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable && onProgress) {
+                    const pct = Math.round((e.loaded / e.total) * 100);
+                    onProgress(pct);
+                }
+            };
+
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        resolve(data);
+                    } catch (e) {
+                        reject(new Error('Invalid response'));
+                    }
+                } else {
+                    reject(new Error('Upload failed: ' + xhr.status));
+                }
+            };
+
+            xhr.onerror = () => reject(new Error('Network error'));
+            xhr.send(formData);
+        });
+    }
+
+    // ============ UPLOAD PDF ============
+    async function uploadPDF() {
+        const title = document.getElementById('pdfTitle').value.trim();
+        const field = document.getElementById('pdfField').value;
+        const subject = document.getElementById('pdfSubject').value;
+        const year = document.getElementById('pdfYear').value.trim();
+        const desc = document.getElementById('pdfDesc').value.trim();
+        const fileInput = document.getElementById('pdfFileInput');
+
+        if (!title || !fileInput.files[0]) {
+            alert('Please fill in title and select a file');
+            return;
+        }
+
+        const btn = document.getElementById('pdfUploadBtn');
+        const progress = document.getElementById('pdfProgress');
+        const fill = document.getElementById('pdfProgressFill');
+
+        btn.disabled = true;
+        btn.textContent = 'Uploading...';
+        progress.classList.add('show');
+
+        try {
+            const result = await uploadToCloudinary(fileInput.files[0], 'nustology/pdfs', (pct) => {
+                fill.style.width = pct + '%';
+            });
+
+            const res = await fetch(`${API_BASE}/pdfs`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title, field, subject, year, description: desc,
+                    fileUrl: result.secure_url,
+                    publicId: result.public_id
+                })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                alert('PDF uploaded successfully!');
+                document.getElementById('pdfTitle').value = '';
+                document.getElementById('pdfYear').value = '';
+                document.getElementById('pdfDesc').value = '';
+                document.getElementById('pdfFileInput').value = '';
+                document.getElementById('pdfPreview').style.display = 'none';
+                document.getElementById('pdfPreview').innerHTML = '';
+                loadPDFs();
+            } else {
+                alert('Failed to save: ' + data.message);
+            }
+        } catch (err) {
+            alert('Upload failed: ' + err.message);
+        }
+
+        btn.disabled = false;
+        btn.textContent = '📤 Upload PDF';
+        progress.classList.remove('show');
+        fill.style.width = '0%';
+    }
+
+    async function loadPDFs() {
+        try {
+            const res = await fetch(`${API_BASE}/pdfs`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('pdfsTable');
+            if (!data.pdfs?.length) { c.innerHTML = '<div class="empty">No PDFs uploaded yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
+                ${data.pdfs.map(p => `
+                    <tr>
+                        <td><strong>${escapeHtml(p.title)}</strong></td>
+                        <td><span class="badge badge-info">${escapeHtml(p.field)}</span></td>
+                        <td>${escapeHtml(p.subject || '-')}</td>
+                        <td><a href="${p.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deletePDF(${p.id})">Delete</button></td>
+                    </tr>
+                `).join('')}</tbody></table>`;
+        } catch (e) {}
+    }
+
+    async function deletePDF(id) {
+        if (!confirm('Delete this PDF?')) return;
+        try {
+            await fetch(`${API_BASE}/pdfs/${id}`, { method: 'DELETE', headers: getHeaders() });
+            loadPDFs();
+        } catch (e) {}
+    }
+
+    // ============ UPLOAD NOTES ============
+    async function uploadNote() {
+        const title = document.getElementById('noteTitle').value.trim();
+        const field = document.getElementById('noteField').value;
+        const subject = document.getElementById('noteSubject').value;
+        const topic = document.getElementById('noteTopic').value.trim();
+        const desc = document.getElementById('noteDesc').value.trim();
+        const fileInput = document.getElementById('noteFileInput');
+
+        if (!title || !fileInput.files[0]) {
+            alert('Please fill in title and select a file');
+            return;
+        }
+
+        const btn = document.getElementById('noteUploadBtn');
+        const progress = document.getElementById('noteProgress');
+        const fill = document.getElementById('noteProgressFill');
+
+        btn.disabled = true;
+        btn.textContent = 'Uploading...';
+        progress.classList.add('show');
+
+        try {
+            const result = await uploadToCloudinary(fileInput.files[0], 'nustology/notes', (pct) => {
+                fill.style.width = pct + '%';
+            });
+
+            const res = await fetch(`${API_BASE}/notes`, {
+                method: 'POST',
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title, field, subject, topic, description: desc,
+                    fileUrl: result.secure_url,
+                    publicId: result.public_id
+                })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                alert('Notes uploaded successfully!');
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteTopic').value = '';
+                document.getElementById('noteDesc').value = '';
+                document.getElementById('noteFileInput').value = '';
+                document.getElementById('notePreview').style.display = 'none';
+                document.getElementById('notePreview').innerHTML = '';
+                loadNotes();
+            } else {
+                alert('Failed to save: ' + data.message);
+            }
+        } catch (err) {
+            alert('Upload failed: ' + err.message);
+        }
+
+        btn.disabled = false;
+        btn.textContent = '📤 Upload Notes';
+        progress.classList.remove('show');
+        fill.style.width = '0%';
+    }
+
+    async function loadNotes() {
+        try {
+            const res = await fetch(`${API_BASE}/notes`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('notesTable');
+            if (!data.notes?.length) { c.innerHTML = '<div class="empty">No notes uploaded yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
+                ${data.notes.map(n => `
+                    <tr>
+                        <td><strong>${escapeHtml(n.title)}</strong></td>
+                        <td><span class="badge badge-info">${escapeHtml(n.field)}</span></td>
+                        <td>${escapeHtml(n.subject || '-')}</td>
+                        <td><a href="${n.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteNote(${n.id})">Delete</button></td>
+                    </tr>
+                `).join('')}</tbody></table>`;
+        } catch (e) {}
+    }
+
+    async function deleteNote(id) {
+        if (!confirm('Delete this note?')) return;
+        try {
+            await fetch(`${API_BASE}/notes/${id}`, { method: 'DELETE', headers: getHeaders() });
+            loadNotes();
+        } catch (e) {}
     }
 
     // ============ NAV ============
@@ -959,7 +1427,9 @@
             dashboard: ['Dashboard', 'Overview'],
             students: ['Students', 'Manage all students'],
             registrations: ['Registrations', 'Approve/reject new students'],
-            lectures: ['Lectures', 'Manage video lectures'],
+            pdfs: ['PDFs / Past Papers', 'Upload and manage PDFs'],
+            notes: ['Notes / Formulas', 'Upload and manage notes'],
+            lectures: ['Video Lectures', 'Manage video lectures'],
             merit: ['Merit Lists', 'Upload past merit lists'],
             notifications: ['Notifications', 'Send announcements'],
             analytics: ['Analytics', 'Performance insights'],
@@ -971,6 +1441,8 @@
         closeSidebar();
         if (page === 'registrations') loadRegistrations();
         else if (page === 'students') loadStudents();
+        else if (page === 'pdfs') loadPDFs();
+        else if (page === 'notes') loadNotes();
         else if (page === 'lectures') loadAdminLectures();
         else if (page === 'merit') loadAdminMerit();
         else if (page === 'notifications') loadNotifications();
@@ -990,7 +1462,7 @@
                 <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents}</div></div>
                 <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value">${s.pendingStudents || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests}</div></div>
-                <div class="stat-card"><div class="stat-label">Pending Reports</div><div class="stat-value">${s.pendingReports}</div></div>
+                <div class="stat-card"><div class="stat-label">Documents</div><div class="stat-value">${s.totalDocs || 0}</div></div>
             `;
             document.getElementById('studentCount').textContent = s.totalStudents || 0;
             if (s.pendingStudents > 0) {
@@ -1380,13 +1852,13 @@
             const data = await res.json();
             const c = document.getElementById('lecturesTable');
             if (!data.lectures?.length) { c.innerHTML = '<div class="empty">No lectures</div>'; return; }
-            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>URL</th><th>Actions</th></tr></thead><tbody>
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>Actions</th></tr></thead><tbody>
                 ${data.lectures.map(l => `
                     <tr><td><strong>${escapeHtml(l.title)}</strong></td>
                     <td><span class="badge badge-info">${escapeHtml(l.field)}</span></td>
                     <td>${escapeHtml(l.subject)}</td>
-                    <td><a href="${l.youtube_url}" target="_blank" class="btn btn-secondary btn-sm">Watch</a></td>
-                    <td><button class="btn btn-danger btn-sm" onclick="deleteLecture(${l.id})">Delete</button></td></tr>
+                    <td><a href="${l.youtube_url}" target="_blank" class="btn btn-secondary btn-sm">▶ Watch</a>
+                    <button class="btn btn-danger btn-sm" onclick="deleteLecture(${l.id})">Delete</button></td></tr>
                 `).join('')}</tbody></table>`;
         } catch (e) {}
     }
@@ -1432,13 +1904,13 @@
             const data = await res.json();
             const c = document.getElementById('meritTable');
             if (!data.merit_lists?.length) { c.innerHTML = '<div class="empty">No merit lists</div>'; return; }
-            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Year</th><th>File</th><th>Actions</th></tr></thead><tbody>
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Year</th><th>Actions</th></tr></thead><tbody>
                 ${data.merit_lists.map(m => `
                     <tr><td><strong>${escapeHtml(m.title)}</strong></td>
                     <td><span class="badge badge-info">${escapeHtml(m.field)}</span></td>
                     <td>${m.year}</td>
-                    <td>${m.file_url ? `${getFileBadge(m.file_url)} <a href="${m.file_url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : '-'}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="deleteMerit(${m.id})">Delete</button></td></tr>
+                    <td>${m.file_url ? `<a href="${m.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a>` : ''}
+                    <button class="btn btn-danger btn-sm" onclick="deleteMerit(${m.id})">Delete</button></td></tr>
                 `).join('')}</tbody></table>`;
         } catch (e) {}
     }
@@ -1455,7 +1927,7 @@
             fileUrl: document.getElementById('merFileUrl').value,
             description: document.getElementById('merDesc').value
         };
-        if (!body.title || !body.year || !body.fileUrl) return alert('Title, year and file URL required');
+        if (!body.title || !body.year) return alert('Title and year required');
         try {
             const res = await fetch(`${API_BASE}/merit-lists`, {
                 method: 'POST',
@@ -1596,7 +2068,7 @@
                 headers: { ...getHeaders(), 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            if ((await res.json()).success) alert('Saved!');
+            if ((await res.json()).success) alert('Settings saved!');
         } catch (e) {}
     }
 
