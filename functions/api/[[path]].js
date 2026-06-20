@@ -507,14 +507,46 @@ async function handleStudentRegister(request, db, env, headers) {
 
     const registrationId = result.meta.last_row_id;
 
-    if (data.transactionId) {
+    // Always insert a payment record (even if no transaction ID) — admin will see whatever was provided
+    await db.prepare(`
+        INSERT INTO payment_records (
+            registration_id, transaction_id, payment_method,
+            payment_amount, payment_screenshot_url, payment_date,
+            verification_status, sender_name, sender_number
+        ) VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, ?)
+    `).bind(
+        registrationId,
+        data.transactionId || '',
+        data.paymentMethod || '',
+        data.paymentAmount || '500',
+        data.paymentScreenshotUrl || '',
+        new Date().toISOString().split('T')[0],
+        data.senderName || '',
+        data.senderNumber || ''
+    ).run().catch(async (err) => {
+        // If sender_name/number columns don't exist yet, fall back to basic insert
+        console.warn('Trying fallback insert without sender fields:', err.message);
         await db.prepare(`
-            INSERT INTO payment_records (registration_id, transaction_id, payment_method, payment_amount, payment_screenshot_url, payment_date, verification_status)
-            VALUES (?, ?, ?, ?, ?, ?, 'pending')
-        `).bind(registrationId, data.transactionId, data.paymentMethod || '', data.paymentAmount || '500', data.paymentScreenshotUrl || '', new Date().toISOString().split('T')[0]).run();
-    }
+            INSERT INTO payment_records (
+                registration_id, transaction_id, payment_method,
+                payment_amount, payment_screenshot_url, payment_date,
+                verification_status
+            ) VALUES (?, ?, ?, ?, ?, ?, 'pending')
+        `).bind(
+            registrationId,
+            data.transactionId || '',
+            data.paymentMethod || '',
+            data.paymentAmount || '500',
+            data.paymentScreenshotUrl || '',
+            new Date().toISOString().split('T')[0]
+        ).run();
+    });
 
-    return json({ success: true, message: 'Registration submitted!', registrationId }, 200, headers);
+    return json({
+        success: true,
+        message: 'Registration submitted successfully! Please wait for admin approval.',
+        registrationId
+    }, 200, headers);
 }
 
 async function checkUsernameAvailability(request, db, headers) {
