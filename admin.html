@@ -6,9 +6,9 @@
     <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
     <meta name="theme-color" content="#1e3a8a">
     <title>Admin Panel - NUSTology Prep.</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
             --primary: #1e3a8a;
             --primary-light: #1a56db;
@@ -17,505 +17,360 @@
             --dark: #0f172a;
             --gray: #64748b;
             --gray-lighter: #e2e8f0;
-            --bg: #f8fafc;
+            --bg: #f1f5f9;
             --border: #e2e8f0;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --radius: 10px;
-            --radius-lg: 14px;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --radius: 8px;
+            --radius-lg: 12px;
+            --sidebar-w: 220px;
         }
-
         html { -webkit-text-size-adjust: 100%; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--dark);
             min-height: 100vh;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.5;
         }
-
         .layout { display: flex; min-height: 100vh; }
 
-        /* ========== SIDEBAR ========== */
+        /* SIDEBAR */
         .sidebar {
-            width: 250px;
-            background: var(--dark);
+            width: var(--sidebar-w);
+            background: #0f172a;
             color: #fff;
-            padding: 20px 14px;
+            padding: 0;
             position: fixed;
             top: 0; left: 0; bottom: 0;
             overflow-y: auto;
             z-index: 100;
             transition: transform 0.25s ease;
+            display: flex;
+            flex-direction: column;
         }
         .sidebar-logo {
             display: flex; align-items: center; gap: 10px;
-            padding: 0 10px 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 16px;
+            padding: 16px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
         }
-        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; }
-        .admin-badge {
-            background: var(--danger); color: #fff;
-            padding: 2px 8px; border-radius: 4px;
-            font-size: 9px; font-weight: 700;
-        }
-        .sidebar-logo .text {
-            font-size: 15px; font-weight: 700;
-            color: #fff;
-            line-height: 1.2;
-        }
-
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+        .sidebar-logo img { width: 30px; height: 30px; border-radius: 6px; object-fit: cover; }
+        .sidebar-logo .text { font-size: 14px; font-weight: 700; color: #fff; }
+        .admin-badge { background: var(--danger); color: #fff; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 700; }
+        .sidebar-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
         .menu-section {
-            font-size: 10px; font-weight: 700;
-            color: #64748b;
+            font-size: 9px; font-weight: 700; color: #475569;
             text-transform: uppercase; letter-spacing: 1px;
-            padding: 14px 12px 6px;
+            padding: 12px 14px 4px;
         }
         .menu-item {
-            display: flex; align-items: center; gap: 11px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            color: #cbd5e1; cursor: pointer;
-            font-size: 14px; font-weight: 500;
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 14px;
+            color: #94a3b8; cursor: pointer;
+            font-size: 13px; font-weight: 500;
             border: none; background: none; width: 100%;
             text-align: left; font-family: inherit;
-            min-height: 40px;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.15s, color 0.15s;
+            text-decoration: none;
             position: relative;
         }
-        .menu-item svg { width: 18px; height: 18px; flex-shrink: 0; }
-        .menu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .menu-item svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; }
+        .menu-item:hover { background: rgba(255,255,255,0.06); color: #e2e8f0; }
         .menu-item.active { background: var(--primary-light); color: #fff; }
+        .menu-item.active svg { opacity: 1; }
         .menu-count {
-            margin-left: auto;
-            background: var(--danger);
-            color: #fff;
-            border-radius: 20px;
-            padding: 1px 7px;
-            font-size: 10px;
-            font-weight: 700;
-            min-width: 18px;
-            text-align: center;
+            margin-left: auto; background: var(--danger); color: #fff;
+            border-radius: 10px; padding: 1px 6px;
+            font-size: 10px; font-weight: 700;
         }
 
-        /* ========== MAIN ========== */
-        .main {
-            flex: 1;
-            margin-left: 250px;
-            min-height: 100vh;
-        }
+        /* MAIN */
+        .main { flex: 1; margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
         .topbar {
-            background: #fff;
-            padding: 12px 20px;
+            background: #fff; padding: 0 20px;
             border-bottom: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 50;
-            min-height: 60px;
-            gap: 10px;
+            position: sticky; top: 0; z-index: 50; height: 54px; gap: 10px; flex-shrink: 0;
         }
-        .topbar-left { display: flex; align-items: center; gap: 12px; }
-        .topbar h1 { font-size: 18px; font-weight: 700; line-height: 1.2; }
-        .topbar p { font-size: 12px; color: var(--gray); margin-top: 1px; }
+        .topbar-left { display: flex; align-items: center; gap: 10px; }
+        .topbar h1 { font-size: 16px; font-weight: 700; }
+        .topbar p { font-size: 11px; color: var(--gray); }
         .mobile-toggle {
-            display: none;
-            background: var(--gray-lighter); border: none;
-            cursor: pointer; padding: 0;
-            border-radius: 8px;
-            width: 40px; height: 40px;
+            display: none; background: var(--gray-lighter); border: none;
+            cursor: pointer; border-radius: 6px; width: 36px; height: 36px;
             align-items: center; justify-content: center;
         }
-        .mobile-toggle svg { width: 20px; height: 20px; }
+        .mobile-toggle svg { width: 18px; height: 18px; }
+        .topbar-right { display: flex; align-items: center; gap: 8px; }
         .logout-btn {
-            background: var(--danger); color: #fff;
-            border: none; padding: 8px 14px;
-            border-radius: 8px; cursor: pointer;
-            font-size: 13px; font-weight: 600;
-            font-family: inherit;
-            min-height: 38px;
+            background: #fee2e2; color: var(--danger); border: 1px solid #fecaca;
+            padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 12px; font-weight: 600; font-family: inherit;
         }
-        .logout-btn:hover { background: #b91c1c; }
+        .logout-btn:hover { background: var(--danger); color: #fff; }
+        .content { padding: 18px; flex: 1; }
 
-        .content { padding: 20px; max-width: 1300px; margin: 0 auto; }
-
-        /* ========== STATS ========== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin-bottom: 18px;
-        }
+        /* STATS */
+        .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
         .stat-card {
-            background: #fff;
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            border: 1px solid var(--border);
+            background: #fff; border-radius: var(--radius); padding: 14px;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 12px;
         }
-        .stat-icon-wrap {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 10px;
-        }
-        .stat-icon-wrap svg { width: 20px; height: 20px; }
-        .stat-icon-wrap.b { background: #dbeafe; color: var(--primary-light); }
-        .stat-icon-wrap.g { background: #dcfce7; color: var(--success); }
-        .stat-icon-wrap.o { background: #fef3c7; color: var(--warning); }
-        .stat-icon-wrap.r { background: #fee2e2; color: var(--danger); }
-        .stat-icon-wrap.p { background: #f3e8ff; color: #9333ea; }
-        .stat-label { font-size: 12px; color: var(--gray); }
-        .stat-value { font-size: 22px; font-weight: 700; }
+        .stat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .stat-icon svg { width: 18px; height: 18px; }
+        .stat-icon.b { background: #dbeafe; color: var(--primary-light); }
+        .stat-icon.g { background: #dcfce7; color: var(--success); }
+        .stat-icon.o { background: #fef3c7; color: var(--warning); }
+        .stat-icon.r { background: #fee2e2; color: var(--danger); }
+        .stat-icon.p { background: #f3e8ff; color: #9333ea; }
+        .stat-info { min-width: 0; }
+        .stat-label { font-size: 11px; color: var(--gray); }
+        .stat-value { font-size: 20px; font-weight: 700; line-height: 1.2; }
 
         .page { display: none; }
         .page.active { display: block; }
 
         .card {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 18px;
+            background: #fff; border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 16px; margin-bottom: 14px;
         }
         .card-header {
-            display: flex; justify-content: space-between;
-            align-items: center;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 12px; border-bottom: 1px solid var(--border);
+            margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
         }
-        .card-header h2 { font-size: 17px; font-weight: 700; }
+        .card-header h2 { font-size: 15px; font-weight: 700; }
 
+        /* BUTTONS */
         .btn {
-            padding: 9px 14px;
-            border: none; border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit; font-size: 13px; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 6px;
-            min-height: 38px;
-            transition: background 0.2s;
+            padding: 7px 12px; border: none; border-radius: 6px; cursor: pointer;
+            font-family: inherit; font-size: 12px; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 5px;
+            min-height: 32px; transition: all 0.15s; text-decoration: none;
+            white-space: nowrap;
         }
+        .btn svg { width: 13px; height: 13px; }
         .btn-primary { background: var(--primary-light); color: #fff; }
         .btn-primary:hover { background: var(--primary); }
-        .btn-danger { background: var(--danger); color: #fff; }
-        .btn-danger:hover { background: #b91c1c; }
-        .btn-warning { background: var(--warning); color: #fff; }
-        .btn-success { background: var(--success); color: #fff; }
-        .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
+        .btn-danger { background: #fee2e2; color: var(--danger); border: 1px solid #fecaca; }
+        .btn-danger:hover { background: var(--danger); color: #fff; }
+        .btn-warning { background: #fef3c7; color: var(--warning); border: 1px solid #fde68a; }
+        .btn-warning:hover { background: var(--warning); color: #fff; }
+        .btn-success { background: #dcfce7; color: var(--success); border: 1px solid #bbf7d0; }
+        .btn-success:hover { background: var(--success); color: #fff; }
+        .btn-secondary { background: var(--gray-lighter); color: var(--dark); border: 1px solid var(--border); }
         .btn-secondary:hover { background: #cbd5e1; }
-        .btn svg { width: 14px; height: 14px; }
+        .btn-sm { padding: 4px 8px; font-size: 11px; min-height: 26px; }
 
+        /* TABLE */
         .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th, td {
-            text-align: left; padding: 10px 12px;
-            font-size: 13px; border-bottom: 1px solid var(--border);
-        }
-        th {
-            background: #f8fafc; font-weight: 700;
-            color: var(--gray); font-size: 11px;
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        tr:hover { background: #f8fafc; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th, td { text-align: left; padding: 9px 10px; font-size: 12px; border-bottom: 1px solid var(--border); }
+        th { background: #f8fafc; font-weight: 700; color: var(--gray); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fafc; }
+        .actions-cell { display: flex; gap: 4px; flex-wrap: wrap; }
 
-        .badge {
-            display: inline-block;
-            padding: 3px 9px; border-radius: 20px;
-            font-size: 11px; font-weight: 600;
-        }
+        /* BADGE */
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
         .badge-success { background: #dcfce7; color: var(--success); }
         .badge-danger { background: #fee2e2; color: var(--danger); }
         .badge-warning { background: #fef3c7; color: var(--warning); }
         .badge-info { background: var(--primary-bg); color: var(--primary-light); }
 
-        .form-row {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 12px; margin-bottom: 12px;
-        }
+        /* FORM */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
         .form-row.full { grid-template-columns: 1fr; }
-        .form-group label {
-            display: block;
-            font-size: 13px; font-weight: 600;
-            margin-bottom: 5px;
+        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--gray); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 8px 10px; border: 1.5px solid var(--border);
+            border-radius: 6px; font-family: inherit; font-size: 13px; min-height: 36px;
+            transition: border-color 0.15s;
         }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 13px;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            font-family: inherit; font-size: 14px;
-            min-height: 42px;
-        }
-        .form-group textarea { min-height: 80px; }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none; border-color: var(--primary-light);
-        }
+        .form-group textarea { min-height: 70px; resize: vertical; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-light); }
 
-        /* ========== FILTERS ========== */
-        .filter-bar {
-            display: flex; gap: 10px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-            align-items: center;
+        /* FILTERS */
+        .filter-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+        .filter-bar input, .filter-bar select {
+            padding: 7px 10px; border: 1.5px solid var(--border);
+            border-radius: 6px; font-family: inherit; font-size: 12px; min-height: 34px;
         }
-        .filter-bar input,
-        .filter-bar select {
-            padding: 8px 12px;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            font-family: inherit; font-size: 13px;
-            min-height: 38px;
-        }
-        .filter-bar input { flex: 1; min-width: 180px; }
+        .filter-bar input { flex: 1; min-width: 160px; }
 
-        /* ========== MODAL ========== */
+        /* MODAL */
         .modal {
             display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center; justify-content: center;
-            padding: 16px;
-            overflow-y: auto;
+            background: rgba(0,0,0,0.45); z-index: 2000;
+            align-items: center; justify-content: center; padding: 16px; overflow-y: auto;
         }
         .modal.show { display: flex; }
         .modal-box {
-            background: #fff;
-            border-radius: var(--radius-lg);
-            max-width: 700px; width: 100%;
-            padding: 24px 22px;
-            max-height: 90vh; overflow-y: auto;
+            background: #fff; border-radius: var(--radius-lg); max-width: 680px; width: 100%;
+            padding: 20px; max-height: 90vh; overflow-y: auto;
         }
-        .modal-box h3 {
-            font-size: 18px; font-weight: 700;
-            margin-bottom: 14px;
-        }
-        .modal-actions {
-            display: flex; gap: 10px;
-            margin-top: 14px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
+        .modal-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+        .modal-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: flex-end; flex-wrap: wrap; }
 
-        .student-detail-section { margin-bottom: 20px; }
-        .student-detail-section h4 {
-            font-size: 14px; font-weight: 700;
-            color: var(--primary-light);
-            margin-bottom: 8px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--border);
+        /* DETAIL SECTIONS */
+        .detail-section { margin-bottom: 16px; }
+        .detail-section h4 {
+            font-size: 12px; font-weight: 700; color: var(--primary-light);
+            margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .detail-row {
-            display: grid; grid-template-columns: 140px 1fr;
-            gap: 10px; padding: 5px 0; font-size: 13px;
-        }
-        .detail-row .label { color: var(--gray); }
+        .detail-grid { display: grid; grid-template-columns: 130px 1fr; gap: 6px 10px; }
+        .detail-label { color: var(--gray); font-size: 12px; }
+        .detail-value { font-size: 12px; }
 
-        .perf-meter {
-            background: var(--gray-lighter);
-            border-radius: 8px; height: 12px;
-            overflow: hidden; margin-top: 6px;
-        }
-        .perf-fill {
-            height: 100%;
-            background: var(--success);
-        }
+        /* PERFORMANCE */
+        .perf-bar { background: var(--gray-lighter); border-radius: 4px; height: 8px; overflow: hidden; margin-top: 4px; }
+        .perf-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+        .perf-good { background: var(--success); }
+        .perf-mid { background: var(--warning); }
+        .perf-bad { background: var(--danger); }
 
-        .chat-message-box {
-            background: var(--bg);
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            font-size: 13px;
-            display: flex; gap: 10px; flex-wrap: wrap;
+        /* TABS */
+        .tab-bar { display: flex; gap: 2px; border-bottom: 2px solid var(--border); margin-bottom: 14px; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 8px 14px; border: none; background: none; cursor: pointer;
+            font-family: inherit; font-size: 12px; font-weight: 600; color: var(--gray);
+            border-bottom: 2px solid transparent; margin-bottom: -2px;
+            transition: all 0.15s;
         }
-        .chat-message-box .author {
-            font-weight: 700; color: var(--primary-light);
-        }
-        .chat-message-box .time {
-            color: var(--gray); font-size: 11px; margin-left: auto;
-        }
+        .tab-btn.active { color: var(--primary-light); border-bottom-color: var(--primary-light); }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
 
-        .empty {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--gray);
-            font-size: 14px;
-        }
+        /* ANALYTICS */
+        .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+        .chart-wrap { position: relative; height: 220px; }
+        .subject-perf-item { margin-bottom: 10px; }
+        .subject-perf-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; }
+        .subject-name { font-weight: 600; }
+        .subject-pct { color: var(--gray); }
 
-        .payment-screenshot {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            margin-top: 8px;
-        }
+        /* STUDENT SEARCH */
+        .student-search-wrap { position: relative; margin-bottom: 14px; }
+        .student-search-wrap input { width: 100%; padding: 8px 10px 8px 32px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 13px; }
+        .student-search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--gray); }
+        .student-search-wrap input:focus { outline: none; border-color: var(--primary-light); }
 
-        /* ========== LOGIN ========== */
+        /* UPLOAD AREA */
+        .upload-zone {
+            border: 2px dashed var(--border); border-radius: var(--radius);
+            padding: 20px; text-align: center; cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+            margin-bottom: 10px;
+        }
+        .upload-zone:hover { border-color: var(--primary-light); background: var(--primary-bg); }
+        .upload-zone svg { width: 28px; height: 28px; color: var(--gray); margin-bottom: 6px; }
+        .upload-zone p { font-size: 12px; color: var(--gray); }
+        .upload-zone strong { color: var(--primary-light); }
+        .upload-progress { background: var(--gray-lighter); border-radius: 4px; height: 6px; overflow: hidden; margin-top: 8px; display: none; }
+        .upload-progress-fill { height: 100%; background: var(--primary-light); transition: width 0.3s; }
+
+        .or-divider { text-align: center; color: var(--gray); font-size: 11px; margin: 8px 0; position: relative; }
+        .or-divider::before, .or-divider::after { content: ''; position: absolute; top: 50%; width: 44%; height: 1px; background: var(--border); }
+        .or-divider::before { left: 0; }
+        .or-divider::after { right: 0; }
+
+        /* CHAT */
+        .chat-msg { background: #f8fafc; padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; display: flex; gap: 8px; align-items: flex-start; }
+        .chat-msg .author { font-weight: 700; color: var(--primary-light); font-size: 12px; white-space: nowrap; }
+        .chat-msg .msg-text { font-size: 12px; flex: 1; }
+        .chat-msg .time { color: var(--gray); font-size: 10px; white-space: nowrap; }
+
+        /* LOGIN */
         .login-overlay {
             position: fixed; inset: 0;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 9999;
-            padding: 20px;
+            display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;
         }
         .login-overlay.hidden { display: none; }
-
         .login-box {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 16px;
-            padding: 32px 26px;
-            max-width: 400px; width: 100%;
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 14px; padding: 28px 24px; max-width: 380px; width: 100%;
         }
-        .login-logo-wrap {
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 14px;
-        }
-        .login-logo-wrap img {
-            width: 56px; height: 56px;
-            border-radius: 12px; object-fit: cover;
-        }
-        .logo-fallback {
-            width: 56px; height: 56px;
-            border-radius: 12px;
-            background: var(--primary-light);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff;
-            font-size: 28px; font-weight: 700;
-        }
-        .login-title {
-            text-align: center;
-            font-size: 20px; font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-        .admin-tag {
-            display: inline-block;
-            background: var(--danger);
-            color: #fff;
-            padding: 2px 8px; border-radius: 10px;
-            font-size: 9px; font-weight: 700;
-            letter-spacing: 1px;
-            margin-left: 6px;
-            vertical-align: middle;
-        }
-        .login-subtitle {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 12px;
-            margin-bottom: 22px;
-        }
-        .login-form {
-            display: flex; flex-direction: column; gap: 14px;
-        }
-        .login-form-group label {
-            display: block;
-            font-size: 13px; font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 5px;
-        }
+        .login-logo-wrap { display: flex; justify-content: center; margin-bottom: 12px; }
+        .login-logo-wrap img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; }
+        .logo-fallback { width: 52px; height: 52px; border-radius: 10px; background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 26px; font-weight: 700; }
+        .login-title { text-align: center; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+        .login-subtitle { text-align: center; color: #94a3b8; font-size: 12px; margin-bottom: 20px; }
+        .login-form { display: flex; flex-direction: column; gap: 12px; }
+        .login-form-group label { display: block; font-size: 12px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
         .login-form-group input {
-            width: 100%;
-            padding: 11px 14px;
-            background: #f1f5f9;
-            border: 2px solid transparent;
-            border-radius: 8px;
-            font-family: inherit; font-size: 14px;
-            color: #0f172a;
-            min-height: 44px;
+            width: 100%; padding: 10px 12px; background: #f1f5f9; border: 2px solid transparent;
+            border-radius: 6px; font-family: inherit; font-size: 13px; color: #0f172a; min-height: 40px;
         }
-        .login-form-group input:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            background: #fff;
-        }
+        .login-form-group input:focus { outline: none; border-color: var(--primary-light); background: #fff; }
         .login-btn {
-            width: 100%;
-            padding: 13px;
-            background: var(--primary-light);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 15px; font-weight: 600;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px;
-            min-height: 48px;
+            width: 100%; padding: 11px; background: var(--primary-light); color: #fff;
+            border: none; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: 600;
+            cursor: pointer; min-height: 44px;
         }
         .login-btn:hover { background: var(--primary); }
-        .login-error {
-            color: #fca5a5;
-            font-size: 12px;
-            text-align: center;
-            padding: 10px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 8px;
-            display: none;
-        }
+        .login-error { color: #fca5a5; font-size: 12px; text-align: center; padding: 8px 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; display: none; }
         .login-error.show { display: block; }
 
-        .sidebar-overlay {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 99;
-        }
+        /* MISC */
+        .empty { text-align: center; padding: 32px 20px; color: var(--gray); font-size: 13px; }
+        .payment-screenshot { max-width: 100%; max-height: 260px; border-radius: 6px; border: 1px solid var(--border); margin-top: 8px; }
+        .info-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--primary-bg); color: var(--primary-light); padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
         .sidebar-overlay.show { display: block; }
+        .score-good { color: var(--success); font-weight: 700; }
+        .score-mid { color: var(--warning); font-weight: 700; }
+        .score-bad { color: var(--danger); font-weight: 700; }
 
-        @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .form-row, .form-row.three { grid-template-columns: 1fr; }
+        /* CANVAS */
+        canvas { max-height: 220px !important; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1100px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .analytics-grid { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .main { margin-left: 0; }
             .mobile-toggle { display: flex; }
-            .content { padding: 14px; }
-            .topbar { padding: 10px 14px; }
+            .content { padding: 12px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .form-row, .form-row.three { grid-template-columns: 1fr; }
             .topbar p { display: none; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- LOGIN OVERLAY -->
+<!-- LOGIN -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
         <div class="login-logo-wrap">
             <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
             <div id="logoFallback" class="logo-fallback" style="display:none;">N</div>
         </div>
-        <h2 class="login-title">
-            <span style="color: #60a5fa;">NUST</span>ology Prep.<span class="admin-tag">ADMIN</span>
-        </h2>
+        <h2 class="login-title"><span style="color:#60a5fa;">NUST</span>ology <span class="admin-badge">ADMIN</span></h2>
         <p class="login-subtitle">Restricted access only</p>
         <div class="login-form">
             <div class="login-form-group">
-                <label>Admin Username</label>
-                <input type="text" id="adminUsername" placeholder="Username" autocomplete="username">
+                <label>Username</label>
+                <input type="text" id="adminUsername" placeholder="Admin username" autocomplete="username">
             </div>
             <div class="login-form-group">
-                <label>Admin Password</label>
+                <label>Password</label>
                 <input type="password" id="adminPassword" placeholder="Password" autocomplete="current-password" onkeypress="if(event.key==='Enter') doAdminLogin()">
             </div>
-            <button class="login-btn" onclick="doAdminLogin()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                Sign In
-            </button>
+            <button class="login-btn" onclick="doAdminLogin()">Sign In</button>
             <div class="login-error" id="loginError"></div>
         </div>
     </div>
@@ -532,74 +387,74 @@
                 <span class="admin-badge">ADMIN</span>
             </div>
         </div>
-        <ul class="sidebar-menu">
+        <nav class="sidebar-nav">
             <div class="menu-section">Overview</div>
-            <li><button class="menu-item active" onclick="showPage('dashboard', this)">
+            <button class="menu-item active" id="nav-dashboard" onclick="showPage('dashboard',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                 Dashboard
-            </button></li>
-            <li><a href="admin-analytics.html" class="menu-item" style="text-decoration:none;">
+            </button>
+            <button class="menu-item" id="nav-analytics" onclick="showPage('analytics',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 Analytics
-            </a></li>
+            </button>
 
             <div class="menu-section">Approvals</div>
-            <li><button class="menu-item" onclick="showPage('registrations', this)">
+            <button class="menu-item" id="nav-registrations" onclick="showPage('registrations',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
                 Registrations
                 <span class="menu-count" id="pendingRegCount" style="display:none;">0</span>
-            </button></li>
-            <li><button class="menu-item" onclick="showPage('payments', this)">
+            </button>
+            <button class="menu-item" id="nav-payments" onclick="showPage('payments',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
                 Payments
-            </button></li>
+            </button>
 
             <div class="menu-section">Manage</div>
-            <li><button class="menu-item" onclick="showPage('students', this)">
+            <button class="menu-item" id="nav-students" onclick="showPage('students',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                 Students
-            </button></li>
-            <li><button class="menu-item" onclick="showPage('lectures', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+            </button>
+            <button class="menu-item" id="nav-lectures" onclick="showPage('lectures',this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polygon points="10,8 16,11 10,14" fill="currentColor" stroke="none"/></svg>
                 Video Lectures
-            </button></li>
-            <li><a href="admin-pdfs.html" class="menu-item" style="text-decoration:none;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                PDFs / Past Papers
-            </a></li>
-            <li><a href="admin-notes.html" class="menu-item" style="text-decoration:none;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+            </button>
+            <button class="menu-item" id="nav-pdfs" onclick="showPage('pdfs',this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                PDFs / Papers
+            </button>
+            <button class="menu-item" id="nav-notes" onclick="showPage('notes',this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 Notes / Formulas
-            </a></li>
-            <li><a href="admin-notifications.html" class="menu-item" style="text-decoration:none;">
+            </button>
+            <button class="menu-item" id="nav-notifications" onclick="showPage('notifications',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                 Notifications
-            </a></li>
-            <li><button class="menu-item" onclick="showPage('merit', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            </button>
+            <button class="menu-item" id="nav-merit" onclick="showPage('merit',this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
                 Merit Lists
-            </button></li>
+            </button>
 
             <div class="menu-section">Monitor</div>
-            <li><button class="menu-item" onclick="showPage('leaderboard', this)">
+            <button class="menu-item" id="nav-leaderboard" onclick="showPage('leaderboard',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                Live Leaderboard
-            </button></li>
-            <li><button class="menu-item" onclick="showPage('chats', this)">
+                Leaderboard
+            </button>
+            <button class="menu-item" id="nav-chats" onclick="showPage('chats',this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 Chat Logs
-            </button></li>
-            <li><button class="menu-item" onclick="showPage('reports', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
+            </button>
+            <button class="menu-item" id="nav-reports" onclick="showPage('reports',this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
                 Reports
-            </button></li>
+            </button>
 
             <div class="menu-section">System</div>
-            <li><button class="menu-item" onclick="showPage('settings', this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>
+            <button class="menu-item" id="nav-settings" onclick="showPage('settings',this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                 Settings & Bank
-            </button></li>
-        </ul>
+            </button>
+        </nav>
     </aside>
 
     <main class="main">
@@ -613,31 +468,83 @@
                     <p id="pageSubtitle">Overview of platform</p>
                 </div>
             </div>
-            <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+            <div class="topbar-right">
+                <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+            </div>
         </div>
 
         <div class="content">
+
             <!-- DASHBOARD -->
             <div class="page active" id="page-dashboard">
                 <div class="stats-grid" id="dashboardStats"></div>
                 <div class="card">
-                    <h2 style="margin-bottom: 14px;">Quick Actions</h2>
+                    <div class="card-header">
+                        <h2>Quick Actions</h2>
+                    </div>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelectorAll('.menu-item')[2])">Review Registrations</button>
-                        <button class="btn btn-primary" onclick="showPage('students', document.querySelectorAll('.menu-item')[4])">Manage Students</button>
-                        <a href="admin-pdfs.html" class="btn btn-primary" style="text-decoration:none;">Upload PDF</a>
-                        <a href="admin-notes.html" class="btn btn-primary" style="text-decoration:none;">Upload Notes</a>
-                        <a href="admin-notifications.html" class="btn btn-primary" style="text-decoration:none;">Send Notification</a>
-                        <a href="admin-analytics.html" class="btn btn-secondary" style="text-decoration:none;">View Analytics</a>
+                        <button class="btn btn-primary" onclick="showPage('registrations',document.getElementById('nav-registrations'))">Review Registrations</button>
+                        <button class="btn btn-primary" onclick="showPage('students',document.getElementById('nav-students'))">Manage Students</button>
+                        <button class="btn btn-primary" onclick="showPage('pdfs',document.getElementById('nav-pdfs'))">Upload PDF</button>
+                        <button class="btn btn-primary" onclick="showPage('notes',document.getElementById('nav-notes'))">Upload Notes</button>
+                        <button class="btn btn-primary" onclick="showPage('notifications',document.getElementById('nav-notifications'))">Send Notification</button>
+                        <button class="btn btn-secondary" onclick="showPage('analytics',document.getElementById('nav-analytics'))">View Analytics</button>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <h2>Recent Registrations</h2>
-                        <button class="btn btn-secondary" onclick="showPage('registrations', document.querySelectorAll('.menu-item')[2])">View All</button>
+                        <button class="btn btn-secondary btn-sm" onclick="showPage('registrations',document.getElementById('nav-registrations'))">View All</button>
                     </div>
                     <div id="recentRegistrationsTable"></div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS -->
+            <div class="page" id="page-analytics">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Platform Analytics</h2>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <select id="analyticsField" onchange="loadAnalytics()" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;">
+                                <option value="">All Fields</option>
+                                <option>Engineering</option>
+                                <option>CS</option>
+                                <option>Applied Sciences</option>
+                                <option>Business</option>
+                                <option>Architecture</option>
+                                <option>Natural Sciences</option>
+                            </select>
+                            <button class="btn btn-secondary btn-sm" onclick="loadAnalytics()">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="card" style="margin-bottom:0;">
+                            <h4 style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--gray);">TESTS OVER TIME</h4>
+                            <div class="chart-wrap"><canvas id="testsChart"></canvas></div>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h4 style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--gray);">SCORE DISTRIBUTION</h4>
+                            <div class="chart-wrap"><canvas id="scoreChart"></canvas></div>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h4 style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--gray);">SUBJECT PERFORMANCE</h4>
+                            <div id="subjectPerfList"></div>
+                        </div>
+                        <div class="card" style="margin-bottom:0;">
+                            <h4 style="font-size:12px;font-weight:700;margin-bottom:10px;color:var(--gray);">REGISTRATIONS BY FIELD</h4>
+                            <div class="chart-wrap"><canvas id="fieldChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-bottom:0;">
+                        <div class="card-header">
+                            <h2>Student-wise Analytics</h2>
+                            <div style="display:flex;gap:6px;">
+                                <input type="text" id="analyticsStudentSearch" placeholder="Search student..." oninput="filterAnalyticsStudents()" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;min-width:180px;">
+                            </div>
+                        </div>
+                        <div id="analyticsStudentTable"></div>
+                    </div>
                 </div>
             </div>
 
@@ -646,10 +553,10 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>Registration Requests</h2>
-                        <button class="btn btn-secondary" onclick="loadRegistrations()">Refresh</button>
+                        <button class="btn btn-secondary btn-sm" onclick="loadRegistrations()">Refresh</button>
                     </div>
                     <div class="filter-bar">
-                        <input type="text" id="regSearch" placeholder="Search by name, email, username..." oninput="filterRegistrations()">
+                        <input type="text" id="regSearch" placeholder="Search name, email, username..." oninput="filterRegistrations()">
                         <select id="regStatusFilter" onchange="loadRegistrations()">
                             <option value="">All Status</option>
                             <option value="pending" selected>Pending</option>
@@ -666,7 +573,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>Payment Records</h2>
-                        <button class="btn btn-secondary" onclick="loadPayments()">Refresh</button>
+                        <button class="btn btn-secondary btn-sm" onclick="loadPayments()">Refresh</button>
                     </div>
                     <div class="filter-bar">
                         <select id="payStatusFilter" onchange="loadPayments()">
@@ -685,13 +592,13 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>All Students</h2>
-                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <button class="btn btn-success" onclick="exportStudents()">Export CSV</button>
-                            <button class="btn btn-primary" onclick="openAddStudent()">+ Add Student</button>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <button class="btn btn-success btn-sm" onclick="exportStudents()">Export CSV</button>
+                            <button class="btn btn-primary btn-sm" onclick="openAddStudent()">+ Add Student</button>
                         </div>
                     </div>
                     <div class="filter-bar">
-                        <input type="text" id="stuSearch" placeholder="Search by name, email, username..." oninput="loadStudents()">
+                        <input type="text" id="stuSearch" placeholder="Search name, email, username..." oninput="loadStudents()">
                         <select id="stuCategoryFilter" onchange="loadStudents()">
                             <option value="">All Categories</option>
                             <option value="Engineering">Engineering</option>
@@ -706,7 +613,6 @@
                             <option value="">All Status</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
-                            <option value="pending">Pending</option>
                         </select>
                     </div>
                     <div class="table-container" id="studentsTable"></div>
@@ -718,18 +624,131 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>Video Lectures</h2>
-                        <button class="btn btn-primary" onclick="openAddLecture()">+ Add Lecture</button>
+                        <button class="btn btn-primary btn-sm" onclick="openAddLecture()">+ Add Lecture</button>
+                    </div>
+                    <div class="filter-bar">
+                        <select id="lecFieldFilter" onchange="loadAdminLectures()">
+                            <option value="">All Fields</option>
+                            <option>Engineering</option>
+                            <option>Applied Sciences</option>
+                            <option>Business</option>
+                            <option>Architecture</option>
+                            <option>Natural Sciences</option>
+                        </select>
+                        <select id="lecSubjectFilter" onchange="loadAdminLectures()">
+                            <option value="">All Subjects</option>
+                            <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
+                            <option>Biology</option><option>English</option><option>Intelligence</option>
+                        </select>
                     </div>
                     <div class="table-container" id="lecturesTable"></div>
                 </div>
             </div>
 
-            <!-- MERIT LISTS -->
+            <!-- PDFS -->
+            <div class="page" id="page-pdfs">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>PDFs / Past Papers</h2>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('addPdfModal')">+ Add PDF</button>
+                    </div>
+                    <div class="filter-bar">
+                        <select id="pdfTypeFilter" onchange="loadAdminPdfs()">
+                            <option value="">All Types</option>
+                            <option value="past_paper">Past Papers</option>
+                            <option value="pdf">PDFs</option>
+                            <option value="sample">Sample Tests</option>
+                        </select>
+                        <select id="pdfFieldFilter" onchange="loadAdminPdfs()">
+                            <option value="">All Fields</option>
+                            <option>Engineering</option>
+                            <option>Applied Sciences</option>
+                            <option>Business</option>
+                            <option>Architecture</option>
+                            <option>Natural Sciences</option>
+                        </select>
+                    </div>
+                    <div class="table-container" id="pdfsTable"></div>
+                </div>
+            </div>
+
+            <!-- NOTES -->
+            <div class="page" id="page-notes">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Notes / Formulas</h2>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('addNoteModal')">+ Add Note</button>
+                    </div>
+                    <div class="filter-bar">
+                        <select id="noteFieldFilter" onchange="loadAdminNotes()">
+                            <option value="">All Fields</option>
+                            <option>Engineering</option>
+                            <option>Applied Sciences</option>
+                            <option>Business</option>
+                            <option>Architecture</option>
+                            <option>Natural Sciences</option>
+                        </select>
+                        <select id="noteSubjectFilter" onchange="loadAdminNotes()">
+                            <option value="">All Subjects</option>
+                            <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
+                            <option>Biology</option><option>English</option>
+                        </select>
+                    </div>
+                    <div class="table-container" id="notesTable"></div>
+                </div>
+            </div>
+
+            <!-- NOTIFICATIONS -->
+            <div class="page" id="page-notifications">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Send Notification</h2>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group"><label>Title *</label><input type="text" id="notifTitle" placeholder="Notification title"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Target</label>
+                            <select id="notifTarget">
+                                <option value="all">All Students</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="CS">CS</option>
+                                <option value="Applied Sciences">Applied Sciences</option>
+                                <option value="Business">Business</option>
+                                <option value="Architecture">Architecture</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select id="notifType">
+                                <option value="info">Info</option>
+                                <option value="warning">Warning</option>
+                                <option value="success">Success</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row full">
+                        <div class="form-group"><label>Message *</label><textarea id="notifMessage" rows="3" placeholder="Notification message..."></textarea></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="sendNotification()">Send Notification</button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Sent Notifications</h2>
+                        <button class="btn btn-secondary btn-sm" onclick="loadNotifications()">Refresh</button>
+                    </div>
+                    <div id="notificationsTable"></div>
+                </div>
+            </div>
+
+            <!-- MERIT -->
             <div class="page" id="page-merit">
                 <div class="card">
                     <div class="card-header">
                         <h2>Merit Lists</h2>
-                        <button class="btn btn-primary" onclick="openAddMerit()">+ Add Merit List</button>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('addMeritModal')">+ Add Merit List</button>
                     </div>
                     <div class="table-container" id="meritTable"></div>
                 </div>
@@ -738,7 +757,10 @@
             <!-- LEADERBOARD -->
             <div class="page" id="page-leaderboard">
                 <div class="card">
-                    <h2 style="margin-bottom: 14px;">Live Leaderboard (All Fields)</h2>
+                    <div class="card-header">
+                        <h2>Live Leaderboard</h2>
+                        <button class="btn btn-secondary btn-sm" onclick="loadAdminLeaderboard()">Refresh</button>
+                    </div>
                     <div id="leaderboardContent"></div>
                 </div>
             </div>
@@ -748,16 +770,19 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>Group Chat Logs</h2>
-                        <button class="btn btn-secondary" onclick="loadGroupChats()">Refresh</button>
+                        <button class="btn btn-secondary btn-sm" onclick="loadGroupChats()">Refresh</button>
                     </div>
-                    <div id="chatsContent" style="max-height: 600px; overflow-y: auto;"></div>
+                    <div id="chatsContent" style="max-height:500px;overflow-y:auto;"></div>
                 </div>
             </div>
 
             <!-- REPORTS -->
             <div class="page" id="page-reports">
                 <div class="card">
-                    <h2 style="margin-bottom: 14px;">User Reports</h2>
+                    <div class="card-header">
+                        <h2>User Reports</h2>
+                        <button class="btn btn-secondary btn-sm" onclick="loadReports()">Refresh</button>
+                    </div>
                     <div class="table-container" id="reportsTable"></div>
                 </div>
             </div>
@@ -765,85 +790,49 @@
             <!-- SETTINGS -->
             <div class="page" id="page-settings">
                 <div class="card">
-                    <h2 style="margin-bottom: 14px;">Admin Credentials</h2>
+                    <h2 style="margin-bottom:14px;">Admin Credentials</h2>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>New Username</label>
-                            <input type="text" id="newAdminUsername">
-                        </div>
-                        <div class="form-group">
-                            <label>Current Password</label>
-                            <input type="password" id="currentAdminPassword">
-                        </div>
+                        <div class="form-group"><label>New Username</label><input type="text" id="newAdminUsername" placeholder="Leave blank to keep current"></div>
+                        <div class="form-group"><label>Current Password *</label><input type="password" id="currentAdminPassword"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>New Password</label>
-                            <input type="password" id="newAdminPassword">
-                        </div>
-                        <div class="form-group">
-                            <label>Confirm New Password</label>
-                            <input type="password" id="confirmAdminPassword">
-                        </div>
+                        <div class="form-group"><label>New Password *</label><input type="password" id="newAdminPassword"></div>
+                        <div class="form-group"><label>Confirm New Password</label><input type="password" id="confirmAdminPassword"></div>
                     </div>
                     <button class="btn btn-primary" onclick="changeAdminCreds()">Update Credentials</button>
                 </div>
-
                 <div class="card">
-                    <h2 style="margin-bottom: 14px;">Payment / Bank Details</h2>
-                    <p style="font-size:13px; color:var(--gray); margin-bottom:14px;">
-                        These details are shown to students on the registration page.
-                    </p>
+                    <h2 style="margin-bottom:14px;">Payment / Bank Details</h2>
+                    <p style="font-size:12px;color:var(--gray);margin-bottom:12px;">Shown to students on registration page.</p>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Bank Name</label>
-                            <input type="text" id="set_bank_name" placeholder="e.g., HBL Bank">
-                        </div>
-                        <div class="form-group">
-                            <label>Account Title</label>
-                            <input type="text" id="set_bank_account_title">
-                        </div>
+                        <div class="form-group"><label>Bank Name</label><input type="text" id="set_bank_name" placeholder="e.g. HBL Bank"></div>
+                        <div class="form-group"><label>Account Title</label><input type="text" id="set_bank_account_title"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Account Number</label>
-                            <input type="text" id="set_bank_account_number">
-                        </div>
-                        <div class="form-group">
-                            <label>IBAN</label>
-                            <input type="text" id="set_bank_iban">
-                        </div>
+                        <div class="form-group"><label>Account Number</label><input type="text" id="set_bank_account_number"></div>
+                        <div class="form-group"><label>IBAN</label><input type="text" id="set_bank_iban"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>EasyPaisa Number</label>
-                            <input type="text" id="set_easypaisa_number">
-                        </div>
-                        <div class="form-group">
-                            <label>JazzCash Number</label>
-                            <input type="text" id="set_jazzcash_number">
-                        </div>
+                        <div class="form-group"><label>EasyPaisa</label><input type="text" id="set_easypaisa_number"></div>
+                        <div class="form-group"><label>JazzCash</label><input type="text" id="set_jazzcash_number"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Registration Fee (Rs.)</label>
-                            <input type="number" id="set_registration_fee" value="500">
-                        </div>
+                        <div class="form-group"><label>Registration Fee (Rs.)</label><input type="number" id="set_registration_fee" value="500"></div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group">
-                            <label>Payment Instructions</label>
-                            <textarea id="set_payment_instructions" rows="3"></textarea>
-                        </div>
+                        <div class="form-group"><label>Payment Instructions</label><textarea id="set_payment_instructions" rows="3"></textarea></div>
                     </div>
                     <button class="btn btn-primary" onclick="saveSettings()">Save Bank Details</button>
                 </div>
             </div>
-        </div>
+
+        </div><!-- end content -->
     </main>
 </div>
 
-<!-- MODALS -->
+<!-- ===== MODALS ===== -->
+
+<!-- ADD STUDENT -->
 <div class="modal" id="addStudentModal">
     <div class="modal-box">
         <h3>Add New Student</h3>
@@ -859,13 +848,9 @@
             <div class="form-group">
                 <label>Degree Category</label>
                 <select id="newStuField">
-                    <option value="Engineering">Engineering</option>
-                    <option value="CS">CS</option>
-                    <option value="Computing">Computing</option>
-                    <option value="Applied Sciences">Applied Sciences</option>
-                    <option value="Business">Business</option>
-                    <option value="Architecture">Architecture</option>
-                    <option value="Natural Sciences">Natural Sciences</option>
+                    <option>Engineering</option><option>CS</option><option>Computing</option>
+                    <option>Applied Sciences</option><option>Business</option>
+                    <option>Architecture</option><option>Natural Sciences</option>
                 </select>
             </div>
         </div>
@@ -876,37 +861,26 @@
     </div>
 </div>
 
+<!-- ADD LECTURE -->
 <div class="modal" id="addLectureModal">
     <div class="modal-box">
         <h3>Add Video Lecture</h3>
-        <div class="form-row full">
-            <div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div>
-        </div>
-        <div class="form-row full">
-            <div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl"></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div></div>
+        <div class="form-row full"><div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://youtube.com/watch?v=..."></div></div>
         <div class="form-row">
             <div class="form-group">
                 <label>Field *</label>
                 <select id="lecField">
-                    <option value="Engineering">Engineering</option>
-                    <option value="Applied Sciences">Applied Sciences</option>
-                    <option value="Business">Business</option>
-                    <option value="Architecture">Architecture</option>
-                    <option value="Natural Sciences">Natural Sciences</option>
+                    <option>Engineering</option><option>Applied Sciences</option>
+                    <option>Business</option><option>Architecture</option><option>Natural Sciences</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Subject *</label>
                 <select id="lecSubject">
-                    <option>Physics</option>
-                    <option>Chemistry</option>
-                    <option>Mathematics</option>
-                    <option>Biology</option>
-                    <option>English</option>
-                    <option>Intelligence</option>
-                    <option>Design Aptitude</option>
-                    <option>Business Studies</option>
+                    <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
+                    <option>Biology</option><option>English</option><option>Intelligence</option>
+                    <option>Design Aptitude</option><option>Business Studies</option>
                 </select>
             </div>
         </div>
@@ -918,16 +892,10 @@
         <div class="form-row">
             <div class="form-group">
                 <label>Difficulty</label>
-                <select id="lecDifficulty">
-                    <option>Easy</option>
-                    <option selected>Medium</option>
-                    <option>Hard</option>
-                </select>
+                <select id="lecDifficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select>
             </div>
         </div>
-        <div class="form-row full">
-            <div class="form-group"><label>Description</label><textarea id="lecDesc"></textarea></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="lecDesc"></textarea></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addLectureModal')">Cancel</button>
             <button class="btn btn-primary" onclick="addLecture()">Add Lecture</button>
@@ -935,21 +903,142 @@
     </div>
 </div>
 
+<!-- ADD PDF -->
+<div class="modal" id="addPdfModal">
+    <div class="modal-box">
+        <h3>Add PDF / Past Paper</h3>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="pdfTitle"></div></div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Type *</label>
+                <select id="pdfType">
+                    <option value="past_paper">Past Paper</option>
+                    <option value="pdf">PDF</option>
+                    <option value="sample">Sample Test</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Field *</label>
+                <select id="pdfField">
+                    <option>Engineering</option><option>CS</option><option>Applied Sciences</option>
+                    <option>Business</option><option>Architecture</option><option>Natural Sciences</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="pdfSubject">
+                    <option value="">General</option>
+                    <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
+                    <option>Biology</option><option>English</option><option>Intelligence</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Year</label><input type="text" id="pdfYear" placeholder="2024"></div>
+        </div>
+
+        <!-- UPLOAD OR LINK -->
+        <div class="form-row full">
+            <div class="form-group">
+                <label>Upload PDF File</label>
+                <div class="upload-zone" id="pdfUploadZone" onclick="document.getElementById('pdfFileInput').click()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <p><strong>Click to upload</strong> or drag & drop</p>
+                    <p>PDF files only</p>
+                </div>
+                <div class="upload-progress" id="pdfUploadProgress"><div class="upload-progress-fill" id="pdfUploadFill" style="width:0%"></div></div>
+                <input type="file" id="pdfFileInput" accept=".pdf" style="display:none" onchange="handlePdfUpload(this)">
+                <div id="pdfUploadStatus" style="font-size:11px;color:var(--success);margin-top:4px;"></div>
+            </div>
+        </div>
+        <div class="or-divider">OR paste link</div>
+        <div class="form-row full">
+            <div class="form-group">
+                <label>Direct Link (Google Drive / Cloudinary / URL)</label>
+                <input type="url" id="pdfFileUrl" placeholder="https://..." oninput="document.getElementById('pdfUploadStatus').textContent='';pdfCloudinaryUrl='';">
+            </div>
+        </div>
+
+        <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="pdfDesc" rows="2"></textarea></div></div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addPdfModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="addPdf()">Add PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- ADD NOTE -->
+<div class="modal" id="addNoteModal">
+    <div class="modal-box">
+        <h3>Add Note / Formula Sheet</h3>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="noteTitle"></div></div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Field *</label>
+                <select id="noteField">
+                    <option>Engineering</option><option>CS</option><option>Applied Sciences</option>
+                    <option>Business</option><option>Architecture</option><option>Natural Sciences</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Subject *</label>
+                <select id="noteSubject">
+                    <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
+                    <option>Biology</option><option>English</option><option>Intelligence</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Type</label>
+                <select id="noteType">
+                    <option value="notes">Notes</option>
+                    <option value="formula">Formula Sheet</option>
+                    <option value="summary">Summary</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row full">
+            <div class="form-group">
+                <label>Upload File (PDF / Image)</label>
+                <div class="upload-zone" id="noteUploadZone" onclick="document.getElementById('noteFileInput').click()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <p><strong>Click to upload</strong> or drag & drop</p>
+                    <p>PDF or image files</p>
+                </div>
+                <div class="upload-progress" id="noteUploadProgress"><div class="upload-progress-fill" id="noteUploadFill" style="width:0%"></div></div>
+                <input type="file" id="noteFileInput" accept=".pdf,image/*" style="display:none" onchange="handleNoteUpload(this)">
+                <div id="noteUploadStatus" style="font-size:11px;color:var(--success);margin-top:4px;"></div>
+            </div>
+        </div>
+        <div class="or-divider">OR paste link</div>
+        <div class="form-row full">
+            <div class="form-group">
+                <label>Direct Link (Google Drive / Cloudinary / URL)</label>
+                <input type="url" id="noteFileUrl" placeholder="https://..." oninput="document.getElementById('noteUploadStatus').textContent='';noteCloudinaryUrl='';">
+            </div>
+        </div>
+
+        <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="noteDesc" rows="2"></textarea></div></div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addNoteModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="addNote()">Add Note</button>
+        </div>
+    </div>
+</div>
+
+<!-- ADD MERIT -->
 <div class="modal" id="addMeritModal">
     <div class="modal-box">
         <h3>Add Merit List</h3>
-        <div class="form-row full">
-            <div class="form-group"><label>Title *</label><input type="text" id="merTitle"></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="merTitle"></div></div>
         <div class="form-row three">
             <div class="form-group">
                 <label>Field *</label>
                 <select id="merField">
-                    <option value="Engineering">Engineering</option>
-                    <option value="Applied Sciences">Applied Sciences</option>
-                    <option value="Business">Business</option>
-                    <option value="Architecture">Architecture</option>
-                    <option value="Natural Sciences">Natural Sciences</option>
+                    <option>Engineering</option><option>Applied Sciences</option>
+                    <option>Business</option><option>Architecture</option><option>Natural Sciences</option>
                 </select>
             </div>
             <div class="form-group"><label>Year *</label><input type="text" id="merYear" value="2025"></div>
@@ -957,11 +1046,9 @@
         </div>
         <div class="form-row">
             <div class="form-group"><label>Campus</label><input type="text" id="merCampus"></div>
-            <div class="form-group"><label>File URL (Drive/PDF link)</label><input type="url" id="merFileUrl"></div>
+            <div class="form-group"><label>File URL</label><input type="url" id="merFileUrl"></div>
         </div>
-        <div class="form-row full">
-            <div class="form-group"><label>Description</label><textarea id="merDesc"></textarea></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="merDesc" rows="2"></textarea></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addMeritModal')">Cancel</button>
             <button class="btn btn-primary" onclick="addMerit()">Add Merit List</button>
@@ -969,18 +1056,21 @@
     </div>
 </div>
 
+<!-- STUDENT DETAIL -->
 <div class="modal" id="studentDetailModal">
-    <div class="modal-box" style="max-width: 800px;">
+    <div class="modal-box" style="max-width:860px;">
         <div id="studentDetailContent"></div>
     </div>
 </div>
 
+<!-- REGISTRATION DETAIL -->
 <div class="modal" id="registrationDetailModal">
-    <div class="modal-box" style="max-width: 800px;">
+    <div class="modal-box" style="max-width:760px;">
         <div id="registrationDetailContent"></div>
     </div>
 </div>
 
+<!-- WARNING -->
 <div class="modal" id="warningModal">
     <div class="modal-box">
         <h3>Issue Warning to <span id="warnStudentName"></span></h3>
@@ -994,14 +1084,12 @@
     </div>
 </div>
 
+<!-- REJECT REG -->
 <div class="modal" id="rejectRegModal">
     <div class="modal-box">
         <h3>Reject Registration</h3>
         <div class="form-row full">
-            <div class="form-group">
-                <label>Reason for Rejection *</label>
-                <textarea id="rejectReason" placeholder="Reason will be visible to student..."></textarea>
-            </div>
+            <div class="form-group"><label>Reason *</label><textarea id="rejectReason" placeholder="Reason visible to student..."></textarea></div>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('rejectRegModal')">Cancel</button>
@@ -1010,22 +1098,26 @@
     </div>
 </div>
 
+<!-- RESET PASSWORD -->
 <div class="modal" id="resetPwdModal">
     <div class="modal-box">
-        <h3>Reset Password for <span id="resetPwdName"></span></h3>
+        <h3>Reset Password</h3>
+        <p style="font-size:12px;color:var(--gray);margin-bottom:12px;">Resetting password for: <strong id="resetPwdName"></strong></p>
         <div class="form-row full">
-            <div class="form-group">
-                <label>New Password *</label>
-                <input type="text" id="resetNewPassword" placeholder="Min 6 characters">
-            </div>
+            <div class="form-group"><label>New Password *</label><input type="text" id="resetNewPassword" placeholder="Min 6 characters"></div>
         </div>
-        <p style="font-size:13px; color:var(--gray); margin-bottom:10px;">
-            Send this new password to the student via WhatsApp or email.
-        </p>
+        <p style="font-size:11px;color:var(--gray);">Share this new password with the student via WhatsApp or email.</p>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('resetPwdModal')">Cancel</button>
             <button class="btn btn-primary" onclick="confirmResetPassword()">Reset Password</button>
         </div>
+    </div>
+</div>
+
+<!-- TEST REVIEW MODAL -->
+<div class="modal" id="testReviewModal">
+    <div class="modal-box" style="max-width:760px;">
+        <div id="testReviewContent"></div>
     </div>
 </div>
 
@@ -1036,6 +1128,17 @@
     let currentRejectRegId = null;
     let currentResetStudentId = null;
     let allRegistrations = [];
+    let allAnalyticsStudents = [];
+    let pdfCloudinaryUrl = '';
+    let noteCloudinaryUrl = '';
+    let testsChartInst = null;
+    let scoreChartInst = null;
+    let fieldChartInst = null;
+    let studentChartInst = null;
+
+    // Cloudinary config - update these
+    const CLOUDINARY_CLOUD_NAME = 'your_cloud_name';
+    const CLOUDINARY_UPLOAD_PRESET = 'your_upload_preset';
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
@@ -1046,7 +1149,7 @@
         document.getElementById('sidebarOverlay').classList.remove('show');
     }
 
-    // ============ AUTH ============
+    // ===== AUTH =====
     function checkAdminAuth() {
         const token = localStorage.getItem('nustology_admin_token');
         if (!token) {
@@ -1065,16 +1168,12 @@
         const password = document.getElementById('adminPassword').value;
         const err = document.getElementById('loginError');
         err.classList.remove('show');
-        if (!username || !password) {
-            err.textContent = 'Enter username and password';
-            err.classList.add('show');
-            return;
-        }
+        if (!username || !password) { err.textContent = 'Enter username and password'; err.classList.add('show'); return; }
         try {
             const res = await fetch(`${API_BASE}/auth/admin-login`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({username, password})
             });
             const data = await res.json();
             if (data.success) {
@@ -1084,10 +1183,7 @@
                 err.textContent = data.message || 'Invalid credentials';
                 err.classList.add('show');
             }
-        } catch (e) {
-            err.textContent = 'Connection error';
-            err.classList.add('show');
-        }
+        } catch(e) { err.textContent = 'Connection error'; err.classList.add('show'); }
     }
 
     function logoutAdmin() {
@@ -1097,71 +1193,78 @@
     }
 
     function getHeaders() {
-        return { 'Authorization': `Bearer ${localStorage.getItem('nustology_admin_token')}` };
+        return {'Authorization': `Bearer ${localStorage.getItem('nustology_admin_token')}`};
     }
 
-    // ============ NAV ============
+    // ===== NAV =====
+    const pageTitles = {
+        dashboard: ['Dashboard','Overview of platform'],
+        analytics: ['Analytics','Advanced performance insights'],
+        registrations: ['Registrations','Approve or reject new students'],
+        payments: ['Payment Records','View all payment submissions'],
+        students: ['Students','Manage all registered students'],
+        lectures: ['Video Lectures','Manage YouTube lecture links'],
+        pdfs: ['PDFs / Past Papers','Manage study material'],
+        notes: ['Notes / Formulas','Manage notes and formula sheets'],
+        notifications: ['Notifications','Send messages to students'],
+        merit: ['Merit Lists','Upload past NUST merit lists'],
+        leaderboard: ['Live Leaderboard','Top performers by field'],
+        chats: ['Chat Logs','Monitor public chat'],
+        reports: ['Reports','Review user reports'],
+        settings: ['Settings & Bank','Admin account and payment info']
+    };
+
     function showPage(page, btn) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-' + page).classList.add('active');
+        const pg = document.getElementById('page-' + page);
+        if (pg) pg.classList.add('active');
         document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
         if (btn) btn.classList.add('active');
-
-        const titles = {
-            dashboard: ['Dashboard', 'Overview of platform'],
-            registrations: ['Registrations', 'Approve or reject new students'],
-            payments: ['Payment Records', 'View all payment submissions'],
-            students: ['Students', 'Manage all registered students'],
-            lectures: ['Video Lectures', 'Manage YouTube lecture links'],
-            merit: ['Merit Lists', 'Upload past NUST merit lists'],
-            leaderboard: ['Live Leaderboard', 'Top performers by field'],
-            chats: ['Group Chat Logs', 'Monitor public chat'],
-            reports: ['Reports', 'Review user reports'],
-            settings: ['Settings & Bank', 'Manage admin account and payment info']
-        };
-        document.getElementById('pageTitle').textContent = titles[page][0];
-        document.getElementById('pageSubtitle').textContent = titles[page][1];
-
+        const t = pageTitles[page] || [page,''];
+        document.getElementById('pageTitle').textContent = t[0];
+        document.getElementById('pageSubtitle').textContent = t[1];
         closeSidebar();
-
-        if (page === 'registrations') loadRegistrations();
-        else if (page === 'payments') loadPayments();
-        else if (page === 'students') loadStudents();
-        else if (page === 'lectures') loadAdminLectures();
-        else if (page === 'merit') loadAdminMerit();
-        else if (page === 'leaderboard') loadAdminLeaderboard();
-        else if (page === 'chats') loadGroupChats();
-        else if (page === 'reports') loadReports();
-        else if (page === 'settings') loadSettings();
+        const loaders = {
+            dashboard: loadDashboard,
+            analytics: loadAnalytics,
+            registrations: loadRegistrations,
+            payments: loadPayments,
+            students: loadStudents,
+            lectures: loadAdminLectures,
+            pdfs: loadAdminPdfs,
+            notes: loadAdminNotes,
+            notifications: loadNotifications,
+            merit: loadAdminMerit,
+            leaderboard: loadAdminLeaderboard,
+            chats: loadGroupChats,
+            reports: loadReports,
+            settings: loadSettings
+        };
+        if (loaders[page]) loaders[page]();
     }
 
-    // ============ DASHBOARD ============
+    // ===== DASHBOARD =====
     async function loadDashboard() {
         try {
-            const res = await fetch(`${API_BASE}/admin/dashboard`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/dashboard`, {headers: getHeaders()});
             const data = await res.json();
             if (!data.success) return;
             const s = data.stats;
             document.getElementById('dashboardStats').innerHTML = `
-                <div class="stat-card"><div class="stat-icon-wrap b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-label">Total Students</div><div class="stat-value">${s.totalStudents}</div></div>
-                <div class="stat-card"><div class="stat-icon-wrap g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents}</div></div>
-                <div class="stat-card"><div class="stat-icon-wrap o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div><div class="stat-label">Pending</div><div class="stat-value">${s.pendingStudents || 0}</div></div>
-                <div class="stat-card"><div class="stat-icon-wrap p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests}</div></div>
-                <div class="stat-card"><div class="stat-icon-wrap r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3"/></svg></div><div class="stat-label">Pending Reports</div><div class="stat-value">${s.pendingReports}</div></div>
+                <div class="stat-card"><div class="stat-icon b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-info"><div class="stat-label">Total Students</div><div class="stat-value">${s.totalStudents}</div></div></div>
+                <div class="stat-card"><div class="stat-icon g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-info"><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents}</div></div></div>
+                <div class="stat-card"><div class="stat-icon o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="stat-info"><div class="stat-label">Pending</div><div class="stat-value">${s.pendingStudents||0}</div></div></div>
+                <div class="stat-card"><div class="stat-icon p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div><div class="stat-info"><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests}</div></div></div>
+                <div class="stat-card"><div class="stat-icon r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3"/></svg></div><div class="stat-info"><div class="stat-label">Pending Reports</div><div class="stat-value">${s.pendingReports}</div></div></div>
             `;
-
-            // Update pending count badge
             if (s.pendingStudents > 0) {
-                const badge = document.getElementById('pendingRegCount');
-                badge.textContent = s.pendingStudents;
-                badge.style.display = 'flex';
+                const b = document.getElementById('pendingRegCount');
+                b.textContent = s.pendingStudents; b.style.display = 'flex';
             }
-
-            // Recent registrations
             if (data.recentRegistrations && data.recentRegistrations.length) {
                 document.getElementById('recentRegistrationsTable').innerHTML = `
                     <div class="table-container"><table><thead><tr>
-                        <th>Name</th><th>Email</th><th>Category</th><th>Status</th><th>Submitted</th>
+                        <th>Name</th><th>Email</th><th>Category</th><th>Status</th><th>Date</th>
                     </tr></thead><tbody>${data.recentRegistrations.map(r => `
                         <tr>
                             <td><strong>${escapeHtml(r.full_name)}</strong></td>
@@ -1169,45 +1272,163 @@
                             <td><span class="badge badge-info">${escapeHtml(r.degree_category)}</span></td>
                             <td>${renderRegStatus(r.status)}</td>
                             <td>${new Date(r.submitted_at).toLocaleDateString()}</td>
-                        </tr>
-                    `).join('')}</tbody></table></div>
-                `;
+                        </tr>`).join('')}
+                    </tbody></table></div>`;
             } else {
                 document.getElementById('recentRegistrationsTable').innerHTML = '<div class="empty">No recent registrations</div>';
             }
-        } catch (e) {}
+        } catch(e) {}
     }
 
-    function renderRegStatus(status) {
-        if (status === 'pending') return '<span class="badge badge-warning">Pending</span>';
-        if (status === 'approved') return '<span class="badge badge-success">Approved</span>';
-        if (status === 'rejected') return '<span class="badge badge-danger">Rejected</span>';
-        return `<span class="badge">${status}</span>`;
+    // ===== ANALYTICS =====
+    async function loadAnalytics() {
+        try {
+            const field = document.getElementById('analyticsField').value;
+            const params = new URLSearchParams();
+            if (field) params.set('field', field);
+            const res = await fetch(`${API_BASE}/admin/analytics?${params}`, {headers: getHeaders()});
+            const data = await res.json();
+            if (!data.success) return;
+            renderAnalyticsCharts(data);
+            renderAnalyticsStudentTable(data.students || []);
+        } catch(e) {}
     }
 
-    // ============ REGISTRATIONS ============
+    function renderAnalyticsCharts(data) {
+        // Tests over time
+        if (testsChartInst) testsChartInst.destroy();
+        const tc = document.getElementById('testsChart').getContext('2d');
+        const tData = data.testsOverTime || [];
+        testsChartInst = new Chart(tc, {
+            type: 'line',
+            data: {
+                labels: tData.map(d => d.date || d.week),
+                datasets: [{
+                    label: 'Tests',
+                    data: tData.map(d => d.count),
+                    borderColor: '#1a56db',
+                    backgroundColor: 'rgba(26,86,219,0.1)',
+                    fill: true, tension: 0.4, pointRadius: 3
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+
+        // Score distribution
+        if (scoreChartInst) scoreChartInst.destroy();
+        const sc = document.getElementById('scoreChart').getContext('2d');
+        const sData = data.scoreDistribution || [0,0,0,0,0];
+        scoreChartInst = new Chart(sc, {
+            type: 'bar',
+            data: {
+                labels: ['0-20%','21-40%','41-60%','61-80%','81-100%'],
+                datasets: [{
+                    label: 'Students',
+                    data: sData,
+                    backgroundColor: ['#fee2e2','#fef3c7','#dbeafe','#dcfce7','#f3e8ff']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+
+        // Field distribution
+        if (fieldChartInst) fieldChartInst.destroy();
+        const fc = document.getElementById('fieldChart').getContext('2d');
+        const fData = data.fieldDistribution || {};
+        fieldChartInst = new Chart(fc, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(fData),
+                datasets: [{
+                    data: Object.values(fData),
+                    backgroundColor: ['#1a56db','#16a34a','#d97706','#dc2626','#9333ea','#0891b2']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
+        });
+
+        // Subject performance bars
+        const subjData = data.subjectPerformance || [];
+        if (subjData.length) {
+            document.getElementById('subjectPerfList').innerHTML = subjData.map(s => {
+                const pct = Math.round(s.avg_percentage || 0);
+                const cls = pct >= 70 ? 'perf-good' : pct >= 40 ? 'perf-mid' : 'perf-bad';
+                return `<div class="subject-perf-item">
+                    <div class="subject-perf-header">
+                        <span class="subject-name">${escapeHtml(s.subject)}</span>
+                        <span class="subject-pct">${pct}% avg · ${s.total_attempts} attempts</span>
+                    </div>
+                    <div class="perf-bar"><div class="perf-fill ${cls}" style="width:${pct}%"></div></div>
+                </div>`;
+            }).join('');
+        } else {
+            document.getElementById('subjectPerfList').innerHTML = '<p style="color:var(--gray);font-size:12px;">No data yet</p>';
+        }
+    }
+
+    function renderAnalyticsStudentTable(students) {
+        allAnalyticsStudents = students;
+        renderFilteredAnalyticsStudents(students);
+    }
+
+    function renderFilteredAnalyticsStudents(students) {
+        const c = document.getElementById('analyticsStudentTable');
+        if (!students.length) { c.innerHTML = '<div class="empty">No student data</div>'; return; }
+        c.innerHTML = `<div class="table-container"><table><thead><tr>
+            <th>Student</th><th>Field</th><th>Tests</th><th>Avg Score</th><th>Best</th>
+            <th>Weak Subjects</th><th>Strong Subjects</th><th>Actions</th>
+        </tr></thead><tbody>${students.map(s => {
+            const avg = s.avg_percentage || 0;
+            const cls = avg >= 70 ? 'score-good' : avg >= 40 ? 'score-mid' : 'score-bad';
+            const weakSubjs = (s.subject_performance || []).filter(sp => (sp.avg_percentage||0) < 50).map(sp => sp.subject).slice(0,3);
+            const strongSubjs = (s.subject_performance || []).filter(sp => (sp.avg_percentage||0) >= 70).map(sp => sp.subject).slice(0,3);
+            return `<tr>
+                <td><strong>${escapeHtml(s.full_name||s.username)}</strong><br><small style="color:var(--gray);">@${escapeHtml(s.username)}</small></td>
+                <td><span class="badge badge-info">${escapeHtml(s.degree_category||'-')}</span></td>
+                <td>${s.test_count||0}</td>
+                <td><span class="${cls}">${avg.toFixed(1)}%</span></td>
+                <td>${(s.best_percentage||0).toFixed(1)}%</td>
+                <td>${weakSubjs.length ? weakSubjs.map(w=>`<span class="badge badge-danger" style="margin:1px;">${escapeHtml(w)}</span>`).join('') : '<span style="color:var(--gray);font-size:11px;">None</span>'}</td>
+                <td>${strongSubjs.length ? strongSubjs.map(w=>`<span class="badge badge-success" style="margin:1px;">${escapeHtml(w)}</span>`).join('') : '<span style="color:var(--gray);font-size:11px;">None</span>'}</td>
+                <td><button class="btn btn-primary btn-sm" onclick="viewStudentAnalytics(${s.id})">Details</button></td>
+            </tr>`;
+        }).join('')}</tbody></table></div>`;
+    }
+
+    function filterAnalyticsStudents() {
+        const q = document.getElementById('analyticsStudentSearch').value.toLowerCase();
+        const filtered = allAnalyticsStudents.filter(s =>
+            (s.full_name||'').toLowerCase().includes(q) ||
+            (s.username||'').toLowerCase().includes(q)
+        );
+        renderFilteredAnalyticsStudents(filtered);
+    }
+
+    async function viewStudentAnalytics(id) {
+        await viewStudent(id);
+    }
+
+    // ===== REGISTRATIONS =====
     async function loadRegistrations() {
         try {
             const status = document.getElementById('regStatusFilter').value;
             const params = new URLSearchParams();
             if (status) params.set('status', status);
-
-            const res = await fetch(`${API_BASE}/admin/registrations?${params.toString()}`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/registrations?${params}`, {headers: getHeaders()});
             const data = await res.json();
             if (!data.success) return;
             allRegistrations = data.registrations;
             renderRegistrations(allRegistrations);
-        } catch (e) {}
+        } catch(e) {}
     }
 
     function filterRegistrations() {
-        const search = document.getElementById('regSearch').value.toLowerCase();
-        const filtered = allRegistrations.filter(r =>
-            (r.full_name || '').toLowerCase().includes(search) ||
-            (r.email || '').toLowerCase().includes(search) ||
-            (r.desired_username || '').toLowerCase().includes(search)
-        );
-        renderRegistrations(filtered);
+        const q = document.getElementById('regSearch').value.toLowerCase();
+        renderRegistrations(allRegistrations.filter(r =>
+            (r.full_name||'').toLowerCase().includes(q) ||
+            (r.email||'').toLowerCase().includes(q) ||
+            (r.desired_username||'').toLowerCase().includes(q)
+        ));
     }
 
     function renderRegistrations(regs) {
@@ -1219,118 +1440,92 @@
         </tr></thead><tbody>${regs.map(r => `
             <tr>
                 <td><strong>${escapeHtml(r.full_name)}</strong></td>
-                <td>${escapeHtml(r.email)}<br><small style="color:var(--gray);">${escapeHtml(r.phone || '')}</small></td>
+                <td>${escapeHtml(r.email)}<br><small style="color:var(--gray);">${escapeHtml(r.phone||'')}</small></td>
                 <td>${escapeHtml(r.desired_username)}</td>
                 <td><span class="badge badge-info">${escapeHtml(r.degree_category)}</span></td>
-                <td><small>${escapeHtml(r.transaction_id || '-')}</small></td>
+                <td><small>${escapeHtml(r.transaction_id||'-')}</small></td>
                 <td>${renderRegStatus(r.status)}</td>
                 <td><small>${new Date(r.submitted_at).toLocaleDateString()}</small></td>
-                <td>
-                    <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                        <button class="btn btn-secondary" onclick="viewRegistration(${r.id})">View</button>
-                        ${r.status === 'pending' ? `
-                            <button class="btn btn-success" onclick="approveRegistration(${r.id})">Approve</button>
-                            <button class="btn btn-danger" onclick="openRejectReg(${r.id})">Reject</button>
-                        ` : ''}
-                        <button class="btn btn-danger" onclick="deleteRegistration(${r.id})">Delete</button>
-                    </div>
-                </td>
-            </tr>
-        `).join('')}</tbody></table>`;
+                <td><div class="actions-cell">
+                    <button class="btn btn-secondary btn-sm" onclick="viewRegistration(${r.id})">View</button>
+                    ${r.status==='pending' ? `
+                        <button class="btn btn-success btn-sm" onclick="approveRegistration(${r.id})">Approve</button>
+                        <button class="btn btn-danger btn-sm" onclick="openRejectReg(${r.id})">Reject</button>` : ''}
+                    <button class="btn btn-danger btn-sm" onclick="deleteRegistration(${r.id})">Delete</button>
+                </div></td>
+            </tr>`).join('')}
+        </tbody></table>`;
+    }
+
+    function renderRegStatus(s) {
+        if (s==='pending') return '<span class="badge badge-warning">Pending</span>';
+        if (s==='approved') return '<span class="badge badge-success">Approved</span>';
+        if (s==='rejected') return '<span class="badge badge-danger">Rejected</span>';
+        return `<span class="badge">${s}</span>`;
     }
 
     async function viewRegistration(id) {
         try {
-            const res = await fetch(`${API_BASE}/admin/registrations/${id}`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/registrations/${id}`, {headers: getHeaders()});
             const data = await res.json();
             if (!data.success) return;
             const r = data.registration;
-            const p = data.payment;
-
-            let html = `
-                <h3>${escapeHtml(r.full_name)} <span style="font-size:13px; color:var(--gray); font-weight:400;">(${renderRegStatus(r.status)})</span></h3>
-
-                <div class="student-detail-section">
-                    <h4>Personal Info</h4>
-                    <div class="detail-row"><span class="label">Email:</span><span>${escapeHtml(r.email)}</span></div>
-                    <div class="detail-row"><span class="label">Phone:</span><span>${escapeHtml(r.phone)}</span></div>
-                    <div class="detail-row"><span class="label">Father Name:</span><span>${escapeHtml(r.father_name || '-')}</span></div>
-                    <div class="detail-row"><span class="label">DOB:</span><span>${r.date_of_birth || '-'}</span></div>
-                    <div class="detail-row"><span class="label">Gender:</span><span>${r.gender || '-'}</span></div>
-                    <div class="detail-row"><span class="label">CNIC:</span><span>${r.cnic || '-'}</span></div>
-                    <div class="detail-row"><span class="label">City:</span><span>${r.city || '-'}, ${r.province || ''}</span></div>
-                    <div class="detail-row"><span class="label">Address:</span><span>${escapeHtml(r.address || '-')}</span></div>
+            document.getElementById('registrationDetailContent').innerHTML = `
+                <h3>${escapeHtml(r.full_name)} ${renderRegStatus(r.status)}</h3>
+                <div class="tab-bar">
+                    <button class="tab-btn active" onclick="switchTab(this,'rtab-personal')">Personal</button>
+                    <button class="tab-btn" onclick="switchTab(this,'rtab-academic')">Academic</button>
+                    <button class="tab-btn" onclick="switchTab(this,'rtab-payment')">Payment</button>
                 </div>
-
-                <div class="student-detail-section">
-                    <h4>Account & Category</h4>
-                    <div class="detail-row"><span class="label">Username:</span><span><strong>${escapeHtml(r.desired_username)}</strong></span></div>
-                    <div class="detail-row"><span class="label">Category:</span><span>${escapeHtml(r.degree_category)}</span></div>
+                <div class="tab-panel active" id="rtab-personal">
+                    <div class="detail-section"><div class="detail-grid">
+                        <span class="detail-label">Email</span><span class="detail-value">${escapeHtml(r.email)}</span>
+                        <span class="detail-label">Phone</span><span class="detail-value">${escapeHtml(r.phone||'-')}</span>
+                        <span class="detail-label">Father</span><span class="detail-value">${escapeHtml(r.father_name||'-')}</span>
+                        <span class="detail-label">DOB</span><span class="detail-value">${r.date_of_birth||'-'}</span>
+                        <span class="detail-label">Gender</span><span class="detail-value">${r.gender||'-'}</span>
+                        <span class="detail-label">CNIC</span><span class="detail-value">${r.cnic||'-'}</span>
+                        <span class="detail-label">City</span><span class="detail-value">${r.city||'-'}, ${r.province||''}</span>
+                        <span class="detail-label">Username</span><span class="detail-value"><strong>${escapeHtml(r.desired_username)}</strong></span>
+                        <span class="detail-label">Category</span><span class="detail-value">${escapeHtml(r.degree_category)}</span>
+                    </div></div>
+                    <div class="detail-section"><h4>Preferences</h4><div class="detail-grid">
+                        ${[1,2,3,4,5].map(i => r[`preference_${i}`] ? `<span class="detail-label">Pref ${i}</span><span class="detail-value">${escapeHtml(r[`preference_${i}`])}</span>` : '').join('')}
+                    </div></div>
                 </div>
-
-                <div class="student-detail-section">
-                    <h4>Academic Record</h4>
-                    <div class="detail-row"><span class="label">Matric:</span><span>${r.matric_marks || 0} / ${r.matric_total || 1100} (${r.matric_board || '-'}) ${r.matric_year || ''}</span></div>
-                    <div class="detail-row"><span class="label">FSc:</span><span>${r.fsc_marks || 0} / ${r.fsc_total || 1100} (${r.fsc_board || '-'}) - ${r.fsc_part || '-'}</span></div>
+                <div class="tab-panel" id="rtab-academic">
+                    <div class="detail-section"><div class="detail-grid">
+                        <span class="detail-label">Matric</span><span class="detail-value">${r.matric_marks||0}/${r.matric_total||1100} · ${r.matric_board||'-'} · ${r.matric_year||''}</span>
+                        <span class="detail-label">FSc</span><span class="detail-value">${r.fsc_marks||0}/${r.fsc_total||1100} · ${r.fsc_board||'-'} · ${r.fsc_part||'-'}</span>
+                    </div></div>
                 </div>
-
-                <div class="student-detail-section">
-                    <h4>Preferences</h4>
-                    ${[1,2,3,4,5].map(i => r[`preference_${i}`] ? `<div class="detail-row"><span class="label">Pref ${i}:</span><span>${escapeHtml(r[`preference_${i}`])}</span></div>` : '').join('')}
+                <div class="tab-panel" id="rtab-payment">
+                    <div class="detail-section"><div class="detail-grid">
+                        <span class="detail-label">Transaction ID</span><span class="detail-value"><strong>${escapeHtml(r.transaction_id||'-')}</strong></span>
+                        <span class="detail-label">Method</span><span class="detail-value">${escapeHtml(r.payment_method||'-')}</span>
+                        <span class="detail-label">Amount</span><span class="detail-value">Rs. ${r.payment_amount||'500'}</span>
+                    </div></div>
+                    ${r.payment_screenshot_url ? `<a href="${r.payment_screenshot_url}" target="_blank"><img src="${r.payment_screenshot_url}" class="payment-screenshot" alt="Payment"></a>` : '<p style="color:var(--gray);font-size:12px;">No screenshot</p>'}
+                    ${r.status==='rejected' && r.rejection_reason ? `<div style="background:#fef2f2;padding:10px;border-radius:6px;color:var(--danger);font-size:12px;margin-top:10px;">${escapeHtml(r.rejection_reason)}</div>` : ''}
                 </div>
-
-                <div class="student-detail-section">
-                    <h4>Payment Information</h4>
-                    <div class="detail-row"><span class="label">Transaction ID:</span><span><strong>${escapeHtml(r.transaction_id || '-')}</strong></span></div>
-                    <div class="detail-row"><span class="label">Method:</span><span>${escapeHtml(r.payment_method || '-')}</span></div>
-                    <div class="detail-row"><span class="label">Amount:</span><span>Rs. ${r.payment_amount || '500'}</span></div>
-                    <div class="detail-row"><span class="label">Submitted:</span><span>${r.payment_submitted_at ? new Date(r.payment_submitted_at).toLocaleString() : '-'}</span></div>
-                    ${r.payment_screenshot_url ? `
-                        <div style="margin-top:10px;">
-                            <a href="${r.payment_screenshot_url}" target="_blank">
-                                <img src="${r.payment_screenshot_url}" alt="Payment Screenshot" class="payment-screenshot">
-                            </a>
-                            <br><small style="color:var(--gray);">Click image to view full size</small>
-                        </div>
-                    ` : '<p style="color:var(--gray); font-size:13px;">No screenshot uploaded</p>'}
-                </div>
-
-                ${r.status === 'rejected' && r.rejection_reason ? `
-                    <div class="student-detail-section">
-                        <h4>Rejection Reason</h4>
-                        <p style="background:#fef2f2; padding:10px; border-radius:6px; color:var(--danger);">${escapeHtml(r.rejection_reason)}</p>
-                    </div>
-                ` : ''}
-
                 <div class="modal-actions">
                     <button class="btn btn-secondary" onclick="closeModal('registrationDetailModal')">Close</button>
-                    ${r.status === 'pending' ? `
-                        <button class="btn btn-danger" onclick="closeModal('registrationDetailModal'); openRejectReg(${r.id})">Reject</button>
-                        <button class="btn btn-success" onclick="closeModal('registrationDetailModal'); approveRegistration(${r.id})">Approve</button>
-                    ` : ''}
-                </div>
-            `;
-            document.getElementById('registrationDetailContent').innerHTML = html;
+                    ${r.status==='pending' ? `
+                        <button class="btn btn-danger" onclick="closeModal('registrationDetailModal');openRejectReg(${r.id})">Reject</button>
+                        <button class="btn btn-success" onclick="closeModal('registrationDetailModal');approveRegistration(${r.id})">Approve</button>` : ''}
+                </div>`;
             document.getElementById('registrationDetailModal').classList.add('show');
-        } catch (e) {}
+        } catch(e) {}
     }
 
     async function approveRegistration(id) {
-        if (!confirm('Approve this registration? Student account will be created and they will be notified.')) return;
+        if (!confirm('Approve this registration? Student account will be created.')) return;
         try {
-            const res = await fetch(`${API_BASE}/admin/registrations/${id}/approve`, {
-                method: 'POST',
-                headers: getHeaders()
-            });
+            const res = await fetch(`${API_BASE}/admin/registrations/${id}/approve`, {method:'POST', headers: getHeaders()});
             const data = await res.json();
-            if (data.success) {
-                alert('Registration approved! Student account created.');
-                loadRegistrations();
-                loadDashboard();
-            } else {
-                alert(data.message || 'Failed to approve');
-            }
-        } catch (e) { alert('Connection error'); }
+            if (data.success) { alert('Approved! Student account created.'); loadRegistrations(); loadDashboard(); }
+            else alert(data.message||'Failed');
+        } catch(e) { alert('Connection error'); }
     }
 
     function openRejectReg(id) {
@@ -1341,145 +1536,331 @@
 
     async function confirmRejectReg() {
         const reason = document.getElementById('rejectReason').value.trim();
-        if (!reason) return alert('Please provide a reason');
+        if (!reason) return alert('Provide a reason');
         try {
             const res = await fetch(`${API_BASE}/admin/registrations/${currentRejectRegId}/reject`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({ reason })
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify({reason})
             });
-            const data = await res.json();
-            if (data.success) {
-                closeModal('rejectRegModal');
-                alert('Registration rejected.');
-                loadRegistrations();
-            }
-        } catch (e) {}
+            if ((await res.json()).success) { closeModal('rejectRegModal'); loadRegistrations(); }
+        } catch(e) {}
     }
 
     async function deleteRegistration(id) {
-        if (!confirm('Delete this registration permanently?')) return;
-        try {
-            await fetch(`${API_BASE}/admin/registrations/${id}`, { method: 'DELETE', headers: getHeaders() });
-            loadRegistrations();
-        } catch (e) {}
+        if (!confirm('Delete permanently?')) return;
+        try { await fetch(`${API_BASE}/admin/registrations/${id}`, {method:'DELETE', headers: getHeaders()}); loadRegistrations(); } catch(e) {}
     }
 
-    // ============ PAYMENTS ============
+    // ===== PAYMENTS =====
     async function loadPayments() {
         try {
             const status = document.getElementById('payStatusFilter').value;
             const params = new URLSearchParams();
             if (status) params.set('status', status);
-
-            const res = await fetch(`${API_BASE}/admin/payments?${params.toString()}`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/payments?${params}`, {headers: getHeaders()});
             const data = await res.json();
             if (!data.success) return;
-
             const c = document.getElementById('paymentsTable');
             if (!data.payments.length) { c.innerHTML = '<div class="empty">No payment records</div>'; return; }
             c.innerHTML = `<table><thead><tr>
-                <th>Student</th><th>Email</th><th>Txn ID</th><th>Method</th><th>Amount</th>
-                <th>Status</th><th>Screenshot</th><th>Date</th>
+                <th>Student</th><th>Txn ID</th><th>Method</th><th>Amount</th><th>Status</th><th>Screenshot</th><th>Date</th>
             </tr></thead><tbody>${data.payments.map(p => `
                 <tr>
-                    <td><strong>${escapeHtml(p.full_name || '-')}</strong><br><small style="color:var(--gray);">${escapeHtml(p.desired_username || '')}</small></td>
-                    <td>${escapeHtml(p.email || '-')}</td>
+                    <td><strong>${escapeHtml(p.full_name||'-')}</strong><br><small style="color:var(--gray);">${escapeHtml(p.desired_username||'')}</small></td>
                     <td><strong>${escapeHtml(p.transaction_id)}</strong></td>
-                    <td>${escapeHtml(p.payment_method || '-')}</td>
+                    <td>${escapeHtml(p.payment_method||'-')}</td>
                     <td>Rs. ${p.payment_amount}</td>
                     <td>${renderPaymentStatus(p.verification_status)}</td>
-                    <td>${p.payment_screenshot_url ? `<a href="${p.payment_screenshot_url}" target="_blank" class="btn btn-secondary">View</a>` : '-'}</td>
+                    <td>${p.payment_screenshot_url ? `<a href="${p.payment_screenshot_url}" target="_blank" class="btn btn-secondary btn-sm">View</a>` : '-'}</td>
                     <td><small>${new Date(p.submitted_at).toLocaleDateString()}</small></td>
-                </tr>
-            `).join('')}</tbody></table>`;
-        } catch (e) {}
+                </tr>`).join('')}
+            </tbody></table>`;
+        } catch(e) {}
     }
 
     function renderPaymentStatus(s) {
-        if (s === 'pending') return '<span class="badge badge-warning">Pending</span>';
-        if (s === 'verified') return '<span class="badge badge-success">Verified</span>';
-        if (s === 'rejected') return '<span class="badge badge-danger">Rejected</span>';
-        return `<span class="badge">${s}</span>`;
+        if (s==='pending') return '<span class="badge badge-warning">Pending</span>';
+        if (s==='verified') return '<span class="badge badge-success">Verified</span>';
+        if (s==='rejected') return '<span class="badge badge-danger">Rejected</span>';
+        return `<span class="badge">${s||'-'}</span>`;
     }
 
-    // ============ STUDENTS ============
+    // ===== STUDENTS =====
     async function loadStudents() {
         try {
-            const search = document.getElementById('stuSearch').value;
-            const category = document.getElementById('stuCategoryFilter').value;
-            const status = document.getElementById('stuStatusFilter').value;
-
             const params = new URLSearchParams();
-            if (search) params.set('search', search);
-            if (category) params.set('category', category);
-            if (status) params.set('status', status);
-
-            const res = await fetch(`${API_BASE}/admin/students?${params.toString()}`, { headers: getHeaders() });
+            const q = document.getElementById('stuSearch').value;
+            const cat = document.getElementById('stuCategoryFilter').value;
+            const st = document.getElementById('stuStatusFilter').value;
+            if (q) params.set('search', q);
+            if (cat) params.set('category', cat);
+            if (st) params.set('status', st);
+            const res = await fetch(`${API_BASE}/admin/students?${params}`, {headers: getHeaders()});
             const data = await res.json();
             if (!data.success) return;
             renderStudents(data.students);
-        } catch (e) {}
+        } catch(e) {}
     }
 
     function renderStudents(students) {
         const c = document.getElementById('studentsTable');
         if (!students.length) { c.innerHTML = '<div class="empty">No students found</div>'; return; }
         c.innerHTML = `<table><thead><tr>
-            <th>ID</th><th>Username</th><th>Name</th><th>Email</th><th>Category</th>
-            <th>Tests</th><th>Avg</th><th>Status</th><th>Actions</th>
-        </tr></thead><tbody>${students.map(s => `
-            <tr>
+            <th>ID</th><th>Username</th><th>Name</th><th>Category</th>
+            <th>Tests</th><th>Avg</th><th>Status</th><th>Joined</th><th>Actions</th>
+        </tr></thead><tbody>${students.map(s => {
+            const avg = s.avg_score||0;
+            const cls = avg>=70?'score-good':avg>=40?'score-mid':'score-bad';
+            return `<tr>
                 <td>#${s.id}</td>
                 <td><strong>${escapeHtml(s.username)}</strong></td>
-                <td>${escapeHtml(s.full_name || '-')}</td>
-                <td>${escapeHtml(s.email || '-')}</td>
-                <td><span class="badge badge-info">${escapeHtml(s.degree_category || s.field || '-')}</span></td>
-                <td>${s.test_count || 0}</td>
-                <td>${s.avg_score ? s.avg_score.toFixed(1) + '%' : '-'}</td>
-                <td>${s.is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}</td>
-                <td>
-                    <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                        <button class="btn btn-secondary" onclick="viewStudent(${s.id})">View</button>
-                        <button class="btn btn-warning" onclick="warnStudent(${s.id}, '${escapeJsString(s.full_name || s.username)}')">Warn</button>
-                        <button class="btn btn-primary" onclick="openResetPwd(${s.id}, '${escapeJsString(s.full_name || s.username)}')">Reset Pwd</button>
-                        <button class="btn btn-secondary" onclick="toggleStudentActive(${s.id})">${s.is_active ? 'Disable' : 'Enable'}</button>
-                        <button class="btn btn-danger" onclick="deleteStudent(${s.id})">Delete</button>
+                <td>${escapeHtml(s.full_name||'-')}</td>
+                <td><span class="badge badge-info">${escapeHtml(s.degree_category||s.field||'-')}</span></td>
+                <td>${s.test_count||0}</td>
+                <td><span class="${cls}">${avg?avg.toFixed(1)+'%':'-'}</span></td>
+                <td>${s.is_active?'<span class="badge badge-success">Active</span>':'<span class="badge badge-danger">Inactive</span>'}</td>
+                <td><small>${s.created_at?new Date(s.created_at).toLocaleDateString():'-'}</small></td>
+                <td><div class="actions-cell">
+                    <button class="btn btn-secondary btn-sm" onclick="viewStudent(${s.id})">View</button>
+                    <button class="btn btn-primary btn-sm" onclick="openResetPwd(${s.id},'${escapeJsString(s.full_name||s.username)}')">Reset Pwd</button>
+                    <button class="btn btn-warning btn-sm" onclick="warnStudent(${s.id},'${escapeJsString(s.full_name||s.username)}')">Warn</button>
+                    <button class="btn btn-secondary btn-sm" onclick="toggleStudentActive(${s.id})">${s.is_active?'Disable':'Enable'}</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteStudent(${s.id})">Delete</button>
+                </div></td>
+            </tr>`;
+        }).join('')}</tbody></table>`;
+    }
+
+    async function viewStudent(id) {
+        try {
+            const res = await fetch(`${API_BASE}/admin/students/${id}`, {headers: getHeaders()});
+            const data = await res.json();
+            if (!data.success) return;
+            renderStudentDetail(data);
+            document.getElementById('studentDetailModal').classList.add('show');
+        } catch(e) {}
+    }
+
+    function renderStudentDetail(d) {
+        const s = d.student;
+        const p = d.profile||{};
+        const attempts = d.attempts||[];
+        const perf = d.performanceScore||0;
+        const subjPerf = d.subjectPerformance||[];
+        const perfClass = perf>=70?'perf-good':perf>=40?'perf-mid':'perf-bad';
+
+        // Calculate weak and strong subjects
+        const weakSubjs = subjPerf.filter(sp=>(sp.avg_percentage||0)<50);
+        const strongSubjs = subjPerf.filter(sp=>(sp.avg_percentage||0)>=70);
+
+        let html = `
+            <h3>${escapeHtml(s.full_name||s.username)} <small style="color:var(--gray);font-weight:400;font-size:13px;">@${escapeHtml(s.username)}</small></h3>
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab(this,'stab-overview')">Overview</button>
+                <button class="tab-btn" onclick="switchTab(this,'stab-tests')">Tests (${attempts.length})</button>
+                <button class="tab-btn" onclick="switchTab(this,'stab-subjects')">Subjects</button>
+                <button class="tab-btn" onclick="switchTab(this,'stab-profile')">Profile</button>
+                <button class="tab-btn" onclick="switchTab(this,'stab-graph')">Graph</button>
+            </div>
+
+            <div class="tab-panel active" id="stab-overview">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+                    <div style="background:var(--bg);border-radius:8px;padding:12px;">
+                        <div style="font-size:11px;color:var(--gray);margin-bottom:2px;">Overall Score</div>
+                        <div style="font-size:28px;font-weight:700;color:var(--primary-light);">${perf}%</div>
+                        <div class="perf-bar" style="margin-top:6px;"><div class="perf-fill ${perfClass}" style="width:${perf}%"></div></div>
                     </div>
-                </td>
-            </tr>
-        `).join('')}</tbody></table>`;
+                    <div style="background:var(--bg);border-radius:8px;padding:12px;">
+                        <div style="font-size:11px;color:var(--gray);margin-bottom:6px;">Stats</div>
+                        <div style="font-size:12px;display:flex;flex-direction:column;gap:4px;">
+                            <div>Tests taken: <strong>${attempts.length}</strong></div>
+                            <div>Best score: <strong>${attempts.length?Math.max(...attempts.map(a=>a.percentage||0)).toFixed(1)+'%':'-'}</strong></div>
+                            <div>Status: ${s.is_active?'<span class="badge badge-success">Active</span>':'<span class="badge badge-danger">Inactive</span>'}</div>
+                            <div>Last login: <strong>${s.last_login?new Date(s.last_login).toLocaleDateString():'Never'}</strong></div>
+                        </div>
+                    </div>
+                </div>
+                ${weakSubjs.length ? `<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px;margin-bottom:8px;">
+                    <div style="font-size:11px;font-weight:700;color:var(--danger);margin-bottom:6px;">⚠️ WEAK AREAS</div>
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;">${weakSubjs.map(ws=>`<span class="badge badge-danger">${escapeHtml(ws.subject)} ${(ws.avg_percentage||0).toFixed(0)}%</span>`).join('')}</div>
+                </div>` : ''}
+                ${strongSubjs.length ? `<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px;">
+                    <div style="font-size:11px;font-weight:700;color:var(--success);margin-bottom:6px;">✅ STRONG AREAS</div>
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;">${strongSubjs.map(ss=>`<span class="badge badge-success">${escapeHtml(ss.subject)} ${(ss.avg_percentage||0).toFixed(0)}%</span>`).join('')}</div>
+                </div>` : ''}
+            </div>
+
+            <div class="tab-panel" id="stab-tests">
+                ${attempts.length ? `
+                <div class="table-container"><table><thead><tr>
+                    <th>#</th><th>Type</th><th>Field/Subject</th><th>Score</th><th>%</th><th>Date</th><th>Review</th>
+                </tr></thead><tbody>${attempts.map((a,i) => {
+                    const pct = a.percentage||0;
+                    const cls = pct>=70?'score-good':pct>=40?'score-mid':'score-bad';
+                    return `<tr>
+                        <td>${i+1}</td>
+                        <td>${a.test_type==='grand'?'<strong>Grand</strong>':'Subject'}</td>
+                        <td>${escapeHtml(a.field||'')}${a.subject?' - '+escapeHtml(a.subject):''}</td>
+                        <td>${(a.score||0).toFixed(1)}/${a.total_marks}</td>
+                        <td><span class="${cls}">${pct.toFixed(1)}%</span></td>
+                        <td>${a.completed_at?new Date(a.completed_at).toLocaleDateString():'-'}</td>
+                        <td><button class="btn btn-secondary btn-sm" onclick="viewTestReview(${a.id},${s.id})">Review</button></td>
+                    </tr>`;
+                }).join('')}</tbody></table></div>` : '<div class="empty">No tests taken yet</div>'}
+            </div>
+
+            <div class="tab-panel" id="stab-subjects">
+                ${subjPerf.length ? subjPerf.map(sp => {
+                    const pct = Math.round(sp.avg_percentage||0);
+                    const cls = pct>=70?'perf-good':pct>=40?'perf-mid':'perf-bad';
+                    return `<div class="subject-perf-item">
+                        <div class="subject-perf-header">
+                            <span class="subject-name">${escapeHtml(sp.subject)}</span>
+                            <span class="subject-pct">Avg: ${pct}% · Best: ${(sp.best_percentage||0).toFixed(1)}% · ${sp.total_attempts} tests</span>
+                        </div>
+                        <div class="perf-bar"><div class="perf-fill ${cls}" style="width:${pct}%"></div></div>
+                    </div>`;
+                }).join('') : '<div class="empty">No subject data</div>'}
+            </div>
+
+            <div class="tab-panel" id="stab-profile">
+                <div class="detail-section"><h4>Account</h4><div class="detail-grid">
+                    <span class="detail-label">Email</span><span class="detail-value">${escapeHtml(s.email||'-')}</span>
+                    <span class="detail-label">Phone</span><span class="detail-value">${escapeHtml(s.phone||'-')}</span>
+                    <span class="detail-label">Category</span><span class="detail-value">${escapeHtml(s.degree_category||'-')}</span>
+                    <span class="detail-label">Joined</span><span class="detail-value">${new Date(s.created_at).toLocaleString()}</span>
+                </div></div>
+                <div class="detail-section"><h4>Personal</h4><div class="detail-grid">
+                    <span class="detail-label">CNIC</span><span class="detail-value">${p.cnic||'-'}</span>
+                    <span class="detail-label">Gender</span><span class="detail-value">${p.gender||'-'}</span>
+                    <span class="detail-label">DOB</span><span class="detail-value">${p.date_of_birth||'-'}</span>
+                    <span class="detail-label">Father</span><span class="detail-value">${escapeHtml(p.father_name||'-')}</span>
+                    <span class="detail-label">City</span><span class="detail-value">${escapeHtml(p.city||'-')}, ${escapeHtml(p.province||'')}</span>
+                </div></div>
+                <div class="detail-section"><h4>Academic</h4><div class="detail-grid">
+                    <span class="detail-label">Matric</span><span class="detail-value">${p.matric_marks||0}/${p.matric_total||1100} (${p.matric_board||'-'})</span>
+                    <span class="detail-label">FSc</span><span class="detail-value">${p.fsc_marks||0}/${p.fsc_total||1100} (${p.fsc_board||'-'})</span>
+                </div></div>
+                ${[1,2,3,4,5].some(i=>p[`preference_${i}`]) ? `<div class="detail-section"><h4>Preferences</h4><div class="detail-grid">
+                    ${[1,2,3,4,5].map(i=>p[`preference_${i}`]?`<span class="detail-label">Pref ${i}</span><span class="detail-value">${escapeHtml(p[`preference_${i}`])}</span>`:'').join('')}
+                </div></div>` : ''}
+            </div>
+
+            <div class="tab-panel" id="stab-graph">
+                <div style="margin-bottom:12px;">
+                    <h4 style="font-size:12px;font-weight:700;color:var(--gray);margin-bottom:8px;">SCORE PROGRESSION</h4>
+                    <div style="position:relative;height:200px;"><canvas id="studentProgressChart"></canvas></div>
+                </div>
+                <div style="margin-top:16px;">
+                    <h4 style="font-size:12px;font-weight:700;color:var(--gray);margin-bottom:8px;">SUBJECT BREAKDOWN</h4>
+                    <div style="position:relative;height:200px;"><canvas id="studentSubjectChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('studentDetailModal')">Close</button>
+                <button class="btn btn-primary" onclick="closeModal('studentDetailModal');openResetPwd(${s.id},'${escapeJsString(s.full_name||s.username)}')">Reset Password</button>
+                <button class="btn btn-warning" onclick="closeModal('studentDetailModal');warnStudent(${s.id},'${escapeJsString(s.full_name||s.username)}')">Issue Warning</button>
+            </div>`;
+
+        document.getElementById('studentDetailContent').innerHTML = html;
+
+        // Render graphs after DOM update
+        setTimeout(() => {
+            // Progress chart
+            const progressCtx = document.getElementById('studentProgressChart');
+            if (progressCtx && attempts.length) {
+                if (studentChartInst) studentChartInst.destroy();
+                const sorted = [...attempts].sort((a,b)=>new Date(a.completed_at)-new Date(b.completed_at));
+                studentChartInst = new Chart(progressCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: sorted.map((a,i)=>`Test ${i+1}`),
+                        datasets: [{
+                            label: 'Score %',
+                            data: sorted.map(a=>(a.percentage||0).toFixed(1)),
+                            borderColor: '#1a56db',
+                            backgroundColor: 'rgba(26,86,219,0.1)',
+                            fill: true, tension: 0.4, pointRadius: 4
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 100 } } }
+                });
+            }
+            // Subject radar/bar chart
+            const subjectCtx = document.getElementById('studentSubjectChart');
+            if (subjectCtx && subjPerf.length) {
+                new Chart(subjectCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: subjPerf.map(s=>s.subject),
+                        datasets: [
+                            { label: 'Avg %', data: subjPerf.map(s=>(s.avg_percentage||0).toFixed(1)), backgroundColor: 'rgba(26,86,219,0.7)' },
+                            { label: 'Best %', data: subjPerf.map(s=>(s.best_percentage||0).toFixed(1)), backgroundColor: 'rgba(22,163,74,0.7)' }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } }, plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } } }
+                });
+            }
+        }, 100);
+    }
+
+    async function viewTestReview(attemptId, studentId) {
+        try {
+            const res = await fetch(`${API_BASE}/admin/students/${studentId}/attempts/${attemptId}`, {headers: getHeaders()});
+            const data = await res.json();
+            if (!data.success) { alert('Could not load test review'); return; }
+            const attempt = data.attempt;
+            const answers = data.answers || [];
+            let html = `
+                <h3>Test Review</h3>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                    <span class="info-chip">Type: ${attempt.test_type}</span>
+                    <span class="info-chip">Field: ${escapeHtml(attempt.field||'')}</span>
+                    ${attempt.subject ? `<span class="info-chip">Subject: ${escapeHtml(attempt.subject)}</span>` : ''}
+                    <span class="info-chip">Score: ${(attempt.score||0).toFixed(1)}/${attempt.total_marks}</span>
+                    <span class="info-chip">Percentage: ${(attempt.percentage||0).toFixed(1)}%</span>
+                    <span class="info-chip">Date: ${attempt.completed_at?new Date(attempt.completed_at).toLocaleDateString():'-'}</span>
+                </div>`;
+            if (answers.length) {
+                html += `<div class="table-container"><table><thead><tr>
+                    <th>#</th><th>Question</th><th>Student Answer</th><th>Correct</th><th>Result</th>
+                </tr></thead><tbody>${answers.map((a,i)=>`<tr>
+                    <td>${i+1}</td>
+                    <td style="max-width:220px;font-size:11px;">${escapeHtml(a.question_text||'')}</td>
+                    <td>${escapeHtml(a.student_answer||'-')}</td>
+                    <td>${escapeHtml(a.correct_answer||'-')}</td>
+                    <td>${a.is_correct?'<span class="badge badge-success">✓</span>':'<span class="badge badge-danger">✗</span>'}</td>
+                </tr>`).join('')}</tbody></table></div>`;
+            } else {
+                html += '<div class="empty">No detailed answers available</div>';
+            }
+            html += `<div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal('testReviewModal')">Close</button></div>`;
+            document.getElementById('testReviewContent').innerHTML = html;
+            document.getElementById('testReviewModal').classList.add('show');
+        } catch(e) { alert('Failed to load review'); }
     }
 
     async function exportStudents() {
-        const category = document.getElementById('stuCategoryFilter').value;
-        const url = `${API_BASE}/admin/students/export${category ? '?category=' + encodeURIComponent(category) : ''}`;
+        const cat = document.getElementById('stuCategoryFilter').value;
+        const url = `${API_BASE}/admin/students/export${cat?'?category='+encodeURIComponent(cat):''}`;
         try {
-            const res = await fetch(url, { headers: getHeaders() });
-            if (!res.ok) throw new Error('Export failed');
+            const res = await fetch(url, {headers: getHeaders()});
+            if (!res.ok) throw new Error();
             const blob = await res.blob();
-            const downloadUrl = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = downloadUrl;
+            a.href = URL.createObjectURL(blob);
             a.download = `students_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(downloadUrl);
-        } catch (e) {
-            alert('Export failed');
-        }
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        } catch(e) { alert('Export failed'); }
     }
 
     async function toggleStudentActive(id) {
         try {
-            const res = await fetch(`${API_BASE}/admin/students/${id}/toggle-active`, {
-                method: 'POST',
-                headers: getHeaders()
-            });
-            const data = await res.json();
-            if (data.success) loadStudents();
-        } catch (e) {}
+            const res = await fetch(`${API_BASE}/admin/students/${id}/toggle-active`, {method:'POST', headers: getHeaders()});
+            if ((await res.json()).success) loadStudents();
+        } catch(e) {}
     }
 
     function openResetPwd(id, name) {
@@ -1491,118 +1872,22 @@
 
     async function confirmResetPassword() {
         const newPassword = document.getElementById('resetNewPassword').value;
-        if (!newPassword || newPassword.length < 6) return alert('Password must be at least 6 chars');
+        if (!newPassword || newPassword.length < 6) return alert('Password must be at least 6 characters');
         try {
             const res = await fetch(`${API_BASE}/admin/students/${currentResetStudentId}/reset-password`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({ newPassword })
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify({newPassword})
             });
             const data = await res.json();
             if (data.success) {
                 closeModal('resetPwdModal');
-                alert(`Password reset successfully!\n\nNew Password: ${newPassword}\n\nSend this to the student.`);
+                alert(`Password reset!\n\nNew password: ${newPassword}\n\nSend this to the student.`);
             }
-        } catch (e) {}
-    }
-
-    async function viewStudent(id) {
-        try {
-            const res = await fetch(`${API_BASE}/admin/students/${id}`, { headers: getHeaders() });
-            const data = await res.json();
-            if (!data.success) return;
-            renderStudentDetail(data);
-            document.getElementById('studentDetailModal').classList.add('show');
-        } catch (e) {}
-    }
-
-    function renderStudentDetail(d) {
-        const s = d.student;
-        const p = d.profile || {};
-        const attempts = d.attempts || [];
-        const payments = d.payments || [];
-        const perf = d.performanceScore || 0;
-        const subjPerf = d.subjectPerformance || [];
-
-        let html = `
-            <h3>${escapeHtml(s.full_name || s.username)} <span style="font-size:13px; color:var(--gray); font-weight:400;">@${escapeHtml(s.username)}</span></h3>
-
-            <div class="student-detail-section">
-                <h4>Performance Score</h4>
-                <div style="font-size:30px; font-weight:700; color:var(--primary-light);">${perf}%</div>
-                <div class="perf-meter"><div class="perf-fill" style="width:${perf}%"></div></div>
-            </div>
-
-            <div class="student-detail-section">
-                <h4>Account Info</h4>
-                <div class="detail-row"><span class="label">Email:</span><span>${escapeHtml(s.email || '-')}</span></div>
-                <div class="detail-row"><span class="label">Phone:</span><span>${escapeHtml(s.phone || '-')}</span></div>
-                <div class="detail-row"><span class="label">Category:</span><span>${escapeHtml(s.degree_category || '-')}</span></div>
-                <div class="detail-row"><span class="label">Joined:</span><span>${new Date(s.created_at).toLocaleString()}</span></div>
-                <div class="detail-row"><span class="label">Last Login:</span><span>${s.last_login ? new Date(s.last_login).toLocaleString() : 'Never'}</span></div>
-            </div>
-
-            <div class="student-detail-section">
-                <h4>Personal Info</h4>
-                <div class="detail-row"><span class="label">CNIC:</span><span>${p.cnic || '-'}</span></div>
-                <div class="detail-row"><span class="label">Gender:</span><span>${p.gender || '-'}</span></div>
-                <div class="detail-row"><span class="label">DOB:</span><span>${p.date_of_birth || '-'}</span></div>
-                <div class="detail-row"><span class="label">Father:</span><span>${escapeHtml(p.father_name || '-')}</span></div>
-                <div class="detail-row"><span class="label">City:</span><span>${escapeHtml(p.city || '-')}, ${escapeHtml(p.province || '')}</span></div>
-            </div>
-
-            <div class="student-detail-section">
-                <h4>Academic</h4>
-                <div class="detail-row"><span class="label">Matric:</span><span>${p.matric_marks || 0} / ${p.matric_total || 1100} (${p.matric_board || '-'})</span></div>
-                <div class="detail-row"><span class="label">FSc:</span><span>${p.fsc_marks || 0} / ${p.fsc_total || 1100} (${p.fsc_board || '-'})</span></div>
-            </div>
-
-            <div class="student-detail-section">
-                <h4>Preferences</h4>
-                ${[1,2,3,4,5].map(i => p[`preference_${i}`] ? `<div class="detail-row"><span class="label">Pref ${i}:</span><span>${escapeHtml(p[`preference_${i}`])}</span></div>` : '').join('')}
-            </div>
-
-            ${subjPerf.length ? `
-                <div class="student-detail-section">
-                    <h4>Subject Performance</h4>
-                    <table><thead><tr><th>Subject</th><th>Avg</th><th>Best</th><th>Attempts</th></tr></thead>
-                    <tbody>${subjPerf.map(sp => `<tr>
-                        <td>${escapeHtml(sp.subject)}</td>
-                        <td>${(sp.avg_percentage || 0).toFixed(1)}%</td>
-                        <td>${(sp.best_percentage || 0).toFixed(1)}%</td>
-                        <td>${sp.total_attempts}</td>
-                    </tr>`).join('')}</tbody></table>
-                </div>
-            ` : ''}
-
-            <div class="student-detail-section">
-                <h4>Test Attempts (${attempts.length})</h4>`;
-
-        if (!attempts.length) {
-            html += '<p style="color:var(--gray); font-size:13px;">No tests taken yet</p>';
-        } else {
-            html += '<table><thead><tr><th>Type</th><th>Field/Subject</th><th>Score</th><th>%</th><th>Date</th></tr></thead><tbody>';
-            attempts.forEach(a => {
-                html += `<tr>
-                    <td>${a.test_type === 'grand' ? '<strong>Grand</strong>' : 'Subject'}</td>
-                    <td>${escapeHtml(a.field)}${a.subject ? ' - ' + escapeHtml(a.subject) : ''}</td>
-                    <td>${(a.score || 0).toFixed(1)} / ${a.total_marks}</td>
-                    <td>${(a.percentage || 0).toFixed(1)}%</td>
-                    <td>${a.completed_at ? new Date(a.completed_at).toLocaleDateString() : '-'}</td>
-                </tr>`;
-            });
-            html += '</tbody></table>';
-        }
-
-        html += `</div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('studentDetailModal')">Close</button>
-            </div>`;
-        document.getElementById('studentDetailContent').innerHTML = html;
+        } catch(e) {}
     }
 
     function openAddStudent() { document.getElementById('addStudentModal').classList.add('show'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
     async function addStudent() {
         const body = {
@@ -1616,31 +1901,27 @@
         if (!body.username || !body.password) return alert('Username and password required');
         try {
             const res = await fetch(`${API_BASE}/admin/students`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
                 body: JSON.stringify(body)
             });
             const data = await res.json();
             if (data.success) {
                 closeModal('addStudentModal');
-                document.querySelectorAll('#addStudentModal input').forEach(i => i.value = '');
+                document.querySelectorAll('#addStudentModal input').forEach(i=>i.value='');
                 loadStudents();
-                alert('Student added! ' + body.username + ' / ' + body.password);
+                alert(`Student added!\nUsername: ${body.username}\nPassword: ${body.password}`);
             } else alert(data.message);
-        } catch (e) { alert('Failed'); }
+        } catch(e) { alert('Failed'); }
     }
 
     async function deleteStudent(id) {
         if (!confirm('Delete this student permanently?')) return;
-        try {
-            await fetch(`${API_BASE}/admin/students/${id}`, { method: 'DELETE', headers: getHeaders() });
-            loadStudents();
-        } catch (e) {}
+        try { await fetch(`${API_BASE}/admin/students/${id}`, {method:'DELETE', headers: getHeaders()}); loadStudents(); } catch(e) {}
     }
 
     function warnStudent(id, name) {
-        currentWarnStudentId = id;
-        currentReportIdForWarning = null;
+        currentWarnStudentId = id; currentReportIdForWarning = null;
         document.getElementById('warnStudentName').textContent = name;
         document.getElementById('warnMessage').value = '';
         document.getElementById('warningModal').classList.add('show');
@@ -1649,46 +1930,51 @@
     async function submitWarning() {
         const message = document.getElementById('warnMessage').value.trim();
         if (!message) return alert('Enter warning message');
-        const body = { studentId: currentWarnStudentId, message };
+        const body = {studentId: currentWarnStudentId, message};
         if (currentReportIdForWarning) body.reportId = currentReportIdForWarning;
         try {
             const res = await fetch(`${API_BASE}/admin/warning`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
                 body: JSON.stringify(body)
             });
-            const data = await res.json();
-            if (data.success) {
+            if ((await res.json()).success) {
                 closeModal('warningModal');
                 alert('Warning issued');
                 currentReportIdForWarning = null;
                 if (document.getElementById('page-reports').classList.contains('active')) loadReports();
             }
-        } catch (e) {}
+        } catch(e) {}
     }
 
-    // ============ LECTURES ============
+    // ===== LECTURES =====
     async function loadAdminLectures() {
         try {
-            const res = await fetch(`${API_BASE}/lectures`, { headers: getHeaders() });
+            const field = document.getElementById('lecFieldFilter').value;
+            const subj = document.getElementById('lecSubjectFilter').value;
+            const params = new URLSearchParams();
+            if (field) params.set('field', field);
+            if (subj) params.set('subject', subj);
+            const res = await fetch(`${API_BASE}/lectures?${params}`, {headers: getHeaders()});
             const data = await res.json();
             const c = document.getElementById('lecturesTable');
             if (!data.lectures || !data.lectures.length) { c.innerHTML = '<div class="empty">No lectures</div>'; return; }
             c.innerHTML = `<table><thead><tr>
-                <th>Title</th><th>Field</th><th>Subject</th><th>Instructor</th><th>Actions</th>
+                <th>Title</th><th>Field</th><th>Subject</th><th>Instructor</th><th>Difficulty</th><th>Actions</th>
             </tr></thead><tbody>${data.lectures.map(l => `
                 <tr>
-                    <td><strong>${escapeHtml(l.title)}</strong></td>
+                    <td><strong>${escapeHtml(l.title)}</strong>${l.topic?`<br><small style="color:var(--gray);">${escapeHtml(l.topic)}</small>`:''}</td>
                     <td><span class="badge badge-info">${escapeHtml(l.field)}</span></td>
                     <td>${escapeHtml(l.subject)}</td>
-                    <td>${escapeHtml(l.instructor || '-')}</td>
-                    <td>
-                        <a href="${l.youtube_url}" target="_blank" class="btn btn-secondary">Open</a>
-                        <button class="btn btn-danger" onclick="deleteLecture(${l.id})">Delete</button>
-                    </td>
-                </tr>
-            `).join('')}</tbody></table>`;
-        } catch (e) {}
+                    <td>${escapeHtml(l.instructor||'-')}</td>
+                    <td>${escapeHtml(l.difficulty||'-')}</td>
+                    <td><div class="actions-cell">
+                        <a href="${l.youtube_url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>
+                        <button class="btn btn-danger btn-sm" onclick="deleteLecture(${l.id})">Delete</button>
+                    </div></td>
+                </tr>`).join('')}
+            </tbody></table>`;
+        } catch(e) {}
     }
 
     function openAddLecture() { document.getElementById('addLectureModal').classList.add('show'); }
@@ -1708,52 +1994,323 @@
         if (!body.title || !body.youtubeUrl) return alert('Title and URL required');
         try {
             const res = await fetch(`${API_BASE}/lectures`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify(body)
+            });
+            if ((await res.json()).success) {
+                closeModal('addLectureModal');
+                document.querySelectorAll('#addLectureModal input, #addLectureModal textarea').forEach(i=>i.value='');
+                loadAdminLectures();
+            }
+        } catch(e) {}
+    }
+
+    async function deleteLecture(id) {
+        if (!confirm('Delete lecture?')) return;
+        try { await fetch(`${API_BASE}/lectures/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminLectures(); } catch(e) {}
+    }
+
+    // ===== CLOUDINARY UPLOAD =====
+    async function uploadToCloudinary(file, onProgress) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        formData.append('resource_type', 'raw'); // for PDFs
+
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/raw/upload`);
+            xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable && onProgress) onProgress(Math.round(e.loaded/e.total*100));
+            };
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    resolve(data.secure_url);
+                } else {
+                    reject(new Error('Upload failed: ' + xhr.responseText));
+                }
+            };
+            xhr.onerror = () => reject(new Error('Network error'));
+            xhr.send(formData);
+        });
+    }
+
+    async function handlePdfUpload(input) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.type !== 'application/pdf') { alert('Please upload a PDF file'); input.value=''; return; }
+        if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
+
+        const progress = document.getElementById('pdfUploadProgress');
+        const fill = document.getElementById('pdfUploadFill');
+        const status = document.getElementById('pdfUploadStatus');
+        const zone = document.getElementById('pdfUploadZone');
+
+        progress.style.display = 'block';
+        zone.style.borderColor = 'var(--primary-light)';
+        status.textContent = 'Uploading...';
+        status.style.color = 'var(--gray)';
+
+        try {
+            const url = await uploadToCloudinary(file, (pct) => {
+                fill.style.width = pct + '%';
+            });
+            pdfCloudinaryUrl = url;
+            status.textContent = `✓ Uploaded: ${file.name}`;
+            status.style.color = 'var(--success)';
+            document.getElementById('pdfFileUrl').value = '';
+        } catch(e) {
+            status.textContent = '✗ Upload failed. Use link instead.';
+            status.style.color = 'var(--danger)';
+            pdfCloudinaryUrl = '';
+        }
+        progress.style.display = 'none';
+        fill.style.width = '0%';
+    }
+
+    async function handleNoteUpload(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const progress = document.getElementById('noteUploadProgress');
+        const fill = document.getElementById('noteUploadFill');
+        const status = document.getElementById('noteUploadStatus');
+        const zone = document.getElementById('noteUploadZone');
+
+        progress.style.display = 'block';
+        zone.style.borderColor = 'var(--primary-light)';
+        status.textContent = 'Uploading...';
+        status.style.color = 'var(--gray)';
+
+        try {
+            const url = await uploadToCloudinary(file, (pct) => {
+                fill.style.width = pct + '%';
+            });
+            noteCloudinaryUrl = url;
+            status.textContent = `✓ Uploaded: ${file.name}`;
+            status.style.color = 'var(--success)';
+            document.getElementById('noteFileUrl').value = '';
+        } catch(e) {
+            status.textContent = '✗ Upload failed. Use link instead.';
+            status.style.color = 'var(--danger)';
+            noteCloudinaryUrl = '';
+        }
+        progress.style.display = 'none';
+        fill.style.width = '0%';
+    }
+
+    // ===== PDFS =====
+    async function loadAdminPdfs() {
+        try {
+            const type = document.getElementById('pdfTypeFilter').value;
+            const field = document.getElementById('pdfFieldFilter').value;
+            const params = new URLSearchParams();
+            if (type) params.set('type', type);
+            if (field) params.set('field', field);
+            const res = await fetch(`${API_BASE}/pdfs?${params}`, {headers: getHeaders()});
+            const data = await res.json();
+            const c = document.getElementById('pdfsTable');
+            const list = data.pdfs || data.past_papers || data.documents || [];
+            if (!list.length) { c.innerHTML = '<div class="empty">No PDFs found</div>'; return; }
+            c.innerHTML = `<table><thead><tr>
+                <th>Title</th><th>Type</th><th>Field</th><th>Subject</th><th>Year</th><th>Actions</th>
+            </tr></thead><tbody>${list.map(p => `
+                <tr>
+                    <td><strong>${escapeHtml(p.title)}</strong>${p.description?`<br><small style="color:var(--gray);">${escapeHtml(p.description.substring(0,60))}...</small>`:''}</td>
+                    <td><span class="badge badge-info">${escapeHtml(p.type||p.document_type||'-')}</span></td>
+                    <td>${escapeHtml(p.field||'-')}</td>
+                    <td>${escapeHtml(p.subject||'-')}</td>
+                    <td>${p.year||'-'}</td>
+                    <td><div class="actions-cell">
+                        ${(p.file_url||p.url) ? `<a href="${p.file_url||p.url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
+                        <button class="btn btn-danger btn-sm" onclick="deletePdf(${p.id})">Delete</button>
+                    </div></td>
+                </tr>`).join('')}
+            </tbody></table>`;
+        } catch(e) {}
+    }
+
+    async function addPdf() {
+        const fileUrl = pdfCloudinaryUrl || document.getElementById('pdfFileUrl').value.trim();
+        if (!fileUrl) return alert('Please upload a file or provide a link');
+        const body = {
+            title: document.getElementById('pdfTitle').value,
+            type: document.getElementById('pdfType').value,
+            field: document.getElementById('pdfField').value,
+            subject: document.getElementById('pdfSubject').value,
+            year: document.getElementById('pdfYear').value,
+            fileUrl: fileUrl,
+            description: document.getElementById('pdfDesc').value
+        };
+        if (!body.title) return alert('Title required');
+        try {
+            const res = await fetch(`${API_BASE}/pdfs`, {
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
                 body: JSON.stringify(body)
             });
             const data = await res.json();
             if (data.success) {
-                closeModal('addLectureModal');
-                document.querySelectorAll('#addLectureModal input, #addLectureModal textarea').forEach(i => i.value = '');
-                loadAdminLectures();
-            }
-        } catch (e) {}
+                closeModal('addPdfModal');
+                pdfCloudinaryUrl = '';
+                document.querySelectorAll('#addPdfModal input, #addPdfModal textarea').forEach(i=>i.value='');
+                document.getElementById('pdfUploadStatus').textContent='';
+                document.getElementById('pdfFileInput').value='';
+                loadAdminPdfs();
+                alert('PDF added successfully!');
+            } else alert(data.message || 'Failed to add PDF');
+        } catch(e) { alert('Failed'); }
     }
 
-    async function deleteLecture(id) {
-        if (!confirm('Delete this lecture?')) return;
+    async function deletePdf(id) {
+        if (!confirm('Delete this PDF?')) return;
+        try { await fetch(`${API_BASE}/pdfs/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminPdfs(); } catch(e) {}
+    }
+
+    // ===== NOTES =====
+    async function loadAdminNotes() {
         try {
-            await fetch(`${API_BASE}/lectures/${id}`, { method: 'DELETE', headers: getHeaders() });
-            loadAdminLectures();
-        } catch (e) {}
+            const field = document.getElementById('noteFieldFilter').value;
+            const subj = document.getElementById('noteSubjectFilter').value;
+            const params = new URLSearchParams();
+            if (field) params.set('field', field);
+            if (subj) params.set('subject', subj);
+            const res = await fetch(`${API_BASE}/notes?${params}`, {headers: getHeaders()});
+            const data = await res.json();
+            const c = document.getElementById('notesTable');
+            const list = data.notes || data.documents || [];
+            if (!list.length) { c.innerHTML = '<div class="empty">No notes found</div>'; return; }
+            c.innerHTML = `<table><thead><tr>
+                <th>Title</th><th>Field</th><th>Subject</th><th>Type</th><th>Actions</th>
+            </tr></thead><tbody>${list.map(n => `
+                <tr>
+                    <td><strong>${escapeHtml(n.title)}</strong>${n.description?`<br><small style="color:var(--gray);">${escapeHtml(n.description.substring(0,50))}</small>`:''}</td>
+                    <td><span class="badge badge-info">${escapeHtml(n.field||'-')}</span></td>
+                    <td>${escapeHtml(n.subject||'-')}</td>
+                    <td>${escapeHtml(n.type||n.note_type||'-')}</td>
+                    <td><div class="actions-cell">
+                        ${(n.file_url||n.url) ? `<a href="${n.file_url||n.url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
+                        <button class="btn btn-danger btn-sm" onclick="deleteNote(${n.id})">Delete</button>
+                    </div></td>
+                </tr>`).join('')}
+            </tbody></table>`;
+        } catch(e) {}
     }
 
-    // ============ MERIT ============
+    async function addNote() {
+        const fileUrl = noteCloudinaryUrl || document.getElementById('noteFileUrl').value.trim();
+        if (!fileUrl) return alert('Please upload a file or provide a link');
+        const body = {
+            title: document.getElementById('noteTitle').value,
+            field: document.getElementById('noteField').value,
+            subject: document.getElementById('noteSubject').value,
+            type: document.getElementById('noteType').value,
+            fileUrl: fileUrl,
+            description: document.getElementById('noteDesc').value
+        };
+        if (!body.title) return alert('Title required');
+        try {
+            const res = await fetch(`${API_BASE}/notes`, {
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (data.success) {
+                closeModal('addNoteModal');
+                noteCloudinaryUrl = '';
+                document.querySelectorAll('#addNoteModal input, #addNoteModal textarea').forEach(i=>i.value='');
+                document.getElementById('noteUploadStatus').textContent='';
+                document.getElementById('noteFileInput').value='';
+                loadAdminNotes();
+                alert('Note added successfully!');
+            } else alert(data.message || 'Failed');
+        } catch(e) { alert('Failed'); }
+    }
+
+    async function deleteNote(id) {
+        if (!confirm('Delete this note?')) return;
+        try { await fetch(`${API_BASE}/notes/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminNotes(); } catch(e) {}
+    }
+
+    // ===== NOTIFICATIONS =====
+    async function loadNotifications() {
+        try {
+            const res = await fetch(`${API_BASE}/admin/notifications`, {headers: getHeaders()});
+            const data = await res.json();
+            const c = document.getElementById('notificationsTable');
+            const list = data.notifications || [];
+            if (!list.length) { c.innerHTML = '<div class="empty">No notifications sent</div>'; return; }
+            c.innerHTML = `<div class="table-container"><table><thead><tr>
+                <th>Title</th><th>Message</th><th>Target</th><th>Type</th><th>Date</th><th>Actions</th>
+            </tr></thead><tbody>${list.map(n=>`
+                <tr>
+                    <td><strong>${escapeHtml(n.title)}</strong></td>
+                    <td style="max-width:200px;font-size:11px;">${escapeHtml(n.message)}</td>
+                    <td><span class="badge badge-info">${escapeHtml(n.target||'all')}</span></td>
+                    <td><span class="badge badge-warning">${escapeHtml(n.type||'info')}</span></td>
+                    <td><small>${new Date(n.created_at).toLocaleDateString()}</small></td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deleteNotification(${n.id})">Delete</button></td>
+                </tr>`).join('')}
+            </tbody></table></div>`;
+        } catch(e) {}
+    }
+
+    async function sendNotification() {
+        const title = document.getElementById('notifTitle').value.trim();
+        const message = document.getElementById('notifMessage').value.trim();
+        if (!title || !message) return alert('Title and message required');
+        try {
+            const res = await fetch(`${API_BASE}/admin/notifications`, {
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    title, message,
+                    target: document.getElementById('notifTarget').value,
+                    type: document.getElementById('notifType').value
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('notifTitle').value='';
+                document.getElementById('notifMessage').value='';
+                alert('Notification sent!');
+                loadNotifications();
+            } else alert(data.message||'Failed');
+        } catch(e) { alert('Failed'); }
+    }
+
+    async function deleteNotification(id) {
+        if (!confirm('Delete this notification?')) return;
+        try { await fetch(`${API_BASE}/admin/notifications/${id}`, {method:'DELETE', headers: getHeaders()}); loadNotifications(); } catch(e) {}
+    }
+
+    // ===== MERIT =====
     async function loadAdminMerit() {
         try {
-            const res = await fetch(`${API_BASE}/merit-lists`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/merit-lists`, {headers: getHeaders()});
             const data = await res.json();
             const c = document.getElementById('meritTable');
-            if (!data.merit_lists || !data.merit_lists.length) { c.innerHTML = '<div class="empty">No merit lists</div>'; return; }
+            const list = data.merit_lists || [];
+            if (!list.length) { c.innerHTML = '<div class="empty">No merit lists</div>'; return; }
             c.innerHTML = `<table><thead><tr>
-                <th>Title</th><th>Field</th><th>Year</th><th>Program</th><th>Actions</th>
-            </tr></thead><tbody>${data.merit_lists.map(m => `
+                <th>Title</th><th>Field</th><th>Year</th><th>Program</th><th>Campus</th><th>Actions</th>
+            </tr></thead><tbody>${list.map(m => `
                 <tr>
                     <td><strong>${escapeHtml(m.title)}</strong></td>
                     <td><span class="badge badge-info">${escapeHtml(m.field)}</span></td>
                     <td>${m.year}</td>
-                    <td>${escapeHtml(m.program || '-')}</td>
-                    <td>
-                        ${m.file_url ? `<a href="${m.file_url}" target="_blank" class="btn btn-secondary">Open</a>` : ''}
-                        <button class="btn btn-danger" onclick="deleteMerit(${m.id})">Delete</button>
-                    </td>
-                </tr>
-            `).join('')}</tbody></table>`;
-        } catch (e) {}
+                    <td>${escapeHtml(m.program||'-')}</td>
+                    <td>${escapeHtml(m.campus||'-')}</td>
+                    <td><div class="actions-cell">
+                        ${m.file_url?`<a href="${m.file_url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>`:''}
+                        <button class="btn btn-danger btn-sm" onclick="deleteMerit(${m.id})">Delete</button>
+                    </div></td>
+                </tr>`).join('')}
+            </tbody></table>`;
+        } catch(e) {}
     }
-
-    function openAddMerit() { document.getElementById('addMeritModal').classList.add('show'); }
 
     async function addMerit() {
         const body = {
@@ -1768,120 +2325,112 @@
         if (!body.title || !body.year) return alert('Title and year required');
         try {
             const res = await fetch(`${API_BASE}/merit-lists`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
                 body: JSON.stringify(body)
             });
             if ((await res.json()).success) {
                 closeModal('addMeritModal');
-                document.querySelectorAll('#addMeritModal input, #addMeritModal textarea').forEach(i => { if (i.id !== 'merYear') i.value = ''; });
+                document.querySelectorAll('#addMeritModal input, #addMeritModal textarea').forEach(i=>{if(i.id!=='merYear')i.value='';});
                 loadAdminMerit();
             }
-        } catch (e) {}
+        } catch(e) {}
     }
 
     async function deleteMerit(id) {
         if (!confirm('Delete this merit list?')) return;
-        try {
-            await fetch(`${API_BASE}/merit-lists/${id}`, { method: 'DELETE', headers: getHeaders() });
-            loadAdminMerit();
-        } catch (e) {}
+        try { await fetch(`${API_BASE}/merit-lists/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminMerit(); } catch(e) {}
     }
 
-    // ============ LEADERBOARD ============
+    // ===== LEADERBOARD =====
     async function loadAdminLeaderboard() {
         try {
-            const res = await fetch(`${API_BASE}/admin/leaderboard`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/leaderboard`, {headers: getHeaders()});
             const data = await res.json();
             if (!data.success) return;
             let html = '';
             for (const field in data.leaderboards) {
                 const list = data.leaderboards[field];
-                html += `<div style="margin-bottom:20px;"><h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:8px;">${field}</h4>`;
+                html += `<div style="margin-bottom:20px;">
+                    <h4 style="font-size:13px;font-weight:700;color:var(--primary-light);margin-bottom:8px;">${escapeHtml(field)}</h4>`;
                 if (!list.length) {
-                    html += '<p style="color:var(--gray); font-size:13px;">No data yet</p>';
+                    html += '<p style="color:var(--gray);font-size:12px;">No data yet</p>';
                 } else {
-                    html += `<div class="table-container"><table><thead><tr><th>Rank</th><th>Student</th><th>Best</th><th>%</th><th>Tests</th></tr></thead><tbody>`;
-                    list.forEach((s, i) => {
-                        html += `<tr>
-                            <td><strong>#${i+1}</strong></td>
-                            <td>${escapeHtml(s.full_name || s.username)} <small style="color:var(--gray);">@${escapeHtml(s.username)}</small></td>
-                            <td>${(s.best_score || 0).toFixed(1)}</td>
-                            <td>${(s.best_percentage || 0).toFixed(1)}%</td>
-                            <td>${s.total_tests}</td>
-                        </tr>`;
-                    });
-                    html += '</tbody></table></div>';
+                    html += `<div class="table-container"><table><thead><tr>
+                        <th>Rank</th><th>Student</th><th>Field</th><th>Best %</th><th>Tests</th>
+                    </tr></thead><tbody>${list.map((s,i)=>`<tr>
+                        <td><strong>${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</strong></td>
+                        <td>${escapeHtml(s.full_name||s.username)} <small style="color:var(--gray);">@${escapeHtml(s.username)}</small></td>
+                        <td><span class="badge badge-info">${escapeHtml(s.degree_category||field)}</span></td>
+                        <td><span class="${(s.best_percentage||0)>=70?'score-good':(s.best_percentage||0)>=40?'score-mid':'score-bad'}">${(s.best_percentage||0).toFixed(1)}%</span></td>
+                        <td>${s.total_tests}</td>
+                    </tr>`).join('')}</tbody></table></div>`;
                 }
                 html += '</div>';
             }
-            document.getElementById('leaderboardContent').innerHTML = html;
-        } catch (e) {}
+            document.getElementById('leaderboardContent').innerHTML = html || '<div class="empty">No leaderboard data</div>';
+        } catch(e) {}
     }
 
-    // ============ CHATS ============
+    // ===== CHATS =====
     async function loadGroupChats() {
         try {
-            const res = await fetch(`${API_BASE}/admin/group-messages`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/group-messages`, {headers: getHeaders()});
             const data = await res.json();
             const c = document.getElementById('chatsContent');
             if (!data.messages || !data.messages.length) { c.innerHTML = '<div class="empty">No messages</div>'; return; }
-            c.innerHTML = data.messages.map(m => `
-                <div class="chat-message-box">
-                    <span class="author">${escapeHtml(m.full_name || m.username)}:</span>
-                    <span>${escapeHtml(m.message)}</span>
+            c.innerHTML = data.messages.map(m=>`
+                <div class="chat-msg">
+                    <span class="author">${escapeHtml(m.full_name||m.username)}:</span>
+                    <span class="msg-text">${escapeHtml(m.message)}</span>
                     <span class="time">${new Date(m.sent_at).toLocaleString()}</span>
-                </div>
-            `).join('');
-        } catch (e) {}
+                </div>`).join('');
+        } catch(e) {}
     }
 
-    // ============ REPORTS ============
+    // ===== REPORTS =====
     async function loadReports() {
         try {
-            const res = await fetch(`${API_BASE}/admin/reports`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/reports`, {headers: getHeaders()});
             const data = await res.json();
             const c = document.getElementById('reportsTable');
             if (!data.reports || !data.reports.length) { c.innerHTML = '<div class="empty">No reports</div>'; return; }
             c.innerHTML = `<table><thead><tr>
                 <th>Reporter</th><th>Reported</th><th>Reason</th><th>Status</th><th>Date</th><th>Actions</th>
-            </tr></thead><tbody>${data.reports.map(r => `
+            </tr></thead><tbody>${data.reports.map(r=>`
                 <tr>
-                    <td>${escapeHtml(r.reporter_name || r.reporter_username)}</td>
-                    <td><strong style="color:var(--danger);">${escapeHtml(r.reported_name || r.reported_username)}</strong></td>
-                    <td style="max-width:250px;">${escapeHtml(r.reason)}</td>
+                    <td>${escapeHtml(r.reporter_name||r.reporter_username)}</td>
+                    <td><strong style="color:var(--danger);">${escapeHtml(r.reported_name||r.reported_username)}</strong></td>
+                    <td style="max-width:200px;font-size:11px;">${escapeHtml(r.reason)}</td>
                     <td>${renderReportStatus(r)}</td>
                     <td><small>${new Date(r.created_at).toLocaleDateString()}</small></td>
-                    <td>
-                        <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                            ${r.status === 'pending' ? `<button class="btn btn-success" onclick="markReportSeen(${r.id})">Seen</button>` : ''}
-                            <button class="btn btn-warning" onclick="warnFromReport(${r.id}, ${r.reported_id}, '${escapeJsString(r.reported_name || r.reported_username)}')">Warn</button>
-                            <button class="btn btn-danger" onclick="deleteReport(${r.id})">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('')}</tbody></table>`;
-        } catch (e) {}
+                    <td><div class="actions-cell">
+                        ${r.status==='pending'?`<button class="btn btn-success btn-sm" onclick="markReportSeen(${r.id})">Seen</button>`:''}
+                        <button class="btn btn-warning btn-sm" onclick="warnFromReport(${r.id},${r.reported_id},'${escapeJsString(r.reported_name||r.reported_username)}')">Warn</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteReport(${r.id})">Delete</button>
+                    </div></td>
+                </tr>`).join('')}
+            </tbody></table>`;
+        } catch(e) {}
     }
 
     function renderReportStatus(r) {
-        const status = r.status || 'pending';
-        if (status === 'pending') return '<span class="badge badge-warning">Pending</span>';
-        if (status === 'reviewed') return '<span class="badge badge-info">Reviewed</span>';
-        if (status === 'resolved') return '<span class="badge badge-success">Resolved</span>';
-        if (status === 'dismissed') return '<span class="badge badge-danger">Dismissed</span>';
-        return `<span class="badge">${status}</span>`;
+        const s = r.status||'pending';
+        if (s==='pending') return '<span class="badge badge-warning">Pending</span>';
+        if (s==='reviewed') return '<span class="badge badge-info">Reviewed</span>';
+        if (s==='resolved') return '<span class="badge badge-success">Resolved</span>';
+        return `<span class="badge badge-danger">${s}</span>`;
     }
 
-    async function markReportSeen(reportId) {
+    async function markReportSeen(id) {
         try {
-            await fetch(`${API_BASE}/admin/reports/${reportId}/status`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'reviewed', adminNote: 'Acknowledged' })
+            await fetch(`${API_BASE}/admin/reports/${id}/status`, {
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify({status:'reviewed', adminNote:'Acknowledged'})
             });
             loadReports();
-        } catch (e) {}
+        } catch(e) {}
     }
 
     function warnFromReport(reportId, doerId, doerName) {
@@ -1892,31 +2441,28 @@
         document.getElementById('warningModal').classList.add('show');
     }
 
-    async function deleteReport(reportId) {
-        if (!confirm('Delete this report?')) return;
-        try {
-            await fetch(`${API_BASE}/admin/reports/${reportId}`, { method: 'DELETE', headers: getHeaders() });
-            loadReports();
-        } catch (e) {}
+    async function deleteReport(id) {
+        if (!confirm('Delete report?')) return;
+        try { await fetch(`${API_BASE}/admin/reports/${id}`, {method:'DELETE', headers: getHeaders()}); loadReports(); } catch(e) {}
     }
 
-    // ============ SETTINGS ============
+    // ===== SETTINGS =====
     async function loadSettings() {
         try {
-            const res = await fetch(`${API_BASE}/admin/settings`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/admin/settings`, {headers: getHeaders()});
             const data = await res.json();
             if (!data.success) return;
             const s = data.settings;
             ['bank_name','bank_account_title','bank_account_number','bank_iban',
-             'easypaisa_number','jazzcash_number','registration_fee','payment_instructions'].forEach(key => {
-                const el = document.getElementById('set_' + key);
-                if (el && s[key]) el.value = s[key];
+             'easypaisa_number','jazzcash_number','registration_fee','payment_instructions'].forEach(k=>{
+                const el = document.getElementById('set_'+k);
+                if (el && s[k]) el.value = s[k];
             });
-        } catch (e) {}
+        } catch(e) {}
     }
 
     async function saveSettings() {
-        const data = {
+        const body = {
             bank_name: document.getElementById('set_bank_name').value,
             bank_account_title: document.getElementById('set_bank_account_title').value,
             bank_account_number: document.getElementById('set_bank_account_number').value,
@@ -1928,12 +2474,12 @@
         };
         try {
             const res = await fetch(`${API_BASE}/admin/settings`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify(body)
             });
-            if ((await res.json()).success) alert('Settings saved successfully!');
-        } catch (e) { alert('Failed to save'); }
+            if ((await res.json()).success) alert('Settings saved!');
+        } catch(e) { alert('Failed'); }
     }
 
     async function changeAdminCreds() {
@@ -1941,33 +2487,69 @@
         const currentPassword = document.getElementById('currentAdminPassword').value;
         const newPassword = document.getElementById('newAdminPassword').value;
         const confirmPassword = document.getElementById('confirmAdminPassword').value;
-
         if (!currentPassword || !newPassword) return alert('Fill required fields');
         if (newPassword !== confirmPassword) return alert('Passwords do not match');
-
         try {
             const res = await fetch(`${API_BASE}/admin/change-password`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({ currentPassword, newPassword, newUsername })
+                method:'POST',
+                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                body: JSON.stringify({currentPassword, newPassword, newUsername})
             });
             const data = await res.json();
-            if (data.success) {
-                alert('Credentials updated! Login again.');
-                logoutAdmin();
-            } else alert(data.message);
-        } catch (e) { alert('Failed'); }
+            if (data.success) { alert('Updated! Login again.'); logoutAdmin(); }
+            else alert(data.message);
+        } catch(e) { alert('Failed'); }
     }
 
+    // ===== TABS =====
+    function switchTab(btn, panelId) {
+        const container = btn.closest('.tab-bar').parentElement;
+        container.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        container.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        const panel = document.getElementById(panelId);
+        if (panel) panel.classList.add('active');
+    }
+
+    // ===== MODAL =====
+    function openModal(id) { document.getElementById(id).classList.add('show'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+    // Close modal on background click
+    document.querySelectorAll('.modal').forEach(m=>{
+        m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('show'); });
+    });
+
+    // ===== UTILS =====
     function escapeHtml(s) {
         if (!s) return '';
-        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
 
     function escapeJsString(s) {
         if (!s) return '';
-        return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+        return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
     }
+
+    // Drag & drop for upload zones
+    function setupDragDrop(zoneId, inputId) {
+        const zone = document.getElementById(zoneId);
+        if (!zone) return;
+        zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.style.borderColor='var(--primary-light)'; zone.style.background='var(--primary-bg)'; });
+        zone.addEventListener('dragleave', ()=>{ zone.style.borderColor=''; zone.style.background=''; });
+        zone.addEventListener('drop', e=>{
+            e.preventDefault(); zone.style.borderColor=''; zone.style.background='';
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                const input = document.getElementById(inputId);
+                const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
+                input.dispatchEvent(new Event('change'));
+            }
+        });
+    }
+
+    setupDragDrop('pdfUploadZone','pdfFileInput');
+    setupDragDrop('noteUploadZone','noteFileInput');
 
     checkAdminAuth();
 </script>
