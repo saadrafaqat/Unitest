@@ -2,6 +2,7 @@
 // NUSTOLOGY PREP - STRICT CODE PROTECTION
 // File: js/protection.js
 // Blocks: shortcuts, right-click, copy, selection
+// Prevents back-button logout on mobile
 // ============================================
 
 (function() {
@@ -153,5 +154,64 @@
         e.preventDefault();
         return false;
     }, true);
+
+    // ============ 9. PREVENT BACK BUTTON LOGOUT ============
+    // Wait for page to fully load before setting up history protection
+    function setupBackButtonProtection() {
+        // Check if user is logged in (any token exists)
+        function isLoggedIn() {
+            return !!(
+                localStorage.getItem('nustology_token') ||
+                localStorage.getItem('nustology_student_token') ||
+                localStorage.getItem('nustology_admin_token') ||
+                localStorage.getItem('token') ||
+                localStorage.getItem('auth_token')
+            );
+        }
+
+        // Skip on login / register / index pages
+        const path = window.location.pathname.toLowerCase();
+        const isAuthPage = path === '/' || 
+                          path.endsWith('/index.html') || 
+                          path.endsWith('/login.html') ||
+                          path.endsWith('/register.html') ||
+                          path.endsWith('/forgot-password.html');
+        
+        if (isAuthPage) return;
+
+        // Only protect if user is logged in
+        if (!isLoggedIn()) return;
+
+        // Push current state into history so back button has somewhere to go
+        history.pushState({ nustologyPage: true, ts: Date.now() }, '', location.href);
+
+        window.addEventListener('popstate', function(e) {
+            // Still logged in? Stay on page
+            if (isLoggedIn()) {
+                // Check if any modal is open — close it instead of navigating
+                const openModal = document.querySelector('.modal.show, .modal.active, .modal.open, [class*="modal"][style*="display: flex"], [class*="modal"][style*="display:flex"]');
+                if (openModal) {
+                    openModal.classList.remove('show', 'active', 'open');
+                    openModal.style.display = 'none';
+                }
+                
+                // Check for open sidebar/drawer
+                const openSidebar = document.querySelector('.sidebar.open, .drawer.open, .menu.open');
+                if (openSidebar) {
+                    openSidebar.classList.remove('open');
+                }
+                
+                // Re-push state to stay here
+                history.pushState({ nustologyPage: true, ts: Date.now() }, '', location.href);
+            }
+        });
+    }
+
+    // Run after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupBackButtonProtection);
+    } else {
+        setupBackButtonProtection();
+    }
 
 })();
