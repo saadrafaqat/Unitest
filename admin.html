@@ -190,7 +190,6 @@
         }
         .card-header h2 { font-size: 16px; font-weight: 700; }
 
-        /* BUTTONS - Simple & Clean */
         .btn {
             padding: 6px 14px;
             border: none;
@@ -208,57 +207,17 @@
         }
         .btn-primary { background: var(--primary-light); color: #fff; }
         .btn-primary:hover { background: var(--primary-dark); }
-
         .btn-success { background: var(--success); color: #fff; }
         .btn-success:hover { background: #16a34a; }
-
         .btn-danger { background: var(--danger); color: #fff; }
         .btn-danger:hover { background: #b91c1c; }
-
         .btn-warning { background: var(--warning); color: #fff; }
         .btn-warning:hover { background: #d97706; }
-
         .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
-
-        .btn-outline { background: transparent; color: var(--primary-light); border: 2px solid var(--primary-light); }
-        .btn-outline:hover { background: var(--primary-light); color: #fff; }
-
         .btn-sm { padding: 4px 10px; font-size: 12px; min-height: 28px; }
         .btn svg { width: 16px; height: 16px; }
-
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* Upload Button - Special */
-        .btn-upload {
-            background: var(--success);
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 6px;
-            border: none;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            min-height: 40px;
-            transition: background 0.15s;
-        }
-        .btn-upload:hover { background: #16a34a; }
-        .btn-upload input[type="file"] {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-            left: 0;
-            top: 0;
-        }
-        .btn-upload-wrap {
-            position: relative;
-            display: inline-block;
-        }
 
         /* TABLE */
         .table-container { overflow-x: auto; }
@@ -284,7 +243,6 @@
         .badge-warning { background: #fef3c7; color: var(--warning); }
         .badge-info { background: var(--primary-bg); color: var(--primary-light); }
 
-        /* FILTER */
         .filter-bar {
             display: flex; gap: 8px;
             margin-bottom: 10px;
@@ -302,7 +260,6 @@
         }
         .filter-bar input { flex: 1; min-width: 140px; }
 
-        /* FORMS */
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -339,119 +296,6 @@
             outline: none;
             border-color: var(--primary-light);
             box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-        }
-
-        /* FILE UPLOAD AREA */
-        .upload-area {
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            padding: 30px 20px;
-            text-align: center;
-            transition: all 0.2s;
-            cursor: pointer;
-            background: #fafafa;
-        }
-        .upload-area:hover {
-            border-color: var(--primary-light);
-            background: var(--primary-bg);
-        }
-        .upload-area.dragover {
-            border-color: var(--success);
-            background: #f0fdf4;
-        }
-        .upload-area .icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            display: block;
-        }
-        .upload-area p {
-            color: var(--gray);
-            font-size: 14px;
-        }
-        .upload-area .sub-text {
-            font-size: 12px;
-            color: var(--gray);
-            margin-top: 4px;
-        }
-
-        /* PROGRESS BAR */
-        .progress-bar {
-            height: 6px;
-            background: var(--gray-lighter);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-            display: none;
-        }
-        .progress-bar .fill {
-            height: 100%;
-            background: var(--primary-light);
-            width: 0%;
-            transition: width 0.3s;
-            border-radius: 4px;
-        }
-        .progress-bar.show { display: block; }
-
-        /* FILE PREVIEW */
-        .file-preview {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            background: #f8fafc;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            margin-top: 10px;
-        }
-        .file-preview .name {
-            font-weight: 500;
-            flex: 1;
-            font-size: 13px;
-        }
-        .file-preview .size {
-            color: var(--gray);
-            font-size: 12px;
-        }
-        .file-preview .remove {
-            color: var(--danger);
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 1;
-        }
-        .file-preview .remove:hover { color: #b91c1c; }
-
-        /* MODAL */
-        .modal {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.4);
-            z-index: 2000;
-            align-items: center; justify-content: center;
-            padding: 16px;
-            overflow-y: auto;
-        }
-        .modal.show { display: flex; }
-        .modal-box {
-            background: #fff;
-            border-radius: var(--radius-lg);
-            max-width: 750px;
-            width: 100%;
-            padding: 24px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .modal-box h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--dark);
-        }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
         }
 
         .detail-row {
@@ -510,6 +354,39 @@
             font-weight: 600;
             margin-bottom: 2px;
             color: var(--dark);
+        }
+
+        /* MODAL */
+        .modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 2000;
+            align-items: center; justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
+        }
+        .modal.show { display: flex; }
+        .modal-box {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            max-width: 850px;
+            width: 100%;
+            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-box h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
         }
 
         /* LOGIN */
@@ -589,7 +466,72 @@
         }
         .login-error.show { display: block; }
 
-        /* RESPONSIVE */
+        /* UPLOAD AREA */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: #fafafa;
+        }
+        .upload-area:hover {
+            border-color: var(--primary-light);
+            background: var(--primary-bg);
+        }
+        .upload-area .icon { font-size: 40px; margin-bottom: 10px; display: block; }
+        .upload-area p { color: var(--gray); font-size: 14px; }
+        .upload-area .sub-text { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--gray-lighter);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+            display: none;
+        }
+        .progress-bar.show { display: block; }
+        .progress-bar .fill {
+            height: 100%;
+            background: var(--primary-light);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+
+        .file-preview {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            margin-top: 10px;
+        }
+        .file-preview .name { font-weight: 500; flex: 1; font-size: 13px; }
+        .file-preview .size { color: var(--gray); font-size: 12px; }
+        .file-preview .remove { color: var(--danger); cursor: pointer; font-weight: 700; font-size: 18px; line-height: 1; }
+        .file-preview .remove:hover { color: #b91c1c; }
+
+        .student-analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .student-analytics-grid .card {
+            margin-bottom: 0;
+            text-align: center;
+        }
+        .student-analytics-grid .card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); width: 260px; }
             .sidebar.open { transform: translateX(0); }
@@ -637,24 +579,24 @@
         </div>
         <ul class="sidebar-menu">
             <div class="menu-section">Main</div>
-            <li><button class="menu-item active" onclick="showPage('dashboard', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button></li>
-            <li><button class="menu-item" onclick="showPage('students', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Students <span class="menu-count" id="studentCount">0</span></button></li>
-            <li><button class="menu-item" onclick="showPage('registrations', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Registrations <span class="menu-count" id="pendingRegCount" style="display:none;">0</span></button></li>
+            <li><button class="menu-item active" data-page="dashboard" onclick="showPage('dashboard', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button></li>
+            <li><button class="menu-item" data-page="students" onclick="showPage('students', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Students <span class="menu-count" id="studentCount">0</span></button></li>
+            <li><button class="menu-item" data-page="registrations" onclick="showPage('registrations', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Registrations <span class="menu-count" id="pendingRegCount" style="display:none;">0</span></button></li>
 
             <div class="menu-section">Uploads</div>
-            <li><button class="menu-item" onclick="showPage('pdfs', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</button></li>
-            <li><button class="menu-item" onclick="showPage('notes', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</button></li>
-            <li><button class="menu-item" onclick="showPage('lectures', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</button></li>
-            <li><button class="menu-item" onclick="showPage('merit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Merit Lists</button></li>
+            <li><button class="menu-item" data-page="pdfs" onclick="showPage('pdfs', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</button></li>
+            <li><button class="menu-item" data-page="notes" onclick="showPage('notes', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</button></li>
+            <li><button class="menu-item" data-page="lectures" onclick="showPage('lectures', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</button></li>
+            <li><button class="menu-item" data-page="merit" onclick="showPage('merit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Merit Lists</button></li>
 
             <div class="menu-section">Communication</div>
-            <li><button class="menu-item" onclick="showPage('notifications', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</button></li>
+            <li><button class="menu-item" data-page="notifications" onclick="showPage('notifications', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</button></li>
 
             <div class="menu-section">Analytics</div>
-            <li><button class="menu-item" onclick="showPage('analytics', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</button></li>
+            <li><button class="menu-item" data-page="analytics" onclick="showPage('analytics', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</button></li>
 
             <div class="menu-section">System</div>
-            <li><button class="menu-item" onclick="showPage('settings', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>Settings</button></li>
+            <li><button class="menu-item" data-page="settings" onclick="showPage('settings', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>Settings</button></li>
         </ul>
     </aside>
 
@@ -679,11 +621,11 @@
                 <div class="card">
                     <div class="card-header"><h2>Quick Actions</h2></div>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelectorAll('.menu-item')[2])">📋 Review Registrations</button>
-                        <button class="btn btn-primary" onclick="showPage('students', document.querySelectorAll('.menu-item')[1])">👥 Manage Students</button>
-                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelectorAll('.menu-item')[3])">📄 Upload PDF</button>
-                        <button class="btn btn-success" onclick="showPage('notes', document.querySelectorAll('.menu-item')[4])">📝 Upload Notes</button>
-                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelectorAll('.menu-item')[8])">⚙️ Settings</button>
+                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelector('[data-page=\"registrations\"]'))">📋 Review Registrations</button>
+                        <button class="btn btn-primary" onclick="showPage('students', document.querySelector('[data-page=\"students\"]'))">👥 Manage Students</button>
+                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelector('[data-page=\"pdfs\"]'))">📄 Upload PDF</button>
+                        <button class="btn btn-success" onclick="showPage('notes', document.querySelector('[data-page=\"notes\"]'))">📝 Upload Notes</button>
+                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelector('[data-page=\"settings\"]'))">⚙️ Settings</button>
                     </div>
                 </div>
                 <div class="card">
@@ -735,52 +677,21 @@
                 </div>
             </div>
 
-            <!-- PDFs UPLOAD -->
+            <!-- PDFs -->
             <div class="page" id="page-pdfs">
                 <div class="card">
                     <div class="card-header"><h2>📄 Upload PDF / Past Paper</h2></div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Title *</label>
-                            <input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering Paper">
-                        </div>
-                        <div class="form-group">
-                            <label>Field *</label>
-                            <select id="pdfField">
-                                <option value="Engineering">Engineering</option>
-                                <option value="Applied Sciences">Applied Sciences</option>
-                                <option value="Business">Business</option>
-                                <option value="Architecture">Architecture</option>
-                            </select>
-                        </div>
+                        <div class="form-group"><label>Title *</label><input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering Paper"></div>
+                        <div class="form-group"><label>Field *</label><select id="pdfField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Subject</label>
-                            <select id="pdfSubject">
-                                <option value="">All Subjects</option>
-                                <option value="Physics">Physics</option>
-                                <option value="Chemistry">Chemistry</option>
-                                <option value="Mathematics">Mathematics</option>
-                                <option value="Biology">Biology</option>
-                                <option value="English">English</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Year</label>
-                            <input type="text" id="pdfYear" placeholder="e.g., 2024">
-                        </div>
+                        <div class="form-group"><label>Subject</label><select id="pdfSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option></select></div>
+                        <div class="form-group"><label>Year</label><input type="text" id="pdfYear" placeholder="e.g., 2024"></div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="pdfDesc" rows="2" placeholder="Brief description..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-row full">
-                        <div class="form-group">
-                            <label>Upload PDF File *</label>
-                            <div class="upload-area" id="pdfDropArea" onclick="document.getElementById('pdfFileInput').click()">
+                        <div class="form-group"><label>Upload PDF *</label>
+                            <div class="upload-area" onclick="document.getElementById('pdfFileInput').click()">
                                 <span class="icon">📄</span>
                                 <p><strong>Click to upload</strong> or drag & drop</p>
                                 <p class="sub-text">PDF files up to 10MB</p>
@@ -792,62 +703,30 @@
                     </div>
                     <button class="btn btn-success" onclick="uploadPDF()" id="pdfUploadBtn">📤 Upload PDF</button>
                 </div>
-
                 <div class="card">
                     <div class="card-header"><h2>Uploaded PDFs</h2></div>
                     <div class="table-container" id="pdfsTable"></div>
                 </div>
             </div>
 
-            <!-- NOTES UPLOAD -->
+            <!-- NOTES -->
             <div class="page" id="page-notes">
                 <div class="card">
                     <div class="card-header"><h2>📝 Upload Notes / Formulas</h2></div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Title *</label>
-                            <input type="text" id="noteTitle" placeholder="e.g., Physics Formulas - Full">
-                        </div>
-                        <div class="form-group">
-                            <label>Field *</label>
-                            <select id="noteField">
-                                <option value="Engineering">Engineering</option>
-                                <option value="Applied Sciences">Applied Sciences</option>
-                                <option value="Business">Business</option>
-                                <option value="Architecture">Architecture</option>
-                            </select>
-                        </div>
+                        <div class="form-group"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g., Physics Formulas"></div>
+                        <div class="form-group"><label>Field *</label><select id="noteField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Subject</label>
-                            <select id="noteSubject">
-                                <option value="">All Subjects</option>
-                                <option value="Physics">Physics</option>
-                                <option value="Chemistry">Chemistry</option>
-                                <option value="Mathematics">Mathematics</option>
-                                <option value="Biology">Biology</option>
-                                <option value="English">English</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Topic</label>
-                            <input type="text" id="noteTopic" placeholder="e.g., Kinematics">
-                        </div>
+                        <div class="form-group"><label>Subject</label><select id="noteSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option></select></div>
+                        <div class="form-group"><label>Topic</label><input type="text" id="noteTopic" placeholder="e.g., Kinematics"></div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="noteDesc" rows="2" placeholder="Brief description..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-row full">
-                        <div class="form-group">
-                            <label>Upload File *</label>
-                            <div class="upload-area" id="noteDropArea" onclick="document.getElementById('noteFileInput').click()">
+                        <div class="form-group"><label>Upload File *</label>
+                            <div class="upload-area" onclick="document.getElementById('noteFileInput').click()">
                                 <span class="icon">📝</span>
                                 <p><strong>Click to upload</strong> or drag & drop</p>
-                                <p class="sub-text">PDF, DOC, DOCX files up to 10MB</p>
+                                <p class="sub-text">PDF, DOC, DOCX up to 10MB</p>
                                 <input type="file" id="noteFileInput" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect('note')">
                                 <div class="progress-bar" id="noteProgress"><div class="fill" id="noteProgressFill"></div></div>
                                 <div id="notePreview" style="display:none;"></div>
@@ -856,7 +735,6 @@
                     </div>
                     <button class="btn btn-success" onclick="uploadNote()" id="noteUploadBtn">📤 Upload Notes</button>
                 </div>
-
                 <div class="card">
                     <div class="card-header"><h2>Uploaded Notes</h2></div>
                     <div class="table-container" id="notesTable"></div>
@@ -866,10 +744,7 @@
             <!-- LECTURES -->
             <div class="page" id="page-lectures">
                 <div class="card">
-                    <div class="card-header">
-                        <h2>🎬 Video Lectures</h2>
-                        <button class="btn btn-primary" onclick="openAddLecture()">+ Add Lecture</button>
-                    </div>
+                    <div class="card-header"><h2>🎬 Video Lectures</h2><button class="btn btn-primary" onclick="openAddLecture()">+ Add</button></div>
                     <div class="table-container" id="lecturesTable"></div>
                 </div>
             </div>
@@ -877,10 +752,7 @@
             <!-- MERIT -->
             <div class="page" id="page-merit">
                 <div class="card">
-                    <div class="card-header">
-                        <h2>🏆 Merit Lists</h2>
-                        <button class="btn btn-primary" onclick="openAddMerit()">+ Add Merit List</button>
-                    </div>
+                    <div class="card-header"><h2>🏆 Merit Lists</h2><button class="btn btn-primary" onclick="openAddMerit()">+ Add</button></div>
                     <div class="table-container" id="meritTable"></div>
                 </div>
             </div>
@@ -890,28 +762,13 @@
                 <div class="card">
                     <div class="card-header"><h2>📢 Send Notification</h2></div>
                     <div class="form-row full">
-                        <div class="form-group">
-                            <label>Target Students</label>
-                            <select id="notifTarget">
-                                <option value="all">All Students</option>
-                                <option value="active">Active Students Only</option>
-                                <option value="engineering">Engineering</option>
-                                <option value="cs">CS</option>
-                                <option value="business">Business</option>
-                            </select>
-                        </div>
+                        <div class="form-group"><label>Target</label><select id="notifTarget"><option value="all">All Students</option><option value="active">Active Only</option><option value="engineering">Engineering</option><option value="cs">CS</option><option value="business">Business</option></select></div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group">
-                            <label>Message *</label>
-                            <textarea id="notifMessage" rows="3" placeholder="Enter notification message..."></textarea>
-                        </div>
+                        <div class="form-group"><label>Message *</label><textarea id="notifMessage" rows="3"></textarea></div>
                     </div>
-                    <button class="btn btn-primary" onclick="sendNotification()">Send Notification</button>
-                    <div style="margin-top:16px;">
-                        <h4 style="font-size:14px; margin-bottom:8px;">Recent Notifications</h4>
-                        <div id="recentNotifications" class="table-container"></div>
-                    </div>
+                    <button class="btn btn-primary" onclick="sendNotification()">Send</button>
+                    <div style="margin-top:16px;"><h4 style="font-size:14px; margin-bottom:8px;">Recent</h4><div id="recentNotifications" class="table-container"></div></div>
                 </div>
             </div>
 
@@ -982,21 +839,11 @@
             <div class="form-group"><label>Email</label><input type="email" id="newStuEmail"></div>
         </div>
         <div class="form-row full">
-            <div class="form-group">
-                <label>Category</label>
-                <select id="newStuField">
-                    <option value="Engineering">Engineering</option>
-                    <option value="CS">CS</option>
-                    <option value="Computing">Computing</option>
-                    <option value="Applied Sciences">Applied Sciences</option>
-                    <option value="Business">Business</option>
-                    <option value="Architecture">Architecture</option>
-                </select>
-            </div>
+            <div class="form-group"><label>Category</label><select id="newStuField"><option>Engineering</option><option>CS</option><option>Computing</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addStudent()">Add Student</button>
+            <button class="btn btn-primary" onclick="addStudent()">Add</button>
         </div>
     </div>
 </div>
@@ -1004,12 +851,8 @@
 <div class="modal" id="addLectureModal">
     <div class="modal-box">
         <h3>🎬 Add Video Lecture</h3>
-        <div class="form-row full">
-            <div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div>
-        </div>
-        <div class="form-row full">
-            <div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=..."></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div></div>
+        <div class="form-row full"><div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=..."></div></div>
         <div class="form-row">
             <div class="form-group"><label>Field</label><select id="lecField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
             <div class="form-group"><label>Subject</label><select id="lecSubject"><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
@@ -1020,7 +863,7 @@
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addLectureModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addLecture()">Add Lecture</button>
+            <button class="btn btn-primary" onclick="addLecture()">Add</button>
         </div>
     </div>
 </div>
@@ -1028,9 +871,7 @@
 <div class="modal" id="addMeritModal">
     <div class="modal-box">
         <h3>🏆 Add Merit List</h3>
-        <div class="form-row full">
-            <div class="form-group"><label>Title *</label><input type="text" id="merTitle"></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="merTitle"></div></div>
         <div class="form-row three">
             <div class="form-group"><label>Field</label><select id="merField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
             <div class="form-group"><label>Year</label><input type="text" id="merYear" value="2025"></div>
@@ -1040,12 +881,10 @@
             <div class="form-group"><label>Campus</label><input type="text" id="merCampus"></div>
             <div class="form-group"><label>File URL</label><input type="url" id="merFileUrl" placeholder="https://drive.google.com/..."></div>
         </div>
-        <div class="form-row full">
-            <div class="form-group"><label>Description</label><textarea id="merDesc" rows="2"></textarea></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="merDesc" rows="2"></textarea></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addMeritModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addMerit()">Add Merit List</button>
+            <button class="btn btn-primary" onclick="addMerit()">Add</button>
         </div>
     </div>
 </div>
@@ -1063,12 +902,10 @@
 <div class="modal" id="resetPwdModal">
     <div class="modal-box">
         <h3>🔑 Reset Password</h3>
-        <div class="form-row full">
-            <div class="form-group"><label>New Password</label><input type="text" id="resetNewPassword" placeholder="Min 6 chars"></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>New Password</label><input type="text" id="resetNewPassword" placeholder="Min 6 chars"></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('resetPwdModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="confirmResetPassword()">Reset Password</button>
+            <button class="btn btn-primary" onclick="confirmResetPassword()">Reset</button>
         </div>
     </div>
 </div>
@@ -1076,9 +913,7 @@
 <div class="modal" id="rejectRegModal">
     <div class="modal-box">
         <h3>❌ Reject Registration</h3>
-        <div class="form-row full">
-            <div class="form-group"><label>Reason *</label><textarea id="rejectReason" rows="3"></textarea></div>
-        </div>
+        <div class="form-row full"><div class="form-group"><label>Reason *</label><textarea id="rejectReason" rows="3"></textarea></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('rejectRegModal')">Cancel</button>
             <button class="btn btn-danger" onclick="confirmRejectReg()">Reject</button>
@@ -1086,18 +921,12 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-core/2.13.0/cloudinary-core-shrinkwrap.min.js"></script>
-
 <script>
     const API_BASE = '/api';
     let allRegistrations = [];
     let currentRejectRegId = null;
     let currentResetStudentId = null;
-    let selectedFile = null;
-
-    // Cloudinary Config - CHANGE THESE TO YOUR VALUES
-    const CLOUDINARY_CLOUD_NAME = 'your-cloud-name'; // Your Cloudinary cloud name
-    const CLOUDINARY_UPLOAD_PRESET = 'your-upload-preset'; // Your upload preset name
+    let currentStudentIdForDetail = null;
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
@@ -1178,248 +1007,12 @@
         return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
     }
 
-    // ============ FILE UPLOAD HELPERS ============
-    function handleFileSelect(type) {
-        const input = document.getElementById(type + 'FileInput');
-        const file = input.files[0];
-        if (!file) return;
-
-        const preview = document.getElementById(type + 'Preview');
-        preview.style.display = 'block';
-        preview.innerHTML = `
-            <div class="file-preview">
-                <span>📄</span>
-                <span class="name">${escapeHtml(file.name)}</span>
-                <span class="size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                <span class="remove" onclick="removeFile('${type}')">×</span>
-            </div>
-        `;
-        selectedFile = file;
-        document.getElementById(type + 'UploadBtn').disabled = false;
-    }
-
-    function removeFile(type) {
-        document.getElementById(type + 'FileInput').value = '';
-        document.getElementById(type + 'Preview').style.display = 'none';
-        document.getElementById(type + 'Preview').innerHTML = '';
-        selectedFile = null;
-        document.getElementById(type + 'UploadBtn').disabled = true;
-    }
-
-    function uploadToCloudinary(file, folder, onProgress) {
-        return new Promise((resolve, reject) => {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-            formData.append('folder', folder);
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`);
-
-            xhr.upload.onprogress = (e) => {
-                if (e.lengthComputable && onProgress) {
-                    const pct = Math.round((e.loaded / e.total) * 100);
-                    onProgress(pct);
-                }
-            };
-
-            xhr.onload = () => {
-                if (xhr.status === 200) {
-                    try {
-                        const data = JSON.parse(xhr.responseText);
-                        resolve(data);
-                    } catch (e) {
-                        reject(new Error('Invalid response'));
-                    }
-                } else {
-                    reject(new Error('Upload failed: ' + xhr.status));
-                }
-            };
-
-            xhr.onerror = () => reject(new Error('Network error'));
-            xhr.send(formData);
-        });
-    }
-
-    // ============ UPLOAD PDF ============
-    async function uploadPDF() {
-        const title = document.getElementById('pdfTitle').value.trim();
-        const field = document.getElementById('pdfField').value;
-        const subject = document.getElementById('pdfSubject').value;
-        const year = document.getElementById('pdfYear').value.trim();
-        const desc = document.getElementById('pdfDesc').value.trim();
-        const fileInput = document.getElementById('pdfFileInput');
-
-        if (!title || !fileInput.files[0]) {
-            alert('Please fill in title and select a file');
-            return;
-        }
-
-        const btn = document.getElementById('pdfUploadBtn');
-        const progress = document.getElementById('pdfProgress');
-        const fill = document.getElementById('pdfProgressFill');
-
-        btn.disabled = true;
-        btn.textContent = 'Uploading...';
-        progress.classList.add('show');
-
-        try {
-            const result = await uploadToCloudinary(fileInput.files[0], 'nustology/pdfs', (pct) => {
-                fill.style.width = pct + '%';
-            });
-
-            const res = await fetch(`${API_BASE}/pdfs`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title, field, subject, year, description: desc,
-                    fileUrl: result.secure_url,
-                    publicId: result.public_id
-                })
-            });
-            const data = await res.json();
-
-            if (data.success) {
-                alert('PDF uploaded successfully!');
-                document.getElementById('pdfTitle').value = '';
-                document.getElementById('pdfYear').value = '';
-                document.getElementById('pdfDesc').value = '';
-                document.getElementById('pdfFileInput').value = '';
-                document.getElementById('pdfPreview').style.display = 'none';
-                document.getElementById('pdfPreview').innerHTML = '';
-                loadPDFs();
-            } else {
-                alert('Failed to save: ' + data.message);
-            }
-        } catch (err) {
-            alert('Upload failed: ' + err.message);
-        }
-
-        btn.disabled = false;
-        btn.textContent = '📤 Upload PDF';
-        progress.classList.remove('show');
-        fill.style.width = '0%';
-    }
-
-    async function loadPDFs() {
-        try {
-            const res = await fetch(`${API_BASE}/pdfs`, { headers: getHeaders() });
-            const data = await res.json();
-            const c = document.getElementById('pdfsTable');
-            if (!data.pdfs?.length) { c.innerHTML = '<div class="empty">No PDFs uploaded yet</div>'; return; }
-            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
-                ${data.pdfs.map(p => `
-                    <tr>
-                        <td><strong>${escapeHtml(p.title)}</strong></td>
-                        <td><span class="badge badge-info">${escapeHtml(p.field)}</span></td>
-                        <td>${escapeHtml(p.subject || '-')}</td>
-                        <td><a href="${p.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
-                        <td><button class="btn btn-danger btn-sm" onclick="deletePDF(${p.id})">Delete</button></td>
-                    </tr>
-                `).join('')}</tbody></table>`;
-        } catch (e) {}
-    }
-
-    async function deletePDF(id) {
-        if (!confirm('Delete this PDF?')) return;
-        try {
-            await fetch(`${API_BASE}/pdfs/${id}`, { method: 'DELETE', headers: getHeaders() });
-            loadPDFs();
-        } catch (e) {}
-    }
-
-    // ============ UPLOAD NOTES ============
-    async function uploadNote() {
-        const title = document.getElementById('noteTitle').value.trim();
-        const field = document.getElementById('noteField').value;
-        const subject = document.getElementById('noteSubject').value;
-        const topic = document.getElementById('noteTopic').value.trim();
-        const desc = document.getElementById('noteDesc').value.trim();
-        const fileInput = document.getElementById('noteFileInput');
-
-        if (!title || !fileInput.files[0]) {
-            alert('Please fill in title and select a file');
-            return;
-        }
-
-        const btn = document.getElementById('noteUploadBtn');
-        const progress = document.getElementById('noteProgress');
-        const fill = document.getElementById('noteProgressFill');
-
-        btn.disabled = true;
-        btn.textContent = 'Uploading...';
-        progress.classList.add('show');
-
-        try {
-            const result = await uploadToCloudinary(fileInput.files[0], 'nustology/notes', (pct) => {
-                fill.style.width = pct + '%';
-            });
-
-            const res = await fetch(`${API_BASE}/notes`, {
-                method: 'POST',
-                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title, field, subject, topic, description: desc,
-                    fileUrl: result.secure_url,
-                    publicId: result.public_id
-                })
-            });
-            const data = await res.json();
-
-            if (data.success) {
-                alert('Notes uploaded successfully!');
-                document.getElementById('noteTitle').value = '';
-                document.getElementById('noteTopic').value = '';
-                document.getElementById('noteDesc').value = '';
-                document.getElementById('noteFileInput').value = '';
-                document.getElementById('notePreview').style.display = 'none';
-                document.getElementById('notePreview').innerHTML = '';
-                loadNotes();
-            } else {
-                alert('Failed to save: ' + data.message);
-            }
-        } catch (err) {
-            alert('Upload failed: ' + err.message);
-        }
-
-        btn.disabled = false;
-        btn.textContent = '📤 Upload Notes';
-        progress.classList.remove('show');
-        fill.style.width = '0%';
-    }
-
-    async function loadNotes() {
-        try {
-            const res = await fetch(`${API_BASE}/notes`, { headers: getHeaders() });
-            const data = await res.json();
-            const c = document.getElementById('notesTable');
-            if (!data.notes?.length) { c.innerHTML = '<div class="empty">No notes uploaded yet</div>'; return; }
-            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
-                ${data.notes.map(n => `
-                    <tr>
-                        <td><strong>${escapeHtml(n.title)}</strong></td>
-                        <td><span class="badge badge-info">${escapeHtml(n.field)}</span></td>
-                        <td>${escapeHtml(n.subject || '-')}</td>
-                        <td><a href="${n.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
-                        <td><button class="btn btn-danger btn-sm" onclick="deleteNote(${n.id})">Delete</button></td>
-                    </tr>
-                `).join('')}</tbody></table>`;
-        } catch (e) {}
-    }
-
-    async function deleteNote(id) {
-        if (!confirm('Delete this note?')) return;
-        try {
-            await fetch(`${API_BASE}/notes/${id}`, { method: 'DELETE', headers: getHeaders() });
-            loadNotes();
-        } catch (e) {}
-    }
-
     // ============ NAV ============
     function showPage(page, btn) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const target = document.getElementById('page-' + page);
         if (target) target.classList.add('active');
+        
         document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
         if (btn) btn.classList.add('active');
 
@@ -1456,12 +1049,12 @@
             const res = await fetch(`${API_BASE}/admin/dashboard`, { headers: getHeaders() });
             const data = await res.json();
             if (!data.success) return;
-            const s = data.stats;
+            const s = data.stats || {};
             document.getElementById('dashboardStats').innerHTML = `
-                <div class="stat-card"><div class="stat-label">Total Students</div><div class="stat-value">${s.totalStudents}</div></div>
-                <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents}</div></div>
+                <div class="stat-card"><div class="stat-label">Total Students</div><div class="stat-value">${s.totalStudents || 0}</div></div>
+                <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value">${s.pendingStudents || 0}</div></div>
-                <div class="stat-card"><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests}</div></div>
+                <div class="stat-card"><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Documents</div><div class="stat-value">${s.totalDocs || 0}</div></div>
             `;
             document.getElementById('studentCount').textContent = s.totalStudents || 0;
@@ -1484,7 +1077,7 @@
             } else {
                 document.getElementById('recentRegistrations').innerHTML = '<div class="empty">No recent registrations</div>';
             }
-        } catch (e) {}
+        } catch (e) { console.error('Dashboard error:', e); }
     }
 
     function renderRegStatus(status) {
@@ -1508,8 +1101,8 @@
             const res = await fetch(`${API_BASE}/admin/students?${params.toString()}`, { headers: getHeaders() });
             const data = await res.json();
             if (!data.success) return;
-            renderStudents(data.students);
-        } catch (e) {}
+            renderStudents(data.students || []);
+        } catch (e) { console.error('Load students error:', e); }
     }
 
     function renderStudents(students) {
@@ -1541,7 +1134,7 @@
                 headers: getHeaders()
             });
             loadStudents();
-        } catch (e) {}
+        } catch (e) { alert('Failed to toggle'); }
     }
 
     function openResetPwd(id, name) {
@@ -1563,9 +1156,12 @@
             const data = await res.json();
             if (data.success) {
                 closeModal('resetPwdModal');
-                alert(`Password reset: ${newPassword}`);
+                alert(`Password reset successfully!\nNew Password: ${newPassword}`);
+                loadStudents();
+            } else {
+                alert(data.message || 'Failed to reset password');
             }
-        } catch (e) {}
+        } catch (e) { alert('Failed to reset password'); }
     }
 
     function openAddStudent() { document.getElementById('addStudentModal').classList.add('show'); }
@@ -1596,8 +1192,9 @@
         } catch (e) {}
     }
 
-    // ============ STUDENT DETAIL ============
+    // ============ STUDENT DETAIL WITH ANALYTICS ============
     async function viewStudent(id) {
+        currentStudentIdForDetail = id;
         try {
             const res = await fetch(`${API_BASE}/admin/students/${id}`, { headers: getHeaders() });
             const data = await res.json();
@@ -1607,15 +1204,50 @@
             const attempts = data.attempts || [];
             const subjectPerf = data.subjectPerformance || [];
 
+            // Calculate analytics
+            const totalTests = attempts.length;
+            const correctTotal = attempts.reduce((sum, a) => sum + (a.correct_answers || 0), 0);
+            const wrongTotal = attempts.reduce((sum, a) => sum + (a.wrong_answers || 0), 0);
+            const totalQuestions = attempts.reduce((sum, a) => sum + (a.total_marks || 0), 0);
+            const avgScore = totalQuestions > 0 ? ((correctTotal / totalQuestions) * 100) : 0;
+            const bestScore = attempts.length > 0 ? Math.max(...attempts.map(a => a.percentage || 0)) : 0;
+            
+            // Find weak subjects
+            const weakSubjects = subjectPerf.filter(sp => (sp.avg_percentage || 0) < 50);
+            const strongSubjects = subjectPerf.filter(sp => (sp.avg_percentage || 0) >= 70);
+
             let html = `
                 <h3>${escapeHtml(s.full_name || s.username)} <span style="font-size:13px; color:var(--gray);">@${escapeHtml(s.username)}</span></h3>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;">
-                    <div class="card"><div class="stat-label">Total Tests</div><div style="font-size:20px; font-weight:700;">${attempts.length}</div></div>
-                    <div class="card"><div class="stat-label">Avg Score</div><div style="font-size:20px; font-weight:700;">${data.performanceScore || 0}%</div></div>
+                <!-- Student Analytics Summary -->
+                <div class="student-analytics-grid">
+                    <div class="card"><div class="stat-label">Total Tests</div><div class="value">${totalTests}</div></div>
+                    <div class="card"><div class="stat-label">Avg Score</div><div class="value">${avgScore.toFixed(1)}%</div></div>
+                    <div class="card"><div class="stat-label">Best Score</div><div class="value">${bestScore.toFixed(1)}%</div></div>
+                    <div class="card"><div class="stat-label">Correct Answers</div><div class="value">${correctTotal}</div></div>
                 </div>
 
-                <div style="margin-bottom:12px;">
+                <!-- Weak Subjects Alert -->
+                ${weakSubjects.length > 0 ? `
+                    <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px; margin:12px 0;">
+                        <strong style="color:var(--danger);">⚠️ Weak Subjects (Need Improvement)</strong>
+                        <div style="margin-top:6px;">${weakSubjects.map(sp => 
+                            `<span class="badge badge-danger" style="margin:2px;">${escapeHtml(sp.subject)} (${(sp.avg_percentage || 0).toFixed(0)}%)</span>`
+                        ).join('')}</div>
+                    </div>
+                ` : '<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px; margin:12px 0;"><strong style="color:var(--success);">✅ Good Performance!</strong> No weak subjects detected.</div>'}
+
+                ${strongSubjects.length > 0 ? `
+                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px; margin:12px 0;">
+                        <strong style="color:var(--success);">⭐ Strong Subjects</strong>
+                        <div style="margin-top:6px;">${strongSubjects.map(sp => 
+                            `<span class="badge badge-success" style="margin:2px;">${escapeHtml(sp.subject)} (${(sp.avg_percentage || 0).toFixed(0)}%)</span>`
+                        ).join('')}</div>
+                    </div>
+                ` : ''}
+
+                <!-- Subject Performance Chart -->
+                <div style="margin:12px 0;">
                     <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:6px;">Subject Performance</h4>`;
 
             if (subjectPerf.length) {
@@ -1629,6 +1261,7 @@
                         <div class="chart-bar-value">${(sp.avg_percentage || 0).toFixed(0)}%</div>
                         <div class="chart-bar" style="height:${Math.max(pct, 8)}%; background:${color};"></div>
                         <div class="chart-bar-label">${escapeHtml(sp.subject)}</div>
+                        <div style="font-size:8px; color:var(--gray);">${sp.attempts || 0} tests</div>
                     </div>`;
                 });
                 html += `</div></div>`;
@@ -1637,13 +1270,15 @@
             }
 
             html += `</div>
+
+                <!-- Test History -->
                 <div style="margin-bottom:12px;">
                     <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:6px;">Test History</h4>`;
 
             if (!attempts.length) {
                 html += '<div class="empty">No tests taken</div>';
             } else {
-                html += `<table><thead><tr><th>Type</th><th>Subject/Field</th><th>Score</th><th>%</th><th>Date</th><th>Review</th></tr></thead><tbody>`;
+                html += `<div style="max-height:300px; overflow-y:auto;"><table><thead><tr><th>Type</th><th>Subject/Field</th><th>Score</th><th>%</th><th>Date</th><th>Review</th></tr></thead><tbody>`;
                 attempts.forEach(a => {
                     html += `<tr>
                         <td>${a.test_type === 'grand' ? '<strong>Grand</strong>' : 'Subject'}</td>
@@ -1654,11 +1289,12 @@
                         <td><button class="btn btn-secondary btn-sm" onclick="viewStudentTest(${s.id}, ${a.id})">Review</button></td>
                     </tr>`;
                 });
-                html += '</tbody></table>';
+                html += '</tbody></table></div>';
             }
 
             html += `</div>
 
+                <!-- Student Info -->
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;">
                     <div class="card"><div class="stat-label">Email</div><div>${escapeHtml(s.email || '-')}</div></div>
                     <div class="card"><div class="stat-label">Phone</div><div>${escapeHtml(s.phone || '-')}</div></div>
@@ -1673,7 +1309,10 @@
             `;
             document.getElementById('studentDetailContent').innerHTML = html;
             document.getElementById('studentDetailModal').classList.add('show');
-        } catch (e) { alert('Failed to load details'); }
+        } catch (e) { 
+            console.error('View student error:', e);
+            alert('Failed to load student details'); 
+        }
     }
 
     // ============ VIEW STUDENT TEST ============
@@ -1681,13 +1320,16 @@
         try {
             const res = await fetch(`${API_BASE}/admin/student-test/${attemptId}`, { headers: getHeaders() });
             const data = await res.json();
-            if (!data.success) return alert('Failed to load test');
+            if (!data.success) return alert('Failed to load test: ' + (data.message || 'Unknown error'));
 
             let html = `
-                <h3>Test Review</h3>
+                <h3>📝 Test Review</h3>
                 <p style="color:var(--gray); font-size:13px; margin-bottom:12px;">
-                    Score: ${(data.attempt.score || 0).toFixed(1)}/${data.attempt.total_marks} (${(data.attempt.percentage || 0).toFixed(1)}%)
-                    | Correct: ${data.attempt.correct_answers} | Wrong: ${data.attempt.wrong_answers} | Skipped: ${data.attempt.unattempted}
+                    Score: ${(data.attempt?.score || 0).toFixed(1)}/${data.attempt?.total_marks || 0} 
+                    (${(data.attempt?.percentage || 0).toFixed(1)}%)
+                    | ✅ Correct: ${data.attempt?.correct_answers || 0} 
+                    | ❌ Wrong: ${data.attempt?.wrong_answers || 0} 
+                    | ⏭️ Skipped: ${data.attempt?.unattempted || 0}
                 </p>
                 <div style="max-height:500px; overflow-y:auto;">`;
 
@@ -1697,7 +1339,7 @@
                 data.answers.forEach((a, idx) => {
                     const isCorrect = a.is_correct === 1;
                     const isSkipped = a.selected_answer === null || a.selected_answer === undefined;
-                    const status = isSkipped ? '⚠️ Skipped' : (isCorrect ? '✅ Correct' : '❌ Wrong');
+                    const status = isSkipped ? '⏭️ Skipped' : (isCorrect ? '✅ Correct' : '❌ Wrong');
                     const color = isSkipped ? 'var(--warning)' : (isCorrect ? 'var(--success)' : 'var(--danger)');
 
                     html += `<div style="border-left:3px solid ${color}; padding:8px 10px; margin-bottom:8px; background:#fafafa; border-radius:4px;">
@@ -1728,7 +1370,10 @@
             `;
             document.getElementById('studentDetailContent').innerHTML = html;
             document.getElementById('studentDetailModal').classList.add('show');
-        } catch (e) { alert('Failed to load test'); }
+        } catch (e) { 
+            console.error('View test error:', e);
+            alert('Failed to load test details'); 
+        }
     }
 
     // ============ REGISTRATIONS ============
@@ -1741,9 +1386,9 @@
             const res = await fetch(`${API_BASE}/admin/registrations?${params.toString()}`, { headers: getHeaders() });
             const data = await res.json();
             if (!data.success) return;
-            allRegistrations = data.registrations;
+            allRegistrations = data.registrations || [];
             renderRegistrations(allRegistrations);
-        } catch (e) {}
+        } catch (e) { console.error('Load registrations error:', e); }
     }
 
     function filterRegistrations() {
@@ -1845,6 +1490,191 @@
         } catch (e) {}
     }
 
+    // ============ PDF UPLOAD ============
+    let selectedFile = null;
+
+    function handleFileSelect(type) {
+        const input = document.getElementById(type + 'FileInput');
+        const file = input.files[0];
+        if (!file) return;
+
+        const preview = document.getElementById(type + 'Preview');
+        preview.style.display = 'block';
+        preview.innerHTML = `
+            <div class="file-preview">
+                <span>📄</span>
+                <span class="name">${escapeHtml(file.name)}</span>
+                <span class="size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                <span class="remove" onclick="removeFile('${type}')">×</span>
+            </div>
+        `;
+        selectedFile = file;
+        document.getElementById(type + 'UploadBtn').disabled = false;
+    }
+
+    function removeFile(type) {
+        document.getElementById(type + 'FileInput').value = '';
+        document.getElementById(type + 'Preview').style.display = 'none';
+        document.getElementById(type + 'Preview').innerHTML = '';
+        selectedFile = null;
+        document.getElementById(type + 'UploadBtn').disabled = true;
+    }
+
+    async function uploadPDF() {
+        const title = document.getElementById('pdfTitle').value.trim();
+        const field = document.getElementById('pdfField').value;
+        const subject = document.getElementById('pdfSubject').value;
+        const year = document.getElementById('pdfYear').value.trim();
+        const fileInput = document.getElementById('pdfFileInput');
+
+        if (!title || !fileInput.files[0]) {
+            alert('Please fill in title and select a file');
+            return;
+        }
+
+        const btn = document.getElementById('pdfUploadBtn');
+        btn.disabled = true;
+        btn.textContent = 'Uploading...';
+
+        try {
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('title', title);
+            formData.append('field', field);
+            formData.append('subject', subject);
+            formData.append('year', year);
+
+            const res = await fetch(`${API_BASE}/admin/upload-pdf`, {
+                method: 'POST',
+                headers: getHeaders(),
+                body: formData
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                alert('PDF uploaded successfully!');
+                document.getElementById('pdfTitle').value = '';
+                document.getElementById('pdfYear').value = '';
+                document.getElementById('pdfFileInput').value = '';
+                document.getElementById('pdfPreview').style.display = 'none';
+                document.getElementById('pdfPreview').innerHTML = '';
+                loadPDFs();
+            } else {
+                alert('Failed to upload: ' + (data.message || 'Unknown error'));
+            }
+        } catch (err) {
+            alert('Upload failed: ' + err.message);
+        }
+
+        btn.disabled = false;
+        btn.textContent = '📤 Upload PDF';
+    }
+
+    async function loadPDFs() {
+        try {
+            const res = await fetch(`${API_BASE}/pdfs`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('pdfsTable');
+            if (!data.pdfs?.length) { c.innerHTML = '<div class="empty">No PDFs uploaded yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
+                ${data.pdfs.map(p => `
+                    <tr>
+                        <td><strong>${escapeHtml(p.title)}</strong></td>
+                        <td><span class="badge badge-info">${escapeHtml(p.field)}</span></td>
+                        <td>${escapeHtml(p.subject || '-')}</td>
+                        <td><a href="${p.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deletePDF(${p.id})">Delete</button></td>
+                    </tr>
+                `).join('')}</tbody></table>`;
+        } catch (e) { console.error('Load PDFs error:', e); }
+    }
+
+    async function deletePDF(id) {
+        if (!confirm('Delete this PDF?')) return;
+        try {
+            await fetch(`${API_BASE}/pdfs/${id}`, { method: 'DELETE', headers: getHeaders() });
+            loadPDFs();
+        } catch (e) {}
+    }
+
+    // ============ NOTES UPLOAD ============
+    async function uploadNote() {
+        const title = document.getElementById('noteTitle').value.trim();
+        const field = document.getElementById('noteField').value;
+        const subject = document.getElementById('noteSubject').value;
+        const topic = document.getElementById('noteTopic').value.trim();
+        const fileInput = document.getElementById('noteFileInput');
+
+        if (!title || !fileInput.files[0]) {
+            alert('Please fill in title and select a file');
+            return;
+        }
+
+        const btn = document.getElementById('noteUploadBtn');
+        btn.disabled = true;
+        btn.textContent = 'Uploading...';
+
+        try {
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('title', title);
+            formData.append('field', field);
+            formData.append('subject', subject);
+            formData.append('topic', topic);
+
+            const res = await fetch(`${API_BASE}/admin/upload-note`, {
+                method: 'POST',
+                headers: getHeaders(),
+                body: formData
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                alert('Notes uploaded successfully!');
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteTopic').value = '';
+                document.getElementById('noteFileInput').value = '';
+                document.getElementById('notePreview').style.display = 'none';
+                document.getElementById('notePreview').innerHTML = '';
+                loadNotes();
+            } else {
+                alert('Failed to upload: ' + (data.message || 'Unknown error'));
+            }
+        } catch (err) {
+            alert('Upload failed: ' + err.message);
+        }
+
+        btn.disabled = false;
+        btn.textContent = '📤 Upload Notes';
+    }
+
+    async function loadNotes() {
+        try {
+            const res = await fetch(`${API_BASE}/notes`, { headers: getHeaders() });
+            const data = await res.json();
+            const c = document.getElementById('notesTable');
+            if (!data.notes?.length) { c.innerHTML = '<div class="empty">No notes uploaded yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
+                ${data.notes.map(n => `
+                    <tr>
+                        <td><strong>${escapeHtml(n.title)}</strong></td>
+                        <td><span class="badge badge-info">${escapeHtml(n.field)}</span></td>
+                        <td>${escapeHtml(n.subject || '-')}</td>
+                        <td><a href="${n.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteNote(${n.id})">Delete</button></td>
+                    </tr>
+                `).join('')}</tbody></table>`;
+        } catch (e) { console.error('Load notes error:', e); }
+    }
+
+    async function deleteNote(id) {
+        if (!confirm('Delete this note?')) return;
+        try {
+            await fetch(`${API_BASE}/notes/${id}`, { method: 'DELETE', headers: getHeaders() });
+            loadNotes();
+        } catch (e) {}
+    }
+
     // ============ LECTURES ============
     async function loadAdminLectures() {
         try {
@@ -1940,7 +1770,6 @@
                     if (i.id !== 'merYear') i.value = '';
                 });
                 loadAdminMerit();
-                alert('Merit list added successfully!');
             }
         } catch (e) {}
     }
@@ -1996,9 +1825,9 @@
             if (!data.success) return;
 
             document.getElementById('analyticsStats').innerHTML = `
-                <div class="stat-card"><div class="stat-label">Total Tests</div><div class="stat-value">${data.totalTests}</div></div>
+                <div class="stat-card"><div class="stat-label">Total Tests</div><div class="stat-value">${data.totalTests || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Avg Score</div><div class="stat-value">${(data.avgScore || 0).toFixed(1)}%</div></div>
-                <div class="stat-card"><div class="stat-label">Students Active</div><div class="stat-value">${data.activeStudents}</div></div>
+                <div class="stat-card"><div class="stat-label">Students Active</div><div class="stat-value">${data.activeStudents || 0}</div></div>
                 <div class="stat-card"><div class="stat-label">Completion Rate</div><div class="stat-value">${(data.completionRate || 0).toFixed(1)}%</div></div>
             `;
 
@@ -2034,7 +1863,7 @@
                         <td>${t.completed_at ? new Date(t.completed_at).toLocaleDateString() : '-'}</td></tr>
                     `).join('')}</tbody></table>`;
             }
-        } catch (e) {}
+        } catch (e) { console.error('Load analytics error:', e); }
     }
 
     // ============ SETTINGS ============
@@ -2043,13 +1872,13 @@
             const res = await fetch(`${API_BASE}/admin/settings`, { headers: getHeaders() });
             const data = await res.json();
             if (!data.success) return;
-            const s = data.settings;
+            const s = data.settings || {};
             ['bank_name','bank_account_title','bank_account_number','bank_iban',
              'easypaisa_number','jazzcash_number','registration_fee'].forEach(key => {
                 const el = document.getElementById('set_' + key);
                 if (el && s[key]) el.value = s[key];
             });
-        } catch (e) {}
+        } catch (e) { console.error('Load settings error:', e); }
     }
 
     async function saveSettings() {
