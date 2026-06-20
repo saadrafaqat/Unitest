@@ -23,9 +23,10 @@
             --success: #22c55e;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --radius: 8px;
-            --radius-lg: 12px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.06);
+            --radius: 10px;
+            --radius-lg: 16px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
         }
 
         body {
@@ -40,39 +41,53 @@
 
         /* SIDEBAR */
         .sidebar {
-            width: 220px;
+            width: 240px;
             background: var(--dark);
             color: #fff;
-            padding: 16px 12px;
+            padding: 20px 14px;
             position: fixed;
             top: 0; left: 0; bottom: 0;
             overflow-y: auto;
             z-index: 100;
-            transition: transform 0.25s ease;
+            transition: transform 0.3s ease;
         }
         .sidebar::-webkit-scrollbar { width: 4px; }
         .sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
 
         .sidebar-logo {
-            display: flex; align-items: center; gap: 10px;
-            padding: 0 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 8px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.08);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
-        .sidebar-logo img { width: 32px; height: 32px; border-radius: 6px; }
-        .sidebar-logo .text { font-size: 15px; font-weight: 700; color: #fff; }
+        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; }
+        .sidebar-logo .text { font-size: 18px; font-weight: 700; color: #fff; }
+        .sidebar-logo .admin-badge {
+            background: var(--danger);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 700;
+            margin-left: 4px;
+        }
 
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
         .menu-section {
             font-size: 9px; font-weight: 700;
             color: #64748b;
-            text-transform: uppercase; letter-spacing: 0.8px;
-            padding: 10px 10px 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 12px 10px 6px;
         }
         .menu-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 8px 10px;
-            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
             color: #94a3b8;
             font-size: 13px;
             font-weight: 500;
@@ -81,89 +96,114 @@
             width: 100%;
             text-align: left;
             font-family: inherit;
-            min-height: 34px;
-            transition: background 0.15s, color 0.15s;
+            min-height: 38px;
+            transition: all 0.2s;
             cursor: pointer;
             text-decoration: none;
+            position: relative;
         }
-        .menu-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .menu-item svg { width: 18px; height: 18px; flex-shrink: 0; }
         .menu-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
-        .menu-item.active { background: var(--primary-light); color: #fff; }
+        .menu-item.active {
+            background: var(--primary-light);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+        }
         .menu-count {
             margin-left: auto;
             background: var(--danger);
             color: #fff;
             border-radius: 20px;
-            padding: 0 6px;
+            padding: 0 8px;
             font-size: 9px;
             font-weight: 700;
-            min-width: 16px;
+            min-width: 18px;
             text-align: center;
         }
 
         .sidebar-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.4); z-index: 99;
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99;
         }
         .sidebar-overlay.show { display: block; }
 
         /* MAIN */
         .main {
             flex: 1;
-            margin-left: 220px;
+            margin-left: 240px;
             min-height: 100vh;
         }
         .topbar {
             background: #fff;
-            padding: 10px 18px;
+            padding: 12px 24px;
             border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 50;
-            min-height: 52px;
-            gap: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            min-height: 60px;
+            gap: 12px;
         }
-        .topbar-left { display: flex; align-items: center; gap: 10px; }
-        .topbar h1 { font-size: 17px; font-weight: 700; line-height: 1.2; }
-        .topbar p { font-size: 11px; color: var(--gray); margin-top: 1px; }
+        .topbar-left { display: flex; align-items: center; gap: 14px; }
+        .topbar h1 { font-size: 20px; font-weight: 700; line-height: 1.2; }
+        .topbar p { font-size: 12px; color: var(--gray); margin-top: 2px; }
         .mobile-toggle {
             display: none;
-            background: var(--gray-lighter); border: none;
-            cursor: pointer; padding: 0;
-            border-radius: 6px;
-            width: 36px; height: 36px;
-            align-items: center; justify-content: center;
-        }
-        .mobile-toggle svg { width: 18px; height: 18px; }
-        .logout-btn {
-            background: var(--danger); color: #fff;
-            border: none; padding: 6px 12px;
-            border-radius: 6px;
+            background: var(--gray-lighter);
+            border: none;
             cursor: pointer;
-            font-size: 12px;
+            padding: 0;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-toggle svg { width: 20px; height: 20px; }
+        .logout-btn {
+            background: var(--danger);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
             font-weight: 600;
             font-family: inherit;
-            min-height: 32px;
+            min-height: 38px;
+            transition: background 0.2s;
         }
         .logout-btn:hover { background: #b91c1c; }
 
-        .content { padding: 16px; max-width: 1400px; margin: 0 auto; }
+        .content { padding: 20px; max-width: 1400px; margin: 0 auto; }
 
-        /* STATS */
+        /* STATS CARDS */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-bottom: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
         }
         .stat-card {
             background: #fff;
             border-radius: var(--radius-lg);
-            padding: 14px 16px;
+            padding: 18px 20px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
+            transition: all 0.2s;
         }
-        .stat-label { font-size: 11px; color: var(--gray); }
-        .stat-value { font-size: 20px; font-weight: 700; }
+        .stat-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+        .stat-card .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .stat-card .label { font-size: 12px; color: var(--gray); font-weight: 500; }
+        .stat-card .value { font-size: 28px; font-weight: 700; color: var(--dark); margin-top: 4px; }
 
         /* PAGES */
         .page { display: none; }
@@ -173,25 +213,27 @@
             background: #fff;
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 16px;
-            margin-bottom: 14px;
+            padding: 20px;
+            margin-bottom: 16px;
             box-shadow: var(--shadow);
         }
         .card-header {
-            display: flex; justify-content: space-between;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding-bottom: 10px;
+            padding-bottom: 14px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
         }
-        .card-header h2 { font-size: 16px; font-weight: 700; }
+        .card-header h2 { font-size: 18px; font-weight: 700; }
 
+        /* BUTTONS */
         .btn {
-            padding: 6px 14px;
+            padding: 8px 16px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
             font-size: 13px;
@@ -199,67 +241,83 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            min-height: 36px;
-            transition: all 0.15s;
+            min-height: 38px;
+            transition: all 0.2s;
             text-decoration: none;
         }
         .btn-primary { background: var(--primary-light); color: #fff; }
-        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
         .btn-success { background: var(--success); color: #fff; }
-        .btn-success:hover { background: #16a34a; }
+        .btn-success:hover { background: #16a34a; transform: translateY(-1px); }
         .btn-danger { background: var(--danger); color: #fff; }
         .btn-danger:hover { background: #b91c1c; }
         .btn-warning { background: var(--warning); color: #fff; }
         .btn-warning:hover { background: #d97706; }
         .btn-secondary { background: var(--gray-lighter); color: var(--dark); }
         .btn-secondary:hover { background: #cbd5e1; }
-        .btn-sm { padding: 4px 10px; font-size: 12px; min-height: 28px; }
-        .btn svg { width: 14px; height: 14px; }
+        .btn-outline { background: transparent; color: var(--primary-light); border: 2px solid var(--primary-light); }
+        .btn-outline:hover { background: var(--primary-light); color: #fff; }
+        .btn-sm { padding: 4px 10px; font-size: 12px; min-height: 30px; }
+        .btn svg { width: 16px; height: 16px; }
 
         /* TABLE */
         .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 500px; }
-        th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 550px; }
+        th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
         th {
-            background: #f8fafc; font-weight: 600;
-            color: var(--gray); font-size: 10px;
-            text-transform: uppercase; letter-spacing: 0.5px;
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         tr:hover { background: #f8fafc; }
 
         .badge {
             display: inline-block;
-            padding: 2px 8px; border-radius: 12px;
-            font-size: 10px; font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
         }
         .badge-success { background: #dcfce7; color: var(--success); }
         .badge-danger { background: #fee2e2; color: var(--danger); }
         .badge-warning { background: #fef3c7; color: var(--warning); }
         .badge-info { background: var(--primary-bg); color: var(--primary-light); }
 
+        /* FILTER BAR */
         .filter-bar {
-            display: flex; gap: 8px;
-            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
             align-items: center;
         }
         .filter-bar input,
         .filter-bar select {
-            padding: 6px 10px;
+            padding: 8px 12px;
             border: 1.5px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: inherit;
-            font-size: 12px;
-            min-height: 32px;
+            font-size: 13px;
+            min-height: 38px;
             background: #fff;
+            transition: border-color 0.2s;
         }
-        .filter-bar input { flex: 1; min-width: 140px; }
+        .filter-bar input:focus,
+        .filter-bar select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+        .filter-bar input { flex: 1; min-width: 160px; }
 
+        /* FORMS */
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 14px;
+            margin-bottom: 14px;
         }
         .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
         .form-row.full { grid-template-columns: 1fr; }
@@ -268,20 +326,21 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             color: var(--dark);
         }
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: 10px 14px;
             border: 1.5px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: inherit;
             font-size: 14px;
-            min-height: 42px;
+            min-height: 44px;
             background: #fff;
+            transition: border-color 0.2s;
         }
         .form-group textarea { min-height: 80px; resize: vertical; }
         .form-group input:focus,
@@ -289,18 +348,23 @@
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
         .url-input-wrap {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: #f8fafc;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
             border: 1.5px solid var(--border);
+            transition: border-color 0.2s;
         }
-        .url-input-wrap:focus-within { border-color: var(--primary-light); }
+        .url-input-wrap:focus-within {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
         .url-input-wrap .icon { font-size: 18px; color: var(--gray); flex-shrink: 0; }
         .url-input-wrap input {
             border: none;
@@ -309,22 +373,31 @@
             flex: 1;
             font-family: inherit;
             font-size: 14px;
-            min-height: 38px;
+            min-height: 40px;
         }
         .url-input-wrap input:focus { outline: none; }
 
         .detail-row {
-            display: grid; grid-template-columns: 130px 1fr;
-            gap: 8px; padding: 4px 0; font-size: 13px;
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 10px;
+            padding: 5px 0;
+            font-size: 13px;
         }
         .detail-row .label { color: var(--gray); font-weight: 500; }
 
-        .empty { text-align: center; padding: 40px 16px; color: var(--gray); font-size: 14px; }
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        .empty .icon { font-size: 48px; margin-bottom: 12px; display: block; }
 
         /* CHART */
         .chart-container {
             position: relative;
-            height: 180px;
+            height: 200px;
             margin: 10px 0;
         }
         .chart-bars {
@@ -332,7 +405,7 @@
             align-items: flex-end;
             justify-content: space-around;
             height: 100%;
-            gap: 8px;
+            gap: 10px;
             padding: 0 4px;
         }
         .chart-bar-wrap {
@@ -343,21 +416,35 @@
         }
         .chart-bar {
             width: 100%;
-            max-width: 40px;
-            border-radius: 4px 4px 0 0;
-            min-height: 4px;
-            transition: height 0.4s;
+            max-width: 45px;
+            border-radius: 6px 6px 0 0;
+            min-height: 6px;
+            transition: height 0.5s ease;
         }
-        .chart-bar-label { font-size: 9px; color: var(--gray); margin-top: 4px; text-align: center; }
-        .chart-bar-value { font-size: 9px; font-weight: 600; margin-bottom: 2px; color: var(--dark); }
+        .chart-bar-label {
+            font-size: 10px;
+            color: var(--gray);
+            margin-top: 6px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .chart-bar-value {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--dark);
+        }
 
         /* MODAL */
         .modal {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.4);
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
             z-index: 2000;
-            align-items: center; justify-content: center;
-            padding: 16px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             overflow-y: auto;
         }
         .modal.show { display: flex; }
@@ -366,18 +453,32 @@
             border-radius: var(--radius-lg);
             max-width: 850px;
             width: 100%;
-            padding: 24px;
+            padding: 28px;
             max-height: 90vh;
             overflow-y: auto;
         }
-        .modal-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--dark); }
-        .modal-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; flex-wrap: wrap; }
+        .modal-box h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--dark);
+        }
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
 
         /* LOGIN */
         .login-overlay {
-            position: fixed; inset: 0;
+            position: fixed;
+            inset: 0;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             z-index: 9999;
             padding: 20px;
         }
@@ -385,24 +486,45 @@
         .login-box {
             background: #1e293b;
             border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 28px 22px;
-            max-width: 360px; width: 100%;
+            border-radius: 16px;
+            padding: 32px 28px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        .login-box h2 { text-align: center; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-        .login-subtitle { text-align: center; color: #94a3b8; font-size: 11px; margin-bottom: 18px; }
-        .login-form-group { margin-bottom: 12px; }
-        .login-form-group label { display: block; font-size: 12px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
+        .login-box h2 {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .login-box h2 span { color: #60a5fa; }
+        .login-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+        .login-form-group { margin-bottom: 14px; }
+        .login-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 5px;
+        }
         .login-form-group input {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 14px;
             background: #f1f5f9;
             border: 2px solid transparent;
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: inherit;
             font-size: 14px;
             color: #0f172a;
-            min-height: 40px;
+            min-height: 44px;
+            transition: all 0.2s;
         }
         .login-form-group input:focus {
             outline: none;
@@ -411,57 +533,66 @@
         }
         .login-btn {
             width: 100%;
-            padding: 11px;
+            padding: 13px;
             background: var(--primary-light);
             color: #fff;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: inherit;
-            font-size: 14px; font-weight: 600;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            min-height: 42px;
+            min-height: 46px;
+            transition: background 0.2s;
         }
         .login-btn:hover { background: var(--primary-dark); }
         .login-error {
             color: #fca5a5;
-            font-size: 12px;
+            font-size: 13px;
             text-align: center;
-            padding: 8px;
+            padding: 10px;
             background: rgba(239,68,68,0.1);
-            border-radius: 6px;
+            border-radius: 8px;
             display: none;
-            margin-top: 10px;
+            margin-top: 12px;
         }
         .login-error.show { display: block; }
 
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); width: 260px; }
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
             .sidebar.open { transform: translateX(0); }
             .main { margin-left: 0; }
             .mobile-toggle { display: flex; }
-            .content { padding: 12px; }
-            .topbar { padding: 8px 12px; }
+            .content { padding: 14px; }
+            .topbar { padding: 10px 14px; }
             .topbar p { display: none; }
-            .form-row, .form-row.three { grid-template-columns: 1fr; }
+            .form-row,
+            .form-row.three { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .detail-row { grid-template-columns: 1fr; }
+            .topbar h1 { font-size: 17px; }
         }
     </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN OVERLAY -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
-        <h2>NUSTology <span style="color:#60a5fa;">Admin</span></h2>
+        <h2>NUSTology <span>Admin</span></h2>
         <p class="login-subtitle">Restricted access only</p>
         <div class="login-form">
             <div class="login-form-group">
                 <label>Username</label>
-                <input type="text" id="adminUsername" placeholder="Admin username" autocomplete="username">
+                <input type="text" id="adminUsername" placeholder="Enter username" autocomplete="username">
             </div>
             <div class="login-form-group">
                 <label>Password</label>
-                <input type="password" id="adminPassword" placeholder="Admin password" autocomplete="current-password" onkeypress="if(event.key==='Enter') doAdminLogin()">
+                <input type="password" id="adminPassword" placeholder="Enter password" autocomplete="current-password" onkeypress="if(event.key==='Enter') doAdminLogin()">
             </div>
             <button class="login-btn" onclick="doAdminLogin()">Sign In</button>
             <div class="login-error" id="loginError"></div>
@@ -476,28 +607,60 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
             <img src="images/nustology.jpg" alt="">
-            <div><div class="text">NUSTology</div></div>
+            <div>
+                <div class="text">NUSTology <span class="admin-badge">ADMIN</span></div>
+            </div>
         </div>
         <ul class="sidebar-menu">
             <div class="menu-section">Main</div>
-            <li><button class="menu-item active" onclick="showPage('dashboard', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button></li>
-            <li><button class="menu-item" onclick="showPage('students', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Students <span class="menu-count" id="studentCount">0</span></button></li>
-            <li><button class="menu-item" onclick="showPage('registrations', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Registrations <span class="menu-count" id="pendingRegCount" style="display:none;">0</span></button></li>
+            <li><button class="menu-item active" onclick="showPage('dashboard', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('students', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Students <span class="menu-count" id="studentCount">0</span>
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('registrations', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                Registrations <span class="menu-count" id="pendingRegCount" style="display:none;">0</span>
+            </button></li>
 
-            <div class="menu-section">Uploads</div>
-            <li><button class="menu-item" onclick="showPage('pdfs', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>PDFs / Past Papers</button></li>
-            <li><button class="menu-item" onclick="showPage('notes', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>Notes / Formulas</button></li>
-            <li><button class="menu-item" onclick="showPage('lectures', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</button></li>
-            <li><button class="menu-item" onclick="showPage('merit', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Merit Lists</button></li>
+            <div class="menu-section">Content</div>
+            <li><button class="menu-item" onclick="showPage('pdfs', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                PDFs / Past Papers
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('notes', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+                Notes / Formulas
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('lectures', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+                Video Lectures
+            </button></li>
+            <li><button class="menu-item" onclick="showPage('merit', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Merit Lists
+            </button></li>
 
             <div class="menu-section">Communication</div>
-            <li><button class="menu-item" onclick="showPage('notifications', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</button></li>
+            <li><button class="menu-item" onclick="showPage('notifications', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                Notifications
+            </button></li>
 
             <div class="menu-section">Analytics</div>
-            <li><button class="menu-item" onclick="showPage('analytics', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</button></li>
+            <li><button class="menu-item" onclick="showPage('analytics', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Analytics
+            </button></li>
 
             <div class="menu-section">System</div>
-            <li><button class="menu-item" onclick="showPage('settings', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>Settings</button></li>
+            <li><button class="menu-item" onclick="showPage('settings', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>
+                Settings
+            </button></li>
         </ul>
     </aside>
 
@@ -521,12 +684,12 @@
                 <div class="stats-grid" id="dashboardStats"></div>
                 <div class="card">
                     <div class="card-header"><h2>Quick Actions</h2></div>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelector('#sidebar .menu-item:nth-child(3)'))">📋 Registrations</button>
-                        <button class="btn btn-primary" onclick="showPage('students', document.querySelector('#sidebar .menu-item:nth-child(2)'))">👥 Students</button>
-                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelector('#sidebar .menu-item:nth-child(4)'))">📄 PDFs</button>
-                        <button class="btn btn-success" onclick="showPage('notes', document.querySelector('#sidebar .menu-item:nth-child(5)'))">📝 Notes</button>
-                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelector('#sidebar .menu-item:last-child'))">⚙️ Settings</button>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="btn btn-primary" onclick="showPage('registrations', document.querySelectorAll('.menu-item')[2])">📋 Registrations</button>
+                        <button class="btn btn-primary" onclick="showPage('students', document.querySelectorAll('.menu-item')[1])">👥 Students</button>
+                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelectorAll('.menu-item')[3])">📄 Add PDF</button>
+                        <button class="btn btn-success" onclick="showPage('notes', document.querySelectorAll('.menu-item')[4])">📝 Add Notes</button>
+                        <button class="btn btn-secondary" onclick="showPage('settings', document.querySelectorAll('.menu-item')[9])">⚙️ Settings</button>
                     </div>
                 </div>
                 <div class="card">
@@ -539,20 +702,21 @@
             <div class="page" id="page-students">
                 <div class="card">
                     <div class="card-header">
-                        <h2>All Students</h2>
+                        <h2>👥 All Students</h2>
                         <button class="btn btn-primary" onclick="openAddStudent()">+ Add Student</button>
                     </div>
                     <div class="filter-bar">
-                        <input type="text" id="stuSearch" placeholder="Search..." oninput="loadStudents()">
+                        <input type="text" id="stuSearch" placeholder="Search students..." oninput="loadStudents()">
                         <select id="stuCategoryFilter" onchange="loadStudents()">
-                            <option value="">All</option>
+                            <option value="">All Categories</option>
                             <option value="Engineering">Engineering</option>
                             <option value="CS">CS</option>
                             <option value="Business">Business</option>
                             <option value="Architecture">Architecture</option>
+                            <option value="Applied Sciences">Applied Sciences</option>
                         </select>
                         <select id="stuStatusFilter" onchange="loadStudents()">
-                            <option value="">All</option>
+                            <option value="">All Status</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -564,7 +728,7 @@
             <!-- REGISTRATIONS -->
             <div class="page" id="page-registrations">
                 <div class="card">
-                    <div class="card-header"><h2>Registration Requests</h2></div>
+                    <div class="card-header"><h2>📋 Registration Requests</h2></div>
                     <div class="filter-bar">
                         <input type="text" id="regSearch" placeholder="Search..." oninput="filterRegistrations()">
                         <select id="regStatusFilter" onchange="loadRegistrations()">
@@ -581,13 +745,13 @@
             <!-- PDFs -->
             <div class="page" id="page-pdfs">
                 <div class="card">
-                    <div class="card-header"><h2>📄 Add PDF / Past Paper Link</h2></div>
+                    <div class="card-header"><h2>📄 Add PDF / Past Paper</h2></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Title *</label><input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering"></div>
+                        <div class="form-group"><label>Title *</label><input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering Paper"></div>
                         <div class="form-group"><label>Field *</label><select id="pdfField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Subject</label><select id="pdfSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option></select></div>
+                        <div class="form-group"><label>Subject</label><select id="pdfSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
                         <div class="form-group"><label>Year</label><input type="text" id="pdfYear" placeholder="e.g., 2024"></div>
                     </div>
                     <div class="form-row full">
@@ -595,17 +759,17 @@
                             <label>File URL *</label>
                             <div class="url-input-wrap">
                                 <span class="icon">🔗</span>
-                                <input type="url" id="pdfUrl" placeholder="https://drive.google.com/...">
+                                <input type="url" id="pdfUrl" placeholder="https://drive.google.com/... or https://example.com/file.pdf">
                             </div>
                         </div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Description</label><textarea id="pdfDesc" rows="2"></textarea></div>
+                        <div class="form-group"><label>Description</label><textarea id="pdfDesc" rows="2" placeholder="Brief description..."></textarea></div>
                     </div>
                     <button class="btn btn-success" onclick="addPDF()">➕ Add PDF</button>
                 </div>
                 <div class="card">
-                    <div class="card-header"><h2>Uploaded PDFs</h2></div>
+                    <div class="card-header"><h2>📚 Uploaded PDFs</h2></div>
                     <div class="table-container" id="pdfsTable"></div>
                 </div>
             </div>
@@ -613,7 +777,7 @@
             <!-- NOTES -->
             <div class="page" id="page-notes">
                 <div class="card">
-                    <div class="card-header"><h2>📝 Add Notes / Formula Link</h2></div>
+                    <div class="card-header"><h2>📝 Add Notes / Formula Sheet</h2></div>
                     <div class="form-row">
                         <div class="form-group"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g., Physics Formula Sheet"></div>
                         <div class="form-group"><label>Field *</label><select id="noteField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
@@ -627,17 +791,17 @@
                             <label>File URL *</label>
                             <div class="url-input-wrap">
                                 <span class="icon">🔗</span>
-                                <input type="url" id="noteUrl" placeholder="https://drive.google.com/...">
+                                <input type="url" id="noteUrl" placeholder="https://drive.google.com/... or https://example.com/notes.pdf">
                             </div>
                         </div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Description</label><textarea id="noteDesc" rows="2"></textarea></div>
+                        <div class="form-group"><label>Description</label><textarea id="noteDesc" rows="2" placeholder="Brief description..."></textarea></div>
                     </div>
                     <button class="btn btn-success" onclick="addNote()">➕ Add Notes</button>
                 </div>
                 <div class="card">
-                    <div class="card-header"><h2>Uploaded Notes</h2></div>
+                    <div class="card-header"><h2>📚 Uploaded Notes</h2></div>
                     <div class="table-container" id="notesTable"></div>
                 </div>
             </div>
@@ -663,13 +827,13 @@
                 <div class="card">
                     <div class="card-header"><h2>📢 Send Notification</h2></div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Target</label><select id="notifTarget"><option value="all">All</option><option value="active">Active Only</option><option value="engineering">Engineering</option><option value="cs">CS</option><option value="business">Business</option></select></div>
+                        <div class="form-group"><label>Target Audience</label><select id="notifTarget"><option value="all">All Students</option><option value="active">Active Only</option><option value="engineering">Engineering</option><option value="cs">CS</option><option value="business">Business</option></select></div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Message *</label><textarea id="notifMessage" rows="3"></textarea></div>
+                        <div class="form-group"><label>Message *</label><textarea id="notifMessage" rows="3" placeholder="Type your notification message..."></textarea></div>
                     </div>
-                    <button class="btn btn-primary" onclick="sendNotification()">Send</button>
-                    <div style="margin-top:16px;"><h4 style="font-size:14px; margin-bottom:8px;">Recent</h4><div id="recentNotifications" class="table-container"></div></div>
+                    <button class="btn btn-primary" onclick="sendNotification()">📤 Send Notification</button>
+                    <div style="margin-top:18px;"><h4 style="font-size:14px; margin-bottom:10px;">Recent Notifications</h4><div id="recentNotifications" class="table-container"></div></div>
                 </div>
             </div>
 
@@ -680,7 +844,7 @@
                     <div class="stats-grid" id="analyticsStats"></div>
                 </div>
                 <div class="card">
-                    <div class="card-header"><h2>Performance by Subject</h2></div>
+                    <div class="card-header"><h2>Subject Performance</h2></div>
                     <div id="subjectPerformanceChart" class="chart-container"></div>
                 </div>
                 <div class="card">
@@ -692,35 +856,35 @@
             <!-- SETTINGS -->
             <div class="page" id="page-settings">
                 <div class="card">
-                    <h2 style="margin-bottom:10px;">🔐 Admin Credentials</h2>
+                    <h2 style="margin-bottom:12px;">🔐 Admin Credentials</h2>
                     <div class="form-row">
-                        <div class="form-group"><label>New Username</label><input type="text" id="newAdminUsername"></div>
-                        <div class="form-group"><label>Current Password</label><input type="password" id="currentAdminPassword"></div>
+                        <div class="form-group"><label>New Username</label><input type="text" id="newAdminUsername" placeholder="Enter new username"></div>
+                        <div class="form-group"><label>Current Password</label><input type="password" id="currentAdminPassword" placeholder="Enter current password"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>New Password</label><input type="password" id="newAdminPassword"></div>
-                        <div class="form-group"><label>Confirm</label><input type="password" id="confirmAdminPassword"></div>
+                        <div class="form-group"><label>New Password</label><input type="password" id="newAdminPassword" placeholder="Enter new password"></div>
+                        <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmAdminPassword" placeholder="Confirm new password"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="changeAdminCreds()">Update</button>
+                    <button class="btn btn-primary" onclick="changeAdminCreds()">Update Credentials</button>
                 </div>
                 <div class="card">
-                    <h2 style="margin-bottom:10px;">🏦 Bank Details</h2>
+                    <h2 style="margin-bottom:12px;">🏦 Bank Details</h2>
                     <div class="form-row">
-                        <div class="form-group"><label>Bank Name</label><input type="text" id="set_bank_name"></div>
-                        <div class="form-group"><label>Account Title</label><input type="text" id="set_bank_account_title"></div>
+                        <div class="form-group"><label>Bank Name</label><input type="text" id="set_bank_name" placeholder="e.g., HBL Bank"></div>
+                        <div class="form-group"><label>Account Title</label><input type="text" id="set_bank_account_title" placeholder="e.g., NUSTology Prep"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Account Number</label><input type="text" id="set_bank_account_number"></div>
-                        <div class="form-group"><label>IBAN</label><input type="text" id="set_bank_iban"></div>
+                        <div class="form-group"><label>Account Number</label><input type="text" id="set_bank_account_number" placeholder="1234-5678-9012"></div>
+                        <div class="form-group"><label>IBAN</label><input type="text" id="set_bank_iban" placeholder="PK00HBL0000001234567890"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>EasyPaisa</label><input type="text" id="set_easypaisa_number"></div>
-                        <div class="form-group"><label>JazzCash</label><input type="text" id="set_jazzcash_number"></div>
+                        <div class="form-group"><label>EasyPaisa</label><input type="text" id="set_easypaisa_number" placeholder="0300-0000000"></div>
+                        <div class="form-group"><label>JazzCash</label><input type="text" id="set_jazzcash_number" placeholder="0300-0000000"></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Registration Fee (Rs.)</label><input type="number" id="set_registration_fee" value="500"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+                    <button class="btn btn-primary" onclick="saveSettings()">💾 Save Settings</button>
                 </div>
             </div>
         </div>
@@ -730,21 +894,21 @@
 <!-- MODALS -->
 <div class="modal" id="addStudentModal">
     <div class="modal-box">
-        <h3>➕ Add Student</h3>
+        <h3>➕ Add New Student</h3>
         <div class="form-row">
-            <div class="form-group"><label>Username *</label><input type="text" id="newStuUsername"></div>
-            <div class="form-group"><label>Password *</label><input type="text" id="newStuPassword"></div>
+            <div class="form-group"><label>Username *</label><input type="text" id="newStuUsername" placeholder="Enter username"></div>
+            <div class="form-group"><label>Password *</label><input type="text" id="newStuPassword" placeholder="Enter password"></div>
         </div>
         <div class="form-row">
-            <div class="form-group"><label>Full Name</label><input type="text" id="newStuName"></div>
-            <div class="form-group"><label>Email</label><input type="email" id="newStuEmail"></div>
+            <div class="form-group"><label>Full Name</label><input type="text" id="newStuName" placeholder="Full name"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="newStuEmail" placeholder="Email address"></div>
         </div>
         <div class="form-row full">
-            <div class="form-group"><label>Category</label><select id="newStuField"><option>Engineering</option><option>CS</option><option>Business</option><option>Architecture</option></select></div>
+            <div class="form-group"><label>Category</label><select id="newStuField"><option>Engineering</option><option>CS</option><option>Business</option><option>Architecture</option><option>Applied Sciences</option></select></div>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addStudent()">Add</button>
+            <button class="btn btn-primary" onclick="addStudent()">Add Student</button>
         </div>
     </div>
 </div>
@@ -752,19 +916,26 @@
 <div class="modal" id="addLectureModal">
     <div class="modal-box">
         <h3>🎬 Add Video Lecture</h3>
-        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div></div>
-        <div class="form-row full"><div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=..."></div></div>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="lecTitle" placeholder="Lecture title"></div></div>
+        <div class="form-row full">
+            <div class="form-group"><label>YouTube URL *</label>
+                <div class="url-input-wrap">
+                    <span class="icon">▶</span>
+                    <input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+            </div>
+        </div>
         <div class="form-row">
             <div class="form-group"><label>Field</label><select id="lecField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
             <div class="form-group"><label>Subject</label><select id="lecSubject"><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
         </div>
         <div class="form-row">
-            <div class="form-group"><label>Instructor</label><input type="text" id="lecInstructor"></div>
+            <div class="form-group"><label>Instructor</label><input type="text" id="lecInstructor" placeholder="Instructor name"></div>
             <div class="form-group"><label>Duration</label><input type="text" id="lecDuration" placeholder="2h 30m"></div>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addLectureModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addLecture()">Add</button>
+            <button class="btn btn-primary" onclick="addLecture()">Add Lecture</button>
         </div>
     </div>
 </div>
@@ -772,20 +943,25 @@
 <div class="modal" id="addMeritModal">
     <div class="modal-box">
         <h3>🏆 Add Merit List</h3>
-        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="merTitle"></div></div>
+        <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="merTitle" placeholder="Merit list title"></div></div>
         <div class="form-row three">
             <div class="form-group"><label>Field</label><select id="merField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
             <div class="form-group"><label>Year</label><input type="text" id="merYear" value="2025"></div>
-            <div class="form-group"><label>Program</label><input type="text" id="merProgram"></div>
+            <div class="form-group"><label>Program</label><input type="text" id="merProgram" placeholder="Program name"></div>
         </div>
         <div class="form-row">
-            <div class="form-group"><label>Campus</label><input type="text" id="merCampus"></div>
-            <div class="form-group"><label>File URL</label><input type="url" id="merFileUrl" placeholder="https://drive.google.com/..."></div>
+            <div class="form-group"><label>Campus</label><input type="text" id="merCampus" placeholder="Campus name"></div>
+            <div class="form-group"><label>File URL</label>
+                <div class="url-input-wrap">
+                    <span class="icon">🔗</span>
+                    <input type="url" id="merFileUrl" placeholder="https://drive.google.com/...">
+                </div>
+            </div>
         </div>
-        <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="merDesc" rows="2"></textarea></div></div>
+        <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="merDesc" rows="2" placeholder="Description..."></textarea></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addMeritModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="addMerit()">Add</button>
+            <button class="btn btn-primary" onclick="addMerit()">Add Merit List</button>
         </div>
     </div>
 </div>
@@ -801,10 +977,10 @@
 <div class="modal" id="resetPwdModal">
     <div class="modal-box">
         <h3>🔑 Reset Password</h3>
-        <div class="form-row full"><div class="form-group"><label>New Password</label><input type="text" id="resetNewPassword" placeholder="Min 6 chars"></div></div>
+        <div class="form-row full"><div class="form-group"><label>New Password</label><input type="text" id="resetNewPassword" placeholder="Min 6 characters"></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('resetPwdModal')">Cancel</button>
-            <button class="btn btn-primary" onclick="confirmResetPassword()">Reset</button>
+            <button class="btn btn-primary" onclick="confirmResetPassword()">Reset Password</button>
         </div>
     </div>
 </div>
@@ -812,7 +988,7 @@
 <div class="modal" id="rejectRegModal">
     <div class="modal-box">
         <h3>❌ Reject Registration</h3>
-        <div class="form-row full"><div class="form-group"><label>Reason *</label><textarea id="rejectReason" rows="3"></textarea></div></div>
+        <div class="form-row full"><div class="form-group"><label>Reason *</label><textarea id="rejectReason" rows="3" placeholder="Explain why this registration is being rejected..."></textarea></div></div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('rejectRegModal')">Cancel</button>
             <button class="btn btn-danger" onclick="confirmRejectReg()">Reject</button>
@@ -932,7 +1108,6 @@
 
         closeSidebar();
         
-        // Load data for the page
         if (page === 'registrations') loadRegistrations();
         else if (page === 'students') loadStudents();
         else if (page === 'pdfs') loadPDFs();
@@ -952,10 +1127,31 @@
             if (!data.success) return;
             const s = data.stats || {};
             document.getElementById('dashboardStats').innerHTML = `
-                <div class="stat-card"><div class="stat-label">Total Students</div><div class="stat-value">${s.totalStudents || 0}</div></div>
-                <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value">${s.activeStudents || 0}</div></div>
-                <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value">${s.pendingStudents || 0}</div></div>
-                <div class="stat-card"><div class="stat-label">Tests Taken</div><div class="stat-value">${s.totalTests || 0}</div></div>
+                <div class="stat-card">
+                    <div class="icon">👥</div>
+                    <div class="label">Total Students</div>
+                    <div class="value">${s.totalStudents || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">✅</div>
+                    <div class="label">Active Students</div>
+                    <div class="value">${s.activeStudents || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">⏳</div>
+                    <div class="label">Pending Approvals</div>
+                    <div class="value">${s.pendingStudents || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">📝</div>
+                    <div class="label">Tests Taken</div>
+                    <div class="value">${s.totalTests || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">📄</div>
+                    <div class="label">Documents</div>
+                    <div class="value">${s.totalDocs || 0}</div>
+                </div>
             `;
             document.getElementById('studentCount').textContent = s.totalStudents || 0;
             if (s.pendingStudents > 0) {
@@ -1056,7 +1252,7 @@
             const data = await res.json();
             if (data.success) {
                 closeModal('resetPwdModal');
-                alert(`Password reset: ${newPassword}`);
+                alert(`✅ Password reset successfully!\n\nNew Password: ${newPassword}`);
                 loadStudents();
             }
         } catch (e) { alert('Failed'); }
@@ -1085,7 +1281,7 @@
                 closeModal('addStudentModal');
                 document.querySelectorAll('#addStudentModal input').forEach(i => i.value = '');
                 loadStudents();
-                alert(`Added! ${body.username} / ${body.password}`);
+                alert(`✅ Student added!\n\nUsername: ${body.username}\nPassword: ${body.password}`);
             }
         } catch (e) {}
     }
@@ -1104,13 +1300,14 @@
             let html = `
                 <h3>${escapeHtml(s.full_name || s.username)} <span style="font-size:13px; color:var(--gray);">@${escapeHtml(s.username)}</span></h3>
 
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;">
-                    <div class="card"><div class="stat-label">Total Tests</div><div style="font-size:20px; font-weight:700;">${attempts.length}</div></div>
-                    <div class="card"><div class="stat-label">Avg Score</div><div style="font-size:20px; font-weight:700;">${data.performanceScore || 0}%</div></div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:14px 0;">
+                    <div class="card"><div class="stat-label">Total Tests</div><div style="font-size:24px; font-weight:700;">${attempts.length}</div></div>
+                    <div class="card"><div class="stat-label">Avg Score</div><div style="font-size:24px; font-weight:700;">${data.performanceScore || 0}%</div></div>
+                    <div class="card"><div class="stat-label">Best Score</div><div style="font-size:24px; font-weight:700;">${s.best_score || 0}%</div></div>
                 </div>
 
-                <div style="margin-bottom:12px;">
-                    <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:6px;">Subject Performance</h4>`;
+                <div style="margin-bottom:14px;">
+                    <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:8px;">📊 Subject Performance</h4>`;
 
             if (subjectPerf.length) {
                 html += `<div class="chart-container" style="height:150px;"><div class="chart-bars">`;
@@ -1130,8 +1327,8 @@
             }
 
             html += `</div>
-                <div style="margin-bottom:12px;">
-                    <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:6px;">Test History</h4>`;
+                <div style="margin-bottom:14px;">
+                    <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:8px;">📝 Test History</h4>`;
 
             if (!attempts.length) {
                 html += '<div class="empty">No tests taken</div>';
@@ -1320,7 +1517,7 @@
             });
             const data = await res.json();
             if (data.success) {
-                alert('Approved!');
+                alert('✅ Registration approved!');
                 loadRegistrations();
                 loadDashboard();
             }
@@ -1356,7 +1553,10 @@
         const url = document.getElementById('pdfUrl').value.trim();
         const desc = document.getElementById('pdfDesc').value.trim();
 
-        if (!title || !url) return alert('Title and URL required');
+        if (!title || !url) {
+            alert('❌ Title and File URL are required');
+            return;
+        }
 
         try {
             const res = await fetch(`${API_BASE}/pdfs`, {
@@ -1366,14 +1566,18 @@
             });
             const data = await res.json();
             if (data.success) {
-                alert('PDF added!');
+                alert('✅ PDF added successfully!');
                 document.getElementById('pdfTitle').value = '';
                 document.getElementById('pdfYear').value = '';
                 document.getElementById('pdfUrl').value = '';
                 document.getElementById('pdfDesc').value = '';
                 loadPDFs();
+            } else {
+                alert('❌ Failed to add: ' + (data.message || 'Unknown error'));
             }
-        } catch (e) { alert('Error: ' + e.message); }
+        } catch (e) {
+            alert('❌ Error: ' + e.message);
+        }
     }
 
     async function loadPDFs() {
@@ -1396,7 +1600,7 @@
     }
 
     async function deletePDF(id) {
-        if (!confirm('Delete?')) return;
+        if (!confirm('Delete this PDF?')) return;
         try {
             await fetch(`${API_BASE}/pdfs/${id}`, { method: 'DELETE', headers: getHeaders() });
             loadPDFs();
@@ -1412,7 +1616,10 @@
         const url = document.getElementById('noteUrl').value.trim();
         const desc = document.getElementById('noteDesc').value.trim();
 
-        if (!title || !url) return alert('Title and URL required');
+        if (!title || !url) {
+            alert('❌ Title and File URL are required');
+            return;
+        }
 
         try {
             const res = await fetch(`${API_BASE}/notes`, {
@@ -1422,14 +1629,18 @@
             });
             const data = await res.json();
             if (data.success) {
-                alert('Note added!');
+                alert('✅ Notes added successfully!');
                 document.getElementById('noteTitle').value = '';
                 document.getElementById('noteTopic').value = '';
                 document.getElementById('noteUrl').value = '';
                 document.getElementById('noteDesc').value = '';
                 loadNotes();
+            } else {
+                alert('❌ Failed to add: ' + (data.message || 'Unknown error'));
             }
-        } catch (e) { alert('Error: ' + e.message); }
+        } catch (e) {
+            alert('❌ Error: ' + e.message);
+        }
     }
 
     async function loadNotes() {
@@ -1452,7 +1663,7 @@
     }
 
     async function deleteNote(id) {
-        if (!confirm('Delete?')) return;
+        if (!confirm('Delete this note?')) return;
         try {
             await fetch(`${API_BASE}/notes/${id}`, { method: 'DELETE', headers: getHeaders() });
             loadNotes();
@@ -1554,7 +1765,7 @@
                     if (i.id !== 'merYear') i.value = '';
                 });
                 loadAdminMerit();
-                alert('Merit added!');
+                alert('✅ Merit list added!');
             }
         } catch (e) {}
     }
@@ -1597,7 +1808,7 @@
             if (data.success) {
                 document.getElementById('notifMessage').value = '';
                 loadNotifications();
-                alert('Sent!');
+                alert('✅ Notification sent!');
             }
         } catch (e) {}
     }
@@ -1610,10 +1821,10 @@
             if (!data.success) return;
 
             document.getElementById('analyticsStats').innerHTML = `
-                <div class="stat-card"><div class="stat-label">Total Tests</div><div class="stat-value">${data.totalTests || 0}</div></div>
-                <div class="stat-card"><div class="stat-label">Avg Score</div><div class="stat-value">${(data.avgScore || 0).toFixed(1)}%</div></div>
-                <div class="stat-card"><div class="stat-label">Active Students</div><div class="stat-value">${data.activeStudents || 0}</div></div>
-                <div class="stat-card"><div class="stat-label">Completion Rate</div><div class="stat-value">${(data.completionRate || 0).toFixed(1)}%</div></div>
+                <div class="stat-card"><div class="icon">📝</div><div class="label">Total Tests</div><div class="value">${data.totalTests || 0}</div></div>
+                <div class="stat-card"><div class="icon">📊</div><div class="label">Avg Score</div><div class="value">${(data.avgScore || 0).toFixed(1)}%</div></div>
+                <div class="stat-card"><div class="icon">👥</div><div class="label">Active Students</div><div class="value">${data.activeStudents || 0}</div></div>
+                <div class="stat-card"><div class="icon">🎯</div><div class="label">Completion Rate</div><div class="value">${(data.completionRate || 0).toFixed(1)}%</div></div>
             `;
 
             const subjectData = data.subjectPerformance || [];
@@ -1682,7 +1893,7 @@
                 headers: { ...getHeaders(), 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            if ((await res.json()).success) alert('Saved!');
+            if ((await res.json()).success) alert('✅ Settings saved!');
         } catch (e) {}
     }
 
@@ -1703,7 +1914,7 @@
             });
             const data = await res.json();
             if (data.success) {
-                alert('Credentials updated! Login again.');
+                alert('✅ Credentials updated! Login again.');
                 logoutAdmin();
             }
         } catch (e) {}
