@@ -108,6 +108,30 @@
             align-items: center; justify-content: center;
         }
         .mobile-toggle svg { width: 20px; height: 20px; }
+        .topbar-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .close-btn {
+            background: var(--gray-lighter);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            min-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+        .close-btn:hover { background: var(--danger); color: #fff; }
+        .close-btn svg { width: 16px; height: 16px; }
         .logout-btn {
             background: var(--gray-lighter); border: none;
             padding: 8px 14px; border-radius: 8px;
@@ -118,6 +142,36 @@
         .logout-btn:hover { background: var(--danger); color: #fff; }
 
         .content { padding: 20px; max-width: 1100px; margin: 0 auto; }
+
+        /* ========== LOADING OVERLAY ========== */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .loading-overlay.hidden { display: none; }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-lighter);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-overlay p {
+            color: var(--gray);
+            font-size: 14px;
+            font-weight: 500;
+        }
 
         /* ========== SUMMARY ========== */
         .summary {
@@ -360,12 +414,6 @@
         .tag-your { background: var(--danger); color: white; }
         .tag-your-correct { background: var(--success); color: white; }
 
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray);
-        }
-
         .empty {
             text-align: center;
             padding: 60px 20px;
@@ -412,6 +460,8 @@
             .topbar p { display: none; }
             .stats { grid-template-columns: repeat(2, 1fr); }
             .summary-header { flex-direction: column; align-items: stretch; }
+            .topbar-actions .logout-btn span { display: none; }
+            .close-btn span { display: none; }
         }
     </style>
 </head>
@@ -457,12 +507,24 @@
                     <p>Review your test performance</p>
                 </div>
             </div>
-            <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="topbar-actions">
+                <button class="close-btn" onclick="goToDashboard()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <span>Close</span>
+                </button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
         </div>
 
         <div class="content">
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <p>Loading your test review...</p>
+            </div>
+
             <div class="summary" id="summaryCard">
-                <div class="loading">Loading test review...</div>
+                <div class="empty">Loading test review...</div>
             </div>
 
             <div class="filter-tabs" id="filterTabs" style="display: none;">
@@ -503,6 +565,10 @@
         document.getElementById('sidebarOverlay').classList.remove('show');
     }
 
+    function goToDashboard() {
+        window.location.href = 'student.html';
+    }
+
     async function checkAuth() {
         const token = localStorage.getItem('nustology_token');
         if (!token) { window.location.href = '/index.html'; return; }
@@ -533,14 +599,22 @@
 
         if (!attemptId) {
             document.getElementById('summaryCard').innerHTML = '<div class="empty">No test ID provided</div>';
+            document.getElementById('loadingOverlay').classList.add('hidden');
             return;
         }
 
         try {
+            // Show loading overlay
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            
             const res = await fetch(`${API_BASE}/tests/review/${attemptId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
+            
+            // Hide loading overlay
+            document.getElementById('loadingOverlay').classList.add('hidden');
+            
             if (!data.success) throw new Error(data.message);
 
             renderSummary(data.attempt);
@@ -548,6 +622,7 @@
             renderQuestions(allAnswers);
             document.getElementById('filterTabs').style.display = 'flex';
         } catch (err) {
+            document.getElementById('loadingOverlay').classList.add('hidden');
             document.getElementById('summaryCard').innerHTML = `<div class="empty">Error: ${err.message}</div>`;
         }
     }
@@ -669,6 +744,7 @@
         window.location.href = '/index.html';
     }
 
+    // Initialize
     checkAuth();
     loadReview();
 </script>
