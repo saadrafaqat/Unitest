@@ -1257,13 +1257,58 @@ async function adminToggleStudentActive(request, db, headers, id) {
 async function adminResetStudentPassword(request, db, headers, id) {
     const admin = await getAdmin(request, db);
     if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
-    const { newPassword } = await request.json();
-    if (!newPassword) return json({ success: false, message: 'New password required' }, 400, headers);
-    await db.prepare('UPDATE students SET password = ? WHERE id = ?').bind(newPassword, id).run();
-    await db.prepare(`INSERT INTO notifications (title, message, type, target_audience, created_by) VALUES (?, ?, 'system', 'all', 'admin')`).bind(
-        'Password Reset', 'Your password has been reset by the administrator. Please login with your new password.', 'system'
-    ).run();
-    return json({ success: true, message: 'Password reset successfully' }, 200, headers);
+    
+    let body;
+    try {
+        body = await request.json();
+    } catch (e) {
+        return json({ success: false, message: 'Invalid request body' }, 400, headers);
+    }
+    
+    const { newPassword } = body;
+    if (!newPassword || newPassword.length < 6) {
+        return json({ success: false, message: 'New password required (min 6 chars)' }, 400, headers);
+    }
+    
+    try {
+        // Check if student exists
+        const student = await db.prepare('SELECT id, username FROM students WHERE id = ?').bind(id).first();
+        if (!student) {
+            return json({ success: false, message: 'Student not found' }, 404, headers);
+        }
+        
+        // Update password
+        await db.prepare('UPDATE students SET password = ? WHERE id = ?').bind(newPassword, id).run();
+        
+        // Try to create notification (non-critical, don't fail if this errors)
+        try {
+            await db.prepare(`
+                INSERT INTO notifications (title, message, type, target_audience, created_by) 
+                VALUES (?, ?, ?, ?, ?)
+            `).bind(
+                'Password Reset',
+                'Your password has been reset by the administrator. Please login with your new password.',
+                'system',
+                'all',
+                'admin'
+            ).run();
+        } catch (notifErr) {
+            console.warn('Notification insert failed (non-critical):', notifErr.message);
+        }
+        
+        return json({ 
+            success: true, 
+            message: 'Password reset successfully',
+            username: student.username
+        }, 200, headers);
+        
+    } catch (err) {
+        console.error('Reset password error:', err);
+        return json({ 
+            success: false, 
+            message: 'Database error: ' + err.message 
+        }, 500, headers);
+    }
 }
 
 // NEW: Admin Test Review
