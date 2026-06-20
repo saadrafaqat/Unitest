@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /register.html
+Allow: /faq.html
+Allow: /aggregate.html
+Allow: /merit.html
+Allow: /forgot-password.html
+
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /admin-analytics.html
+Disallow: /admin-notes.html
+Disallow: /admin-notifications.html
+Disallow: /admin-pdfs.html
+Disallow: /student.html
+Disallow: /profile.html
+Disallow: /test.html
+Disallow: /review.html
+Disallow: /chat.html
+Disallow: /community.html
+Disallow: /notifications.html
+Disallow: /lectures.html
+Disallow: /pdfs.html
+Disallow: /notes.html
+Disallow: /payment-pending.html
+Disallow: /leaderboard.html
+Disallow: /api/
+Disallow: /js/
+
+Sitemap: https://nustology-prep.pages.dev/sitemap.xml
