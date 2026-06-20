@@ -4,80 +4,142 @@
     <script src="js/protection.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
-    <meta name="theme-color" content="#1a56db">
     <title>Video Lectures - NUSTology Prep.</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #1a56db; --primary-dark: #1e3a8a; --primary-bg: #eff6ff;
             --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
-            --white: #fff; --bg: #f8fafc; --border: #e2e8f0;
-            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
-            --radius: 10px; --radius-lg: 14px;
+            --white: #fff; --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+        }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--dark); min-height: 100vh; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: white; border-right: 1px solid var(--gray-lighter); padding: 24px 16px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+        .sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 0 12px 24px; border-bottom: 1px solid var(--gray-lighter); margin-bottom: 20px; }
+        .sidebar-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
+        .sidebar-logo .text { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; }
+        .sidebar-logo .nust { color: var(--primary); }
+        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .menu-section { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding: 16px 12px 8px; }
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+        .menu-item svg { width: 18px; height: 18px; }
+        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
+        .menu-item.active { background: var(--primary); color: white; }
+        .main { flex: 1; margin-left: 260px; min-height: 100vh; }
+        .topbar { background: white; padding: 16px 32px; border-bottom: 1px solid var(--gray-lighter); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
+        .topbar p { font-size: 13px; color: var(--gray); margin-top: 2px; }
+        .logout-btn { background: var(--gray-lighter); border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--dark); font-family: inherit; }
+        .logout-btn:hover { background: var(--danger); color: white; }
+        .content { padding: 32px; max-width: 1200px; margin: 0 auto; }
+
+        .filter-bar {
+            background: white; padding: 16px 20px; border-radius: 12px; margin-bottom: 24px;
+            border: 1px solid var(--gray-lighter); display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+        }
+        .filter-bar .filter-group { display: flex; align-items: center; gap: 8px; }
+        .filter-bar label { font-size: 13px; font-weight: 600; }
+        .filter-bar select {
+            padding: 8px 14px; border: 1.5px solid var(--gray-lighter); border-radius: 8px;
+            font-family: inherit; font-size: 13px; cursor: pointer;
+        }
+        .filter-bar select:focus { outline: none; border-color: var(--primary); }
+
+        .lectures-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 20px;
+        }
+        .lecture-card {
+            background: white; border-radius: 14px; overflow: hidden;
+            border: 1px solid var(--gray-lighter); transition: all 0.3s; cursor: pointer;
+        }
+        .lecture-card:hover {
+            transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            border-color: var(--primary);
+        }
+        .thumb {
+            position: relative; aspect-ratio: 16/9; background: var(--gray-lighter);
+            overflow: hidden;
+        }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .play-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.3);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .lecture-card:hover .play-overlay { opacity: 1; }
+        .play-btn {
+            width: 60px; height: 60px; border-radius: 50%; background: var(--primary);
+            display: flex; align-items: center; justify-content: center; color: white;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .duration-badge {
+            position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.85);
+            color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+        }
+        .difficulty-badge {
+            position: absolute; top: 10px; left: 10px; padding: 3px 10px;
+            border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .difficulty-badge.easy { background: var(--success); color: white; }
+        .difficulty-badge.medium { background: var(--warning); color: white; }
+        .difficulty-badge.hard { background: var(--danger); color: white; }
+
+        .lecture-info { padding: 16px; }
+        .subject-tag {
+            display: inline-block; padding: 3px 10px; background: var(--primary-bg);
+            color: var(--primary); border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 8px;
+        }
+        .lecture-title {
+            font-weight: 700; font-size: 15px; margin-bottom: 6px; line-height: 1.4;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .lecture-instructor {
+            font-size: 12px; color: var(--gray); display: flex; align-items: center; gap: 6px;
+        }
+        .lecture-instructor svg { width: 14px; height: 14px; }
+
+        .empty { text-align: center; padding: 80px 20px; color: var(--gray); }
+        .empty svg { width: 70px; height: 70px; opacity: 0.3; margin-bottom: 14px; }
+
+        /* Video Modal */
+        .video-modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+            z-index: 2000; align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .video-modal.show { display: flex; }
+        .video-modal-content {
+            max-width: 1000px; width: 100%; background: var(--dark);
+            border-radius: 14px; overflow: hidden;
+        }
+        .video-header {
+            padding: 14px 20px; display: flex; justify-content: space-between;
+            align-items: center; color: white;
+        }
+        .video-header h3 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; }
+        .video-close {
+            width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15);
+            border: none; color: white; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; transition: all 0.2s;
+        }
+        .video-close:hover { background: var(--danger); }
+        .video-frame {
+            position: relative; padding-bottom: 56.25%; height: 0; background: black;
+        }
+        .video-frame iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
         }
 
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; font-size: 15px; }
-        .layout { display: flex; min-height: 100vh; }
-
-        /* Sidebar & Topbar */
-        .sidebar { width: 250px; background: #fff; border-right: 1px solid var(--border); padding: 20px 14px; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; transition: transform 0.25s ease; }
-        .sidebar-logo { display: flex; align-items: center; gap: 10px; padding: 0 10px 18px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
-        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
-        .sidebar-logo .text { font-size: 16px; font-weight: 700; line-height: 1.2; }
-        .sidebar-logo .nust { color: var(--primary); }
-        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 12px; display: block; }
-        
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-        .menu-section { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding: 14px 12px 6px; }
-        .menu-item { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 8px; color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; min-height: 40px; transition: background 0.2s, color 0.2s; }
-        .menu-item svg { width: 18px; height: 18px; flex-shrink: 0; }
-        .menu-item:hover { background: var(--primary-bg); color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: #fff; }
-
-        .main { flex: 1; margin-left: 250px; min-height: 100vh; padding-bottom: 70px; }
-        .topbar { background: #fff; padding: 10px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; min-height: 60px; }
-        .topbar-left { display: flex; align-items: center; gap: 12px; }
-        .topbar h1 { font-size: 18px; font-weight: 700; }
-        .topbar p { font-size: 12px; color: var(--gray); }
-        .mobile-toggle { display: none; background: var(--gray-lighter); border: none; padding: 8px; border-radius: 8px; cursor: pointer; }
-        .logout-btn { background: var(--gray-lighter); border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--dark); }
-        .logout-btn:hover { background: var(--danger); color: #fff; }
-
-        /* Content & Grid */
-        .content { padding: 20px; max-width: 1100px; margin: 0 auto; }
-        .filter-bar { background: white; padding: 12px 16px; border-radius: var(--radius); margin-bottom: 16px; border: 1px solid var(--border); display: flex; gap: 12px; flex-wrap: wrap; }
-        .filter-bar select { padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; cursor: pointer; }
-        
-        .lectures-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .lecture-card { background: white; border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden; transition: 0.3s; cursor: pointer; }
-        .lecture-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .thumb { position: relative; aspect-ratio: 16/9; background: #eee; overflow: hidden; }
-        .thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); opacity: 0; transition: 0.3s; }
-        .lecture-card:hover .play-overlay { opacity: 1; }
-        .play-btn { width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .duration-badge { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-        .difficulty-badge { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: white; }
-        .difficulty-badge.easy { background: var(--success); }
-        .difficulty-badge.medium { background: var(--warning); }
-        .difficulty-badge.hard { background: var(--danger); }
-        
-        .lecture-info { padding: 16px; }
-        .subject-tag { display: inline-block; padding: 2px 8px; background: var(--primary-bg); color: var(--primary); border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 8px; }
-        .lecture-title { font-weight: 600; font-size: 15px; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .lecture-instructor { font-size: 12px; color: var(--gray); display: flex; align-items: center; gap: 6px; }
-
-        /* Modal */
-        .video-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-        .video-modal.show { display: flex; }
-        .video-modal-content { max-width: 900px; width: 100%; background: #000; border-radius: 12px; overflow: hidden; }
-
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
             .sidebar.open { transform: translateX(0); }
             .main { margin-left: 0; }
-            .mobile-toggle { display: flex; }
+            .mobile-toggle { display: block; }
+            .content { padding: 20px; }
         }
     </style>
 </head>
@@ -87,7 +149,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
             <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
-            <div class="text"><span class="nust">NUST</span>ology <span class="prep">Prep.</span></div>
+            <div class="text"><span class="nust">NUST</span>ology <div class="prep">Prep.</div></div>
         </div>
         <ul class="sidebar-menu">
             <div class="menu-section">Main</div>
@@ -97,15 +159,21 @@
             <div class="menu-section">Learn</div>
             <li><a href="lectures.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Video Lectures</a></li>
             <li><a href="aggregate.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>Aggregate Calculator</a></li>
+            <li><a href="merit.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Past Merit Lists</a></li>
             <li><a href="faq.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>FAQs</a></li>
+            <div class="menu-section">Community</div>
+            <li><a href="chat.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat</a></li>
+            <li><a href="community.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Community</a></li>
+            <div class="menu-section">Account</div>
+            <li><a href="profile.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Profile</a></li>
         </ul>
     </aside>
 
     <main class="main">
         <div class="topbar">
-            <div class="topbar-left">
+            <div style="display:flex; align-items:center; gap:12px;">
                 <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </button>
                 <div>
                     <h1>Video Lectures</h1>
@@ -117,30 +185,51 @@
 
         <div class="content">
             <div class="filter-bar">
-                <select id="fieldFilter" onchange="loadLectures()">
-                    <option value="all">All Fields</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Medical">Medical</option>
-                </select>
-                <select id="subjectFilter" onchange="loadLectures()">
-                    <option value="all">All Subjects</option>
-                    <option value="Physics">Physics</option>
-                    <option value="Mathematics">Mathematics</option>
-                </select>
+                <div class="filter-group">
+                    <label>Field:</label>
+                    <select id="fieldFilter" onchange="loadLectures()">
+                        <option value="all">All Fields</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Business">Business</option>
+                        <option value="Architecture">Architecture</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Subject:</label>
+                    <select id="subjectFilter" onchange="loadLectures()">
+                        <option value="all">All Subjects</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Biology">Biology</option>
+                        <option value="English">English</option>
+                        <option value="Intelligence">Intelligence</option>
+                    </select>
+                </div>
             </div>
-            <div id="lecturesContainer" class="lectures-grid"></div>
+
+            <div id="lecturesContainer">
+                <div class="empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+                    <p>Loading lectures...</p>
+                </div>
+            </div>
         </div>
     </main>
 </div>
 
+<!-- Video Modal -->
 <div class="video-modal" id="videoModal">
     <div class="video-modal-content">
-        <div style="padding: 10px 20px; display: flex; justify-content: space-between; align-items:center; color:white;">
-            <h3 id="videoTitle" style="font-size:14px;"></h3>
-            <button class="logout-btn" onclick="closeVideo()">Close</button>
+        <div class="video-header">
+            <h3 id="videoTitle">Video Title</h3>
+            <button class="video-close" onclick="closeVideo()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
         </div>
-        <div style="position:relative; padding-bottom:56.25%; height:0;">
-            <iframe id="videoFrame" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+        <div class="video-frame">
+            <iframe id="videoFrame" allowfullscreen></iframe>
         </div>
     </div>
 </div>
@@ -155,6 +244,7 @@
 
     async function loadLectures() {
         const token = localStorage.getItem('nustology_token');
+        if (!token) { window.location.href = '/index.html'; return; }
         const field = document.getElementById('fieldFilter').value;
         const subject = document.getElementById('subjectFilter').value;
         try {
@@ -164,38 +254,50 @@
             const data = await res.json();
             renderLectures(data.lectures || []);
         } catch (e) {
-            document.getElementById('lecturesContainer').innerHTML = '<p>Failed to load.</p>';
+            document.getElementById('lecturesContainer').innerHTML = '<div class="empty">Failed to load</div>';
         }
     }
 
     function renderLectures(lectures) {
         const container = document.getElementById('lecturesContainer');
         if (!lectures.length) {
-            container.innerHTML = '<p style="color:var(--gray)">No lectures found.</p>';
+            container.innerHTML = `<div class="empty">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+                <p>No lectures available for this selection</p>
+            </div>`;
             return;
         }
-        container.innerHTML = lectures.map(l => {
+
+        container.innerHTML = `<div class="lectures-grid">${lectures.map(l => {
             const videoId = getYouTubeId(l.youtube_url);
             const thumb = l.thumbnail || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '');
             return `<div class="lecture-card" onclick="playVideo('${videoId}', '${l.title.replace(/'/g, "\\'")}')">
                 <div class="thumb">
-                    <img src="${thumb}" onerror="this.src=''">
+                    ${thumb ? `<img src="${thumb}">` : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gray);">No Thumbnail</div>'}
+                    <div class="play-overlay">
+                        <div class="play-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        </div>
+                    </div>
                     ${l.difficulty ? `<span class="difficulty-badge ${l.difficulty.toLowerCase()}">${l.difficulty}</span>` : ''}
                     ${l.duration ? `<span class="duration-badge">${l.duration}</span>` : ''}
-                    <div class="play-overlay"><div class="play-btn">▶</div></div>
                 </div>
                 <div class="lecture-info">
                     <span class="subject-tag">${l.subject}</span>
                     <div class="lecture-title">${l.title}</div>
-                    <div class="lecture-instructor">Instructor: ${l.instructor || 'N/A'}</div>
+                    <div class="lecture-instructor">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        ${l.instructor || 'Unknown'}
+                    </div>
                 </div>
             </div>`;
-        }).join('');
+        }).join('')}</div>`;
     }
 
-    function playVideo(id, title) {
+    function playVideo(videoId, title) {
+        if (!videoId) return alert('Invalid video URL');
         document.getElementById('videoTitle').textContent = title;
-        document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+        document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
         document.getElementById('videoModal').classList.add('show');
     }
 
@@ -204,13 +306,19 @@
         document.getElementById('videoModal').classList.remove('show');
     }
 
+    document.getElementById('videoModal').addEventListener('click', e => {
+        if (e.target.id === 'videoModal') closeVideo();
+    });
+
     async function logout() {
-        if(!confirm('Logout?')) return;
+        const token = localStorage.getItem('nustology_token');
+        try { await fetch(`${API_BASE}/auth/logout`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e){}
         localStorage.clear();
         window.location.href = '/index.html';
     }
 
     loadLectures();
 </script>
+<script src="js/darkmode.js"></script>
 </body>
 </html>
