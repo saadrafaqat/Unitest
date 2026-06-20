@@ -1867,21 +1867,34 @@
     }
 
     async function confirmResetPassword() {
-        const newPassword = document.getElementById('resetNewPassword').value;
-        if (!newPassword || newPassword.length < 6) return alert('Password must be at least 6 characters');
-        try {
-            const res = await fetch(`${API_BASE}/admin/students/${currentResetStudentId}/reset-password`, {
-                method:'POST',
-                headers: {...getHeaders(), 'Content-Type':'application/json'},
-                body: JSON.stringify({newPassword})
-            });
-            const data = await res.json();
-            if (data.success) {
-                closeModal('resetPwdModal');
-                alert(`Password reset!\n\nNew password: ${newPassword}\n\nSend this to the student.`);
-            }
-        } catch(e) {}
+    const newPassword = document.getElementById('resetNewPassword').value;
+    if (!newPassword || newPassword.length < 6) return alert('Password must be at least 6 characters');
+    
+    if (!currentResetStudentId) {
+        alert('Error: No student selected. Please close and try again.');
+        return;
     }
+
+    try {
+        const res = await fetch(`${API_BASE}/admin/students/${currentResetStudentId}/reset-password`, {
+            method: 'POST',
+            headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ newPassword })
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+            closeModal('resetPwdModal');
+            alert(`✓ Password reset successfully!\n\nUsername: (see student profile)\nNew Password: ${newPassword}\n\nSend this to the student via WhatsApp/Email.`);
+        } else {
+            alert('Failed: ' + (data.message || 'Unknown error'));
+        }
+    } catch(e) {
+        alert('Network error: ' + e.message);
+        console.error('Reset password error:', e);
+    }
+}
 
     function openAddStudent() { document.getElementById('addStudentModal').classList.add('show'); }
 
