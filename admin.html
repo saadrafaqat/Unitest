@@ -1137,8 +1137,8 @@
     let studentChartInst = null;
 
     // Cloudinary config - update these
-    const CLOUDINARY_CLOUD_NAME = 'your_cloud_name';
-    const CLOUDINARY_UPLOAD_PRESET = 'your_upload_preset';
+    const CLOUDINARY_CLOUD_NAME = 'dmvcr0fub';
+    const CLOUDINARY_UPLOAD_PRESET = 'nustology_uploads';
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
@@ -1807,40 +1807,90 @@
     }
 
     async function viewTestReview(attemptId, studentId) {
+    // Try multiple endpoints
+    const endpoints = [
+        `${API_BASE}/admin/students/${studentId}/attempts/${attemptId}`,
+        `${API_BASE}/admin/attempts/${attemptId}`,
+        `${API_BASE}/admin/test-attempts/${attemptId}`,
+        `${API_BASE}/attempts/${attemptId}`,
+        `${API_BASE}/tests/attempts/${attemptId}`
+    ];
+
+    let data = null;
+    for (const ep of endpoints) {
         try {
-            const res = await fetch(`${API_BASE}/admin/students/${studentId}/attempts/${attemptId}`, {headers: getHeaders()});
-            const data = await res.json();
-            if (!data.success) { alert('Could not load test review'); return; }
-            const attempt = data.attempt;
-            const answers = data.answers || [];
-            let html = `
-                <h3>Test Review</h3>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-                    <span class="info-chip">Type: ${attempt.test_type}</span>
-                    <span class="info-chip">Field: ${escapeHtml(attempt.field||'')}</span>
-                    ${attempt.subject ? `<span class="info-chip">Subject: ${escapeHtml(attempt.subject)}</span>` : ''}
-                    <span class="info-chip">Score: ${(attempt.score||0).toFixed(1)}/${attempt.total_marks}</span>
-                    <span class="info-chip">Percentage: ${(attempt.percentage||0).toFixed(1)}%</span>
-                    <span class="info-chip">Date: ${attempt.completed_at?new Date(attempt.completed_at).toLocaleDateString():'-'}</span>
-                </div>`;
-            if (answers.length) {
-                html += `<div class="table-container"><table><thead><tr>
-                    <th>#</th><th>Question</th><th>Student Answer</th><th>Correct</th><th>Result</th>
-                </tr></thead><tbody>${answers.map((a,i)=>`<tr>
-                    <td>${i+1}</td>
-                    <td style="max-width:220px;font-size:11px;">${escapeHtml(a.question_text||'')}</td>
-                    <td>${escapeHtml(a.student_answer||'-')}</td>
-                    <td>${escapeHtml(a.correct_answer||'-')}</td>
-                    <td>${a.is_correct?'<span class="badge badge-success">✓</span>':'<span class="badge badge-danger">✗</span>'}</td>
-                </tr>`).join('')}</tbody></table></div>`;
-            } else {
-                html += '<div class="empty">No detailed answers available</div>';
-            }
-            html += `<div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal('testReviewModal')">Close</button></div>`;
-            document.getElementById('testReviewContent').innerHTML = html;
-            document.getElementById('testReviewModal').classList.add('show');
-        } catch(e) { alert('Failed to load review'); }
+            const res = await fetch(ep, {headers: getHeaders()});
+            if (res.status === 404) continue;
+            const d = await res.json();
+            if (d.success || d.attempt || d.answers) { data = d; break; }
+        } catch(e) {}
     }
+
+    // Build the modal regardless - show basic info even if no detailed answers
+    let html = `<h3>Test Review</h3>`;
+
+    if (!data) {
+        // Show what we have from the attempts list
+        html += `<div style="background:#fef3c7;border:1px solid #fde68a;padding:12px;border-radius:8px;margin-bottom:14px;">
+            <p style="font-size:13px;color:var(--warning);font-weight:600;margin-bottom:4px;">⚠️ Detailed review not available</p>
+            <p style="font-size:12px;color:var(--gray);">The backend doesn't yet expose per-question answers for this test. Basic info shown below.</p>
+        </div>`;
+
+        // Try to find the attempt info from cached student data
+        const studentRes = await fetch(`${API_BASE}/admin/students/${studentId}`, {headers: getHeaders()}).catch(()=>null);
+        if (studentRes) {
+            try {
+                const sd = await studentRes.json();
+                if (sd.success) {
+                    const attempt = (sd.attempts||[]).find(a => a.id === attemptId);
+                    if (attempt) {
+                        html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                            <span class="info-chip">Type: ${attempt.test_type||'-'}</span>
+                            <span class="info-chip">Field: ${escapeHtml(attempt.field||'-')}</span>
+                            ${attempt.subject?`<span class="info-chip">Subject: ${escapeHtml(attempt.subject)}</span>`:''}
+                            <span class="info-chip">Score: ${(attempt.score||0).toFixed(1)}/${attempt.total_marks}</span>
+                            <span class="info-chip">Percentage: ${(attempt.percentage||0).toFixed(1)}%</span>
+                            <span class="info-chip">Date: ${attempt.completed_at?new Date(attempt.completed_at).toLocaleString():'-'}</span>
+                            ${attempt.time_taken?`<span class="info-chip">Time: ${attempt.time_taken}</span>`:''}
+                            ${attempt.correct_answers!=null?`<span class="info-chip" style="background:#dcfce7;color:var(--success);">Correct: ${attempt.correct_answers}</span>`:''}
+                            ${attempt.wrong_answers!=null?`<span class="info-chip" style="background:#fee2e2;color:var(--danger);">Wrong: ${attempt.wrong_answers}</span>`:''}
+                        </div>`;
+                    }
+                }
+            } catch(e) {}
+        }
+    } else {
+        const attempt = data.attempt || data;
+        const answers = data.answers || data.questions || [];
+
+        html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+            <span class="info-chip">Type: ${attempt.test_type||'-'}</span>
+            <span class="info-chip">Field: ${escapeHtml(attempt.field||'')}</span>
+            ${attempt.subject?`<span class="info-chip">Subject: ${escapeHtml(attempt.subject)}</span>`:''}
+            <span class="info-chip">Score: ${(attempt.score||0).toFixed(1)}/${attempt.total_marks}</span>
+            <span class="info-chip">Percentage: ${(attempt.percentage||0).toFixed(1)}%</span>
+            <span class="info-chip">Date: ${attempt.completed_at?new Date(attempt.completed_at).toLocaleString():'-'}</span>
+        </div>`;
+
+        if (answers.length) {
+            html += `<div class="table-container"><table><thead><tr>
+                <th>#</th><th>Question</th><th>Student Answer</th><th>Correct</th><th>Result</th>
+            </tr></thead><tbody>${answers.map((a,i)=>`<tr>
+                <td>${i+1}</td>
+                <td style="max-width:220px;font-size:11px;">${escapeHtml(a.question_text||a.question||'-')}</td>
+                <td>${escapeHtml(a.student_answer||a.selected_answer||a.answer||'-')}</td>
+                <td>${escapeHtml(a.correct_answer||'-')}</td>
+                <td>${a.is_correct?'<span class="badge badge-success">✓</span>':'<span class="badge badge-danger">✗</span>'}</td>
+            </tr>`).join('')}</tbody></table></div>`;
+        } else {
+            html += '<div class="empty">No per-question detail stored for this test</div>';
+        }
+    }
+
+    html += `<div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal('testReviewModal')">Close</button></div>`;
+    document.getElementById('testReviewContent').innerHTML = html;
+    document.getElementById('testReviewModal').classList.add('show');
+}
 
     async function exportStudents() {
         const cat = document.getElementById('stuCategoryFilter').value;
@@ -2013,93 +2063,103 @@
 
     // ===== CLOUDINARY UPLOAD =====
     async function uploadToCloudinary(file, onProgress) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-        formData.append('resource_type', 'raw'); // for PDFs
+    // Check credentials
+    if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === 'your_cloud_name' ||
+        !CLOUDINARY_UPLOAD_PRESET || CLOUDINARY_UPLOAD_PRESET === 'your_upload_preset') {
+        throw new Error('Cloudinary not configured. Update CLOUDINARY_CLOUD_NAME and CLOUDINARY_UPLOAD_PRESET in admin.html');
+    }
 
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/raw/upload`);
-            xhr.upload.onprogress = (e) => {
-                if (e.lengthComputable && onProgress) onProgress(Math.round(e.loaded/e.total*100));
-            };
-            xhr.onload = () => {
-                if (xhr.status === 200) {
-                    const data = JSON.parse(xhr.responseText);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+    // Decide resource type based on file
+    const isImage = file.type.startsWith('image/');
+    const resourceType = isImage ? 'image' : 'raw';
+
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`);
+        // IMPORTANT: Do NOT set any headers manually - browser will set multipart/form-data automatically
+
+        xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable && onProgress) onProgress(Math.round(e.loaded / e.total * 100));
+        };
+        xhr.onload = () => {
+            try {
+                const data = JSON.parse(xhr.responseText);
+                if (xhr.status >= 200 && xhr.status < 300 && data.secure_url) {
                     resolve(data.secure_url);
                 } else {
-                    reject(new Error('Upload failed: ' + xhr.responseText));
+                    reject(new Error(data.error?.message || 'Upload failed'));
                 }
-            };
-            xhr.onerror = () => reject(new Error('Network error'));
-            xhr.send(formData);
-        });
-    }
+            } catch (e) {
+                reject(new Error('Invalid response from Cloudinary'));
+            }
+        };
+        xhr.onerror = () => reject(new Error('Network error - check Cloudinary credentials'));
+        xhr.send(formData);
+    });
+}
 
     async function handlePdfUpload(input) {
-        const file = input.files[0];
-        if (!file) return;
-        if (file.type !== 'application/pdf') { alert('Please upload a PDF file'); input.value=''; return; }
-        if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
+    const file = input.files[0];
+    if (!file) return;
+    if (file.type !== 'application/pdf') { alert('Please upload a PDF file'); input.value=''; return; }
+    if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
 
-        const progress = document.getElementById('pdfUploadProgress');
-        const fill = document.getElementById('pdfUploadFill');
-        const status = document.getElementById('pdfUploadStatus');
-        const zone = document.getElementById('pdfUploadZone');
+    const progress = document.getElementById('pdfUploadProgress');
+    const fill = document.getElementById('pdfUploadFill');
+    const status = document.getElementById('pdfUploadStatus');
 
-        progress.style.display = 'block';
-        zone.style.borderColor = 'var(--primary-light)';
-        status.textContent = 'Uploading...';
-        status.style.color = 'var(--gray)';
+    progress.style.display = 'block';
+    status.textContent = 'Uploading to Cloudinary...';
+    status.style.color = 'var(--gray)';
 
-        try {
-            const url = await uploadToCloudinary(file, (pct) => {
-                fill.style.width = pct + '%';
-            });
-            pdfCloudinaryUrl = url;
-            status.textContent = `✓ Uploaded: ${file.name}`;
-            status.style.color = 'var(--success)';
-            document.getElementById('pdfFileUrl').value = '';
-        } catch(e) {
-            status.textContent = '✗ Upload failed. Use link instead.';
-            status.style.color = 'var(--danger)';
-            pdfCloudinaryUrl = '';
-        }
-        progress.style.display = 'none';
-        fill.style.width = '0%';
+    try {
+        const url = await uploadToCloudinary(file, (pct) => { fill.style.width = pct + '%'; });
+        pdfCloudinaryUrl = url;
+        status.textContent = `✓ Uploaded: ${file.name}`;
+        status.style.color = 'var(--success)';
+        document.getElementById('pdfFileUrl').value = '';
+    } catch(e) {
+        status.textContent = '✗ ' + e.message;
+        status.style.color = 'var(--danger)';
+        pdfCloudinaryUrl = '';
+        alert('Upload failed: ' + e.message + '\n\nYou can paste a direct link instead.');
     }
+    progress.style.display = 'none';
+    fill.style.width = '0%';
+}
 
-    async function handleNoteUpload(input) {
-        const file = input.files[0];
-        if (!file) return;
-        const progress = document.getElementById('noteUploadProgress');
-        const fill = document.getElementById('noteUploadFill');
-        const status = document.getElementById('noteUploadStatus');
-        const zone = document.getElementById('noteUploadZone');
+async function handleNoteUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
 
-        progress.style.display = 'block';
-        zone.style.borderColor = 'var(--primary-light)';
-        status.textContent = 'Uploading...';
-        status.style.color = 'var(--gray)';
+    const progress = document.getElementById('noteUploadProgress');
+    const fill = document.getElementById('noteUploadFill');
+    const status = document.getElementById('noteUploadStatus');
 
-        try {
-            const url = await uploadToCloudinary(file, (pct) => {
-                fill.style.width = pct + '%';
-            });
-            noteCloudinaryUrl = url;
-            status.textContent = `✓ Uploaded: ${file.name}`;
-            status.style.color = 'var(--success)';
-            document.getElementById('noteFileUrl').value = '';
-        } catch(e) {
-            status.textContent = '✗ Upload failed. Use link instead.';
-            status.style.color = 'var(--danger)';
-            noteCloudinaryUrl = '';
-        }
-        progress.style.display = 'none';
-        fill.style.width = '0%';
+    progress.style.display = 'block';
+    status.textContent = 'Uploading to Cloudinary...';
+    status.style.color = 'var(--gray)';
+
+    try {
+        const url = await uploadToCloudinary(file, (pct) => { fill.style.width = pct + '%'; });
+        noteCloudinaryUrl = url;
+        status.textContent = `✓ Uploaded: ${file.name}`;
+        status.style.color = 'var(--success)';
+        document.getElementById('noteFileUrl').value = '';
+    } catch(e) {
+        status.textContent = '✗ ' + e.message;
+        status.style.color = 'var(--danger)';
+        noteCloudinaryUrl = '';
+        alert('Upload failed: ' + e.message + '\n\nYou can paste a direct link instead.');
     }
-
+    progress.style.display = 'none';
+    fill.style.width = '0%';
+}
     // ===== PDFS =====
     async function loadAdminPdfs() {
         try {
@@ -2132,36 +2192,62 @@
     }
 
     async function addPdf() {
-        const fileUrl = pdfCloudinaryUrl || document.getElementById('pdfFileUrl').value.trim();
-        if (!fileUrl) return alert('Please upload a file or provide a link');
-        const body = {
-            title: document.getElementById('pdfTitle').value,
-            type: document.getElementById('pdfType').value,
-            field: document.getElementById('pdfField').value,
-            subject: document.getElementById('pdfSubject').value,
-            year: document.getElementById('pdfYear').value,
-            fileUrl: fileUrl,
-            description: document.getElementById('pdfDesc').value
-        };
-        if (!body.title) return alert('Title required');
+    const fileUrl = pdfCloudinaryUrl || document.getElementById('pdfFileUrl').value.trim();
+    if (!fileUrl) return alert('Please upload a file or provide a link');
+    
+    const title = document.getElementById('pdfTitle').value.trim();
+    if (!title) return alert('Title required');
+
+    // Send all possible field name variations so it matches your backend
+    const body = {
+        title: title,
+        type: document.getElementById('pdfType').value,
+        document_type: document.getElementById('pdfType').value,
+        field: document.getElementById('pdfField').value,
+        subject: document.getElementById('pdfSubject').value || null,
+        year: document.getElementById('pdfYear').value || null,
+        file_url: fileUrl,
+        fileUrl: fileUrl,
+        url: fileUrl,
+        description: document.getElementById('pdfDesc').value
+    };
+
+    // Try multiple endpoints (different backends use different routes)
+    const endpoints = [`${API_BASE}/pdfs`, `${API_BASE}/admin/pdfs`, `${API_BASE}/past-papers`, `${API_BASE}/admin/past-papers`, `${API_BASE}/documents`];
+    
+    let success = false;
+    let lastError = '';
+    
+    for (const ep of endpoints) {
         try {
-            const res = await fetch(`${API_BASE}/pdfs`, {
-                method:'POST',
+            const res = await fetch(ep, {
+                method: 'POST',
                 headers: {...getHeaders(), 'Content-Type':'application/json'},
                 body: JSON.stringify(body)
             });
+            if (res.status === 404) continue; // Try next endpoint
             const data = await res.json();
-            if (data.success) {
-                closeModal('addPdfModal');
-                pdfCloudinaryUrl = '';
-                document.querySelectorAll('#addPdfModal input, #addPdfModal textarea').forEach(i=>i.value='');
-                document.getElementById('pdfUploadStatus').textContent='';
-                document.getElementById('pdfFileInput').value='';
-                loadAdminPdfs();
-                alert('PDF added successfully!');
-            } else alert(data.message || 'Failed to add PDF');
-        } catch(e) { alert('Failed'); }
+            if (data.success || res.ok) {
+                success = true;
+                break;
+            } else {
+                lastError = data.message || 'Failed';
+            }
+        } catch(e) { lastError = e.message; }
     }
+
+    if (success) {
+        closeModal('addPdfModal');
+        pdfCloudinaryUrl = '';
+        document.querySelectorAll('#addPdfModal input, #addPdfModal textarea').forEach(i=>i.value='');
+        document.getElementById('pdfUploadStatus').textContent='';
+        document.getElementById('pdfFileInput').value='';
+        loadAdminPdfs();
+        alert('PDF added successfully!');
+    } else {
+        alert('Failed to add PDF: ' + lastError);
+    }
+}
 
     async function deletePdf(id) {
         if (!confirm('Delete this PDF?')) return;
@@ -2199,35 +2285,55 @@
     }
 
     async function addNote() {
-        const fileUrl = noteCloudinaryUrl || document.getElementById('noteFileUrl').value.trim();
-        if (!fileUrl) return alert('Please upload a file or provide a link');
-        const body = {
-            title: document.getElementById('noteTitle').value,
-            field: document.getElementById('noteField').value,
-            subject: document.getElementById('noteSubject').value,
-            type: document.getElementById('noteType').value,
-            fileUrl: fileUrl,
-            description: document.getElementById('noteDesc').value
-        };
-        if (!body.title) return alert('Title required');
+    const fileUrl = noteCloudinaryUrl || document.getElementById('noteFileUrl').value.trim();
+    if (!fileUrl) return alert('Please upload a file or provide a link');
+    
+    const title = document.getElementById('noteTitle').value.trim();
+    if (!title) return alert('Title required');
+
+    const body = {
+        title: title,
+        field: document.getElementById('noteField').value,
+        subject: document.getElementById('noteSubject').value,
+        type: document.getElementById('noteType').value,
+        note_type: document.getElementById('noteType').value,
+        file_url: fileUrl,
+        fileUrl: fileUrl,
+        url: fileUrl,
+        description: document.getElementById('noteDesc').value
+    };
+
+    const endpoints = [`${API_BASE}/notes`, `${API_BASE}/admin/notes`, `${API_BASE}/documents`];
+    
+    let success = false;
+    let lastError = '';
+    
+    for (const ep of endpoints) {
         try {
-            const res = await fetch(`${API_BASE}/notes`, {
-                method:'POST',
+            const res = await fetch(ep, {
+                method: 'POST',
                 headers: {...getHeaders(), 'Content-Type':'application/json'},
                 body: JSON.stringify(body)
             });
+            if (res.status === 404) continue;
             const data = await res.json();
-            if (data.success) {
-                closeModal('addNoteModal');
-                noteCloudinaryUrl = '';
-                document.querySelectorAll('#addNoteModal input, #addNoteModal textarea').forEach(i=>i.value='');
-                document.getElementById('noteUploadStatus').textContent='';
-                document.getElementById('noteFileInput').value='';
-                loadAdminNotes();
-                alert('Note added successfully!');
-            } else alert(data.message || 'Failed');
-        } catch(e) { alert('Failed'); }
+            if (data.success || res.ok) { success = true; break; }
+            else lastError = data.message || 'Failed';
+        } catch(e) { lastError = e.message; }
     }
+
+    if (success) {
+        closeModal('addNoteModal');
+        noteCloudinaryUrl = '';
+        document.querySelectorAll('#addNoteModal input, #addNoteModal textarea').forEach(i=>i.value='');
+        document.getElementById('noteUploadStatus').textContent='';
+        document.getElementById('noteFileInput').value='';
+        loadAdminNotes();
+        alert('Note added successfully!');
+    } else {
+        alert('Failed to add note: ' + lastError);
+    }
+}
 
     async function deleteNote(id) {
         if (!confirm('Delete this note?')) return;
