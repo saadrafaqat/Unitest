@@ -377,10 +377,10 @@
         </div>
     </div>
 
-    <!-- STEP 5: PAYMENT (ALL OPTIONAL) -->
+    <!-- STEP 5: PAYMENT -->
     <div class="card step-content" id="step-5" style="display:none;">
         <h2>Payment Information</h2>
-        <p class="card-desc">Pay the registration fee and submit proof. <strong>All fields below are optional</strong> — you may submit later or skip.</p>
+        <p class="card-desc">Pay the registration fee and submit details. Only the screenshot is optional.</p>
 
         <div class="fee-banner">
             <div>
@@ -403,29 +403,29 @@
             <ol style="margin: 6px 0 0 18px; padding: 0; font-weight: 400;">
                 <li>Pay the fee to any of the above accounts</li>
                 <li>Fill in the sender details below</li>
-                <li>Enter the transaction ID (recommended)</li>
-                <li>Upload the screenshot (recommended)</li>
+                <li>Enter the transaction ID</li>
+                <li>Upload the screenshot (optional)</li>
                 <li>Submit your registration — admin will verify and approve</li>
             </ol>
         </div>
 
-        <h3 style="font-size:14px; font-weight:700; margin: 18px 0 10px; color:var(--primary);">Sender Details <span class="optional-tag">(optional)</span></h3>
+        <h3 style="font-size:14px; font-weight:700; margin: 18px 0 10px; color:var(--primary);">Sender Details</h3>
 
         <div class="form-row">
             <div class="form-group">
-                <label>Sender Name <span class="optional-tag">(optional)</span></label>
-                <input type="text" id="senderName" placeholder="Name on the sender's account">
+                <label>Sender Name <span class="required">*</span></label>
+                <input type="text" id="senderName" placeholder="Name on the sender's account" required>
             </div>
             <div class="form-group">
-                <label>Sender Number <span class="optional-tag">(optional)</span></label>
-                <input type="tel" id="senderNumber" placeholder="Account or mobile number used to pay">
+                <label>Sender Number <span class="required">*</span></label>
+                <input type="tel" id="senderNumber" placeholder="Account or mobile number used to pay" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label>Payment Method <span class="optional-tag">(optional)</span></label>
-                <select id="paymentMethod">
+                <label>Payment Method <span class="required">*</span></label>
+                <select id="paymentMethod" required>
                     <option value="">Select</option>
                     <option value="Bank Transfer">Bank Transfer</option>
                     <option value="EasyPaisa">EasyPaisa</option>
@@ -434,8 +434,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Transaction ID <span class="optional-tag">(optional)</span></label>
-                <input type="text" id="transactionId" placeholder="Enter transaction ID">
+                <label>Transaction ID <span class="required">*</span></label>
+                <input type="text" id="transactionId" placeholder="Enter transaction ID" required>
             </div>
         </div>
 
@@ -483,7 +483,7 @@
     let currentStep = 1;
     let paymentScreenshotUrl = '';
 
-    // ⚠️ UPDATE THESE WITH YOUR CLOUDINARY CREDENTIALS
+    // ⚠️ UPDATE THESE WITH YOUR CLOUDINARY CREDENTIALS (for direct upload)
     // Get from: https://cloudinary.com/console (Cloud Name) + Settings → Upload → Upload Presets (Unsigned)
     const CLOUDINARY_CLOUD_NAME = 'dmvcr0fub';
     const CLOUDINARY_UPLOAD_PRESET = 'nustology_uploads';
@@ -720,7 +720,7 @@
         });
     }
 
-    // Fallback: upload via backend (will fail for unauthenticated users — that's why we try Cloudinary first)
+    // Fallback: upload via backend
     async function uploadViaBackend(file) {
         const formData = new FormData();
         formData.append('file', file);
@@ -751,7 +751,9 @@
 
         // Show local preview immediately
         const reader = new FileReader();
+        let localPreviewUrl = '';
         reader.onload = e => {
+            localPreviewUrl = e.target.result;
             preview.innerHTML = `
                 <img src="${e.target.result}" alt="Preview">
                 <div class="filename">${file.name} — Uploading...</div>
@@ -792,7 +794,7 @@
             // Both failed — but it's optional, so let user continue
             progress.classList.remove('show');
             preview.innerHTML = `
-                <img src="${reader.result || ''}" alt="Preview">
+                <img src="${localPreviewUrl}" alt="Preview">
                 <div class="filename" style="color: var(--warning);">⚠ Upload failed — you can still submit. Admin will contact you for proof.</div>
             `;
             paymentScreenshotUrl = '';
@@ -801,6 +803,17 @@
     }
 
     async function submitRegistration() {
+        // Validate required payment fields (screenshot is optional)
+        const senderName = document.getElementById('senderName').value.trim();
+        const senderNumber = document.getElementById('senderNumber').value.trim();
+        const transactionId = document.getElementById('transactionId').value.trim();
+        const paymentMethod = document.getElementById('paymentMethod').value;
+
+        if (!senderName) { showAlert('error', 'Sender Name is required'); return; }
+        if (!senderNumber) { showAlert('error', 'Sender Number is required'); return; }
+        if (!paymentMethod) { showAlert('error', 'Please select a payment method'); return; }
+        if (!transactionId) { showAlert('error', 'Transaction ID is required'); return; }
+
         const data = {
             fullName: document.getElementById('fullName').value.trim(),
             email: document.getElementById('email').value.trim(),
@@ -834,12 +847,12 @@
             desiredUsername: document.getElementById('desiredUsername').value.trim(),
             desiredPassword: document.getElementById('desiredPassword').value,
 
-            // Payment fields — all optional
-            senderName: document.getElementById('senderName').value.trim(),
-            senderNumber: document.getElementById('senderNumber').value.trim(),
-            transactionId: document.getElementById('transactionId').value.trim(),
-            paymentScreenshotUrl: paymentScreenshotUrl,
-            paymentMethod: document.getElementById('paymentMethod').value,
+            // Payment fields — only screenshot is optional
+            senderName: senderName,
+            senderNumber: senderNumber,
+            transactionId: transactionId,
+            paymentScreenshotUrl: paymentScreenshotUrl, // optional - may be empty
+            paymentMethod: paymentMethod,
             paymentAmount: document.getElementById('feeAmount').textContent
         };
 
@@ -870,6 +883,7 @@
         }
     }
 
+    // Load bank info on page load
     loadPaymentInfo();
 </script>
 </body>
