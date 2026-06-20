@@ -2591,7 +2591,21 @@
     }
     setupDragDrop('pdfUploadZone','pdfFileInput');
     setupDragDrop('noteUploadZone','noteFileInput');
-
+    // ===== HANDLE BROWSER BACK BUTTON =====
+// Push a state so back button stays within the app instead of leaving
+    history.pushState({page: 'admin'}, '', location.href);
+    
+    window.addEventListener('popstate', function(e) {
+        // If user presses back, don't logout — just push state again to keep them here
+        if (localStorage.getItem('nustology_admin_token')) {
+            history.pushState({page: 'admin'}, '', location.href);
+            // If a modal is open, close it instead of going back
+            const openModal = document.querySelector('.modal.show');
+            if (openModal) {
+                openModal.classList.remove('show');
+            }
+        }
+    });
     checkAdminAuth();
 </script>
 </body>
