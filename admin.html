@@ -254,12 +254,6 @@
         .subject-name { font-weight: 600; }
         .subject-pct { color: var(--gray); }
 
-        /* STUDENT SEARCH */
-        .student-search-wrap { position: relative; margin-bottom: 14px; }
-        .student-search-wrap input { width: 100%; padding: 8px 10px 8px 32px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 13px; }
-        .student-search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--gray); }
-        .student-search-wrap input:focus { outline: none; border-color: var(--primary-light); }
-
         /* UPLOAD AREA */
         .upload-zone {
             border: 2px dashed var(--border); border-radius: var(--radius);
@@ -327,10 +321,8 @@
         .score-mid { color: var(--warning); font-weight: 700; }
         .score-bad { color: var(--danger); font-weight: 700; }
 
-        /* CANVAS */
         canvas { max-height: 220px !important; }
 
-        /* RESPONSIVE */
         @media (max-width: 1100px) {
             .stats-grid { grid-template-columns: repeat(3, 1fr); }
             .analytics-grid { grid-template-columns: 1fr; }
@@ -479,9 +471,7 @@
             <div class="page active" id="page-dashboard">
                 <div class="stats-grid" id="dashboardStats"></div>
                 <div class="card">
-                    <div class="card-header">
-                        <h2>Quick Actions</h2>
-                    </div>
+                    <div class="card-header"><h2>Quick Actions</h2></div>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
                         <button class="btn btn-primary" onclick="showPage('registrations',document.getElementById('nav-registrations'))">Review Registrations</button>
                         <button class="btn btn-primary" onclick="showPage('students',document.getElementById('nav-students'))">Manage Students</button>
@@ -539,9 +529,7 @@
                     <div class="card" style="margin-bottom:0;">
                         <div class="card-header">
                             <h2>Student-wise Analytics</h2>
-                            <div style="display:flex;gap:6px;">
-                                <input type="text" id="analyticsStudentSearch" placeholder="Search student..." oninput="filterAnalyticsStudents()" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;min-width:180px;">
-                            </div>
+                            <input type="text" id="analyticsStudentSearch" placeholder="Search student..." oninput="filterAnalyticsStudents()" style="padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;min-width:180px;">
                         </div>
                         <div id="analyticsStudentTable"></div>
                     </div>
@@ -653,12 +641,6 @@
                         <button class="btn btn-primary btn-sm" onclick="openModal('addPdfModal')">+ Add PDF</button>
                     </div>
                     <div class="filter-bar">
-                        <select id="pdfTypeFilter" onchange="loadAdminPdfs()">
-                            <option value="">All Types</option>
-                            <option value="past_paper">Past Papers</option>
-                            <option value="pdf">PDFs</option>
-                            <option value="sample">Sample Tests</option>
-                        </select>
                         <select id="pdfFieldFilter" onchange="loadAdminPdfs()">
                             <option value="">All Fields</option>
                             <option>Engineering</option>
@@ -666,6 +648,11 @@
                             <option>Business</option>
                             <option>Architecture</option>
                             <option>Natural Sciences</option>
+                        </select>
+                        <select id="pdfSubjectFilter" onchange="loadAdminPdfs()">
+                            <option value="">All Subjects</option>
+                            <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
+                            <option>Biology</option><option>English</option><option>General</option>
                         </select>
                     </div>
                     <div class="table-container" id="pdfsTable"></div>
@@ -701,9 +688,7 @@
             <!-- NOTIFICATIONS -->
             <div class="page" id="page-notifications">
                 <div class="card">
-                    <div class="card-header">
-                        <h2>Send Notification</h2>
-                    </div>
+                    <div class="card-header"><h2>Send Notification</h2></div>
                     <div class="form-row full">
                         <div class="form-group"><label>Title *</label><input type="text" id="notifTitle" placeholder="Notification title"></div>
                     </div>
@@ -722,6 +707,7 @@
                         <div class="form-group">
                             <label>Type</label>
                             <select id="notifType">
+                                <option value="announcement">Announcement</option>
                                 <option value="info">Info</option>
                                 <option value="warning">Warning</option>
                                 <option value="success">Success</option>
@@ -826,7 +812,7 @@
                 </div>
             </div>
 
-        </div><!-- end content -->
+        </div>
     </main>
 </div>
 
@@ -929,7 +915,7 @@
             <div class="form-group">
                 <label>Subject</label>
                 <select id="pdfSubject">
-                    <option value="">General</option>
+                    <option>General</option>
                     <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
                     <option>Biology</option><option>English</option><option>Intelligence</option>
                 </select>
@@ -937,24 +923,23 @@
             <div class="form-group"><label>Year</label><input type="text" id="pdfYear" placeholder="2024"></div>
         </div>
 
-        <!-- UPLOAD OR LINK -->
         <div class="form-row full">
             <div class="form-group">
                 <label>Upload PDF File</label>
                 <div class="upload-zone" id="pdfUploadZone" onclick="document.getElementById('pdfFileInput').click()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     <p><strong>Click to upload</strong> or drag & drop</p>
-                    <p>PDF files only</p>
+                    <p>PDF files only (max 20MB)</p>
                 </div>
                 <div class="upload-progress" id="pdfUploadProgress"><div class="upload-progress-fill" id="pdfUploadFill" style="width:0%"></div></div>
                 <input type="file" id="pdfFileInput" accept=".pdf" style="display:none" onchange="handlePdfUpload(this)">
-                <div id="pdfUploadStatus" style="font-size:11px;color:var(--success);margin-top:4px;"></div>
+                <div id="pdfUploadStatus" style="font-size:11px;margin-top:4px;"></div>
             </div>
         </div>
         <div class="or-divider">OR paste link</div>
         <div class="form-row full">
             <div class="form-group">
-                <label>Direct Link (Google Drive / Cloudinary / URL)</label>
+                <label>Direct Link (Google Drive / Cloudinary / Dropbox / Any URL)</label>
                 <input type="url" id="pdfFileUrl" placeholder="https://..." oninput="document.getElementById('pdfUploadStatus').textContent='';pdfCloudinaryUrl='';">
             </div>
         </div>
@@ -993,7 +978,7 @@
                 <label>Type</label>
                 <select id="noteType">
                     <option value="notes">Notes</option>
-                    <option value="formula">Formula Sheet</option>
+                    <option value="formula_sheet">Formula Sheet</option>
                     <option value="summary">Summary</option>
                 </select>
             </div>
@@ -1005,17 +990,17 @@
                 <div class="upload-zone" id="noteUploadZone" onclick="document.getElementById('noteFileInput').click()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     <p><strong>Click to upload</strong> or drag & drop</p>
-                    <p>PDF or image files</p>
+                    <p>PDF or image files (max 20MB)</p>
                 </div>
                 <div class="upload-progress" id="noteUploadProgress"><div class="upload-progress-fill" id="noteUploadFill" style="width:0%"></div></div>
                 <input type="file" id="noteFileInput" accept=".pdf,image/*" style="display:none" onchange="handleNoteUpload(this)">
-                <div id="noteUploadStatus" style="font-size:11px;color:var(--success);margin-top:4px;"></div>
+                <div id="noteUploadStatus" style="font-size:11px;margin-top:4px;"></div>
             </div>
         </div>
         <div class="or-divider">OR paste link</div>
         <div class="form-row full">
             <div class="form-group">
-                <label>Direct Link (Google Drive / Cloudinary / URL)</label>
+                <label>Direct Link (Google Drive / Cloudinary / Dropbox / Any URL)</label>
                 <input type="url" id="noteFileUrl" placeholder="https://..." oninput="document.getElementById('noteUploadStatus').textContent='';noteCloudinaryUrl='';">
             </div>
         </div>
@@ -1116,7 +1101,7 @@
 
 <!-- TEST REVIEW MODAL -->
 <div class="modal" id="testReviewModal">
-    <div class="modal-box" style="max-width:760px;">
+    <div class="modal-box" style="max-width:860px;">
         <div id="testReviewContent"></div>
     </div>
 </div>
@@ -1135,10 +1120,12 @@
     let scoreChartInst = null;
     let fieldChartInst = null;
     let studentChartInst = null;
+    let studentSubjChartInst = null;
 
-    // Cloudinary config - update these
-    const CLOUDINARY_CLOUD_NAME = 'dmvcr0fub';
-    const CLOUDINARY_UPLOAD_PRESET = 'nustology_uploads';
+    // ⚠️ UPDATE THESE WITH YOUR CLOUDINARY CREDENTIALS
+    // Get from: https://cloudinary.com/console (Cloud Name) + Settings → Upload → Upload Presets (Unsigned)
+    const CLOUDINARY_CLOUD_NAME = 'your_cloud_name';
+    const CLOUDINARY_UPLOAD_PRESET = 'your_upload_preset';
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
@@ -1295,26 +1282,22 @@
     }
 
     function renderAnalyticsCharts(data) {
-        // Tests over time
         if (testsChartInst) testsChartInst.destroy();
         const tc = document.getElementById('testsChart').getContext('2d');
         const tData = data.testsOverTime || [];
         testsChartInst = new Chart(tc, {
             type: 'line',
             data: {
-                labels: tData.map(d => d.date || d.week),
+                labels: tData.map(d => d.date),
                 datasets: [{
-                    label: 'Tests',
-                    data: tData.map(d => d.count),
-                    borderColor: '#1a56db',
-                    backgroundColor: 'rgba(26,86,219,0.1)',
+                    label: 'Tests', data: tData.map(d => d.count),
+                    borderColor: '#1a56db', backgroundColor: 'rgba(26,86,219,0.1)',
                     fill: true, tension: 0.4, pointRadius: 3
                 }]
             },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
         });
 
-        // Score distribution
         if (scoreChartInst) scoreChartInst.destroy();
         const sc = document.getElementById('scoreChart').getContext('2d');
         const sData = data.scoreDistribution || [0,0,0,0,0];
@@ -1322,32 +1305,26 @@
             type: 'bar',
             data: {
                 labels: ['0-20%','21-40%','41-60%','61-80%','81-100%'],
-                datasets: [{
-                    label: 'Students',
-                    data: sData,
-                    backgroundColor: ['#fee2e2','#fef3c7','#dbeafe','#dcfce7','#f3e8ff']
-                }]
+                datasets: [{ label: 'Tests', data: sData, backgroundColor: ['#fee2e2','#fef3c7','#dbeafe','#dcfce7','#f3e8ff'] }]
             },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
         });
 
-        // Field distribution
         if (fieldChartInst) fieldChartInst.destroy();
         const fc = document.getElementById('fieldChart').getContext('2d');
         const fData = data.fieldDistribution || {};
-        fieldChartInst = new Chart(fc, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(fData),
-                datasets: [{
-                    data: Object.values(fData),
-                    backgroundColor: ['#1a56db','#16a34a','#d97706','#dc2626','#9333ea','#0891b2']
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
-        });
+        const fLabels = Object.keys(fData);
+        if (fLabels.length) {
+            fieldChartInst = new Chart(fc, {
+                type: 'doughnut',
+                data: {
+                    labels: fLabels,
+                    datasets: [{ data: Object.values(fData), backgroundColor: ['#1a56db','#16a34a','#d97706','#dc2626','#9333ea','#0891b2','#db2777'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
+            });
+        }
 
-        // Subject performance bars
         const subjData = data.subjectPerformance || [];
         if (subjData.length) {
             document.getElementById('subjectPerfList').innerHTML = subjData.map(s => {
@@ -1375,37 +1352,31 @@
         const c = document.getElementById('analyticsStudentTable');
         if (!students.length) { c.innerHTML = '<div class="empty">No student data</div>'; return; }
         c.innerHTML = `<div class="table-container"><table><thead><tr>
-            <th>Student</th><th>Field</th><th>Tests</th><th>Avg Score</th><th>Best</th>
+            <th>Student</th><th>Field</th><th>Tests</th><th>Avg</th><th>Best</th>
             <th>Weak Subjects</th><th>Strong Subjects</th><th>Actions</th>
         </tr></thead><tbody>${students.map(s => {
             const avg = s.avg_percentage || 0;
             const cls = avg >= 70 ? 'score-good' : avg >= 40 ? 'score-mid' : 'score-bad';
-            const weakSubjs = (s.subject_performance || []).filter(sp => (sp.avg_percentage||0) < 50).map(sp => sp.subject).slice(0,3);
-            const strongSubjs = (s.subject_performance || []).filter(sp => (sp.avg_percentage||0) >= 70).map(sp => sp.subject).slice(0,3);
+            const weak = (s.subject_performance || []).filter(sp => (sp.avg_percentage||0) < 50).slice(0,3);
+            const strong = (s.subject_performance || []).filter(sp => (sp.avg_percentage||0) >= 70).slice(0,3);
             return `<tr>
                 <td><strong>${escapeHtml(s.full_name||s.username)}</strong><br><small style="color:var(--gray);">@${escapeHtml(s.username)}</small></td>
                 <td><span class="badge badge-info">${escapeHtml(s.degree_category||'-')}</span></td>
                 <td>${s.test_count||0}</td>
                 <td><span class="${cls}">${avg.toFixed(1)}%</span></td>
                 <td>${(s.best_percentage||0).toFixed(1)}%</td>
-                <td>${weakSubjs.length ? weakSubjs.map(w=>`<span class="badge badge-danger" style="margin:1px;">${escapeHtml(w)}</span>`).join('') : '<span style="color:var(--gray);font-size:11px;">None</span>'}</td>
-                <td>${strongSubjs.length ? strongSubjs.map(w=>`<span class="badge badge-success" style="margin:1px;">${escapeHtml(w)}</span>`).join('') : '<span style="color:var(--gray);font-size:11px;">None</span>'}</td>
-                <td><button class="btn btn-primary btn-sm" onclick="viewStudentAnalytics(${s.id})">Details</button></td>
+                <td>${weak.length ? weak.map(w=>`<span class="badge badge-danger" style="margin:1px;">${escapeHtml(w.subject)}</span>`).join('') : '<span style="color:var(--gray);font-size:11px;">None</span>'}</td>
+                <td>${strong.length ? strong.map(w=>`<span class="badge badge-success" style="margin:1px;">${escapeHtml(w.subject)}</span>`).join('') : '<span style="color:var(--gray);font-size:11px;">None</span>'}</td>
+                <td><button class="btn btn-primary btn-sm" onclick="viewStudent(${s.id})">Details</button></td>
             </tr>`;
         }).join('')}</tbody></table></div>`;
     }
 
     function filterAnalyticsStudents() {
         const q = document.getElementById('analyticsStudentSearch').value.toLowerCase();
-        const filtered = allAnalyticsStudents.filter(s =>
-            (s.full_name||'').toLowerCase().includes(q) ||
-            (s.username||'').toLowerCase().includes(q)
-        );
-        renderFilteredAnalyticsStudents(filtered);
-    }
-
-    async function viewStudentAnalytics(id) {
-        await viewStudent(id);
+        renderFilteredAnalyticsStudents(allAnalyticsStudents.filter(s =>
+            (s.full_name||'').toLowerCase().includes(q) || (s.username||'').toLowerCase().includes(q)
+        ));
     }
 
     // ===== REGISTRATIONS =====
@@ -1650,7 +1621,6 @@
         const subjPerf = d.subjectPerformance||[];
         const perfClass = perf>=70?'perf-good':perf>=40?'perf-mid':'perf-bad';
 
-        // Calculate weak and strong subjects
         const weakSubjs = subjPerf.filter(sp=>(sp.avg_percentage||0)<50);
         const strongSubjs = subjPerf.filter(sp=>(sp.avg_percentage||0)>=70);
 
@@ -1766,13 +1736,11 @@
 
         document.getElementById('studentDetailContent').innerHTML = html;
 
-        // Render graphs after DOM update
         setTimeout(() => {
-            // Progress chart
             const progressCtx = document.getElementById('studentProgressChart');
             if (progressCtx && attempts.length) {
                 if (studentChartInst) studentChartInst.destroy();
-                const sorted = [...attempts].sort((a,b)=>new Date(a.completed_at)-new Date(b.completed_at));
+                const sorted = [...attempts].filter(a=>a.completed_at).sort((a,b)=>new Date(a.completed_at)-new Date(b.completed_at));
                 studentChartInst = new Chart(progressCtx.getContext('2d'), {
                     type: 'line',
                     data: {
@@ -1780,18 +1748,17 @@
                         datasets: [{
                             label: 'Score %',
                             data: sorted.map(a=>(a.percentage||0).toFixed(1)),
-                            borderColor: '#1a56db',
-                            backgroundColor: 'rgba(26,86,219,0.1)',
+                            borderColor: '#1a56db', backgroundColor: 'rgba(26,86,219,0.1)',
                             fill: true, tension: 0.4, pointRadius: 4
                         }]
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 100 } } }
                 });
             }
-            // Subject radar/bar chart
             const subjectCtx = document.getElementById('studentSubjectChart');
             if (subjectCtx && subjPerf.length) {
-                new Chart(subjectCtx.getContext('2d'), {
+                if (studentSubjChartInst) studentSubjChartInst.destroy();
+                studentSubjChartInst = new Chart(subjectCtx.getContext('2d'), {
                     type: 'bar',
                     data: {
                         labels: subjPerf.map(s=>s.subject),
@@ -1807,90 +1774,62 @@
     }
 
     async function viewTestReview(attemptId, studentId) {
-    // Try multiple endpoints
-    const endpoints = [
-        `${API_BASE}/admin/students/${studentId}/attempts/${attemptId}`,
-        `${API_BASE}/admin/attempts/${attemptId}`,
-        `${API_BASE}/admin/test-attempts/${attemptId}`,
-        `${API_BASE}/attempts/${attemptId}`,
-        `${API_BASE}/tests/attempts/${attemptId}`
-    ];
-
-    let data = null;
-    for (const ep of endpoints) {
         try {
-            const res = await fetch(ep, {headers: getHeaders()});
-            if (res.status === 404) continue;
-            const d = await res.json();
-            if (d.success || d.attempt || d.answers) { data = d; break; }
-        } catch(e) {}
-    }
+            const res = await fetch(`${API_BASE}/admin/students/${studentId}/attempts/${attemptId}`, {
+                headers: getHeaders()
+            });
+            const data = await res.json();
+            
+            if (!data.success) {
+                alert(data.message || 'Failed to load review');
+                return;
+            }
+            
+            const attempt = data.attempt;
+            const answers = data.answers || [];
+            
+            let html = `
+                <h3>Test Review</h3>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+                    <span class="info-chip">Type: ${attempt.test_type || '-'}</span>
+                    <span class="info-chip">Field: ${escapeHtml(attempt.field || '-')}</span>
+                    ${attempt.subject ? `<span class="info-chip">Subject: ${escapeHtml(attempt.subject)}</span>` : ''}
+                    <span class="info-chip">Score: ${(attempt.score || 0).toFixed(1)}/${attempt.total_marks}</span>
+                    <span class="info-chip">Percentage: ${(attempt.percentage || 0).toFixed(1)}%</span>
+                    <span class="info-chip" style="background:#dcfce7;color:var(--success);">Correct: ${attempt.correct_answers || 0}</span>
+                    <span class="info-chip" style="background:#fee2e2;color:var(--danger);">Wrong: ${attempt.wrong_answers || 0}</span>
+                    <span class="info-chip" style="background:#fef3c7;color:var(--warning);">Skipped: ${attempt.unattempted || 0}</span>
+                    <span class="info-chip">Date: ${attempt.completed_at ? new Date(attempt.completed_at).toLocaleString() : '-'}</span>
+                    ${attempt.time_taken ? `<span class="info-chip">Time: ${Math.floor(attempt.time_taken/60)}m ${attempt.time_taken%60}s</span>` : ''}
+                </div>`;
 
-    // Build the modal regardless - show basic info even if no detailed answers
-    let html = `<h3>Test Review</h3>`;
-
-    if (!data) {
-        // Show what we have from the attempts list
-        html += `<div style="background:#fef3c7;border:1px solid #fde68a;padding:12px;border-radius:8px;margin-bottom:14px;">
-            <p style="font-size:13px;color:var(--warning);font-weight:600;margin-bottom:4px;">⚠️ Detailed review not available</p>
-            <p style="font-size:12px;color:var(--gray);">The backend doesn't yet expose per-question answers for this test. Basic info shown below.</p>
-        </div>`;
-
-        // Try to find the attempt info from cached student data
-        const studentRes = await fetch(`${API_BASE}/admin/students/${studentId}`, {headers: getHeaders()}).catch(()=>null);
-        if (studentRes) {
-            try {
-                const sd = await studentRes.json();
-                if (sd.success) {
-                    const attempt = (sd.attempts||[]).find(a => a.id === attemptId);
-                    if (attempt) {
-                        html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-                            <span class="info-chip">Type: ${attempt.test_type||'-'}</span>
-                            <span class="info-chip">Field: ${escapeHtml(attempt.field||'-')}</span>
-                            ${attempt.subject?`<span class="info-chip">Subject: ${escapeHtml(attempt.subject)}</span>`:''}
-                            <span class="info-chip">Score: ${(attempt.score||0).toFixed(1)}/${attempt.total_marks}</span>
-                            <span class="info-chip">Percentage: ${(attempt.percentage||0).toFixed(1)}%</span>
-                            <span class="info-chip">Date: ${attempt.completed_at?new Date(attempt.completed_at).toLocaleString():'-'}</span>
-                            ${attempt.time_taken?`<span class="info-chip">Time: ${attempt.time_taken}</span>`:''}
-                            ${attempt.correct_answers!=null?`<span class="info-chip" style="background:#dcfce7;color:var(--success);">Correct: ${attempt.correct_answers}</span>`:''}
-                            ${attempt.wrong_answers!=null?`<span class="info-chip" style="background:#fee2e2;color:var(--danger);">Wrong: ${attempt.wrong_answers}</span>`:''}
-                        </div>`;
-                    }
-                }
-            } catch(e) {}
-        }
-    } else {
-        const attempt = data.attempt || data;
-        const answers = data.answers || data.questions || [];
-
-        html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-            <span class="info-chip">Type: ${attempt.test_type||'-'}</span>
-            <span class="info-chip">Field: ${escapeHtml(attempt.field||'')}</span>
-            ${attempt.subject?`<span class="info-chip">Subject: ${escapeHtml(attempt.subject)}</span>`:''}
-            <span class="info-chip">Score: ${(attempt.score||0).toFixed(1)}/${attempt.total_marks}</span>
-            <span class="info-chip">Percentage: ${(attempt.percentage||0).toFixed(1)}%</span>
-            <span class="info-chip">Date: ${attempt.completed_at?new Date(attempt.completed_at).toLocaleString():'-'}</span>
-        </div>`;
-
-        if (answers.length) {
-            html += `<div class="table-container"><table><thead><tr>
-                <th>#</th><th>Question</th><th>Student Answer</th><th>Correct</th><th>Result</th>
-            </tr></thead><tbody>${answers.map((a,i)=>`<tr>
-                <td>${i+1}</td>
-                <td style="max-width:220px;font-size:11px;">${escapeHtml(a.question_text||a.question||'-')}</td>
-                <td>${escapeHtml(a.student_answer||a.selected_answer||a.answer||'-')}</td>
-                <td>${escapeHtml(a.correct_answer||'-')}</td>
-                <td>${a.is_correct?'<span class="badge badge-success">✓</span>':'<span class="badge badge-danger">✗</span>'}</td>
-            </tr>`).join('')}</tbody></table></div>`;
-        } else {
-            html += '<div class="empty">No per-question detail stored for this test</div>';
+            if (answers.length) {
+                html += `<div class="table-container"><table><thead><tr>
+                    <th>#</th><th>Question</th><th>Options</th><th>Student Answer</th><th>Correct</th><th>Result</th>
+                </tr></thead><tbody>${answers.map((a, i) => {
+                    const opts = Array.isArray(a.options) ? a.options : [];
+                    const studentAns = a.student_answer !== null && a.student_answer !== undefined ? a.student_answer : '-';
+                    const isSkipped = a.student_answer === null || a.student_answer === undefined;
+                    return `<tr>
+                        <td>${i+1}</td>
+                        <td style="max-width:240px;font-size:11px;">${escapeHtml(a.question_text || '-')}</td>
+                        <td style="max-width:160px;font-size:10px;color:var(--gray);">${opts.map((o,idx) => `${String.fromCharCode(65+idx)}. ${escapeHtml(o)}`).join('<br>')}</td>
+                        <td><strong>${escapeHtml(String(studentAns))}</strong></td>
+                        <td><strong style="color:var(--success);">${escapeHtml(String(a.correct_answer || '-'))}</strong></td>
+                        <td>${isSkipped ? '<span class="badge badge-warning">Skipped</span>' : (a.is_correct ? '<span class="badge badge-success">✓ Correct</span>' : '<span class="badge badge-danger">✗ Wrong</span>')}</td>
+                    </tr>`;
+                }).join('')}</tbody></table></div>`;
+            } else {
+                html += '<div class="empty">No detailed answers stored for this test</div>';
+            }
+            
+            html += `<div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal('testReviewModal')">Close</button></div>`;
+            document.getElementById('testReviewContent').innerHTML = html;
+            document.getElementById('testReviewModal').classList.add('show');
+        } catch(e) { 
+            alert('Failed to load review: ' + e.message); 
         }
     }
-
-    html += `<div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal('testReviewModal')">Close</button></div>`;
-    document.getElementById('testReviewContent').innerHTML = html;
-    document.getElementById('testReviewModal').classList.add('show');
-}
 
     async function exportStudents() {
         const cat = document.getElementById('stuCategoryFilter').value;
@@ -2061,129 +2000,121 @@
         try { await fetch(`${API_BASE}/lectures/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminLectures(); } catch(e) {}
     }
 
-    // ===== CLOUDINARY UPLOAD =====
+    // ===== CLOUDINARY DIRECT UPLOAD =====
     async function uploadToCloudinary(file, onProgress) {
-    // Check credentials
-    if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === 'your_cloud_name' ||
-        !CLOUDINARY_UPLOAD_PRESET || CLOUDINARY_UPLOAD_PRESET === 'your_upload_preset') {
-        throw new Error('Cloudinary not configured. Update CLOUDINARY_CLOUD_NAME and CLOUDINARY_UPLOAD_PRESET in admin.html');
+        if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === 'your_cloud_name' ||
+            !CLOUDINARY_UPLOAD_PRESET || CLOUDINARY_UPLOAD_PRESET === 'your_upload_preset') {
+            throw new Error('Cloudinary not configured in admin.html. Use the "OR paste link" field instead.');
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        const isImage = file.type.startsWith('image/');
+        const resourceType = isImage ? 'image' : 'raw';
+
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`);
+            xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable && onProgress) onProgress(Math.round(e.loaded / e.total * 100));
+            };
+            xhr.onload = () => {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    if (xhr.status >= 200 && xhr.status < 300 && data.secure_url) resolve(data.secure_url);
+                    else reject(new Error(data.error?.message || 'Upload failed'));
+                } catch (e) { reject(new Error('Invalid Cloudinary response')); }
+            };
+            xhr.onerror = () => reject(new Error('Network error during upload'));
+            xhr.send(formData);
+        });
     }
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-
-    // Decide resource type based on file
-    const isImage = file.type.startsWith('image/');
-    const resourceType = isImage ? 'image' : 'raw';
-
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`);
-        // IMPORTANT: Do NOT set any headers manually - browser will set multipart/form-data automatically
-
-        xhr.upload.onprogress = (e) => {
-            if (e.lengthComputable && onProgress) onProgress(Math.round(e.loaded / e.total * 100));
-        };
-        xhr.onload = () => {
-            try {
-                const data = JSON.parse(xhr.responseText);
-                if (xhr.status >= 200 && xhr.status < 300 && data.secure_url) {
-                    resolve(data.secure_url);
-                } else {
-                    reject(new Error(data.error?.message || 'Upload failed'));
-                }
-            } catch (e) {
-                reject(new Error('Invalid response from Cloudinary'));
-            }
-        };
-        xhr.onerror = () => reject(new Error('Network error - check Cloudinary credentials'));
-        xhr.send(formData);
-    });
-}
 
     async function handlePdfUpload(input) {
-    const file = input.files[0];
-    if (!file) return;
-    if (file.type !== 'application/pdf') { alert('Please upload a PDF file'); input.value=''; return; }
-    if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
+        const file = input.files[0];
+        if (!file) return;
+        if (file.type !== 'application/pdf') { alert('Please upload a PDF file'); input.value=''; return; }
+        if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
 
-    const progress = document.getElementById('pdfUploadProgress');
-    const fill = document.getElementById('pdfUploadFill');
-    const status = document.getElementById('pdfUploadStatus');
+        const progress = document.getElementById('pdfUploadProgress');
+        const fill = document.getElementById('pdfUploadFill');
+        const status = document.getElementById('pdfUploadStatus');
 
-    progress.style.display = 'block';
-    status.textContent = 'Uploading to Cloudinary...';
-    status.style.color = 'var(--gray)';
+        progress.style.display = 'block';
+        status.textContent = 'Uploading to Cloudinary...';
+        status.style.color = 'var(--gray)';
 
-    try {
-        const url = await uploadToCloudinary(file, (pct) => { fill.style.width = pct + '%'; });
-        pdfCloudinaryUrl = url;
-        status.textContent = `✓ Uploaded: ${file.name}`;
-        status.style.color = 'var(--success)';
-        document.getElementById('pdfFileUrl').value = '';
-    } catch(e) {
-        status.textContent = '✗ ' + e.message;
-        status.style.color = 'var(--danger)';
-        pdfCloudinaryUrl = '';
-        alert('Upload failed: ' + e.message + '\n\nYou can paste a direct link instead.');
+        try {
+            const url = await uploadToCloudinary(file, (pct) => { fill.style.width = pct + '%'; });
+            pdfCloudinaryUrl = url;
+            status.textContent = `✓ Uploaded: ${file.name}`;
+            status.style.color = 'var(--success)';
+            document.getElementById('pdfFileUrl').value = '';
+        } catch(e) {
+            status.textContent = '✗ ' + e.message;
+            status.style.color = 'var(--danger)';
+            pdfCloudinaryUrl = '';
+            alert('Upload failed: ' + e.message + '\n\nYou can paste a direct link instead.');
+        }
+        progress.style.display = 'none';
+        fill.style.width = '0%';
     }
-    progress.style.display = 'none';
-    fill.style.width = '0%';
-}
 
-async function handleNoteUpload(input) {
-    const file = input.files[0];
-    if (!file) return;
-    if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
+    async function handleNoteUpload(input) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > 20*1024*1024) { alert('File too large. Max 20MB.'); input.value=''; return; }
 
-    const progress = document.getElementById('noteUploadProgress');
-    const fill = document.getElementById('noteUploadFill');
-    const status = document.getElementById('noteUploadStatus');
+        const progress = document.getElementById('noteUploadProgress');
+        const fill = document.getElementById('noteUploadFill');
+        const status = document.getElementById('noteUploadStatus');
 
-    progress.style.display = 'block';
-    status.textContent = 'Uploading to Cloudinary...';
-    status.style.color = 'var(--gray)';
+        progress.style.display = 'block';
+        status.textContent = 'Uploading to Cloudinary...';
+        status.style.color = 'var(--gray)';
 
-    try {
-        const url = await uploadToCloudinary(file, (pct) => { fill.style.width = pct + '%'; });
-        noteCloudinaryUrl = url;
-        status.textContent = `✓ Uploaded: ${file.name}`;
-        status.style.color = 'var(--success)';
-        document.getElementById('noteFileUrl').value = '';
-    } catch(e) {
-        status.textContent = '✗ ' + e.message;
-        status.style.color = 'var(--danger)';
-        noteCloudinaryUrl = '';
-        alert('Upload failed: ' + e.message + '\n\nYou can paste a direct link instead.');
+        try {
+            const url = await uploadToCloudinary(file, (pct) => { fill.style.width = pct + '%'; });
+            noteCloudinaryUrl = url;
+            status.textContent = `✓ Uploaded: ${file.name}`;
+            status.style.color = 'var(--success)';
+            document.getElementById('noteFileUrl').value = '';
+        } catch(e) {
+            status.textContent = '✗ ' + e.message;
+            status.style.color = 'var(--danger)';
+            noteCloudinaryUrl = '';
+            alert('Upload failed: ' + e.message + '\n\nYou can paste a direct link instead.');
+        }
+        progress.style.display = 'none';
+        fill.style.width = '0%';
     }
-    progress.style.display = 'none';
-    fill.style.width = '0%';
-}
+
     // ===== PDFS =====
     async function loadAdminPdfs() {
         try {
-            const type = document.getElementById('pdfTypeFilter').value;
             const field = document.getElementById('pdfFieldFilter').value;
+            const subj = document.getElementById('pdfSubjectFilter').value;
             const params = new URLSearchParams();
-            if (type) params.set('type', type);
             if (field) params.set('field', field);
-            const res = await fetch(`${API_BASE}/pdfs?${params}`, {headers: getHeaders()});
+            if (subj) params.set('subject', subj);
+            const res = await fetch(`${API_BASE}/admin/pdfs?${params}`, {headers: getHeaders()});
             const data = await res.json();
             const c = document.getElementById('pdfsTable');
-            const list = data.pdfs || data.past_papers || data.documents || [];
+            const list = data.pdfs || [];
             if (!list.length) { c.innerHTML = '<div class="empty">No PDFs found</div>'; return; }
             c.innerHTML = `<table><thead><tr>
-                <th>Title</th><th>Type</th><th>Field</th><th>Subject</th><th>Year</th><th>Actions</th>
+                <th>Title</th><th>Type</th><th>Field</th><th>Subject</th><th>Downloads</th><th>Actions</th>
             </tr></thead><tbody>${list.map(p => `
                 <tr>
-                    <td><strong>${escapeHtml(p.title)}</strong>${p.description?`<br><small style="color:var(--gray);">${escapeHtml(p.description.substring(0,60))}...</small>`:''}</td>
-                    <td><span class="badge badge-info">${escapeHtml(p.type||p.document_type||'-')}</span></td>
-                    <td>${escapeHtml(p.field||'-')}</td>
-                    <td>${escapeHtml(p.subject||'-')}</td>
-                    <td>${p.year||'-'}</td>
+                    <td><strong>${escapeHtml(p.title)}</strong>${p.description?`<br><small style="color:var(--gray);">${escapeHtml(p.description.substring(0,60))}</small>`:''}</td>
+                    <td><span class="badge badge-info">${escapeHtml(p.resource_type || '-')}</span></td>
+                    <td>${escapeHtml(p.field || '-')}</td>
+                    <td>${escapeHtml(p.subject || '-')}</td>
+                    <td>${p.download_count || 0}</td>
                     <td><div class="actions-cell">
-                        ${(p.file_url||p.url) ? `<a href="${p.file_url||p.url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
+                        ${p.file_url ? `<a href="${p.file_url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
                         <button class="btn btn-danger btn-sm" onclick="deletePdf(${p.id})">Delete</button>
                     </div></td>
                 </tr>`).join('')}
@@ -2192,66 +2123,51 @@ async function handleNoteUpload(input) {
     }
 
     async function addPdf() {
-    const fileUrl = pdfCloudinaryUrl || document.getElementById('pdfFileUrl').value.trim();
-    if (!fileUrl) return alert('Please upload a file or provide a link');
-    
-    const title = document.getElementById('pdfTitle').value.trim();
-    if (!title) return alert('Title required');
+        const fileUrl = pdfCloudinaryUrl || document.getElementById('pdfFileUrl').value.trim();
+        if (!fileUrl) return alert('Please upload a file or paste a direct link');
+        
+        const title = document.getElementById('pdfTitle').value.trim();
+        if (!title) return alert('Title is required');
 
-    // Send all possible field name variations so it matches your backend
-    const body = {
-        title: title,
-        type: document.getElementById('pdfType').value,
-        document_type: document.getElementById('pdfType').value,
-        field: document.getElementById('pdfField').value,
-        subject: document.getElementById('pdfSubject').value || null,
-        year: document.getElementById('pdfYear').value || null,
-        file_url: fileUrl,
-        fileUrl: fileUrl,
-        url: fileUrl,
-        description: document.getElementById('pdfDesc').value
-    };
+        const body = {
+            title: title,
+            type: document.getElementById('pdfType').value,
+            field: document.getElementById('pdfField').value,
+            subject: document.getElementById('pdfSubject').value || 'General',
+            chapter: document.getElementById('pdfYear').value || '',
+            fileUrl: fileUrl,
+            description: document.getElementById('pdfDesc').value
+        };
 
-    // Try multiple endpoints (different backends use different routes)
-    const endpoints = [`${API_BASE}/pdfs`, `${API_BASE}/admin/pdfs`, `${API_BASE}/past-papers`, `${API_BASE}/admin/past-papers`, `${API_BASE}/documents`];
-    
-    let success = false;
-    let lastError = '';
-    
-    for (const ep of endpoints) {
         try {
-            const res = await fetch(ep, {
+            const res = await fetch(`${API_BASE}/admin/pdfs`, {
                 method: 'POST',
-                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                headers: {...getHeaders(), 'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
             });
-            if (res.status === 404) continue; // Try next endpoint
             const data = await res.json();
-            if (data.success || res.ok) {
-                success = true;
-                break;
+            if (data.success) {
+                closeModal('addPdfModal');
+                pdfCloudinaryUrl = '';
+                document.querySelectorAll('#addPdfModal input, #addPdfModal textarea').forEach(i => i.value = '');
+                document.getElementById('pdfUploadStatus').textContent = '';
+                document.getElementById('pdfFileInput').value = '';
+                loadAdminPdfs();
+                alert('PDF added successfully!');
             } else {
-                lastError = data.message || 'Failed';
+                alert('Failed: ' + (data.message || 'Unknown error'));
             }
-        } catch(e) { lastError = e.message; }
+        } catch(e) { 
+            alert('Failed: ' + e.message); 
+        }
     }
-
-    if (success) {
-        closeModal('addPdfModal');
-        pdfCloudinaryUrl = '';
-        document.querySelectorAll('#addPdfModal input, #addPdfModal textarea').forEach(i=>i.value='');
-        document.getElementById('pdfUploadStatus').textContent='';
-        document.getElementById('pdfFileInput').value='';
-        loadAdminPdfs();
-        alert('PDF added successfully!');
-    } else {
-        alert('Failed to add PDF: ' + lastError);
-    }
-}
 
     async function deletePdf(id) {
         if (!confirm('Delete this PDF?')) return;
-        try { await fetch(`${API_BASE}/pdfs/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminPdfs(); } catch(e) {}
+        try { 
+            await fetch(`${API_BASE}/admin/pdfs/${id}`, {method:'DELETE', headers: getHeaders()}); 
+            loadAdminPdfs(); 
+        } catch(e) {}
     }
 
     // ===== NOTES =====
@@ -2262,21 +2178,22 @@ async function handleNoteUpload(input) {
             const params = new URLSearchParams();
             if (field) params.set('field', field);
             if (subj) params.set('subject', subj);
-            const res = await fetch(`${API_BASE}/notes?${params}`, {headers: getHeaders()});
+            const res = await fetch(`${API_BASE}/admin/notes?${params}`, {headers: getHeaders()});
             const data = await res.json();
             const c = document.getElementById('notesTable');
-            const list = data.notes || data.documents || [];
+            const list = data.notes || [];
             if (!list.length) { c.innerHTML = '<div class="empty">No notes found</div>'; return; }
             c.innerHTML = `<table><thead><tr>
-                <th>Title</th><th>Field</th><th>Subject</th><th>Type</th><th>Actions</th>
+                <th>Title</th><th>Field</th><th>Subject</th><th>Type</th><th>Downloads</th><th>Actions</th>
             </tr></thead><tbody>${list.map(n => `
                 <tr>
                     <td><strong>${escapeHtml(n.title)}</strong>${n.description?`<br><small style="color:var(--gray);">${escapeHtml(n.description.substring(0,50))}</small>`:''}</td>
-                    <td><span class="badge badge-info">${escapeHtml(n.field||'-')}</span></td>
-                    <td>${escapeHtml(n.subject||'-')}</td>
-                    <td>${escapeHtml(n.type||n.note_type||'-')}</td>
+                    <td><span class="badge badge-info">${escapeHtml(n.field || '-')}</span></td>
+                    <td>${escapeHtml(n.subject || '-')}</td>
+                    <td>${escapeHtml(n.note_type || '-')}</td>
+                    <td>${n.download_count || 0}</td>
                     <td><div class="actions-cell">
-                        ${(n.file_url||n.url) ? `<a href="${n.file_url||n.url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
+                        ${n.file_url ? `<a href="${n.file_url}" target="_blank" class="btn btn-secondary btn-sm">Open</a>` : ''}
                         <button class="btn btn-danger btn-sm" onclick="deleteNote(${n.id})">Delete</button>
                     </div></td>
                 </tr>`).join('')}
@@ -2285,59 +2202,50 @@ async function handleNoteUpload(input) {
     }
 
     async function addNote() {
-    const fileUrl = noteCloudinaryUrl || document.getElementById('noteFileUrl').value.trim();
-    if (!fileUrl) return alert('Please upload a file or provide a link');
-    
-    const title = document.getElementById('noteTitle').value.trim();
-    if (!title) return alert('Title required');
+        const fileUrl = noteCloudinaryUrl || document.getElementById('noteFileUrl').value.trim();
+        if (!fileUrl) return alert('Please upload a file or paste a direct link');
+        
+        const title = document.getElementById('noteTitle').value.trim();
+        if (!title) return alert('Title is required');
 
-    const body = {
-        title: title,
-        field: document.getElementById('noteField').value,
-        subject: document.getElementById('noteSubject').value,
-        type: document.getElementById('noteType').value,
-        note_type: document.getElementById('noteType').value,
-        file_url: fileUrl,
-        fileUrl: fileUrl,
-        url: fileUrl,
-        description: document.getElementById('noteDesc').value
-    };
+        const body = {
+            title: title,
+            field: document.getElementById('noteField').value,
+            subject: document.getElementById('noteSubject').value,
+            type: document.getElementById('noteType').value,
+            fileUrl: fileUrl,
+            description: document.getElementById('noteDesc').value
+        };
 
-    const endpoints = [`${API_BASE}/notes`, `${API_BASE}/admin/notes`, `${API_BASE}/documents`];
-    
-    let success = false;
-    let lastError = '';
-    
-    for (const ep of endpoints) {
         try {
-            const res = await fetch(ep, {
+            const res = await fetch(`${API_BASE}/admin/notes`, {
                 method: 'POST',
-                headers: {...getHeaders(), 'Content-Type':'application/json'},
+                headers: {...getHeaders(), 'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
             });
-            if (res.status === 404) continue;
             const data = await res.json();
-            if (data.success || res.ok) { success = true; break; }
-            else lastError = data.message || 'Failed';
-        } catch(e) { lastError = e.message; }
+            if (data.success) {
+                closeModal('addNoteModal');
+                noteCloudinaryUrl = '';
+                document.querySelectorAll('#addNoteModal input, #addNoteModal textarea').forEach(i => i.value = '');
+                document.getElementById('noteUploadStatus').textContent = '';
+                document.getElementById('noteFileInput').value = '';
+                loadAdminNotes();
+                alert('Note added successfully!');
+            } else {
+                alert('Failed: ' + (data.message || 'Unknown error'));
+            }
+        } catch(e) { 
+            alert('Failed: ' + e.message); 
+        }
     }
-
-    if (success) {
-        closeModal('addNoteModal');
-        noteCloudinaryUrl = '';
-        document.querySelectorAll('#addNoteModal input, #addNoteModal textarea').forEach(i=>i.value='');
-        document.getElementById('noteUploadStatus').textContent='';
-        document.getElementById('noteFileInput').value='';
-        loadAdminNotes();
-        alert('Note added successfully!');
-    } else {
-        alert('Failed to add note: ' + lastError);
-    }
-}
 
     async function deleteNote(id) {
         if (!confirm('Delete this note?')) return;
-        try { await fetch(`${API_BASE}/notes/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminNotes(); } catch(e) {}
+        try { 
+            await fetch(`${API_BASE}/admin/notes/${id}`, {method:'DELETE', headers: getHeaders()}); 
+            loadAdminNotes(); 
+        } catch(e) {}
     }
 
     // ===== NOTIFICATIONS =====
@@ -2354,7 +2262,7 @@ async function handleNoteUpload(input) {
                 <tr>
                     <td><strong>${escapeHtml(n.title)}</strong></td>
                     <td style="max-width:200px;font-size:11px;">${escapeHtml(n.message)}</td>
-                    <td><span class="badge badge-info">${escapeHtml(n.target||'all')}</span></td>
+                    <td><span class="badge badge-info">${escapeHtml(n.target_audience||'all')}</span></td>
                     <td><span class="badge badge-warning">${escapeHtml(n.type||'info')}</span></td>
                     <td><small>${new Date(n.created_at).toLocaleDateString()}</small></td>
                     <td><button class="btn btn-danger btn-sm" onclick="deleteNotification(${n.id})">Delete</button></td>
@@ -2373,7 +2281,7 @@ async function handleNoteUpload(input) {
                 headers: {...getHeaders(), 'Content-Type':'application/json'},
                 body: JSON.stringify({
                     title, message,
-                    target: document.getElementById('notifTarget').value,
+                    targetAudience: document.getElementById('notifTarget').value,
                     type: document.getElementById('notifType').value
                 })
             });
@@ -2621,23 +2529,22 @@ async function handleNoteUpload(input) {
     function openModal(id) { document.getElementById(id).classList.add('show'); }
     function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-    // Close modal on background click
     document.querySelectorAll('.modal').forEach(m=>{
         m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('show'); });
     });
 
     // ===== UTILS =====
     function escapeHtml(s) {
-        if (!s) return '';
+        if (s === null || s === undefined) return '';
         return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
 
     function escapeJsString(s) {
         if (!s) return '';
-        return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
+        return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
     }
 
-    // Drag & drop for upload zones
+    // Drag & drop
     function setupDragDrop(zoneId, inputId) {
         const zone = document.getElementById(zoneId);
         if (!zone) return;
@@ -2653,7 +2560,6 @@ async function handleNoteUpload(input) {
             }
         });
     }
-
     setupDragDrop('pdfUploadZone','pdfFileInput');
     setupDragDrop('noteUploadZone','noteFileInput');
 
