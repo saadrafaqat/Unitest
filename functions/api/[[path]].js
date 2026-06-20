@@ -320,13 +320,20 @@ async function uploadToCloudinary(env, file, folder) {
     const base64 = btoa(binary);
     const dataUri = `data:${file.type};base64,${base64}`;
 
+    // Determine resource type based on file MIME
+    const isImage = file.type.startsWith('image/');
+    const resourceType = isImage ? 'image' : 'raw'; // PDFs → raw, images → image
+
     const formData = new FormData();
     formData.append('file', dataUri);
     formData.append('upload_preset', uploadPreset);
     formData.append('folder', `nustology/${folder}`);
+    
+    // Force resource_type so PDFs are stored correctly
+    formData.append('resource_type', resourceType);
 
     const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+        `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`,
         { method: 'POST', body: formData }
     );
 
