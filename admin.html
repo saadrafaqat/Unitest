@@ -298,6 +298,37 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
+        /* URL Input with Icon */
+        .url-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1.5px solid var(--border);
+            transition: border-color 0.15s;
+        }
+        .url-input-wrap:focus-within {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .url-input-wrap .icon {
+            font-size: 18px;
+            color: var(--gray);
+            flex-shrink: 0;
+        }
+        .url-input-wrap input {
+            border: none;
+            background: transparent;
+            padding: 8px 0;
+            flex: 1;
+            font-family: inherit;
+            font-size: 14px;
+            min-height: 38px;
+        }
+        .url-input-wrap input:focus { outline: none; }
+
         .detail-row {
             display: grid;
             grid-template-columns: 130px 1fr;
@@ -466,72 +497,6 @@
         }
         .login-error.show { display: block; }
 
-        /* UPLOAD AREA */
-        .upload-area {
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            padding: 30px 20px;
-            text-align: center;
-            transition: all 0.2s;
-            cursor: pointer;
-            background: #fafafa;
-        }
-        .upload-area:hover {
-            border-color: var(--primary-light);
-            background: var(--primary-bg);
-        }
-        .upload-area .icon { font-size: 40px; margin-bottom: 10px; display: block; }
-        .upload-area p { color: var(--gray); font-size: 14px; }
-        .upload-area .sub-text { font-size: 12px; color: var(--gray); margin-top: 4px; }
-
-        .progress-bar {
-            height: 6px;
-            background: var(--gray-lighter);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-            display: none;
-        }
-        .progress-bar.show { display: block; }
-        .progress-bar .fill {
-            height: 100%;
-            background: var(--primary-light);
-            width: 0%;
-            transition: width 0.3s;
-            border-radius: 4px;
-        }
-
-        .file-preview {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            background: #f8fafc;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            margin-top: 10px;
-        }
-        .file-preview .name { font-weight: 500; flex: 1; font-size: 13px; }
-        .file-preview .size { color: var(--gray); font-size: 12px; }
-        .file-preview .remove { color: var(--danger); cursor: pointer; font-weight: 700; font-size: 18px; line-height: 1; }
-        .file-preview .remove:hover { color: #b91c1c; }
-
-        .student-analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin: 12px 0;
-        }
-        .student-analytics-grid .card {
-            margin-bottom: 0;
-            text-align: center;
-        }
-        .student-analytics-grid .card .value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-light);
-        }
-
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); width: 260px; }
             .sidebar.open { transform: translateX(0); }
@@ -623,8 +588,8 @@
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
                         <button class="btn btn-primary" onclick="showPage('registrations', document.querySelector('[data-page=\"registrations\"]'))">📋 Review Registrations</button>
                         <button class="btn btn-primary" onclick="showPage('students', document.querySelector('[data-page=\"students\"]'))">👥 Manage Students</button>
-                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelector('[data-page=\"pdfs\"]'))">📄 Upload PDF</button>
-                        <button class="btn btn-success" onclick="showPage('notes', document.querySelector('[data-page=\"notes\"]'))">📝 Upload Notes</button>
+                        <button class="btn btn-success" onclick="showPage('pdfs', document.querySelector('[data-page=\"pdfs\"]'))">📄 Add PDF Link</button>
+                        <button class="btn btn-success" onclick="showPage('notes', document.querySelector('[data-page=\"notes\"]'))">📝 Add Note Link</button>
                         <button class="btn btn-secondary" onclick="showPage('settings', document.querySelector('[data-page=\"settings\"]'))">⚙️ Settings</button>
                     </div>
                 </div>
@@ -677,64 +642,66 @@
                 </div>
             </div>
 
-            <!-- PDFs -->
+            <!-- PDFs - SIMPLE LINK MANAGEMENT -->
             <div class="page" id="page-pdfs">
                 <div class="card">
-                    <div class="card-header"><h2>📄 Upload PDF / Past Paper</h2></div>
+                    <div class="card-header"><h2>📄 Add PDF / Past Paper Link</h2></div>
                     <div class="form-row">
                         <div class="form-group"><label>Title *</label><input type="text" id="pdfTitle" placeholder="e.g., NET-2024 Engineering Paper"></div>
-                        <div class="form-group"><label>Field *</label><select id="pdfField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
+                        <div class="form-group"><label>Field *</label><select id="pdfField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option><option>Natural Sciences</option></select></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Subject</label><select id="pdfSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option></select></div>
+                        <div class="form-group"><label>Subject</label><select id="pdfSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
                         <div class="form-group"><label>Year</label><input type="text" id="pdfYear" placeholder="e.g., 2024"></div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Upload PDF *</label>
-                            <div class="upload-area" onclick="document.getElementById('pdfFileInput').click()">
-                                <span class="icon">📄</span>
-                                <p><strong>Click to upload</strong> or drag & drop</p>
-                                <p class="sub-text">PDF files up to 10MB</p>
-                                <input type="file" id="pdfFileInput" accept=".pdf" style="display:none" onchange="handleFileSelect('pdf')">
-                                <div class="progress-bar" id="pdfProgress"><div class="fill" id="pdfProgressFill"></div></div>
-                                <div id="pdfPreview" style="display:none;"></div>
+                        <div class="form-group">
+                            <label>File URL *</label>
+                            <div class="url-input-wrap">
+                                <span class="icon">🔗</span>
+                                <input type="url" id="pdfUrl" placeholder="https://drive.google.com/... or https://res.cloudinary.com/...">
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-success" onclick="uploadPDF()" id="pdfUploadBtn">📤 Upload PDF</button>
+                    <div class="form-row full">
+                        <div class="form-group"><label>Description</label><textarea id="pdfDesc" rows="2" placeholder="Brief description..."></textarea></div>
+                    </div>
+                    <button class="btn btn-success" onclick="addPDFLink()">➕ Add PDF Link</button>
                 </div>
+
                 <div class="card">
                     <div class="card-header"><h2>Uploaded PDFs</h2></div>
                     <div class="table-container" id="pdfsTable"></div>
                 </div>
             </div>
 
-            <!-- NOTES -->
+            <!-- NOTES - SIMPLE LINK MANAGEMENT -->
             <div class="page" id="page-notes">
                 <div class="card">
-                    <div class="card-header"><h2>📝 Upload Notes / Formulas</h2></div>
+                    <div class="card-header"><h2>📝 Add Notes / Formula Link</h2></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g., Physics Formulas"></div>
-                        <div class="form-group"><label>Field *</label><select id="noteField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
+                        <div class="form-group"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g., Physics Formula Sheet"></div>
+                        <div class="form-group"><label>Field *</label><select id="noteField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option><option>Natural Sciences</option></select></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>Subject</label><select id="noteSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option></select></div>
+                        <div class="form-group"><label>Subject</label><select id="noteSubject"><option value="">All</option><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
                         <div class="form-group"><label>Topic</label><input type="text" id="noteTopic" placeholder="e.g., Kinematics"></div>
                     </div>
                     <div class="form-row full">
-                        <div class="form-group"><label>Upload File *</label>
-                            <div class="upload-area" onclick="document.getElementById('noteFileInput').click()">
-                                <span class="icon">📝</span>
-                                <p><strong>Click to upload</strong> or drag & drop</p>
-                                <p class="sub-text">PDF, DOC, DOCX up to 10MB</p>
-                                <input type="file" id="noteFileInput" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFileSelect('note')">
-                                <div class="progress-bar" id="noteProgress"><div class="fill" id="noteProgressFill"></div></div>
-                                <div id="notePreview" style="display:none;"></div>
+                        <div class="form-group">
+                            <label>File URL *</label>
+                            <div class="url-input-wrap">
+                                <span class="icon">🔗</span>
+                                <input type="url" id="noteUrl" placeholder="https://drive.google.com/... or https://res.cloudinary.com/...">
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-success" onclick="uploadNote()" id="noteUploadBtn">📤 Upload Notes</button>
+                    <div class="form-row full">
+                        <div class="form-group"><label>Description</label><textarea id="noteDesc" rows="2" placeholder="Brief description..."></textarea></div>
+                    </div>
+                    <button class="btn btn-success" onclick="addNoteLink()">➕ Add Note Link</button>
                 </div>
+
                 <div class="card">
                     <div class="card-header"><h2>Uploaded Notes</h2></div>
                     <div class="table-container" id="notesTable"></div>
@@ -852,7 +819,14 @@
     <div class="modal-box">
         <h3>🎬 Add Video Lecture</h3>
         <div class="form-row full"><div class="form-group"><label>Title *</label><input type="text" id="lecTitle"></div></div>
-        <div class="form-row full"><div class="form-group"><label>YouTube URL *</label><input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=..."></div></div>
+        <div class="form-row full">
+            <div class="form-group"><label>YouTube URL *</label>
+                <div class="url-input-wrap">
+                    <span class="icon">▶</span>
+                    <input type="url" id="lecUrl" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+            </div>
+        </div>
         <div class="form-row">
             <div class="form-group"><label>Field</label><select id="lecField"><option>Engineering</option><option>Applied Sciences</option><option>Business</option><option>Architecture</option></select></div>
             <div class="form-group"><label>Subject</label><select id="lecSubject"><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>Biology</option><option>English</option><option>Intelligence</option></select></div>
@@ -879,7 +853,12 @@
         </div>
         <div class="form-row">
             <div class="form-group"><label>Campus</label><input type="text" id="merCampus"></div>
-            <div class="form-group"><label>File URL</label><input type="url" id="merFileUrl" placeholder="https://drive.google.com/..."></div>
+            <div class="form-group"><label>File URL</label>
+                <div class="url-input-wrap">
+                    <span class="icon">🔗</span>
+                    <input type="url" id="merFileUrl" placeholder="https://drive.google.com/...">
+                </div>
+            </div>
         </div>
         <div class="form-row full"><div class="form-group"><label>Description</label><textarea id="merDesc" rows="2"></textarea></div></div>
         <div class="modal-actions">
@@ -926,7 +905,6 @@
     let allRegistrations = [];
     let currentRejectRegId = null;
     let currentResetStudentId = null;
-    let currentStudentIdForDetail = null;
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
@@ -1020,8 +998,8 @@
             dashboard: ['Dashboard', 'Overview'],
             students: ['Students', 'Manage all students'],
             registrations: ['Registrations', 'Approve/reject new students'],
-            pdfs: ['PDFs / Past Papers', 'Upload and manage PDFs'],
-            notes: ['Notes / Formulas', 'Upload and manage notes'],
+            pdfs: ['PDFs / Past Papers', 'Add PDF links'],
+            notes: ['Notes / Formulas', 'Add note links'],
             lectures: ['Video Lectures', 'Manage video lectures'],
             merit: ['Merit Lists', 'Upload past merit lists'],
             notifications: ['Notifications', 'Send announcements'],
@@ -1192,9 +1170,8 @@
         } catch (e) {}
     }
 
-    // ============ STUDENT DETAIL WITH ANALYTICS ============
+    // ============ STUDENT DETAIL ============
     async function viewStudent(id) {
-        currentStudentIdForDetail = id;
         try {
             const res = await fetch(`${API_BASE}/admin/students/${id}`, { headers: getHeaders() });
             const data = await res.json();
@@ -1204,55 +1181,19 @@
             const attempts = data.attempts || [];
             const subjectPerf = data.subjectPerformance || [];
 
-            // Calculate analytics
-            const totalTests = attempts.length;
-            const correctTotal = attempts.reduce((sum, a) => sum + (a.correct_answers || 0), 0);
-            const wrongTotal = attempts.reduce((sum, a) => sum + (a.wrong_answers || 0), 0);
-            const totalQuestions = attempts.reduce((sum, a) => sum + (a.total_marks || 0), 0);
-            const avgScore = totalQuestions > 0 ? ((correctTotal / totalQuestions) * 100) : 0;
-            const bestScore = attempts.length > 0 ? Math.max(...attempts.map(a => a.percentage || 0)) : 0;
-            
-            // Find weak subjects
-            const weakSubjects = subjectPerf.filter(sp => (sp.avg_percentage || 0) < 50);
-            const strongSubjects = subjectPerf.filter(sp => (sp.avg_percentage || 0) >= 70);
-
             let html = `
                 <h3>${escapeHtml(s.full_name || s.username)} <span style="font-size:13px; color:var(--gray);">@${escapeHtml(s.username)}</span></h3>
 
-                <!-- Student Analytics Summary -->
-                <div class="student-analytics-grid">
-                    <div class="card"><div class="stat-label">Total Tests</div><div class="value">${totalTests}</div></div>
-                    <div class="card"><div class="stat-label">Avg Score</div><div class="value">${avgScore.toFixed(1)}%</div></div>
-                    <div class="card"><div class="stat-label">Best Score</div><div class="value">${bestScore.toFixed(1)}%</div></div>
-                    <div class="card"><div class="stat-label">Correct Answers</div><div class="value">${correctTotal}</div></div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;">
+                    <div class="card"><div class="stat-label">Total Tests</div><div style="font-size:20px; font-weight:700;">${attempts.length}</div></div>
+                    <div class="card"><div class="stat-label">Avg Score</div><div style="font-size:20px; font-weight:700;">${data.performanceScore || 0}%</div></div>
                 </div>
 
-                <!-- Weak Subjects Alert -->
-                ${weakSubjects.length > 0 ? `
-                    <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px; margin:12px 0;">
-                        <strong style="color:var(--danger);">⚠️ Weak Subjects (Need Improvement)</strong>
-                        <div style="margin-top:6px;">${weakSubjects.map(sp => 
-                            `<span class="badge badge-danger" style="margin:2px;">${escapeHtml(sp.subject)} (${(sp.avg_percentage || 0).toFixed(0)}%)</span>`
-                        ).join('')}</div>
-                    </div>
-                ` : '<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px; margin:12px 0;"><strong style="color:var(--success);">✅ Good Performance!</strong> No weak subjects detected.</div>'}
-
-                ${strongSubjects.length > 0 ? `
-                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px; margin:12px 0;">
-                        <strong style="color:var(--success);">⭐ Strong Subjects</strong>
-                        <div style="margin-top:6px;">${strongSubjects.map(sp => 
-                            `<span class="badge badge-success" style="margin:2px;">${escapeHtml(sp.subject)} (${(sp.avg_percentage || 0).toFixed(0)}%)</span>`
-                        ).join('')}</div>
-                    </div>
-                ` : ''}
-
-                <!-- Subject Performance Chart -->
-                <div style="margin:12px 0;">
+                <div style="margin-bottom:12px;">
                     <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:6px;">Subject Performance</h4>`;
 
             if (subjectPerf.length) {
-                html += `<div class="chart-container" style="height:150px;">
-                    <div class="chart-bars">`;
+                html += `<div class="chart-container" style="height:150px;"><div class="chart-bars">`;
                 const maxVal = Math.max(...subjectPerf.map(sp => sp.avg_percentage || 0), 10);
                 subjectPerf.forEach(sp => {
                     const pct = ((sp.avg_percentage || 0) / maxVal) * 100;
@@ -1261,7 +1202,6 @@
                         <div class="chart-bar-value">${(sp.avg_percentage || 0).toFixed(0)}%</div>
                         <div class="chart-bar" style="height:${Math.max(pct, 8)}%; background:${color};"></div>
                         <div class="chart-bar-label">${escapeHtml(sp.subject)}</div>
-                        <div style="font-size:8px; color:var(--gray);">${sp.attempts || 0} tests</div>
                     </div>`;
                 });
                 html += `</div></div>`;
@@ -1270,8 +1210,6 @@
             }
 
             html += `</div>
-
-                <!-- Test History -->
                 <div style="margin-bottom:12px;">
                     <h4 style="font-size:14px; font-weight:700; color:var(--primary-light); margin-bottom:6px;">Test History</h4>`;
 
@@ -1294,7 +1232,6 @@
 
             html += `</div>
 
-                <!-- Student Info -->
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;">
                     <div class="card"><div class="stat-label">Email</div><div>${escapeHtml(s.email || '-')}</div></div>
                     <div class="card"><div class="stat-label">Phone</div><div>${escapeHtml(s.phone || '-')}</div></div>
@@ -1490,84 +1427,44 @@
         } catch (e) {}
     }
 
-    // ============ PDF UPLOAD ============
-    let selectedFile = null;
-
-    function handleFileSelect(type) {
-        const input = document.getElementById(type + 'FileInput');
-        const file = input.files[0];
-        if (!file) return;
-
-        const preview = document.getElementById(type + 'Preview');
-        preview.style.display = 'block';
-        preview.innerHTML = `
-            <div class="file-preview">
-                <span>📄</span>
-                <span class="name">${escapeHtml(file.name)}</span>
-                <span class="size">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                <span class="remove" onclick="removeFile('${type}')">×</span>
-            </div>
-        `;
-        selectedFile = file;
-        document.getElementById(type + 'UploadBtn').disabled = false;
-    }
-
-    function removeFile(type) {
-        document.getElementById(type + 'FileInput').value = '';
-        document.getElementById(type + 'Preview').style.display = 'none';
-        document.getElementById(type + 'Preview').innerHTML = '';
-        selectedFile = null;
-        document.getElementById(type + 'UploadBtn').disabled = true;
-    }
-
-    async function uploadPDF() {
+    // ============ PDF LINKS ============
+    async function addPDFLink() {
         const title = document.getElementById('pdfTitle').value.trim();
         const field = document.getElementById('pdfField').value;
         const subject = document.getElementById('pdfSubject').value;
         const year = document.getElementById('pdfYear').value.trim();
-        const fileInput = document.getElementById('pdfFileInput');
+        const url = document.getElementById('pdfUrl').value.trim();
+        const desc = document.getElementById('pdfDesc').value.trim();
 
-        if (!title || !fileInput.files[0]) {
-            alert('Please fill in title and select a file');
+        if (!title || !url) {
+            alert('Please fill in Title and File URL');
             return;
         }
 
-        const btn = document.getElementById('pdfUploadBtn');
-        btn.disabled = true;
-        btn.textContent = 'Uploading...';
-
         try {
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-            formData.append('title', title);
-            formData.append('field', field);
-            formData.append('subject', subject);
-            formData.append('year', year);
-
-            const res = await fetch(`${API_BASE}/admin/upload-pdf`, {
+            const res = await fetch(`${API_BASE}/pdfs`, {
                 method: 'POST',
-                headers: getHeaders(),
-                body: formData
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title, field, subject, year,
+                    file_url: url,
+                    description: desc
+                })
             });
             const data = await res.json();
-
             if (data.success) {
-                alert('PDF uploaded successfully!');
+                alert('PDF link added successfully!');
                 document.getElementById('pdfTitle').value = '';
                 document.getElementById('pdfYear').value = '';
-                document.getElementById('pdfFileInput').value = '';
-                document.getElementById('pdfPreview').style.display = 'none';
-                document.getElementById('pdfPreview').innerHTML = '';
+                document.getElementById('pdfUrl').value = '';
+                document.getElementById('pdfDesc').value = '';
                 loadPDFs();
             } else {
-                alert('Failed to upload: ' + (data.message || 'Unknown error'));
+                alert('Failed to add: ' + (data.message || 'Unknown error'));
             }
-        } catch (err) {
-            alert('Upload failed: ' + err.message);
+        } catch (e) {
+            alert('Error: ' + e.message);
         }
-
-        btn.disabled = false;
-        btn.textContent = '📤 Upload PDF';
     }
 
     async function loadPDFs() {
@@ -1575,14 +1472,14 @@
             const res = await fetch(`${API_BASE}/pdfs`, { headers: getHeaders() });
             const data = await res.json();
             const c = document.getElementById('pdfsTable');
-            if (!data.pdfs?.length) { c.innerHTML = '<div class="empty">No PDFs uploaded yet</div>'; return; }
-            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
+            if (!data.pdfs?.length) { c.innerHTML = '<div class="empty">No PDFs added yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>Link</th><th>Actions</th></tr></thead><tbody>
                 ${data.pdfs.map(p => `
                     <tr>
                         <td><strong>${escapeHtml(p.title)}</strong></td>
                         <td><span class="badge badge-info">${escapeHtml(p.field)}</span></td>
                         <td>${escapeHtml(p.subject || '-')}</td>
-                        <td><a href="${p.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
+                        <td><a href="${p.file_url}" target="_blank" class="btn btn-secondary btn-sm">🔗 Open</a></td>
                         <td><button class="btn btn-danger btn-sm" onclick="deletePDF(${p.id})">Delete</button></td>
                     </tr>
                 `).join('')}</tbody></table>`;
@@ -1597,55 +1494,44 @@
         } catch (e) {}
     }
 
-    // ============ NOTES UPLOAD ============
-    async function uploadNote() {
+    // ============ NOTES LINKS ============
+    async function addNoteLink() {
         const title = document.getElementById('noteTitle').value.trim();
         const field = document.getElementById('noteField').value;
         const subject = document.getElementById('noteSubject').value;
         const topic = document.getElementById('noteTopic').value.trim();
-        const fileInput = document.getElementById('noteFileInput');
+        const url = document.getElementById('noteUrl').value.trim();
+        const desc = document.getElementById('noteDesc').value.trim();
 
-        if (!title || !fileInput.files[0]) {
-            alert('Please fill in title and select a file');
+        if (!title || !url) {
+            alert('Please fill in Title and File URL');
             return;
         }
 
-        const btn = document.getElementById('noteUploadBtn');
-        btn.disabled = true;
-        btn.textContent = 'Uploading...';
-
         try {
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-            formData.append('title', title);
-            formData.append('field', field);
-            formData.append('subject', subject);
-            formData.append('topic', topic);
-
-            const res = await fetch(`${API_BASE}/admin/upload-note`, {
+            const res = await fetch(`${API_BASE}/notes`, {
                 method: 'POST',
-                headers: getHeaders(),
-                body: formData
+                headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title, field, subject, topic,
+                    file_url: url,
+                    description: desc
+                })
             });
             const data = await res.json();
-
             if (data.success) {
-                alert('Notes uploaded successfully!');
+                alert('Note link added successfully!');
                 document.getElementById('noteTitle').value = '';
                 document.getElementById('noteTopic').value = '';
-                document.getElementById('noteFileInput').value = '';
-                document.getElementById('notePreview').style.display = 'none';
-                document.getElementById('notePreview').innerHTML = '';
+                document.getElementById('noteUrl').value = '';
+                document.getElementById('noteDesc').value = '';
                 loadNotes();
             } else {
-                alert('Failed to upload: ' + (data.message || 'Unknown error'));
+                alert('Failed to add: ' + (data.message || 'Unknown error'));
             }
-        } catch (err) {
-            alert('Upload failed: ' + err.message);
+        } catch (e) {
+            alert('Error: ' + e.message);
         }
-
-        btn.disabled = false;
-        btn.textContent = '📤 Upload Notes';
     }
 
     async function loadNotes() {
@@ -1653,14 +1539,14 @@
             const res = await fetch(`${API_BASE}/notes`, { headers: getHeaders() });
             const data = await res.json();
             const c = document.getElementById('notesTable');
-            if (!data.notes?.length) { c.innerHTML = '<div class="empty">No notes uploaded yet</div>'; return; }
-            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>File</th><th>Actions</th></tr></thead><tbody>
+            if (!data.notes?.length) { c.innerHTML = '<div class="empty">No notes added yet</div>'; return; }
+            c.innerHTML = `<table><thead><tr><th>Title</th><th>Field</th><th>Subject</th><th>Link</th><th>Actions</th></tr></thead><tbody>
                 ${data.notes.map(n => `
                     <tr>
                         <td><strong>${escapeHtml(n.title)}</strong></td>
                         <td><span class="badge badge-info">${escapeHtml(n.field)}</span></td>
                         <td>${escapeHtml(n.subject || '-')}</td>
-                        <td><a href="${n.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a></td>
+                        <td><a href="${n.file_url}" target="_blank" class="btn btn-secondary btn-sm">🔗 Open</a></td>
                         <td><button class="btn btn-danger btn-sm" onclick="deleteNote(${n.id})">Delete</button></td>
                     </tr>
                 `).join('')}</tbody></table>`;
@@ -1739,7 +1625,7 @@
                     <tr><td><strong>${escapeHtml(m.title)}</strong></td>
                     <td><span class="badge badge-info">${escapeHtml(m.field)}</span></td>
                     <td>${m.year}</td>
-                    <td>${m.file_url ? `<a href="${m.file_url}" target="_blank" class="btn btn-secondary btn-sm">📄 View</a>` : ''}
+                    <td>${m.file_url ? `<a href="${m.file_url}" target="_blank" class="btn btn-secondary btn-sm">🔗 Open</a>` : ''}
                     <button class="btn btn-danger btn-sm" onclick="deleteMerit(${m.id})">Delete</button></td></tr>
                 `).join('')}</tbody></table>`;
         } catch (e) {}
@@ -1757,7 +1643,7 @@
             fileUrl: document.getElementById('merFileUrl').value,
             description: document.getElementById('merDesc').value
         };
-        if (!body.title || !body.year) return alert('Title and year required');
+        if (!body.title || !body.year || !body.fileUrl) return alert('Title, year and URL required');
         try {
             const res = await fetch(`${API_BASE}/merit-lists`, {
                 method: 'POST',
@@ -1770,6 +1656,7 @@
                     if (i.id !== 'merYear') i.value = '';
                 });
                 loadAdminMerit();
+                alert('Merit list added!');
             }
         } catch (e) {}
     }
