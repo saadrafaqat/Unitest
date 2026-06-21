@@ -1990,32 +1990,76 @@
     function openAddLecture() { document.getElementById('addLectureModal').classList.add('show'); }
 
     async function addLecture() {
-        const body = {
-            title: document.getElementById('lecTitle').value,
-            youtubeUrl: document.getElementById('lecUrl').value,
-            field: document.getElementById('lecField').value,
-            subject: document.getElementById('lecSubject').value,
-            topic: document.getElementById('lecTopic').value,
-            instructor: document.getElementById('lecInstructor').value,
-            duration: document.getElementById('lecDuration').value,
-            difficulty: document.getElementById('lecDifficulty').value,
-            description: document.getElementById('lecDesc').value
-        };
-        if (!body.title || !body.youtubeUrl) return alert('Title and URL required');
-        try {
-            const res = await fetch(`${API_BASE}/lectures`, {
-                method:'POST',
-                headers: {...getHeaders(), 'Content-Type':'application/json'},
-                body: JSON.stringify(body)
-            });
-            if ((await res.json()).success) {
-                closeModal('addLectureModal');
-                document.querySelectorAll('#addLectureModal input, #addLectureModal textarea').forEach(i=>i.value='');
-                loadAdminLectures();
-            }
-        } catch(e) {}
+    const rawUrl = document.getElementById('lecUrl').value.trim();
+    
+    // Clean the URL — extract first valid one
+    const cleanedUrl = cleanUrlForLecture(rawUrl);
+    
+    if (!cleanedUrl) {
+        return alert('Please enter a valid URL (YouTube, Google Drive, or any web link)');
     }
+    
+    const body = {
+        title: document.getElementById('lecTitle').value.trim(),
+        youtubeUrl: cleanedUrl,
+        field: document.getElementById('lecField').value,
+        subject: document.getElementById('lecSubject').value,
+        topic: document.getElementById('lecTopic').value,
+        instructor: document.getElementById('lecInstructor').value,
+        duration: document.getElementById('lecDuration').value,
+        difficulty: document.getElementById('lecDifficulty').value,
+        description: document.getElementById('lecDesc').value
+    };
+    
+    if (!body.title || !body.youtubeUrl) return alert('Title and URL required');
+    
+    try {
+        const res = await fetch(`${API_BASE}/lectures`, {
+            method: 'POST',
+            headers: {...getHeaders(), 'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        });
+        if ((await res.json()).success) {
+            closeModal('addLectureModal');
+            document.querySelectorAll('#addLectureModal input, #addLectureModal textarea').forEach(i => i.value = '');
+            loadAdminLectures();
+            alert('Lecture added successfully!');
+        }
+    } catch(e) {
+        alert('Failed to add lecture');
+    }
+}
 
+// Helper: extract first valid URL from messy input
+function cleanUrlForLecture(input) {
+    if (!input) return '';
+    let str = String(input).trim();
+    
+    // Find all URLs in the string
+    const urls = str.match(/https?:\/\/[^\s]+/g);
+    if (!urls || urls.length === 0) return '';
+    
+    let firstUrl = urls[0];
+    
+    // Decode URL-encoded characters
+    try {
+        firstUrl = decodeURIComponent(firstUrl);
+    } catch(e) {}
+    
+    // After decoding, check for embedded URLs again
+    const decodedUrls = firstUrl.match(/https?:\/\/[^\s]+/g);
+    if (decodedUrls && decodedUrls.length > 1) {
+        // Prefer Drive or YouTube links
+        const driveLink = decodedUrls.find(u => u.includes('drive.google.com'));
+        const ytLink = decodedUrls.find(u => u.includes('youtube.com') || u.includes('youtu.be'));
+        firstUrl = driveLink || ytLink || decodedUrls[0];
+    }
+    
+    // Trim any trailing spaces or extra characters
+    firstUrl = firstUrl.split(/[\s]/)[0];
+    
+    return firstUrl;
+}
     async function deleteLecture(id) {
         if (!confirm('Delete lecture?')) return;
         try { await fetch(`${API_BASE}/lectures/${id}`, {method:'DELETE', headers: getHeaders()}); loadAdminLectures(); } catch(e) {}
