@@ -124,16 +124,16 @@
         }
         .note-card:hover { border-color: var(--primary); }
         .note-icon {
-            width: 44px; height: 44px;
-            background: #f3e8ff; color: #9333ea;
+            width: 52px; height: 52px;
+            background: #f8fafc;
             border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
+            padding: 6px;
         }
-        .note-icon svg { width: 24px; height: 24px; }
-        .note-icon.formula { background: #fef3c7; color: #d97706; }
-        .note-icon.short { background: #dcfce7; color: #16a34a; }
-        .note-icon.cheat { background: #fce7f3; color: #db2777; }
-        .note-icon.summary { background: var(--primary-bg); color: var(--primary); }
+        .note-icon img {
+            width: 100%; height: 100%;
+            object-fit: contain;
+        }
 
         .note-title {
             font-size: 15px; font-weight: 700; line-height: 1.3;
@@ -326,14 +326,13 @@
         document.getElementById('sidebarOverlay').classList.remove('show');
     }
 
-    function getNoteIconClass(type) {
-        const map = {
-            'formula_sheet': 'formula',
-            'short_notes': 'short',
-            'cheat_sheet': 'cheat',
-            'summary': 'summary'
-        };
-        return map[type] || '';
+    // Returns the correct icon filename based on note type
+    function getNoteIcon(type) {
+        const t = (type || '').toLowerCase();
+        if (t === 'summary') return 'images/icons/notes2.png';
+        if (t === 'formula_sheet' || t === 'cheat_sheet') return 'images/icons/notes3.png';
+        // Default: notes, short_notes, other
+        return 'images/icons/notes1.png';
     }
 
     async function checkAuth() {
@@ -415,8 +414,8 @@
 
         container.innerHTML = '<div class="notes-grid">' + notes.map(n => `
             <div class="note-card">
-                <div class="note-icon ${getNoteIconClass(n.note_type)}">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <div class="note-icon">
+                    <img src="${getNoteIcon(n.note_type)}" alt="${escapeHtml(n.note_type || 'Note')}">
                 </div>
                 <div class="note-title">${escapeHtml(n.title)}</div>
                 ${n.description ? `<div class="note-desc">${escapeHtml(n.description)}</div>` : ''}
