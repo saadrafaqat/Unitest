@@ -124,12 +124,16 @@
         }
         .pdf-card:hover { border-color: var(--primary); }
         .pdf-icon {
-            width: 44px; height: 44px;
-            background: #fef2f2; color: var(--danger);
+            width: 52px; height: 52px;
+            background: #f8fafc;
             border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
+            padding: 6px;
         }
-        .pdf-icon svg { width: 24px; height: 24px; }
+        .pdf-icon img {
+            width: 100%; height: 100%;
+            object-fit: contain;
+        }
         .pdf-title {
             font-size: 15px; font-weight: 700; line-height: 1.3;
             color: var(--dark);
@@ -403,7 +407,7 @@
         container.innerHTML = '<div class="pdfs-grid">' + pdfs.map(p => `
             <div class="pdf-card">
                 <div class="pdf-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <img src="images/icons/pdf.png" alt="PDF">
                 </div>
                 <div class="pdf-title">${escapeHtml(p.title)}</div>
                 ${p.description ? `<div class="pdf-desc">${escapeHtml(p.description)}</div>` : ''}
