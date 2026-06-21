@@ -161,8 +161,20 @@
         .thumb {
             position: relative; aspect-ratio: 16/9; background: var(--gray-lighter);
             overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
         }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-placeholder {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 10px;
+            color: var(--gray);
+            background: linear-gradient(135deg, #eef2ff 0%, #dbeafe 100%);
+        }
+        .thumb-placeholder svg { width: 48px; height: 48px; }
+        .thumb-placeholder span { font-size: 12px; font-weight: 600; }
+
         .play-overlay {
             position: absolute; inset: 0; background: rgba(0,0,0,0.3);
             display: flex; align-items: center; justify-content: center;
@@ -186,6 +198,18 @@
         .difficulty-badge.easy { background: var(--success); color: white; }
         .difficulty-badge.medium { background: var(--warning); color: white; }
         .difficulty-badge.hard { background: var(--danger); color: white; }
+
+        /* Source badge — top right */
+        .source-badge {
+            position: absolute; top: 8px; right: 8px;
+            padding: 3px 9px; border-radius: 4px;
+            font-size: 10px; font-weight: 700;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .source-badge.youtube { background: #FF0000; color: white; }
+        .source-badge.drive { background: #1FA463; color: white; }
+        .source-badge.other { background: #475569; color: white; }
+        .source-badge svg { width: 11px; height: 11px; }
 
         .lecture-info { padding: 14px; }
         .subject-tag {
@@ -366,7 +390,7 @@
     </div>
 </nav>
 
-<!-- Video Modal -->
+<!-- Video Modal (for YouTube only) -->
 <div class="video-modal" id="videoModal">
     <div class="video-modal-content">
         <div class="video-header">
@@ -422,9 +446,48 @@
         }
     }
 
+    // ========== SMART LINK DETECTION ==========
+    function detectLinkType(url) {
+        if (!url) return 'other';
+        const u = url.toLowerCase();
+        if (u.includes('youtube.com') || u.includes('youtu.be')) return 'youtube';
+        if (u.includes('drive.google.com') || u.includes('docs.google.com')) return 'drive';
+        return 'other';
+    }
+
     function getYouTubeId(url) {
         const m = (url || '').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([^&\n?#]+)/);
         return m ? m[1] : null;
+    }
+
+    // Extract Google Drive file ID from various URL formats
+    function getDriveFileId(url) {
+        if (!url) return null;
+        // Format: /file/d/FILE_ID/view or /file/d/FILE_ID/edit
+        let m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (m) return m[1];
+        // Format: ?id=FILE_ID
+        m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+        if (m) return m[1];
+        // Format: /open?id=FILE_ID
+        m = url.match(/\/open\?id=([a-zA-Z0-9_-]+)/);
+        if (m) return m[1];
+        return null;
+    }
+
+    // Build the proper "view" URL based on link type
+    function getViewableUrl(url) {
+        const type = detectLinkType(url);
+        if (type === 'drive') {
+            const id = getDriveFileId(url);
+            if (id) {
+                // Drive preview URL — works on both desktop & mobile, opens in viewer
+                return `https://drive.google.com/file/d/${id}/view`;
+            }
+        }
+        // YouTube: return original (we use modal player)
+        // Other: return original
+        return url;
     }
 
     async function loadLectures() {
@@ -456,18 +519,55 @@
             return;
         }
 
-        container.innerHTML = `<div class="lectures-grid">${lectures.map(l => {
-            const videoId = getYouTubeId(l.youtube_url);
-            const thumb = l.thumbnail || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '');
-            const safeTitle = (l.title || '').replace(/'/g, "\\'");
-            return `<div class="lecture-card" onclick="playVideo('${videoId}', '${safeTitle}')">
+        container.innerHTML = `<div class="lectures-grid">${lectures.map((l, idx) => {
+            const url = l.youtube_url || '';
+            const type = detectLinkType(url);
+
+            // Get appropriate thumbnail
+            let thumbHtml = '';
+            if (type === 'youtube') {
+                const videoId = getYouTubeId(url);
+                const thumb = l.thumbnail || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '');
+                thumbHtml = thumb
+                    ? `<img src="${thumb}" alt="${escapeHtml(l.title || '')}">`
+                    : driveThumbnailPlaceholder('YouTube Video');
+            } else if (type === 'drive') {
+                // Try Drive thumbnail (works if file is public)
+                const driveId = getDriveFileId(url);
+                if (l.thumbnail) {
+                    thumbHtml = `<img src="${l.thumbnail}" alt="${escapeHtml(l.title || '')}">`;
+                } else if (driveId) {
+                    thumbHtml = `<img src="https://drive.google.com/thumbnail?id=${driveId}&sz=w480" alt="${escapeHtml(l.title || '')}" onerror="this.parentElement.innerHTML='${driveThumbnailPlaceholder('Google Drive').replace(/'/g, "\\'")}'">`;
+                } else {
+                    thumbHtml = driveThumbnailPlaceholder('Google Drive');
+                }
+            } else {
+                thumbHtml = l.thumbnail
+                    ? `<img src="${l.thumbnail}" alt="${escapeHtml(l.title || '')}">`
+                    : driveThumbnailPlaceholder('External Link');
+            }
+
+            // Source badge
+            const sourceBadge = type === 'youtube'
+                ? `<span class="source-badge youtube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</span>`
+                : type === 'drive'
+                ? `<span class="source-badge drive"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.71 3.5L1.15 15l3.42 6 6.56-11.5L7.71 3.5zM22.85 15L16.29 3.5H9.42l6.56 11.5h6.87zM5.36 17.5L8.71 23h9.07l3.36-5.5H5.36z"/></svg>Drive</span>`
+                : `<span class="source-badge other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span>`;
+
+            const safeTitle = (l.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const clickHandler = type === 'youtube'
+                ? `playYouTube('${getYouTubeId(url) || ''}', '${safeTitle}')`
+                : `openExternal('${url.replace(/'/g, "\\'")}')`;
+
+            return `<div class="lecture-card" onclick="${clickHandler}">
                 <div class="thumb">
-                    ${thumb ? `<img src="${thumb}">` : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gray);">No Thumbnail</div>'}
+                    ${thumbHtml}
                     <div class="play-overlay">
                         <div class="play-btn">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                         </div>
                     </div>
+                    ${sourceBadge}
                     ${l.difficulty ? `<span class="difficulty-badge ${l.difficulty.toLowerCase()}">${escapeHtml(l.difficulty)}</span>` : ''}
                     ${l.duration ? `<span class="duration-badge">${escapeHtml(l.duration)}</span>` : ''}
                 </div>
@@ -480,10 +580,32 @@
         }).join('')}</div>`;
     }
 
-    function playVideo(id, title) {
+    function driveThumbnailPlaceholder(label) {
+        return `<div class="thumb-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>${label}</span>
+        </div>`;
+    }
+
+    // YouTube → opens inline modal player
+    function playYouTube(id, title) {
+        if (!id) {
+            alert('Invalid YouTube link');
+            return;
+        }
         document.getElementById('videoTitle').textContent = title;
         document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
         document.getElementById('videoModal').classList.add('show');
+    }
+
+    // Drive / Other links → open in new tab (Google Drive viewer or external)
+    function openExternal(url) {
+        if (!url) {
+            alert('No link available');
+            return;
+        }
+        const viewUrl = getViewableUrl(url);
+        window.open(viewUrl, '_blank', 'noopener,noreferrer');
     }
 
     function closeVideo() {
