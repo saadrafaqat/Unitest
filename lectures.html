@@ -15,6 +15,7 @@
             --primary: #1a56db;
             --primary-dark: #1e3a8a;
             --primary-bg: #eff6ff;
+            --primary-bg2: #dbeafe;
             --dark: #0f172a;
             --gray: #64748b;
             --gray-lighter: #e2e8f0;
@@ -119,6 +120,15 @@
         .logout-btn:hover { background: var(--danger); color: #fff; }
 
         .content { padding: 20px; max-width: 1200px; margin: 0 auto; }
+
+        /* ========== ACCESS BANNER ========== */
+        .access-banner {
+            background: var(--primary-bg); border: 1px solid var(--primary-bg2);
+            color: var(--primary); padding: 12px 16px;
+            border-radius: var(--radius); margin-bottom: 16px;
+            font-size: 13px; display: flex; align-items: center; gap: 10px;
+        }
+        .access-banner svg { width: 18px; height: 18px; flex-shrink: 0; }
 
         /* ========== FILTER BAR ========== */
         .filter-bar {
@@ -315,17 +325,12 @@
         </div>
 
         <div class="content">
+            <div class="access-banner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <div id="accessText">Loading...</div>
+            </div>
+
             <div class="filter-bar">
-                <div class="filter-group">
-                    <label>Field:</label>
-                    <select id="fieldFilter" onchange="loadLectures()">
-                        <option value="all">All Fields</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="Medical">Medical</option>
-                        <option value="Business">Business</option>
-                        <option value="Architecture">Architecture</option>
-                    </select>
-                </div>
                 <div class="filter-group">
                     <label>Subject:</label>
                     <select id="subjectFilter" onchange="loadLectures()">
@@ -378,6 +383,7 @@
 
 <script>
     const API_BASE = '/api';
+    let currentUser = null;
 
     function openSidebar() {
         document.getElementById('sidebar').classList.add('open');
@@ -392,7 +398,7 @@
         const token = localStorage.getItem('nustology_token');
         if (!token) { window.location.href = '/index.html'; return; }
         try {
-            const res = await fetch(`${API_BASE}/auth/verify`, {
+            const res = await fetch(`${API_BASE}/student/me`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
@@ -401,9 +407,16 @@
                 window.location.href = '/index.html';
                 return;
             }
-            if (!data.user.isApproved) {
+            currentUser = data.student;
+            if (!currentUser.isApproved) {
                 window.location.href = '/payment-pending.html';
+                return;
             }
+
+            document.getElementById('accessText').innerHTML =
+                `<strong>Category: ${currentUser.degreeCategory || 'Engineering'}</strong> &mdash; Showing lectures available for your category only.`;
+
+            loadLectures();
         } catch (e) {
             window.location.href = '/index.html';
         }
@@ -417,10 +430,13 @@
     async function loadLectures() {
         const token = localStorage.getItem('nustology_token');
         if (!token) { window.location.href = '/index.html'; return; }
-        const field = document.getElementById('fieldFilter').value;
         const subject = document.getElementById('subjectFilter').value;
+
+        const params = new URLSearchParams();
+        if (subject && subject !== 'all') params.set('subject', subject);
+
         try {
-            const res = await fetch(`${API_BASE}/lectures?field=${field}&subject=${subject}`, {
+            const res = await fetch(`${API_BASE}/lectures?${params.toString()}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
@@ -497,7 +513,6 @@
     }
 
     checkAuth();
-    loadLectures();
 </script>
 </body>
 </html>
