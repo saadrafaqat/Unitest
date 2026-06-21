@@ -901,15 +901,55 @@ async function getStreaks(request, db, headers) {
 // LECTURES
 // ============================================
 async function getLectures(request, db, headers) {
+    // Check if it's an admin (admins see all lectures, no filtering)
+    const session = await getSession(request, db);
+    const isAdmin = session && session.user_type === 'admin';
+
     const url = new URL(request.url);
     const field = url.searchParams.get('field');
     const subject = url.searchParams.get('subject');
+
     let query = 'SELECT * FROM lectures WHERE 1=1';
     const binds = [];
-    if (field && field !== 'all') { query += ' AND field = ?'; binds.push(field); }
-    if (subject && subject !== 'all') { query += ' AND subject = ?'; binds.push(subject); }
+
+    if (isAdmin) {
+        // Admin: no category restriction
+        if (field && field !== 'all') {
+            query += ' AND field = ?';
+            binds.push(field);
+        }
+    } else {
+        // Student: only show lectures for their category
+        const student = await getStudent(request, db);
+        if (!student) return json({ success: false, message: 'Unauthorized' }, 401, headers);
+
+        const allowedFields = getAllowedFields(student.degree_category || student.field);
+
+        if (field && field !== 'all') {
+            // Student picked a specific field — must be allowed
+            if (!canAccessField(student.degree_category, field)) {
+                return json({ success: false, message: 'Access denied for this field' }, 403, headers);
+            }
+            query += ' AND field = ?';
+            binds.push(field);
+        } else {
+            // No field filter — show only fields student is allowed to see
+            const placeholders = allowedFields.map(() => '?').join(', ');
+            query += ` AND field IN (${placeholders})`;
+            binds.push(...allowedFields);
+        }
+    }
+
+    if (subject && subject !== 'all') {
+        query += ' AND subject = ?';
+        binds.push(subject);
+    }
     query += ' ORDER BY added_at DESC';
-    const result = binds.length ? await db.prepare(query).bind(...binds).all() : await db.prepare(query).all();
+
+    const result = binds.length
+        ? await db.prepare(query).bind(...binds).all()
+        : await db.prepare(query).all();
+
     return json({ success: true, lectures: result.results || [] }, 200, headers);
 }
 
