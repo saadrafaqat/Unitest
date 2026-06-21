@@ -957,11 +957,36 @@ async function addLecture(request, db, headers) {
     const admin = await getAdmin(request, db);
     if (!admin) return json({ success: false, message: 'Admin access required' }, 401, headers);
     const data = await request.json();
+    
+    // Clean the URL — extract first valid URL only
+    let cleanUrl = (data.youtubeUrl || '').trim();
+    const urls = cleanUrl.match(/https?:\/\/[^\s]+/g);
+    if (urls && urls.length > 0) {
+        cleanUrl = urls[0];
+        // Decode URL-encoded characters
+        try {
+            cleanUrl = decodeURIComponent(cleanUrl);
+            // Re-check for embedded URLs after decoding
+            const decodedUrls = cleanUrl.match(/https?:\/\/[^\s]+/g);
+            if (decodedUrls && decodedUrls.length > 1) {
+                const driveLink = decodedUrls.find(u => u.includes('drive.google.com'));
+                const ytLink = decodedUrls.find(u => u.includes('youtube.com') || u.includes('youtu.be'));
+                cleanUrl = driveLink || ytLink || decodedUrls[0];
+            }
+        } catch(e) {}
+        cleanUrl = cleanUrl.split(/[\s]/)[0];
+    }
+    
+    if (!cleanUrl) {
+        return json({ success: false, message: 'Invalid URL provided' }, 400, headers);
+    }
+    
     let thumbnail = data.thumbnail || '';
-    const videoIdMatch = (data.youtubeUrl || '').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([^&\n?#]+)/);
+    const videoIdMatch = cleanUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([^&\n?#]+)/);
     if (videoIdMatch && !thumbnail) thumbnail = `https://img.youtube.com/vi/${videoIdMatch[1]}/hqdefault.jpg`;
+    
     await db.prepare(`INSERT INTO lectures (title, description, youtube_url, thumbnail, subject, field, topic, instructor, duration, difficulty) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
-        data.title, data.description || '', data.youtubeUrl, thumbnail, data.subject, data.field,
+        data.title, data.description || '', cleanUrl, thumbnail, data.subject, data.field,
         data.topic || '', data.instructor || '', data.duration || '', data.difficulty || 'Medium'
     ).run();
     return json({ success: true, message: 'Lecture added' }, 200, headers);
