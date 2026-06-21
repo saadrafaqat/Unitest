@@ -446,6 +446,48 @@
         }
     }
 
+    // ==========================================================
+    // SMART URL CLEANER — Handles messy/multiple URLs
+    // ==========================================================
+    function cleanUrl(input) {
+        if (!input) return '';
+        let str = String(input).trim();
+
+        // STEP 1: Try to decode URL-encoded characters (handles %20, %3A, etc.)
+        let decoded = str;
+        try {
+            // Multi-pass decode (sometimes URLs are double-encoded)
+            for (let i = 0; i < 3; i++) {
+                const next = decodeURIComponent(decoded);
+                if (next === decoded) break;
+                decoded = next;
+            }
+        } catch (e) {
+            decoded = str;
+        }
+
+        // STEP 2: Extract all URLs from the (decoded) string
+        const allUrls = decoded.match(/https?:\/\/[^\s<>"']+/gi);
+        if (!allUrls || allUrls.length === 0) {
+            // Maybe extract from original encoded string
+            const origUrls = str.match(/https?:\/\/[^\s<>"']+/gi);
+            return origUrls ? origUrls[0] : str;
+        }
+
+        // STEP 3: Prefer YouTube or Drive links if multiple exist
+        const ytLink = allUrls.find(u => u.includes('youtube.com') || u.includes('youtu.be'));
+        const driveLink = allUrls.find(u => u.includes('drive.google.com') || u.includes('docs.google.com'));
+        let chosenUrl = ytLink || driveLink || allUrls[0];
+
+        // STEP 4: Cut off any trailing garbage (after a space character)
+        chosenUrl = chosenUrl.split(/\s/)[0];
+
+        // STEP 5: Remove trailing punctuation
+        chosenUrl = chosenUrl.replace(/[,;.!?)]+$/, '');
+
+        return chosenUrl;
+    }
+
     // ========== SMART LINK DETECTION ==========
     function detectLinkType(url) {
         if (!url) return 'other';
@@ -460,34 +502,23 @@
         return m ? m[1] : null;
     }
 
-    // Extract Google Drive file ID from various URL formats
+    // Extract Google Drive FILE ID (only for /file/d/ URLs)
     function getDriveFileId(url) {
         if (!url) return null;
-        // Format: /file/d/FILE_ID/view or /file/d/FILE_ID/edit
         let m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
         if (m) return m[1];
-        // Format: ?id=FILE_ID
         m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
         if (m) return m[1];
-        // Format: /open?id=FILE_ID
         m = url.match(/\/open\?id=([a-zA-Z0-9_-]+)/);
         if (m) return m[1];
         return null;
     }
 
-    // Build the proper "view" URL based on link type
-    function getViewableUrl(url) {
-        const type = detectLinkType(url);
-        if (type === 'drive') {
-            const id = getDriveFileId(url);
-            if (id) {
-                // Drive preview URL — works on both desktop & mobile, opens in viewer
-                return `https://drive.google.com/file/d/${id}/view`;
-            }
-        }
-        // YouTube: return original (we use modal player)
-        // Other: return original
-        return url;
+    // Extract Google Drive FOLDER ID
+    function getDriveFolderId(url) {
+        if (!url) return null;
+        const m = url.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+        return m ? m[1] : null;
     }
 
     async function loadLectures() {
@@ -519,8 +550,9 @@
             return;
         }
 
-        container.innerHTML = `<div class="lectures-grid">${lectures.map((l, idx) => {
-            const url = l.youtube_url || '';
+        container.innerHTML = `<div class="lectures-grid">${lectures.map((l) => {
+            // Clean the URL — this is the KEY fix
+            const url = cleanUrl(l.youtube_url || '');
             const type = detectLinkType(url);
 
             // Get appropriate thumbnail
@@ -530,21 +562,21 @@
                 const thumb = l.thumbnail || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '');
                 thumbHtml = thumb
                     ? `<img src="${thumb}" alt="${escapeHtml(l.title || '')}">`
-                    : driveThumbnailPlaceholder('YouTube Video');
+                    : thumbnailPlaceholder('YouTube Video');
             } else if (type === 'drive') {
-                // Try Drive thumbnail (works if file is public)
-                const driveId = getDriveFileId(url);
+                const driveFileId = getDriveFileId(url);
                 if (l.thumbnail) {
                     thumbHtml = `<img src="${l.thumbnail}" alt="${escapeHtml(l.title || '')}">`;
-                } else if (driveId) {
-                    thumbHtml = `<img src="https://drive.google.com/thumbnail?id=${driveId}&sz=w480" alt="${escapeHtml(l.title || '')}" onerror="this.parentElement.innerHTML='${driveThumbnailPlaceholder('Google Drive').replace(/'/g, "\\'")}'">`;
+                } else if (driveFileId) {
+                    thumbHtml = `<img src="https://drive.google.com/thumbnail?id=${driveFileId}&sz=w480" alt="${escapeHtml(l.title || '')}" onerror="this.parentElement.innerHTML='${thumbnailPlaceholder('Google Drive').replace(/'/g, "\\'")}'">`;
                 } else {
-                    thumbHtml = driveThumbnailPlaceholder('Google Drive');
+                    // Folder or other Drive URL — use placeholder
+                    thumbHtml = thumbnailPlaceholder('Google Drive');
                 }
             } else {
                 thumbHtml = l.thumbnail
                     ? `<img src="${l.thumbnail}" alt="${escapeHtml(l.title || '')}">`
-                    : driveThumbnailPlaceholder('External Link');
+                    : thumbnailPlaceholder('External Link');
             }
 
             // Source badge
@@ -555,9 +587,11 @@
                 : `<span class="source-badge other"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link</span>`;
 
             const safeTitle = (l.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeUrl = url.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
             const clickHandler = type === 'youtube'
                 ? `playYouTube('${getYouTubeId(url) || ''}', '${safeTitle}')`
-                : `openExternal('${url.replace(/'/g, "\\'")}')`;
+                : `openExternal('${safeUrl}')`;
 
             return `<div class="lecture-card" onclick="${clickHandler}">
                 <div class="thumb">
@@ -580,7 +614,7 @@
         }).join('')}</div>`;
     }
 
-    function driveThumbnailPlaceholder(label) {
+    function thumbnailPlaceholder(label) {
         return `<div class="thumb-placeholder">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             <span>${label}</span>
@@ -590,7 +624,7 @@
     // YouTube → opens inline modal player
     function playYouTube(id, title) {
         if (!id) {
-            alert('Invalid YouTube link');
+            alert('Invalid YouTube link. Please contact admin.');
             return;
         }
         document.getElementById('videoTitle').textContent = title;
@@ -598,14 +632,15 @@
         document.getElementById('videoModal').classList.add('show');
     }
 
-    // Drive / Other links → open in new tab (Google Drive viewer or external)
+    // Drive / Other links → open in new tab
     function openExternal(url) {
         if (!url) {
-            alert('No link available');
+            alert('No link available. Please contact admin.');
             return;
         }
-        const viewUrl = getViewableUrl(url);
-        window.open(viewUrl, '_blank', 'noopener,noreferrer');
+        // Clean it again just in case
+        const finalUrl = cleanUrl(url);
+        window.open(finalUrl, '_blank', 'noopener,noreferrer');
     }
 
     function closeVideo() {
