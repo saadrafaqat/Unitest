@@ -82,30 +82,27 @@
         }
 
         /* Fixed background image layer */
-        body::before {
+       body::before {
             content: '';
             position: fixed;
-            inset: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: url('images/background.jpg');
             background-size: cover;
-            background-position: center;
+            background-position: center center;
             background-repeat: no-repeat;
-            background-attachment: fixed;
-            opacity: 0.12;          /* Light & subtle */
+            opacity: 0.25;          /* More visible */
             z-index: -2;
             pointer-events: none;
         }
-
-        /* White overlay for extra softness */
+        
         body::after {
             content: '';
             position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.55);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.45);
             z-index: -1;
             pointer-events: none;
         }
-
         /* Make sections slightly translucent so background shows through */
         .gray-bg {
             background: rgba(248, 250, 252, 0.85);
@@ -582,11 +579,10 @@
         }
 
         @media (max-width: 768px) {
-            /* Disable fixed background on mobile (improves performance) */
-            body::before {
-                background-attachment: scroll;
-                opacity: 0.08;
-            }
+    body::before {
+        opacity: 0.2;   /* Visible on mobile */
+    }
+    ...
 
             .nav-logo { font-size: 16px; gap: 8px; }
             .nav-logo img { width: 32px; height: 32px; }
