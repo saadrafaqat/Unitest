@@ -4,658 +4,1455 @@
     <script src="js/protection.js"></script>
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="xE_U-3uHXe5o438lV3SCBkzTCsg9KzhS4g1N5kztr2g" />
-    <!-- SEO -->
-    <title>NUSTOLOGY- Free NUST NET Preparation Platform 2026</title>
-    <meta name="description" content="Free NUST NET preparation platform. Practice tests, past papers, video lectures, notes, merit lists and aggregate calculator for Engineering, Computing, Business, Architecture and more.">
-    <meta name="keywords" content="NUST NET, NUST preparation, NUST entry test, NET test prep, NUST past papers, NUST merit list, SEECS, NBS, NUST Islamabad, free NUST prep, nustology, NUST aggregate calculator">
-    <meta name="author" content="NUSTOLOGY">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://nustology-prep.pages.dev/">
-    
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="NUSTOLOGY- Free NUST NET Preparation Platform">
-    <meta property="og:description" content="Practice tests, past papers, video lectures, notes and merit lists for NUST entry test. 100% Free.">
-    <meta property="og:image" content="https://nustology-prep.pages.dev/images/nustology.jpg">
-    <meta property="og:url" content="https://nustology-prep.pages.dev/">
-    <meta property="og:site_name" content="NUSTOLOGY">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="NUSTOLOGY- Free NUST NET Preparation">
-    <meta name="twitter:description" content="Free NUST NET prep platform with tests, lectures, notes, and merit lists.">
-    <meta name="twitter:image" content="https://nustology-prep.pages.dev/images/nustology.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- TAB ICON / FAVICON -->
+    <!-- SEO -->
+    <title>UniTest - Entry Test Prep for NUST, MDCAT & Major Universities of Pakistan</title>
+    <meta name="description" content="UniTest is a multi-university entry test preparation platform for Pakistan. Practice mock tests, track progress, calculate aggregates, and prepare for NUST NET, MDCAT, UET ECAT, FAST, GIKI, PIEAS, COMSATS and more.">
+    <meta name="keywords" content="UniTest, NUST NET, MDCAT, UET ECAT, FAST entry test, GIKI test, PIEAS test, COMSATS entry test, NED entry test, Air University test, Pakistan entry tests, aggregate calculator, college login, college admin">
+    <meta name="author" content="UniTest">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://nustology-prep.pages.dev/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="UniTest - Entry Test Prep for Pakistan">
+    <meta property="og:description" content="Prepare for NUST NET, MDCAT and major university entry tests in Pakistan. Mock tests, aggregate calculator, progress tracking and college dashboards.">
+    <meta property="og:image" content="https://nustology-prep.pages.dev/images/nustology.jpg">
+    <meta property="og:url" content="https://nustology-prep.pages.dev/">
+    <meta property="og:site_name" content="UniTest">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="UniTest - Entry Test Prep for Pakistan">
+    <meta name="twitter:description" content="Mock tests, aggregates, college dashboards and multi-university prep for Pakistan.">
+    <meta name="twitter:image" content="https://nustology-prep.pages.dev/images/nustology.jpg">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
     <link rel="apple-touch-icon" href="images/nustology.jpg">
     <link rel="shortcut icon" href="images/nustology.jpg">
 
-    <meta name="theme-color" content="#1a56db">
-    <meta name="apple-mobile-web-app-title" content="NUSTOLOGY">
-    <meta name="description" content="NUSTOLOGY - Your gateway to NUST Entry Test (NET). Practice mock tests, track progress, and prepare for success.">
-
-    <title>NUSTOLOGY - Your Gateway to NUST</title>
+    <meta name="theme-color" content="#1d4ed8">
+    <meta name="apple-mobile-web-app-title" content="UniTest">
 
     <style>
-        /* ========== RESET & VARIABLES ========== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #1a56db;
-            --primary-dark: #1e3a8a;
-            --primary-light: #3b82f6;
-            --primary-bg: #eff6ff;
-            --primary-bg2: #dbeafe;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #60a5fa;
+            --secondary: #16a34a;
+            --secondary-dark: #15803d;
+            --secondary-light: #4ade80;
             --accent: #0ea5e9;
-            --dark: #0f172a;
-            --gray: #64748b;
-            --gray-light: #94a3b8;
-            --gray-lighter: #e2e8f0;
-            --white: #ffffff;
+            --bg: #f7fbff;
+            --bg-2: #eefcf3;
+            --surface: rgba(255,255,255,0.82);
+            --surface-solid: #ffffff;
+            --dark: #07111f;
+            --dark-2: #0b1728;
             --text-primary: #0f172a;
             --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --danger: #ef4444;
+            --muted: #94a3b8;
+            --border-color: rgba(148,163,184,0.22);
             --success: #22c55e;
             --warning: #f59e0b;
-            --radius: 10px;
-            --radius-lg: 14px;
-            --radius-full: 9999px;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
+            --danger: #ef4444;
+            --radius: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 28px;
+            --shadow-sm: 0 2px 10px rgba(15,23,42,0.06);
+            --shadow: 0 14px 36px rgba(15,23,42,0.08);
+            --shadow-lg: 0 24px 70px rgba(15,23,42,0.14);
         }
 
-        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
 
-        /* ========== BACKGROUND IMAGE ========== */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
             font-size: 15px;
-            position: relative;
-            background: var(--white);
+            background:
+                radial-gradient(circle at 12% 10%, rgba(37,99,235,0.14), transparent 28%),
+                radial-gradient(circle at 88% 12%, rgba(22,163,74,0.14), transparent 24%),
+                radial-gradient(circle at 50% 86%, rgba(14,165,233,0.12), transparent 30%),
+                linear-gradient(180deg, #f8fbff 0%, #eefdf5 100%);
         }
 
-        /* Fixed background image layer */
-       body::before {
+        body::before {
             content: '';
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('images/background.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            opacity: 0.45;          /* ← Increased from 0.25 */
-            z-index: -2;
+            inset: 0;
             pointer-events: none;
-        }
-        
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.25);   /* ← Reduced from 0.45 */
+            background:
+                linear-gradient(120deg, rgba(255,255,255,0.08), transparent 30%),
+                linear-gradient(300deg, rgba(255,255,255,0.08), transparent 30%);
+            opacity: 0.8;
             z-index: -1;
-            pointer-events: none;
-        }
-        /* Make sections slightly translucent so background shows through */
-        .gray-bg {
-            background: rgba(248, 250, 252, 0.85);
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
 
-        /* ========== BUTTONS ========== */
         .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            gap: 6px; padding: 11px 22px; border: none; border-radius: var(--radius);
-            font-family: inherit; font-size: 14px; font-weight: 600;
-            cursor: pointer; text-decoration: none; white-space: nowrap;
-            min-height: 44px;
-            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+            min-height: 46px;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
 
-        .btn-primary { background: var(--primary); color: #fff; }
-        .btn-primary:hover { background: var(--primary-dark); }
+        .btn:hover { transform: translateY(-1px); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 12px 26px rgba(37,99,235,0.22);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+        }
 
         .btn-outline {
-            background: transparent; color: var(--primary);
-            border: 2px solid var(--primary);
+            background: rgba(255,255,255,0.75);
+            color: var(--primary);
+            border: 1.5px solid rgba(37,99,235,0.22);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
-        .btn-outline:hover { background: var(--primary); color: #fff; }
 
-        .btn-secondary {
-            background: var(--primary-bg); color: var(--primary);
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #fff;
         }
-        .btn-secondary:hover { background: var(--primary-bg2); }
 
-        .btn-white { background: var(--white); color: var(--primary); }
-        .btn-white:hover { background: var(--primary-bg); }
+        .btn-white {
+            background: #fff;
+            color: var(--primary);
+        }
 
-        .btn-lg { padding: 14px 28px; font-size: 15px; min-height: 48px; }
+        .btn-white:hover {
+            background: #f1f7ff;
+        }
 
-        /* ========== NAVIGATION ========== */
+        .btn-lg {
+            padding: 14px 26px;
+            font-size: 15px;
+            min-height: 50px;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
         .navbar {
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-color);
         }
 
         .nav-container {
-            max-width: 1200px; margin: 0 auto; padding: 0 16px;
-            display: flex; align-items: center; justify-content: space-between;
-            height: 60px; gap: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+            gap: 10px;
         }
 
         .nav-logo {
-            display: flex; align-items: center; gap: 10px;
-            text-decoration: none; font-size: 18px; font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
             color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 800;
         }
-        .nav-logo img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-        .nav-logo .nust { color: var(--primary); }
-        .nav-logo .prep { color: var(--gray); font-weight: 400; font-size: 14px; }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 24px rgba(37,99,235,0.22);
+            flex-shrink: 0;
+        }
+
+        .brand-mark-lg {
+            width: 74px;
+            height: 74px;
+            border-radius: 22px;
+            font-size: 24px;
+        }
+
+        .brand-text {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0;
+            letter-spacing: -0.4px;
+        }
+
+        .brand-uni { color: var(--primary); }
+        .brand-test { color: var(--secondary); }
 
         .nav-links {
-            display: flex; align-items: center; gap: 28px; list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
         }
+
         .nav-links a {
-            text-decoration: none; color: var(--gray); font-size: 14px;
-            font-weight: 500; padding: 6px 0;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 0;
         }
+
         .nav-links a:hover { color: var(--primary); }
 
-        .nav-actions { display: flex; align-items: center; gap: 8px; }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
         .hamburger {
             display: none;
-            width: 40px; height: 40px; border-radius: 8px;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
-            background: var(--white); cursor: pointer;
-            align-items: center; justify-content: center;
-            color: var(--text-primary); padding: 0;
+            background: rgba(255,255,255,0.9);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            padding: 0;
         }
+
         .hamburger svg { width: 22px; height: 22px; }
         .hamburger .icon-close { display: none; }
         .hamburger.open .icon-menu { display: none; }
         .hamburger.open .icon-close { display: block; }
 
-        /* ========== HERO ========== */
         .hero {
-            background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(239, 246, 255, 0.7) 100%);
-            padding: 60px 0 50px;
+            padding: 74px 0 56px;
+            position: relative;
+            overflow: hidden;
         }
+
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(24px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero::before {
+            width: 300px;
+            height: 300px;
+            right: -80px;
+            top: 0;
+            background: rgba(22,163,74,0.12);
+        }
+
+        .hero::after {
+            width: 240px;
+            height: 240px;
+            left: -70px;
+            bottom: -50px;
+            background: rgba(37,99,235,0.14);
+        }
+
         .hero-content {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            display: grid;
+            grid-template-columns: 1.08fr 0.92fr;
+            gap: 34px;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
+
         .hero-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 6px 12px; background: var(--primary-bg);
-            border-radius: var(--radius-full);
-            font-size: 12px; font-weight: 600; color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 13px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.82);
+            border: 1px solid var(--border-color);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
             margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
         }
+
         .hero-title {
-            font-size: 36px; font-weight: 800; line-height: 1.15;
-            margin-bottom: 16px; letter-spacing: -0.5px;
-            color: var(--text-primary);
+            font-size: clamp(2.6rem, 5vw, 4.3rem);
+            line-height: 1.02;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            font-weight: 900;
         }
-        .hero-title .highlight { color: var(--primary); }
+
+        .hero-title .highlight-blue { color: var(--primary); }
+        .hero-title .highlight-green { color: var(--secondary); }
+
         .hero-subtitle {
-            font-size: 16px; color: var(--gray);
-            margin-bottom: 24px; max-width: 500px;
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 630px;
+            margin-bottom: 24px;
         }
-        .hero-cta { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
-        .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            max-width: 620px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.82);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
         .stat-number {
-            font-size: 26px; font-weight: 700; color: var(--primary);
+            font-size: 24px;
+            font-weight: 900;
             line-height: 1;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        .stat-label { font-size: 12px; color: var(--gray); font-weight: 500; margin-top: 4px; }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+        }
 
         .hero-visual {
-            display: flex; justify-content: center; align-items: center;
+            position: relative;
+            display: flex;
+            justify-content: center;
         }
-        .hero-visual img {
-            max-width: 100%; width: 380px; border-radius: var(--radius-lg);
+
+        .hero-panel {
+            width: 100%;
+            max-width: 470px;
+            background: rgba(255,255,255,0.82);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 22px;
             box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-        .hero-card {
-            background: var(--white);
+
+        .panel-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .panel-kicker {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .panel-title {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.4px;
+        }
+
+        .live-pill {
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(22,163,74,0.1);
+            color: var(--secondary);
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .dashboard-stack {
+            display: grid;
+            gap: 12px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(247,251,255,0.95));
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            display: flex; flex-direction: column;
-            gap: 12px; width: 100%; max-width: 380px;
-            box-shadow: var(--shadow);
+            border-radius: 20px;
+            padding: 16px;
         }
-        .hero-card-row {
-            display: flex; align-items: center; gap: 12px;
+
+        .dashboard-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .dashboard-head h4 {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(37,99,235,0.08);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .mini-stat {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             padding: 12px;
-            background: var(--primary-bg);
-            border-radius: var(--radius);
         }
-        .hero-card-icon {
-            width: 40px; height: 40px;
-            background: var(--white); border-radius: var(--radius);
-            display: flex; align-items: center; justify-content: center;
-            color: var(--primary); flex-shrink: 0;
-        }
-        .hero-card-text { flex: 1; }
-        .hero-card-text h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-        .hero-card-text p { font-size: 12px; color: var(--gray); }
 
-        /* ========== SECTIONS ========== */
-        .section { padding: 60px 0; }
-        .section-header { text-align: center; margin-bottom: 40px; }
+        .mini-stat .value {
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .mini-stat .label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .progress-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .progress-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: #e8eef8;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .section {
+            padding: 72px 0;
+            position: relative;
+        }
+
+        .gray-bg {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.34);
+            border-bottom: 1px solid rgba(255,255,255,0.34);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 34px;
+        }
+
         .section-tag {
-            display: inline-block; padding: 5px 12px;
-            background: var(--primary-bg); color: var(--primary);
-            font-size: 12px; font-weight: 600;
-            border-radius: var(--radius-full);
-            margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .section-title {
-            font-size: 28px; font-weight: 700;
-            margin-bottom: 12px; letter-spacing: -0.3px;
-        }
-        .section-desc {
-            font-size: 15px; color: var(--gray);
-            max-width: 600px; margin: 0 auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(37,99,235,0.10), rgba(22,163,74,0.10));
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
         }
 
-        /* ========== FEATURES ========== */
-        .features-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.65rem);
+            line-height: 1.15;
+            font-weight: 900;
+            letter-spacing: -0.7px;
+            margin-bottom: 10px;
         }
-        .feature-card {
-            background: var(--white);
+
+        .section-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .features-grid,
+        .org-grid,
+        .tests-grid,
+        .streams-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .features-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .org-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .tests-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .streams-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+        .card {
+            background: rgba(255,255,255,0.84);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px 20px;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         }
-        .feature-card:hover { border-color: var(--primary); }
-        .feature-icon {
-            width: 44px; height: 44px;
-            background: var(--primary-bg);
-            border-radius: var(--radius);
-            display: flex; align-items: center; justify-content: center;
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: rgba(37,99,235,0.25);
+        }
+
+        .feature-icon,
+        .org-icon,
+        .stream-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(22,163,74,0.12));
+            color: var(--primary);
+        }
+
+        .feature-card h3,
+        .org-card h3,
+        .stream-card h3,
+        .test-card h3 {
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-card p,
+        .org-card p,
+        .stream-card p,
+        .test-card p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.84);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 22px;
+        }
+
+        .feature-list,
+        .test-list {
+            margin-top: 14px;
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .feature-list li,
+        .test-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .feature-list li::before,
+        .test-list li::before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: 900;
+            line-height: 1;
+            margin-top: 1px;
+        }
+
+        .org-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .org-card.private::before,
+        .org-card.student::before,
+        .org-card.admin::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        .org-card.private::before { background: linear-gradient(135deg, var(--primary), transparent); }
+        .org-card.student::before { background: linear-gradient(135deg, var(--secondary), transparent); }
+        .org-card.admin::before { background: linear-gradient(135deg, var(--accent), transparent); }
+
+        .org-actions,
+        .test-actions,
+        .stream-actions {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .privacy-strip {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(37,99,235,0.10), rgba(22,163,74,0.10));
+            border: 1px solid rgba(37,99,235,0.12);
+            color: var(--text-primary);
+            font-size: 13px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .privacy-strip strong { color: var(--primary); }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+
+        .filter-chip {
+            border: 1px solid var(--border-color);
+            background: rgba(255,255,255,0.88);
+            color: var(--text-secondary);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .filter-chip.active,
+        .filter-chip:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .test-card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: 100%;
+        }
+
+        .test-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .test-badge {
+            display: inline-flex;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(37,99,235,0.08);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            flex-shrink: 0;
+        }
+
+        .test-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .meta-pill {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(22,163,74,0.08);
+            color: var(--secondary-dark);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .streams-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .stream-card {
+            text-align: left;
+        }
+
+        .stream-pill {
+            display: inline-flex;
+            padding: 6px 10px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+            background: rgba(22,163,74,0.08);
+            color: var(--secondary-dark);
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .calc-card {
+            background: rgba(255,255,255,0.84);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .calc-header {
+            margin-bottom: 18px;
+        }
+
+        .calc-header h3 {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.4px;
+            margin-bottom: 6px;
+        }
+
+        .calc-header p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .form-group {
             margin-bottom: 14px;
         }
-        .feature-icon svg { width: 22px; height: 22px; color: var(--primary); }
-        .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-        .feature-card p { font-size: 13px; color: var(--gray); line-height: 1.6; }
 
-        /* ========== STEPS ========== */
-        .steps-container {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-        }
-        .step-card {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px 18px;
-            text-align: center;
-        }
-        .step-number {
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            background: var(--primary); color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 14px;
-            font-size: 20px; font-weight: 700;
-        }
-        .step-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-        .step-card p { font-size: 13px; color: var(--gray); }
-
-        /* ========== FIELDS ========== */
-        .fields-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;
-        }
-        .field-card {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px 18px;
-            text-align: center;
-        }
-        .field-card:hover { border-color: var(--primary); }
-        .field-icon {
-            width: 56px; height: 56px;
-            border-radius: var(--radius-lg);
-            margin: 0 auto 12px;
-            display: flex; align-items: center; justify-content: center;
-            background: var(--primary-bg);
-        }
-        .field-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-        .field-card p { font-size: 12px; color: var(--gray); margin-bottom: 12px; }
-        .field-subjects {
-            display: flex; flex-wrap: wrap; gap: 4px; justify-content: center;
-        }
-        .field-subjects span {
-            padding: 3px 8px; background: var(--primary-bg);
-            border-radius: var(--radius-full);
-            font-size: 11px; font-weight: 500; color: var(--primary);
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
         }
 
-        /* ========== FAQ ========== */
-        .faq-wrap { max-width: 700px; margin: 0 auto; }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 14px;
+            background: rgba(255,255,255,0.96);
+            color: var(--text-primary);
+            min-height: 46px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: rgba(37,99,235,0.45);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.08);
+        }
+
+        .calc-weights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+            margin-bottom: 18px;
+        }
+
+        .weight-pill {
+            padding: 8px 11px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(22,163,74,0.08));
+            color: var(--text-primary);
+            border: 1px solid rgba(37,99,235,0.12);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, rgba(37,99,235,0.10), rgba(22,163,74,0.10));
+            border: 1px solid rgba(37,99,235,0.12);
+            border-radius: 22px;
+            padding: 22px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .result-big {
+            font-size: 44px;
+            line-height: 1;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .result-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-secondary);
+        }
+
+        .result-note {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .faq-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
         .faq-item {
+            background: rgba(255,255,255,0.84);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+            border-radius: 18px;
             margin-bottom: 10px;
             overflow: hidden;
-            background: var(--white);
+            box-shadow: var(--shadow-sm);
         }
+
         .faq-item button {
-            width: 100%; padding: 16px 18px;
-            background: var(--white); border: none;
-            text-align: left; font-family: inherit;
-            font-size: 14px; font-weight: 600;
+            width: 100%;
+            padding: 16px 18px;
+            background: transparent;
+            border: none;
+            text-align: left;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
             cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
             color: var(--text-primary);
             min-height: 56px;
         }
+
         .faq-item button svg {
-            width: 18px; height: 18px;
-            transition: transform 0.2s; flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
         }
+
         .faq-answer {
-            max-height: 0; overflow: hidden;
+            max-height: 0;
+            overflow: hidden;
             transition: max-height 0.3s ease;
         }
+
         .faq-answer p {
             padding: 0 18px 16px;
-            font-size: 14px; color: var(--gray); line-height: 1.6;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
 
-        /* ========== CTA ========== */
         .cta-section {
-            background: var(--primary);
-            padding: 56px 0;
+            padding: 68px 0;
             text-align: center;
             color: #fff;
+            background:
+                radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 28%),
+                linear-gradient(135deg, var(--primary), var(--secondary));
         }
+
         .cta-title {
-            font-size: 28px; font-weight: 700;
-            color: #fff; margin-bottom: 12px;
+            font-size: clamp(1.8rem, 3vw, 2.7rem);
+            font-weight: 900;
+            letter-spacing: -0.7px;
+            margin-bottom: 12px;
         }
+
         .cta-desc {
             font-size: 15px;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 24px;
-            max-width: 500px;
-            margin-left: auto; margin-right: auto;
-        }
-        .cta-buttons {
-            display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+            color: rgba(255,255,255,0.92);
+            max-width: 680px;
+            margin: 0 auto 24px;
         }
 
-        /* ========== FOOTER ========== */
+        .cta-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .footer {
-            background: var(--dark);
-            color: rgba(255,255,255,0.7);
-            padding: 40px 0 20px;
+            background: linear-gradient(135deg, #06111e, #0a1f2f 52%, #081a14);
+            color: rgba(255,255,255,0.74);
+            padding: 42px 0 20px;
         }
+
         .footer-grid {
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 30px; margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 30px;
         }
-        .footer-brand .nav-logo,
-        .footer-brand .nav-logo span { color: #fff; }
-        .footer-brand .prep { color: rgba(255,255,255,0.6); }
-        .footer-brand p { font-size: 13px; line-height: 1.6; max-width: 300px; margin-top: 10px; }
-        .footer-col h4 { color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 12px; }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 8px; }
-        .footer-col ul li a {
-            color: rgba(255,255,255,0.6); text-decoration: none;
+
+        .footer-brand p {
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 320px;
+            margin-top: 12px;
+        }
+
+        .footer .nav-logo,
+        .footer .brand-text,
+        .footer .brand-uni,
+        .footer .brand-test {
+            color: #fff;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 8px;
+        }
+
+        .footer-col a {
+            color: rgba(255,255,255,0.62);
+            text-decoration: none;
             font-size: 13px;
         }
-        .footer-col ul li a:hover { color: #fff; }
+
+        .footer-col a:hover {
+            color: #fff;
+        }
+
         .footer-bottom {
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 10px;
+            padding-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
             font-size: 12px;
+            color: rgba(255,255,255,0.62);
         }
 
-        /* ========== MODALS ========== */
+        /* MODALS */
         .modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(15, 23, 42, 0.5);
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.58);
             z-index: 2000;
-            align-items: center; justify-content: center;
+            align-items: center;
+            justify-content: center;
             padding: 16px;
         }
+
         .modal-overlay.active { display: flex; }
+
         .modal {
-            background: var(--white); border-radius: var(--radius-lg);
-            width: 100%; max-width: 420px;
-            padding: 28px 24px;
+            background: rgba(255,255,255,0.96);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 440px;
+            padding: 26px 22px;
             box-shadow: var(--shadow-lg);
             position: relative;
-            max-height: 90vh; overflow-y: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.34);
         }
+
         .modal-close {
-            position: absolute; top: 12px; right: 12px;
-            width: 36px; height: 36px;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: var(--gray-lighter); border: none;
+            background: #edf2ff;
+            border: none;
             cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
         }
-        .modal-close:hover { background: var(--danger); color: #fff; }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
         .modal-close svg { width: 18px; height: 18px; }
 
-        .modal-logo { text-align: center; margin-bottom: 8px; }
-        .modal-logo img { width: 56px; height: 56px; border-radius: 12px; }
-        .modal h2 {
-            text-align: center;
-            font-size: 22px; font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .modal-subtitle {
-            text-align: center; color: var(--gray);
-            font-size: 13px; margin-bottom: 22px;
+        .modal-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 8px;
         }
 
-        .form-group { margin-bottom: 14px; }
-        .form-group label {
-            display: block; font-size: 13px; font-weight: 600;
-            color: var(--text-primary); margin-bottom: 5px;
+        .modal h2 {
+            text-align: center;
+            font-size: 23px;
+            font-weight: 900;
+            letter-spacing: -0.4px;
+            margin-bottom: 4px;
         }
-        .form-group input {
-            width: 100%; padding: 11px 14px;
-            border: 1.5px solid var(--border-color);
-            border-radius: var(--radius);
-            font-family: inherit; font-size: 14px;
-            background: var(--white);
-            color: var(--text-primary);
-            min-height: 44px;
+
+        .modal-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 18px;
         }
-        .form-group input:focus {
-            outline: none; border-color: var(--primary);
-        }
+
         .form-remember {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 18px; flex-wrap: wrap; gap: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
+
         .form-remember label {
-            display: flex; align-items: center; gap: 6px;
-            font-size: 13px; color: var(--gray); cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
         }
+
         .form-remember a {
-            font-size: 13px; color: var(--primary);
-            text-decoration: none; font-weight: 500;
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
         }
-        .btn-login { width: 100%; padding: 13px; font-size: 15px; }
+
+        .btn-login {
+            width: 100%;
+            padding: 13px 14px;
+            font-size: 15px;
+        }
+
         .login-message {
-            text-align: center; margin-top: 14px; padding: 10px;
-            border-radius: var(--radius); font-size: 13px; display: none;
+            text-align: center;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 14px;
+            font-size: 13px;
+            display: none;
         }
+
         .login-message.error {
-            display: block; background: #fef2f2; color: var(--danger);
+            display: block;
+            background: #fef2f2;
+            color: var(--danger);
             border: 1px solid #fecaca;
         }
+
         .login-message.success {
-            display: block; background: #f0fdf4; color: var(--success);
+            display: block;
+            background: #f0fdf4;
+            color: var(--secondary);
             border: 1px solid #bbf7d0;
         }
+
         .login-message.warning {
-            display: block; background: #fef3c7; color: #92400e;
+            display: block;
+            background: #fffbeb;
+            color: #92400e;
             border: 1px solid #fde68a;
         }
+
         .modal-bottom-link {
-            text-align: center; margin-top: 14px;
-            font-size: 13px; color: var(--gray);
+            text-align: center;
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
+
         .modal-bottom-link a {
-            color: var(--primary); text-decoration: none; font-weight: 500;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 800;
         }
+
         .register-cta {
-            text-align: center; padding: 14px;
-            background: var(--primary-bg);
-            border-radius: var(--radius);
+            text-align: center;
+            padding: 14px;
+            background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(22,163,74,0.08));
+            border-radius: 16px;
             margin-top: 16px;
             font-size: 13px;
         }
+
         .register-cta a {
-            color: var(--primary); font-weight: 600; text-decoration: none;
+            color: var(--primary);
+            font-weight: 900;
+            text-decoration: none;
         }
 
         .loading-spinner {
             display: none;
-            width: 18px; height: 18px;
-            border: 2px solid rgba(255,255,255,0.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.34);
             border-top-color: #fff;
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .btn.loading .loading-spinner { display: block; }
         .btn.loading .btn-text { display: none; }
 
-        /* ========== PAGE LOADER ========== */
         .page-loader {
-            position: fixed; inset: 0;
-            background: #fff;
-            display: flex; align-items: center; justify-content: center;
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(37,99,235,0.1), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(22,163,74,0.1), transparent 28%),
+                #f7fbff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             z-index: 9999;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .page-loader.hidden { opacity: 0; visibility: hidden; }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
         .loader-content {
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
         }
-        .loader-logo {
-            width: 100px; height: 100px;
-            border-radius: 16px;
-            object-fit: cover;
+
+        .loader-title {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: -0.8px;
         }
+
         .loader-spinner {
-            width: 32px; height: 32px;
-            border: 3px solid var(--primary-bg);
+            width: 34px;
+            height: 34px;
+            border: 3px solid rgba(37,99,235,0.12);
             border-top-color: var(--primary);
+            border-right-color: var(--secondary);
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
 
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 1024px) {
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .steps-container { grid-template-columns: repeat(2, 1fr); }
-            .hero-title { font-size: 32px; }
+        .small-note {
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
-       @media (max-width: 768px) {
-    body::before {
-        opacity: 0.4;
-    }
-    ...
+        @media (max-width: 1100px) {
+            .features-grid,
+            .org-grid,
+            .tests-grid,
+            .streams-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
 
-            .nav-logo { font-size: 16px; gap: 8px; }
-            .nav-logo img { width: 32px; height: 32px; }
-            .nav-logo .prep { font-size: 12px; }
-            .nav-container { padding: 0 12px; height: 56px; }
-            .nav-actions { gap: 6px; }
+            .calculator-layout,
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                height: 60px;
+                padding: 0 12px;
+            }
+
+            .nav-logo {
+                gap: 10px;
+                font-size: 16px;
+            }
+
+            .brand-mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 12px;
+            }
 
             .nav-links {
-                display: none; position: absolute;
-                top: 56px; left: 0; right: 0;
-                background: #fff;
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: rgba(255,255,255,0.96);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
                 flex-direction: column;
                 padding: 14px;
-                gap: 4px;
+                gap: 6px;
                 border-bottom: 1px solid var(--border-color);
                 box-shadow: var(--shadow);
             }
+
             .nav-links.open { display: flex; }
+
             .nav-links a {
-                display: block; width: 100%;
+                display: block;
+                width: 100%;
                 padding: 12px;
-                border-radius: var(--radius);
+                border-radius: 14px;
                 font-size: 15px;
             }
-            .nav-links a:hover { background: var(--primary-bg); }
+
+            .nav-links a:hover {
+                background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(22,163,74,0.08));
+            }
+
             .hamburger { display: flex; }
 
-            .nav-actions .btn-outline { display: none; }
-            .nav-actions .btn-primary {
-                padding: 9px 14px; font-size: 13px;
-                min-height: 40px;
+            .nav-actions .btn-outline {
+                display: none;
             }
-            .nav-actions .btn-primary svg { width: 14px; height: 14px; }
 
-            .hero { padding: 32px 0 40px; }
-            .hero-content { grid-template-columns: 1fr; gap: 28px; text-align: center; }
-            .hero-title { font-size: 28px; }
-            .hero-subtitle { margin-left: auto; margin-right: auto; font-size: 15px; }
-            .hero-cta { justify-content: center; flex-direction: column; }
-            .hero-cta .btn { width: 100%; }
-            .hero-stats { justify-content: center; gap: 24px; }
-            .hero-visual { display: none; }
+            .hero {
+                padding: 34px 0 40px;
+            }
 
-            .section { padding: 40px 0; }
-            .section-title { font-size: 22px; }
-            .section-desc { font-size: 14px; }
-            .section-header { margin-bottom: 28px; }
+            .hero-content {
+                gap: 24px;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+                font-size: 15px;
+            }
+
+            .hero-cta {
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .hero-cta .btn {
+                width: 100%;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+                max-width: 420px;
+                margin: 0 auto;
+            }
+
+            .section {
+                padding: 42px 0;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
 
             .features-grid,
-            .steps-container,
-            .fields-grid {
+            .org-grid,
+            .tests-grid,
+            .streams-grid {
                 grid-template-columns: 1fr;
-                gap: 12px;
             }
 
-            .cta-title { font-size: 22px; }
-            .cta-desc { font-size: 14px; }
-            .cta-buttons { flex-direction: column; }
-            .cta-buttons .btn { width: 100%; }
+            .filters {
+                justify-content: flex-start;
+            }
 
-            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
-            .footer-bottom { flex-direction: column; text-align: center; }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
 
-            .modal { padding: 24px 18px; }
-            .modal h2 { font-size: 20px; }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+            }
+
+            .modal {
+                padding: 22px 18px;
+            }
         }
 
-        @media (max-width: 380px) {
-            .hero-stats { gap: 16px; }
-            .stat-number { font-size: 22px; }
-            .stat-label { font-size: 11px; }
-            .nav-actions .btn-primary span { display: none; }
-            .nav-actions .btn-primary { padding: 9px 12px; }
+        @media (max-width: 420px) {
+            .panel-title {
+                font-size: 19px;
+            }
+
+            .result-big {
+                font-size: 38px;
+            }
+
+            .loader-title {
+                font-size: 24px;
+            }
+
+            .nav-actions .btn-primary span {
+                display: none;
+            }
+
+            .nav-actions .btn-primary {
+                padding: 10px 12px;
+            }
         }
     </style>
 </head>
@@ -664,8 +1461,12 @@
 <!-- Page Loader -->
 <div class="page-loader" id="pageLoader">
     <div class="loader-content">
-        <img src="images/nustology.jpg" alt="NUSTOLOGY" class="loader-logo">
+        <div class="brand-mark brand-mark-lg">UT</div>
+        <div class="loader-title">
+            <span class="brand-uni">Uni</span><span class="brand-test">Test</span>
+        </div>
         <div class="loader-spinner"></div>
+        <div class="small-note">Loading your prep dashboard...</div>
     </div>
 </div>
 
@@ -673,19 +1474,21 @@
 <nav class="navbar" id="navbar">
     <div class="nav-container">
         <a href="#" class="nav-logo">
-            <img src="images/nustology.jpg" alt="NUSTOLOGY" onerror="this.style.display='none'">
-            <span><span class="nust">NUST</span>OLOGY <span class="prep"></span></span>
+            <span class="brand-mark">UT</span>
+            <span class="brand-text"><span class="brand-uni">Uni</span><span class="brand-test">Test</span></span>
         </a>
 
         <ul class="nav-links" id="navLinks">
             <li><a href="#features">Features</a></li>
-            <li><a href="#fields">Fields</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#organizations">Organizations</a></li>
+            <li><a href="#tests">Entry Tests</a></li>
+            <li><a href="#aggregates">Aggregates</a></li>
             <li><a href="#faq-preview">FAQs</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
 
         <div class="nav-actions">
+            <button class="btn btn-outline" onclick="openModal('collegeStudentLoginModal')">College Login</button>
             <button class="btn btn-outline" onclick="openModal('adminLoginModal')">Admin</button>
             <button class="btn btn-primary" onclick="openModal('loginModal')">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -717,61 +1520,112 @@
         <div class="hero-content">
             <div class="hero-text">
                 <div class="hero-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    Trusted by 1K+ NUST Aspirants
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    Pakistan's multi-university entry test platform
                 </div>
-                <h1 class="hero-title">Crack the <span class="highlight">NUST NET</span> with Confidence</h1>
-                <p class="hero-subtitle">The most comprehensive test preparation platform for NUST Entry Test. Practice with real pattern mock tests, track your progress and crack NUST NET.</p>
+
+                <h1 class="hero-title">
+                    Prepare for <span class="highlight-blue">Uni</span><span class="highlight-green">Test</span> across every major entry test
+                </h1>
+
+                <p class="hero-subtitle">
+                    Practice mock tests for NUST NET, MDCAT, UET ECAT, FAST, GIKI, PIEAS, COMSATS, NED, Air University and more.
+                    Built for private students and college organizations with isolated college-only dashboards.
+                </p>
+
                 <div class="hero-cta">
                     <button class="btn btn-primary btn-lg" onclick="window.location.href='/register.html'">
                         Register Now
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
                     </button>
-                    <button class="btn btn-outline btn-lg" onclick="openModal('loginModal')">Login</button>
+
+                    <button class="btn btn-outline btn-lg" onclick="document.getElementById('tests').scrollIntoView({behavior:'smooth'})">Explore Tests</button>
+                    <button class="btn btn-outline btn-lg" onclick="openModal('collegeStudentLoginModal')">College Login</button>
                 </div>
+
                 <div class="hero-stats">
-                    <div>
-                        <div class="stat-number">1000+</div>
-                        <div class="stat-label">Practice Questions</div>
+                    <div class="stat-box">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Major Universities & Exams</div>
                     </div>
-                    <div>
-                        <div class="stat-number">20+</div>
-                        <div class="stat-label">Mock Tests</div>
+                    <div class="stat-box">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Mock Test Templates</div>
                     </div>
-                    <div>
-                        <div class="stat-number">95%</div>
-                        <div class="stat-label">Success Rate</div>
+                    <div class="stat-box">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Private + College Modes</div>
                     </div>
                 </div>
             </div>
 
             <div class="hero-visual">
-                <div class="hero-card">
-                    <div class="hero-card-row">
-                        <div class="hero-card-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <div class="hero-panel">
+                    <div class="panel-top">
+                        <div>
+                            <span class="panel-kicker">Smart dashboard</span>
+                            <div class="panel-title">One platform, every prep path</div>
                         </div>
-                        <div class="hero-card-text">
-                            <h4>Mock Tests Ready</h4>
-                            <p>Subject-wise & Grand Tests</p>
-                        </div>
+                        <div class="live-pill">Live</div>
                     </div>
-                    <div class="hero-card-row">
-                        <div class="hero-card-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+
+                    <div class="dashboard-stack">
+                        <div class="dashboard-card">
+                            <div class="dashboard-head">
+                                <h4>Next mock test</h4>
+                                <span class="status-badge">Choose any university</span>
+                            </div>
+                            <div class="mini-grid">
+                                <div class="mini-stat">
+                                    <div class="value">NUST</div>
+                                    <div class="label">NET practice</div>
+                                </div>
+                                <div class="mini-stat">
+                                    <div class="value">MDCAT</div>
+                                    <div class="label">Medical prep</div>
+                                </div>
+                                <div class="mini-stat">
+                                    <div class="value">UET</div>
+                                    <div class="label">ECAT mode</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="hero-card-text">
-                            <h4>Live Leaderboard</h4>
-                            <p>See your rank instantly</p>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-head">
+                                <h4>Progress snapshot</h4>
+                                <span class="status-badge">Updated instantly</span>
+                            </div>
+                            <div class="progress-list">
+                                <div>
+                                    <div class="progress-row"><span>Math</span><span>82%</span></div>
+                                    <div class="progress-bar"><span style="width:82%"></span></div>
+                                </div>
+                                <div>
+                                    <div class="progress-row"><span>Physics</span><span>74%</span></div>
+                                    <div class="progress-bar"><span style="width:74%"></span></div>
+                                </div>
+                                <div>
+                                    <div class="progress-row"><span>English</span><span>91%</span></div>
+                                    <div class="progress-bar"><span style="width:91%"></span></div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="hero-card-row">
-                        <div class="hero-card-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
-                        </div>
-                        <div class="hero-card-text">
-                            <h4>Video Lectures</h4>
-                            <p>Curated YouTube content</p>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-head">
+                                <h4>College mode</h4>
+                                <span class="status-badge">Private info hidden</span>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 13px;">
+                                College students see only their college workspace, group chat and college analytics.
+                                Private users never see college-only data.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -785,101 +1639,559 @@
     <div class="container">
         <div class="section-header">
             <span class="section-tag">Features</span>
-            <h2 class="section-title">Everything You Need to Succeed</h2>
-            <p class="section-desc">From practice tests to community support, we have all tools to help you crack the NUST NET.</p>
+            <h2 class="section-title">Everything You Need to Prepare Smarter</h2>
+            <p class="section-desc">
+                Built for private aspirants and colleges alike, with test prep, analytics, chat and aggregate tools in one place.
+            </p>
         </div>
+
         <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                </div>
                 <h3>Mock Tests</h3>
-                <p>Practice subject-wise and full-length tests that mirror the actual NET pattern.</p>
+                <p>Subject-wise and full-length tests for major universities and MDCAT with future-ready question structure.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
                 <h3>Timed Exams</h3>
-                <p>Real NET experience with proper time limits, negative marking and scoring.</p>
+                <p>Real exam timing, scoring and review flow to simulate the pressure of the actual entry test.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                </div>
                 <h3>Community Chat</h3>
-                <p>Connect with fellow aspirants, share doubts, and learn together.</p>
+                <p>Private aspirants can chat with each other, while college users get college-only chat rooms and groups.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-                <h3>Live Leaderboard</h3>
-                <p>See where you stand among all students with field-wise rankings.</p>
+
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <h3>Live Progress</h3>
+                <p>Track accuracy, speed and improvement across tests with clear analytics and leaderboard support.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    </svg>
+                </div>
                 <h3>Video Lectures</h3>
-                <p>Curated YouTube lecture links for every topic, organized by subject.</p>
+                <p>Curated lecture links and resource structure for every subject, university and exam category.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                </div>
                 <h3>Aggregate Calculator</h3>
-                <p>Calculate your NET aggregate instantly with our smart calculator.</p>
+                <p>Calculate university-wise aggregate quickly with a preset picker and mark-based calculator.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- FIELDS -->
-<section class="section" id="fields">
+<!-- ORGANIZATIONS -->
+<section class="section" id="organizations">
     <div class="container">
         <div class="section-header">
-            <span class="section-tag">Test Fields</span>
-            <h2 class="section-title">Choose Your Field</h2>
-            <p class="section-desc">Practice tests available for all NUST undergraduate programs</p>
+            <span class="section-tag">Organizations</span>
+            <h2 class="section-title">Private Students, College Students, and College Admins</h2>
+            <p class="section-desc">
+                Sell UniTest to colleges with separate college-only access. Private students never see college info.
+            </p>
         </div>
-        <div class="fields-grid">
-            <div class="field-card">
-                <div class="field-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/></svg>
+
+        <div class="org-grid">
+            <div class="org-card private card">
+                <div class="org-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l7 4v6c0 5-3.5 9.74-7 10-3.5-.26-7-5-7-10V6l7-4z"/>
+                    </svg>
                 </div>
-                <h3>Engineering</h3>
-                <p>SEECS, SCME, SMME, SNS, SCEE</p>
-                <div class="field-subjects">
-                    <span>Math</span><span>Physics</span><span>English</span>
-                </div>
-            </div>
-            <div class="field-card">
-                <div class="field-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                </div>
-                <h3>Applied Sciences</h3>
-                <p>ASAB (BioSciences)</p>
-                <div class="field-subjects">
-                    <span>Biology</span><span>Chemistry</span><span>English</span>
+                <h3>Private Students</h3>
+                <p>Personal dashboard, individual mock tests, progress tracking, notes, lectures and public community chat.</p>
+                <div class="org-actions">
+                    <button class="btn btn-outline" onclick="openModal('loginModal')">Private Login</button>
                 </div>
             </div>
-            <div class="field-card">
-                <div class="field-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+
+            <div class="org-card student card">
+                <div class="org-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10l-10-5-10 5 10 5 10-5z"/>
+                        <path d="M6 12v4c0 2 3 4 6 4s6-2 6-4v-4"/>
+                    </svg>
                 </div>
-                <h3>Business</h3>
-                <p>NUST Business School (NBS)</p>
-                <div class="field-subjects">
-                    <span>Math</span><span>English</span>
-                </div>
-            </div>
-            <div class="field-card">
-                <div class="field-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
-                </div>
-                <h3>Architecture</h3>
-                <p>SADA (Industrial Design)</p>
-                <div class="field-subjects">
-                    <span>Design</span><span>Math</span><span>English</span>
+                <h3>College Students</h3>
+                <p>College-only login, college chat rooms, shared resources, progress tracking, and college announcements.</p>
+                <div class="org-actions">
+                    <button class="btn btn-primary" onclick="openModal('collegeStudentLoginModal')">College Student Login</button>
+                    <a class="btn btn-outline" href="https://wa.me/923251534943?text=Hi%20I%20want%20a%20college%20demo%20for%20UniTest" target="_blank" rel="noopener">Book Demo</a>
                 </div>
             </div>
-            <div class="field-card">
-                <div class="field-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+
+            <div class="org-card admin card">
+                <div class="org-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="3"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
                 </div>
-                <h3>Natural Sciences</h3>
-                <p>SNS Programs</p>
-                <div class="field-subjects">
-                    <span>Math</span><span>Physics</span><span>English</span>
+                <h3>College Admins</h3>
+                <p>Track batch progress, manage students, review attempts, monitor performance and control college-only access.</p>
+                <div class="org-actions">
+                    <button class="btn btn-primary" onclick="openModal('collegeAdminLoginModal')">College Admin Login</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="privacy-strip">
+            <div>
+                <strong>Privacy separation:</strong> college users only see their own college workspace, while private users only see the public/private side of UniTest.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ENTRY TESTS -->
+<section class="section gray-bg" id="tests">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Entry Tests</span>
+            <h2 class="section-title">Major Pakistan University Tests + MDCAT</h2>
+            <p class="section-desc">
+                Choose any university or exam you want. You can add your own questions later, and the structure is ready for expansion.
+            </p>
+        </div>
+
+        <div class="filters" id="testFilters">
+            <button class="filter-chip active" data-filter="all" onclick="filterTests('all')">All</button>
+            <button class="filter-chip" data-filter="engineering" onclick="filterTests('engineering')">Engineering</button>
+            <button class="filter-chip" data-filter="medical" onclick="filterTests('medical')">Medical</button>
+            <button class="filter-chip" data-filter="cs" onclick="filterTests('cs')">CS / IT</button>
+            <button class="filter-chip" data-filter="business" onclick="filterTests('business')">Business</button>
+            <button class="filter-chip" data-filter="architecture" onclick="filterTests('architecture')">Architecture</button>
+        </div>
+
+        <div class="tests-grid">
+            <div class="test-card card" data-category="engineering cs business architecture">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">Flagship</span>
+                        <h3>NUST NET</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">Engineering</span>
+                        <span class="meta-pill">MDCAT Style Prep</span>
+                    </div>
+                </div>
+                <p>SEECS, SCME, SMME, SCEE, NBS, ASAB and SADA style prep.</p>
+                <ul class="test-list">
+                    <li>Math, Physics, Chemistry, English</li>
+                    <li>Timed mock tests</li>
+                    <li>Review & leaderboard</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=nust-net">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="medical">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">Medical</span>
+                        <h3>MDCAT</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">MBBS</span>
+                        <span class="meta-pill">BDS</span>
+                    </div>
+                </div>
+                <p>Practice the medical entry test pattern with subject-wise and full-length mocks.</p>
+                <ul class="test-list">
+                    <li>Biology, Chemistry, Physics, English</li>
+                    <li>Medical aggregate practice</li>
+                    <li>Future university-wise expansion</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=mdcat">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="engineering">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">Engineering</span>
+                        <h3>UET ECAT</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">Punjab</span>
+                        <span class="meta-pill">ECAT</span>
+                    </div>
+                </div>
+                <p>Engineering entry test preparation for UET and related engineering university admissions.</p>
+                <ul class="test-list">
+                    <li>Math, Physics, Chemistry</li>
+                    <li>Admission test simulation</li>
+                    <li>Aggregate calculator support</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=uet-ecat">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="cs engineering">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">CS / IT</span>
+                        <h3>FAST Entry Test</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">CS</span>
+                        <span class="meta-pill">SE</span>
+                    </div>
+                </div>
+                <p>Computer science and software engineering focused entry test preparation.</p>
+                <ul class="test-list">
+                    <li>Quantitative reasoning</li>
+                    <li>Logic and aptitude</li>
+                    <li>Math + English focus</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=fast">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="engineering cs">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">Top Tier</span>
+                        <h3>GIKI Entry Test</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">Engineering</span>
+                        <span class="meta-pill">Science</span>
+                    </div>
+                </div>
+                <p>Prepare for one of Pakistan’s most competitive engineering and science admissions tests.</p>
+                <ul class="test-list">
+                    <li>Strong math & science practice</li>
+                    <li>Speed-based mocks</li>
+                    <li>Detailed progress tracking</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=giki">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="engineering">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">Advanced</span>
+                        <h3>PIEAS Entry Test</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">Physics</span>
+                        <span class="meta-pill">Engineering</span>
+                    </div>
+                </div>
+                <p>Mock tests for PIEAS and similar high-difficulty science and engineering admissions.</p>
+                <ul class="test-list">
+                    <li>Math, Physics and Chemistry</li>
+                    <li>Conceptual problem solving</li>
+                    <li>MCQ practice bank-ready</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=pieas">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="engineering business cs">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">University</span>
+                        <h3>COMSATS Entry Test</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">CS</span>
+                        <span class="meta-pill">Engineering</span>
+                    </div>
+                </div>
+                <p>Admission practice for COMSATS campuses across computing, engineering and business fields.</p>
+                <ul class="test-list">
+                    <li>Campus-wise future support</li>
+                    <li>MCQ timed tests</li>
+                    <li>Field-specific practice</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=comsats">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="engineering architecture">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">Engineering</span>
+                        <h3>NED Entry Test</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">Architecture</span>
+                        <span class="meta-pill">Engineering</span>
+                    </div>
+                </div>
+                <p>NED and related engineering / design admission preparation with structured mock tests.</p>
+                <ul class="test-list">
+                    <li>Engineering foundations</li>
+                    <li>Architecture readiness</li>
+                    <li>Performance analytics</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=ned">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="engineering business cs">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">Multi-Field</span>
+                        <h3>Air University</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">CS</span>
+                        <span class="meta-pill">Business</span>
+                    </div>
+                </div>
+                <p>Air University admissions practice for computing, engineering and business pathways.</p>
+                <ul class="test-list">
+                    <li>General ability + math</li>
+                    <li>Targeted field sections</li>
+                    <li>Mock analytics</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=air-university">Start Mock Test</a>
+                </div>
+            </div>
+
+            <div class="test-card card" data-category="business cs medical">
+                <div class="test-top">
+                    <div>
+                        <span class="test-badge">More Universities</span>
+                        <h3>Bahria University</h3>
+                    </div>
+                    <div class="test-meta">
+                        <span class="meta-pill">Business</span>
+                        <span class="meta-pill">Medical</span>
+                    </div>
+                </div>
+                <p>Expandable test structure for Bahria and other major universities in Pakistan.</p>
+                <ul class="test-list">
+                    <li>University-wise sectioning</li>
+                    <li>Question bank ready</li>
+                    <li>Custom scoring support</li>
+                </ul>
+                <div class="test-actions">
+                    <a class="btn btn-outline btn-block" href="/student.html?exam=bahria">Start Mock Test</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STREAMS -->
+<section class="section" id="streams">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Streams</span>
+            <h2 class="section-title">Popular Streams and Subject Groups</h2>
+            <p class="section-desc">
+                Keep the field-based structure while supporting all major exams and entry tests.
+            </p>
+        </div>
+
+        <div class="streams-grid">
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Engineering</span>
+                <h3>Math + Physics + English</h3>
+                <p>For NUST NET, UET ECAT, PIEAS, GIKI, NED, Air and other engineering admissions.</p>
+            </div>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Medical</span>
+                <h3>Biology + Chemistry + Physics</h3>
+                <p>MDCAT and medical university prep with dedicated subject flow and timed practice.</p>
+            </div>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="3"/>
+                        <path d="M7 9h10M7 13h10M7 17h6"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">CS / IT</span>
+                <h3>Math + Logic + Aptitude</h3>
+                <p>FAST, COMSATS and other CS-heavy tests focused on speed and problem-solving.</p>
+            </div>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Business</span>
+                <h3>Math + English</h3>
+                <p>NUST Business, COMSATS business tracks and other management-oriented entry tests.</p>
+            </div>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Architecture</span>
+                <h3>Design + Math + English</h3>
+                <p>Architecture and industrial design routes with visual and reasoning-based preparation.</p>
+            </div>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">General</span>
+                <h3>English + Aptitude</h3>
+                <p>General ability, verbal, logical, and timed MCQ practice for mixed university entry tests.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AGGREGATES -->
+<section class="section gray-bg" id="aggregates">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Aggregates</span>
+            <h2 class="section-title">Aggregate Calculator for Major Universities</h2>
+            <p class="section-desc">
+                Choose a university preset, enter your marks, and calculate your aggregate quickly.
+                Preset weights can later be refined per university in the backend/schema.
+            </p>
+        </div>
+
+        <div class="calculator-layout">
+            <div class="calc-card">
+                <div class="calc-header">
+                    <h3>Calculate your aggregate</h3>
+                    <p>Select a university preset and enter your test/board marks.</p>
+                </div>
+
+                <form id="aggregateForm">
+                    <div class="form-group">
+                        <label for="aggregatePreset">University / Exam</label>
+                        <select id="aggregatePreset">
+                            <option value="nust-net">NUST NET</option>
+                            <option value="mdcat">MDCAT</option>
+                            <option value="uet-ecat">UET ECAT</option>
+                            <option value="fast">FAST</option>
+                            <option value="giki">GIKI</option>
+                            <option value="pieas">PIEAS</option>
+                            <option value="comsats">COMSATS</option>
+                            <option value="ned">NED</option>
+                            <option value="air">Air University</option>
+                            <option value="bahria">Bahria University</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-weights" id="calcWeights"></div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="testObtained">Test Marks Obtained</label>
+                            <input type="number" id="testObtained" placeholder="e.g. 145" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="testTotal">Test Total Marks</label>
+                            <input type="number" id="testTotal" placeholder="e.g. 200" min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hsscObtained">HSSC Marks Obtained</label>
+                            <input type="number" id="hsscObtained" placeholder="e.g. 980" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="hsscTotal">HSSC Total Marks</label>
+                            <input type="number" id="hsscTotal" placeholder="e.g. 1100" min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sscObtained">SSC Marks Obtained</label>
+                            <input type="number" id="sscObtained" placeholder="e.g. 920" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="sscTotal">SSC Total Marks</label>
+                            <input type="number" id="sscTotal" placeholder="e.g. 1100" min="1">
+                        </div>
+                    </div>
+
+                    <div class="small-note" style="margin-bottom: 14px;">
+                        If a university does not use one of the components, enter 0 for that component.
+                    </div>
+
+                    <button class="btn btn-primary btn-block" type="submit">Calculate Aggregate</button>
+                </form>
+            </div>
+
+            <div class="calc-result">
+                <div>
+                    <div class="result-label">Your estimated aggregate</div>
+                    <div class="result-big" id="aggregateValue">0.00%</div>
+                </div>
+                <div class="result-note" id="aggregateFormula">
+                    Select a university preset and enter marks to see the formula breakdown.
+                </div>
+                <div class="result-note">
+                    This calculator is structured so you can later refine each university’s formula and weights from your backend or schema file.
                 </div>
             </div>
         </div>
@@ -887,81 +2199,131 @@
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="section gray-bg" id="how-it-works">
+<section class="section" id="how-it-works">
     <div class="container">
         <div class="section-header">
             <span class="section-tag">Process</span>
             <h2 class="section-title">How It Works</h2>
-            <p class="section-desc">Get started in 4 simple steps</p>
+            <p class="section-desc">Simple flow for both private users and colleges.</p>
         </div>
-        <div class="steps-container">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3>Register</h3>
-                <p>Sign up with your details and select your degree category.</p>
+
+        <div class="streams-grid">
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l7 4v6c0 5-3.5 9.74-7 10-3.5-.26-7-5-7-10V6l7-4z"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Step 1</span>
+                <h3>Register or Login</h3>
+                <p>Private students use personal access. College students and admins use their organization login.</p>
             </div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3>Pay & Verify</h3>
-                <p>Submit payment proof. Admin will verify and approve your account.</p>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Step 2</span>
+                <h3>Select Your Test</h3>
+                <p>Choose NUST, MDCAT, UET, FAST, GIKI, PIEAS or any major university mock test.</p>
             </div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3>Take Tests</h3>
-                <p>Login and start practicing tests for your selected field.</p>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Step 3</span>
+                <h3>Practice & Improve</h3>
+                <p>Take timed tests, review answers, check scores and improve your weak areas.</p>
             </div>
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3>Track & Improve</h3>
-                <p>Review answers, check leaderboard, and keep improving.</p>
+
+            <div class="stream-card card">
+                <div class="stream-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <span class="stream-pill">Step 4</span>
+                <h3>Track Aggregate & Progress</h3>
+                <p>Monitor overall performance, aggregate estimates and progress reports over time.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- FAQ -->
-<section class="section" id="faq-preview">
+<section class="section gray-bg" id="faq-preview">
     <div class="container">
         <div class="section-header">
             <span class="section-tag">FAQs</span>
             <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="section-desc">Quick answers about NUST NET and our platform</p>
+            <p class="section-desc">Quick answers about UniTest, universities and organization support.</p>
         </div>
+
         <div class="faq-wrap">
             <div class="faq-item">
                 <button onclick="toggleFaq(this)">
-                    What is the NUST Entry Test (NET)?
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    Can private students see college-only info?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
                 </button>
                 <div class="faq-answer">
-                    <p>The NUST Entry Test (NET) is a mandatory standardized test for admission to all undergraduate programs at NUST. It is conducted multiple times a year.</p>
+                    <p>No. College data, college chat and college reports are isolated so private students only see the private/public side.</p>
                 </div>
             </div>
+
             <div class="faq-item">
                 <button onclick="toggleFaq(this)">
-                    How is the NUST aggregate calculated?
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    Which entry tests are included?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
                 </button>
                 <div class="faq-answer">
-                    <p>NUST aggregate for Engineering: NET (75%) + SSC (10%) + HSSC (15%). Use our Aggregate Calculator for accurate results.</p>
+                    <p>NUST NET, MDCAT, UET ECAT, FAST, GIKI, PIEAS, COMSATS, NED, Air University, Bahria and more can be added.</p>
                 </div>
             </div>
+
             <div class="faq-item">
                 <button onclick="toggleFaq(this)">
-                    What is the marking scheme of NET?
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    Can colleges track student progress?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
                 </button>
                 <div class="faq-answer">
-                    <p>NET Engineering: 200 marks (Math 100, Physics 60, English 40). +1 for correct, no negative marking.</p>
+                    <p>Yes. College admins can track progress, batches, mock test performance, and future chat/community features for their institute.</p>
                 </div>
             </div>
+
             <div class="faq-item">
                 <button onclick="toggleFaq(this)">
-                    How do I register on this platform?
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    Can I add my own question bank later?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
                 </button>
                 <div class="faq-answer">
-                    <p>Click on the "Register Now" button, fill out your details, select your degree category, and submit payment proof. Admin will approve your account.</p>
+                    <p>Yes. The structure is ready so you can later add the questions.js files for each exam and build more university modules.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button onclick="toggleFaq(this)">
+                    How does the aggregate calculator work?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Select a university preset, enter test/board marks, and the calculator will compute the weighted aggregate based on the preset formula.</p>
                 </div>
             </div>
         </div>
@@ -971,15 +2333,20 @@
 <!-- CTA -->
 <section class="cta-section" id="contact">
     <div class="container">
-        <h2 class="cta-title">Ready to Start Your NUST Journey?</h2>
-        <p class="cta-desc">Register now and get instant access to the most comprehensive NET preparation platform.</p>
+        <h2 class="cta-title">Ready to Launch UniTest for Students or a Whole College?</h2>
+        <p class="cta-desc">
+            Start preparing students for major university entry tests in Pakistan, or sell the platform to colleges with isolated college-only dashboards.
+        </p>
         <div class="cta-buttons">
             <button class="btn btn-white btn-lg" onclick="window.location.href='/register.html'">
                 Register Now
             </button>
-            <a href="https://wa.me/923251534943" target="_blank" class="btn btn-lg" style="background: rgba(255,255,255,0.15); color: #fff; border: 2px solid rgba(255,255,255,0.4);">
+            <a href="https://wa.me/923251534943" target="_blank" rel="noopener" class="btn btn-lg" style="background: rgba(255,255,255,0.15); color: #fff; border: 2px solid rgba(255,255,255,0.35);">
                 Contact WhatsApp
             </a>
+            <button class="btn btn-outline btn-lg" style="background: rgba(255,255,255,0.14); color: #fff; border-color: rgba(255,255,255,0.35);" onclick="openModal('collegeStudentLoginModal')">
+                College Login
+            </button>
         </div>
     </div>
 </section>
@@ -990,154 +2357,293 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <a href="#" class="nav-logo">
-                    <img src="images/nustology.jpg" alt="NUSTOLOGY" onerror="this.style.display='none'" style="width: 32px; height: 32px; border-radius: 8px;">
-                    <span><span style="color: var(--primary-light)">NUST</span>OLOGY <span class="prep"></span></span>
+                    <span class="brand-mark">UT</span>
+                    <span class="brand-text"><span class="brand-uni">Uni</span><span class="brand-test">Test</span></span>
                 </a>
-                <p>The ultimate preparation platform for NUST Entry Test.</p>
+                <p>
+                    Multi-university entry test preparation platform for Pakistan with private and college modes, progress tracking and aggregate tools.
+                </p>
             </div>
+
             <div class="footer-col">
                 <h4>Platform</h4>
                 <ul>
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#fields">Test Fields</a></li>
+                    <li><a href="#organizations">Organizations</a></li>
+                    <li><a href="#tests">Entry Tests</a></li>
+                    <li><a href="#aggregates">Aggregate Calculator</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#streams">Streams</a></li>
                     <li><a href="#faq-preview">FAQs</a></li>
                     <li><a href="/register.html">Register</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Video Lectures</a></li>
-                    <li><a href="#">Past Papers</a></li>
-                    <li><a href="#">Merit Lists</a></li>
-                </ul>
-            </div>
+
             <div class="footer-col">
                 <h4>Contact</h4>
                 <ul>
-                    <li><a href="https://wa.me/923251534943" target="_blank">WhatsApp</a></li>
+                    <li><a href="https://wa.me/923251534943" target="_blank" rel="noopener">WhatsApp</a></li>
                     <li><a href="mailto:nustologyprep@gmail.com">Email</a></li>
                 </ul>
             </div>
         </div>
+
         <div class="footer-bottom">
-            <span>&copy; 2026 NUSTOLOGY  All rights reserved.</span>
-            <span>Made for NUST aspirants</span>
+            <span>&copy; 2026 UniTest. All rights reserved.</span>
+            <span>Made for private students and colleges</span>
         </div>
     </div>
 </footer>
 
-<!-- LOGIN MODAL -->
+<!-- PRIVATE STUDENT LOGIN MODAL -->
 <div class="modal-overlay" id="loginModal">
     <div class="modal">
         <button class="modal-close" onclick="closeModal('loginModal')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
         </button>
+
         <div class="modal-logo">
-            <img src="images/nustology.jpg" alt="NUSTOLOGY">
+            <div class="brand-mark">UT</div>
         </div>
-        <h2>Welcome Back</h2>
-        <p class="modal-subtitle">Sign in to your account</p>
-        <form id="loginForm" onsubmit="handleLogin(event)">
+
+        <h2>Private Student Login</h2>
+        <p class="modal-subtitle">Sign in to your personal prep account</p>
+
+        <form id="loginForm" onsubmit="handleAccountLogin(event, 'private')">
             <div class="form-group">
                 <label for="loginUsername">Username</label>
-                <input type="text" id="loginUsername" placeholder="Enter username" required autocomplete="username">
+                <input type="text" name="username" id="loginUsername" placeholder="Enter username" required autocomplete="username">
             </div>
+
             <div class="form-group">
                 <label for="loginPassword">Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password">
+                <input type="password" name="password" id="loginPassword" placeholder="Enter password" required autocomplete="current-password">
             </div>
+
             <div class="form-remember">
                 <label><input type="checkbox" id="rememberMe" style="accent-color: var(--primary);"> Remember me</label>
                 <a href="/forgot-password.html">Forgot password?</a>
             </div>
-            <button type="submit" class="btn btn-primary btn-login" id="loginBtn">
+
+            <button type="submit" class="btn btn-primary btn-login">
                 <span class="btn-text">Sign In</span>
                 <div class="loading-spinner"></div>
             </button>
-            <div class="login-message" id="loginMessage"></div>
+
+            <div class="login-message"></div>
         </form>
+
         <div class="register-cta">
             New here? <a href="/register.html">Create an account</a>
         </div>
+
         <div class="modal-bottom-link">
-            <a href="#" onclick="closeModal('loginModal'); openModal('adminLoginModal'); return false;">Admin Login</a>
+            <a href="#" onclick="closeModal('loginModal'); openModal('collegeStudentLoginModal'); return false;">Are you a college student?</a>
         </div>
     </div>
 </div>
 
-<!-- ADMIN LOGIN MODAL -->
+<!-- COLLEGE STUDENT LOGIN MODAL -->
+<div class="modal-overlay" id="collegeStudentLoginModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('collegeStudentLoginModal')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+
+        <div class="modal-logo">
+            <div class="brand-mark">UT</div>
+        </div>
+
+        <h2>College Student Login</h2>
+        <p class="modal-subtitle">Access your college-only workspace</p>
+
+        <form id="collegeStudentLoginForm" onsubmit="handleAccountLogin(event, 'college_student')">
+            <div class="form-group">
+                <label for="collegeStudentUsername">Username</label>
+                <input type="text" name="username" id="collegeStudentUsername" placeholder="College username" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="collegeStudentPassword">Password</label>
+                <input type="password" name="password" id="collegeStudentPassword" placeholder="Password" required autocomplete="current-password">
+            </div>
+
+            <div class="form-remember">
+                <label><input type="checkbox" id="collegeRememberMe" style="accent-color: var(--secondary);"> Remember me</label>
+                <a href="/forgot-password.html">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-login">
+                <span class="btn-text">Sign In</span>
+                <div class="loading-spinner"></div>
+            </button>
+
+            <div class="login-message"></div>
+        </form>
+
+        <div class="register-cta">
+            Need college access? <a href="https://wa.me/923251534943?text=Hi%20I%20want%20college%20access%20for%20UniTest" target="_blank" rel="noopener">Contact us</a>
+        </div>
+
+        <div class="modal-bottom-link">
+            <a href="#" onclick="closeModal('collegeStudentLoginModal'); openModal('collegeAdminLoginModal'); return false;">College admin login</a>
+        </div>
+    </div>
+</div>
+
+<!-- COLLEGE ADMIN LOGIN MODAL -->
+<div class="modal-overlay" id="collegeAdminLoginModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('collegeAdminLoginModal')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+
+        <div class="modal-logo">
+            <div class="brand-mark">CA</div>
+        </div>
+
+        <h2>College Admin Login</h2>
+        <p class="modal-subtitle">Track progress, chat and manage your institute</p>
+
+        <form id="collegeAdminLoginForm" onsubmit="handleAccountLogin(event, 'college_admin')">
+            <div class="form-group">
+                <label for="collegeAdminUsername">Username</label>
+                <input type="text" name="username" id="collegeAdminUsername" placeholder="Admin username" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="collegeAdminPassword">Password</label>
+                <input type="password" name="password" id="collegeAdminPassword" placeholder="Admin password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-login">
+                <span class="btn-text">Access College Panel</span>
+                <div class="loading-spinner"></div>
+            </button>
+
+            <div class="login-message"></div>
+        </form>
+
+        <div class="modal-bottom-link">
+            <a href="#" onclick="closeModal('collegeAdminLoginModal'); openModal('adminLoginModal'); return false;">Platform admin login</a>
+        </div>
+    </div>
+</div>
+
+<!-- PLATFORM ADMIN LOGIN MODAL -->
 <div class="modal-overlay" id="adminLoginModal">
     <div class="modal">
         <button class="modal-close" onclick="closeModal('adminLoginModal')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <div class="modal-logo">
-            <svg width="56" height="56" viewBox="0 0 60 60" fill="none">
-                <rect width="60" height="60" rx="12" fill="#1e3a8a"/>
-                <text x="50%" y="56%" text-anchor="middle" fill="white" font-family="sans-serif" font-size="18" font-weight="700">ADM</text>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
+        </button>
+
+        <div class="modal-logo">
+            <div class="brand-mark">AD</div>
         </div>
-        <h2>Admin Panel</h2>
-        <p class="modal-subtitle">Restricted access only</p>
-        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+
+        <h2>Platform Admin</h2>
+        <p class="modal-subtitle">Restricted platform access only</p>
+
+        <form id="adminLoginForm" onsubmit="handleAccountLogin(event, 'platform_admin')">
             <div class="form-group">
                 <label for="adminUsername">Username</label>
-                <input type="text" id="adminUsername" placeholder="Admin username" required>
+                <input type="text" name="username" id="adminUsername" placeholder="Admin username" required autocomplete="username">
             </div>
+
             <div class="form-group">
                 <label for="adminPassword">Password</label>
-                <input type="password" id="adminPassword" placeholder="Admin password" required>
+                <input type="password" name="password" id="adminPassword" placeholder="Admin password" required autocomplete="current-password">
             </div>
-            <button type="submit" class="btn btn-primary btn-login" id="adminLoginBtn" style="background: var(--primary-dark);">
+
+            <button type="submit" class="btn btn-primary btn-login">
                 <span class="btn-text">Access Panel</span>
                 <div class="loading-spinner"></div>
             </button>
-            <div class="login-message" id="adminLoginMessage"></div>
+
+            <div class="login-message"></div>
         </form>
+
         <div class="modal-bottom-link">
-            <a href="#" onclick="closeModal('adminLoginModal'); openModal('loginModal'); return false;">Back to Student Login</a>
+            <a href="#" onclick="closeModal('adminLoginModal'); openModal('loginModal'); return false;">Back to student login</a>
         </div>
     </div>
 </div>
 
 <script>
-    // PAGE LOADER
+    const API_BASE = '/api';
+
+    const AGGREGATE_PRESETS = {
+        'nust-net': { label: 'NUST NET', weights: { test: 75, hssc: 15, ssc: 10 } },
+        'mdcat': { label: 'MDCAT', weights: { test: 50, hssc: 40, ssc: 10 } },
+        'uet-ecat': { label: 'UET ECAT', weights: { test: 50, hssc: 40, ssc: 10 } },
+        'fast': { label: 'FAST', weights: { test: 70, hssc: 20, ssc: 10 } },
+        'giki': { label: 'GIKI', weights: { test: 70, hssc: 20, ssc: 10 } },
+        'pieas': { label: 'PIEAS', weights: { test: 70, hssc: 20, ssc: 10 } },
+        'comsats': { label: 'COMSATS', weights: { test: 60, hssc: 30, ssc: 10 } },
+        'ned': { label: 'NED', weights: { test: 50, hssc: 40, ssc: 10 } },
+        'air': { label: 'Air University', weights: { test: 60, hssc: 30, ssc: 10 } },
+        'bahria': { label: 'Bahria University', weights: { test: 60, hssc: 30, ssc: 10 } }
+    };
+
     window.addEventListener('load', () => {
         setTimeout(() => {
-            document.getElementById('pageLoader').classList.add('hidden');
-        }, 400);
+            const loader = document.getElementById('pageLoader');
+            if (loader) loader.classList.add('hidden');
+        }, 350);
+
+        syncAggregatePreset();
+        filterTests('all');
     });
 
-    // MOBILE MENU
     function toggleMobileMenu() {
         document.getElementById('navLinks').classList.toggle('open');
         document.getElementById('hamburger').classList.toggle('open');
     }
 
-    // MODAL FUNCTIONS
     function openModal(id) {
         document.getElementById(id).classList.add('active');
         document.body.style.overflow = 'hidden';
     }
+
     function closeModal(id) {
         document.getElementById(id).classList.remove('active');
         document.body.style.overflow = '';
-        const msg = document.getElementById(id === 'loginModal' ? 'loginMessage' : 'adminLoginMessage');
-        if (msg) { msg.className = 'login-message'; msg.textContent = ''; }
+        const msg = document.querySelector(`#${id} .login-message`);
+        if (msg) {
+            msg.className = 'login-message';
+            msg.textContent = '';
+        }
     }
+
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) closeModal(overlay.id);
         });
     });
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m.id));
+            document.querySelectorAll('.modal-overlay.active').forEach(modal => closeModal(modal.id));
         }
     });
 
-    // FAQ TOGGLE
     function toggleFaq(btn) {
         const answer = btn.nextElementSibling;
         const icon = btn.querySelector('svg');
@@ -1152,7 +2658,6 @@
         }
     }
 
-    // SMOOTH SCROLL
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -1168,37 +2673,123 @@
         });
     });
 
-    // API
-    const API_BASE = '/api';
+    function filterTests(category) {
+        document.querySelectorAll('.filter-chip').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === category);
+        });
 
-    async function handleLogin(e) {
+        document.querySelectorAll('.test-card').forEach(card => {
+            const categories = (card.dataset.category || '').toLowerCase();
+            const visible = category === 'all' || categories.includes(category);
+            card.style.display = visible ? 'flex' : 'none';
+        });
+    }
+
+    function syncAggregatePreset() {
+        const presetKey = document.getElementById('aggregatePreset').value;
+        const preset = AGGREGATE_PRESETS[presetKey];
+        const weightsBox = document.getElementById('calcWeights');
+        const formulaBox = document.getElementById('aggregateFormula');
+
+        if (!preset) return;
+
+        weightsBox.innerHTML = `
+            <span class="weight-pill">Test ${preset.weights.test}%</span>
+            <span class="weight-pill">HSSC ${preset.weights.hssc}%</span>
+            <span class="weight-pill">SSC ${preset.weights.ssc}%</span>
+        `;
+
+        formulaBox.innerHTML = `
+            <strong>${preset.label} formula:</strong><br>
+            Test ${preset.weights.test}% + HSSC ${preset.weights.hssc}% + SSC ${preset.weights.ssc}%<br><br>
+            Enter 0 for any component the university does not use.
+        `;
+    }
+
+    document.getElementById('aggregatePreset').addEventListener('change', syncAggregatePreset);
+
+    document.getElementById('aggregateForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const btn = document.getElementById('loginBtn');
-        const msg = document.getElementById('loginMessage');
-        const username = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value;
+
+        const presetKey = document.getElementById('aggregatePreset').value;
+        const preset = AGGREGATE_PRESETS[presetKey];
+
+        const testObtained = parseFloat(document.getElementById('testObtained').value) || 0;
+        const testTotal = parseFloat(document.getElementById('testTotal').value) || 0;
+        const hsscObtained = parseFloat(document.getElementById('hsscObtained').value) || 0;
+        const hsscTotal = parseFloat(document.getElementById('hsscTotal').value) || 0;
+        const sscObtained = parseFloat(document.getElementById('sscObtained').value) || 0;
+        const sscTotal = parseFloat(document.getElementById('sscTotal').value) || 0;
+
+        const testPart = testTotal > 0 ? (testObtained / testTotal) * preset.weights.test : 0;
+        const hsscPart = hsscTotal > 0 ? (hsscObtained / hsscTotal) * preset.weights.hssc : 0;
+        const sscPart = sscTotal > 0 ? (sscObtained / sscTotal) * preset.weights.ssc : 0;
+
+        const aggregate = testPart + hsscPart + sscPart;
+        document.getElementById('aggregateValue').textContent = aggregate.toFixed(2) + '%';
+    });
+
+    async function handleAccountLogin(e, role) {
+        e.preventDefault();
+
+        const form = e.target;
+        const btn = form.querySelector('button[type="submit"]');
+        const msg = form.querySelector('.login-message');
+        const username = form.querySelector('[name="username"]').value.trim();
+        const password = form.querySelector('[name="password"]').value;
 
         btn.classList.add('loading');
         msg.className = 'login-message';
 
         try {
-            const response = await fetch(`${API_BASE}/auth/login`, {
+            const endpoint = role === 'platform_admin'
+                ? `${API_BASE}/auth/admin-login`
+                : `${API_BASE}/auth/login`;
+
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({
+                    username,
+                    password,
+                    accountType: role
+                })
             });
+
             const data = await response.json();
 
             if (data.success) {
-                localStorage.setItem('nustology_token', data.token);
-                localStorage.setItem('nustology_user', JSON.stringify(data.user));
+                if (role === 'private') {
+                    localStorage.setItem('nustology_token', data.token);
+                    localStorage.setItem('nustology_user', JSON.stringify(data.user || {}));
+                } else if (role === 'college_student') {
+                    localStorage.setItem('unitest_college_token', data.token);
+                    localStorage.setItem('unitest_college_user', JSON.stringify(data.user || {}));
+                } else if (role === 'college_admin') {
+                    localStorage.setItem('unitest_college_admin_token', data.token);
+                    localStorage.setItem('unitest_college_admin_user', JSON.stringify(data.user || {}));
+                } else {
+                    localStorage.setItem('nustology_admin_token', data.token);
+                }
+
                 msg.className = 'login-message success';
                 msg.textContent = 'Login successful! Redirecting...';
-                setTimeout(() => { window.location.href = '/student.html'; }, 800);
-            } else if (response.status === 403 && data.status) {
+
+                setTimeout(() => {
+                    if (role === 'private') {
+                        window.location.href = '/student.html';
+                    } else if (role === 'college_student') {
+                        window.location.href = '/student.html?scope=college';
+                    } else if (role === 'college_admin') {
+                        window.location.href = '/admin.html?scope=college';
+                    } else {
+                        window.location.href = '/admin.html';
+                    }
+                }, 800);
+            } else if (response.status === 403 && data.status && role === 'private') {
                 msg.className = 'login-message warning';
                 msg.textContent = data.message || 'Account pending approval.';
-                setTimeout(() => { window.location.href = '/payment-pending.html'; }, 1500);
+                setTimeout(() => { window.location.href = '/payment-pending.html'; }, 1400);
             } else {
                 msg.className = 'login-message error';
                 msg.textContent = data.message || 'Invalid credentials.';
@@ -1206,41 +2797,6 @@
         } catch (error) {
             msg.className = 'login-message error';
             msg.textContent = 'Connection error. Please try again.';
-        }
-
-        btn.classList.remove('loading');
-    }
-
-    async function handleAdminLogin(e) {
-        e.preventDefault();
-        const btn = document.getElementById('adminLoginBtn');
-        const msg = document.getElementById('adminLoginMessage');
-        const username = document.getElementById('adminUsername').value.trim();
-        const password = document.getElementById('adminPassword').value;
-
-        btn.classList.add('loading');
-        msg.className = 'login-message';
-
-        try {
-            const response = await fetch(`${API_BASE}/auth/admin-login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await response.json();
-
-            if (data.success) {
-                localStorage.setItem('nustology_admin_token', data.token);
-                msg.className = 'login-message success';
-                msg.textContent = 'Access granted! Redirecting...';
-                setTimeout(() => { window.location.href = '/admin.html'; }, 800);
-            } else {
-                msg.className = 'login-message error';
-                msg.textContent = data.message || 'Invalid credentials.';
-            }
-        } catch (error) {
-            msg.className = 'login-message error';
-            msg.textContent = 'Connection error.';
         }
 
         btn.classList.remove('loading');
