@@ -10,7 +10,7 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "nustology-db"
-database_id = "fda742a1-207b-4bd6-8345-2ac57228a329"
+database_id = "26491a52-79ec-4d2b-80cb-5881960c15a9"
 
 # ENVIRONMENT VARIABLES
 [vars]
