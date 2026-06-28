@@ -63,8 +63,8 @@
         }
         .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
         .sidebar-logo .text { font-size: 16px; font-weight: 700; line-height: 1.2; }
-        .sidebar-logo .nust { color: var(--primary); }
-        .sidebar-logo .prep { color: var(--gray); font-weight: 400; font-size: 12px; display: block; }
+        .sidebar-logo .brand-name { color: var(--primary); }
+        .sidebar-logo .brand-sub { color: var(--gray); font-weight: 400; font-size: 11px; display: block; margin-top: 1px; }
 
         .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
         .menu-section {
@@ -98,6 +98,18 @@
             text-align: center;
         }
         .menu-item.active .menu-badge { background: #fff; color: var(--primary); }
+
+        /* College badge in sidebar */
+        .college-badge {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: auto;
+            white-space: nowrap;
+        }
 
         /* ========== MAIN ========== */
         .main {
@@ -174,6 +186,9 @@
         .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .user-info .name { font-size: 13px; font-weight: 600; }
 
+        /* College student avatar color */
+        .user-avatar.college-type { background: linear-gradient(135deg, #7c3aed, #4f46e5); }
+
         .logout-btn {
             background: var(--gray-lighter);
             border: none;
@@ -206,6 +221,20 @@
         }
         .approval-banner svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
 
+        /* ========== COLLEGE INFO BANNER ========== */
+        .college-info-banner {
+            padding: 12px 18px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 13px;
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            color: #4f46e5;
+            border: 1px solid #c4b5fd;
+        }
+        .college-info-banner svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .college-info-banner strong { font-weight: 700; }
+
         /* ========== WELCOME ========== */
         .welcome {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -219,10 +248,10 @@
             gap: 16px;
             flex-wrap: wrap;
         }
-        .welcome h2 {
-            font-size: 22px; font-weight: 700;
-            margin-bottom: 6px; color: #fff;
+        .welcome.college-welcome {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
         }
+        .welcome h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; color: #fff; }
         .welcome p { opacity: 0.9; font-size: 13px; }
         .welcome-btn {
             background: #fff;
@@ -237,6 +266,8 @@
             min-height: 44px;
         }
         .welcome-btn:hover { background: var(--primary-bg); }
+        .welcome.college-welcome .welcome-btn { color: #7c3aed; }
+        .welcome.college-welcome .welcome-btn:hover { background: #f5f3ff; }
 
         /* ========== STATS GRID ========== */
         .stats-grid {
@@ -320,19 +351,12 @@
             display: block; font-size: 13px; margin-bottom: 2px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-        .test-info-text small {
-            font-size: 11px; color: var(--gray);
-        }
-        .test-score {
-            font-size: 16px; font-weight: 700; color: var(--success);
-            flex-shrink: 0;
-        }
+        .test-info-text small { font-size: 11px; color: var(--gray); }
+        .test-score { font-size: 16px; font-weight: 700; color: var(--success); flex-shrink: 0; }
         .test-score small { font-weight: 400; color: var(--gray); font-size: 11px; }
 
         /* ========== QUICK ACTIONS ========== */
-        .quick-actions {
-            display: flex; flex-direction: column; gap: 8px;
-        }
+        .quick-actions { display: flex; flex-direction: column; gap: 8px; }
         .quick-action {
             display: flex; align-items: center; gap: 11px;
             padding: 12px 14px;
@@ -362,10 +386,7 @@
             margin-bottom: 14px;
             display: flex; align-items: flex-start; gap: 10px;
         }
-        .warning-banner > svg {
-            flex-shrink: 0; margin-top: 2px;
-            width: 20px; height: 20px;
-        }
+        .warning-banner > svg { flex-shrink: 0; margin-top: 2px; width: 20px; height: 20px; }
         .warning-close-btn {
             background: rgba(146, 64, 14, 0.1);
             border: none; cursor: pointer;
@@ -451,19 +472,16 @@
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .grid-2col { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .main { margin-left: 0; padding-bottom: 70px; }
             .mobile-toggle { display: flex; }
             .bottom-nav { display: block; }
-
             .content { padding: 14px; }
             .topbar { padding: 10px 14px; }
             .topbar-text p { display: none; }
             .user-info .name { display: none; }
-
             .welcome { padding: 20px; flex-direction: column; align-items: stretch; text-align: center; }
             .welcome h2 { font-size: 18px; }
             .welcome-btn { width: 100%; justify-content: center; }
@@ -479,70 +497,14 @@
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
-            <div class="text"><span class="nust">NUST</span>OLOGY <span class="prep"></span></div>
+            <img src="images/nustology.jpg" alt="" id="sidebarLogoImg" onerror="this.style.display='none'">
+            <div class="text">
+                <span class="brand-name" id="sidebarBrandName">NUSTOLOGY</span>
+                <span class="brand-sub" id="sidebarBrandSub"></span>
+            </div>
         </div>
-        <ul class="sidebar-menu">
-            <div class="menu-section">Main</div>
-            <li><a href="student.html" class="menu-item active">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                Dashboard
-            </a></li>
-            <li><a href="test.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                Take Test
-            </a></li>
-            <li><a href="leaderboard.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                Leaderboard
-            </a></li>
-            <li><a href="notifications.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                Notifications
-                <span class="notif-badge menu-badge" style="display:none;"></span>
-            </a></li>
-
-            <div class="menu-section">Learn</div>
-            <li><a href="lectures.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
-                Video Lectures
-            </a></li>
-            <li><a href="pdfs.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                PDFs / Past Papers
-            </a></li>
-            <li><a href="notes.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
-                Notes / Formulas
-            </a></li>
-            <li><a href="aggregate.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
-                Aggregate Calculator
-            </a></li>
-            <li><a href="merit.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                Past Merit Lists
-            </a></li>
-            <li><a href="faq.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-                FAQs
-            </a></li>
-
-            <div class="menu-section">Community</div>
-            <li><a href="chat.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Chat
-            </a></li>
-            <li><a href="community.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                Community
-            </a></li>
-
-            <div class="menu-section">Account</div>
-            <li><a href="profile.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                My Profile
-            </a></li>
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <!-- Dynamically built based on account type -->
         </ul>
     </aside>
 
@@ -550,16 +512,23 @@
         <div class="topbar">
             <div class="topbar-left">
                 <button class="mobile-toggle" onclick="openSidebar()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
                 </button>
                 <div class="topbar-text">
                     <h1>Dashboard</h1>
-                    <p>Welcome back to your prep journey</p>
+                    <p id="topbarSubtext">Welcome back to your prep journey</p>
                 </div>
             </div>
             <div class="topbar-right">
                 <a href="notifications.html" class="notif-icon" title="Notifications">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
                     <span class="notif-badge" style="display:none;"></span>
                 </a>
                 <div class="user-info">
@@ -571,45 +540,57 @@
         </div>
 
         <div class="content">
+            <div id="collegeInfoContainer"></div>
             <div id="approvalContainer"></div>
             <div id="warningContainer"></div>
 
-            <div class="welcome">
+            <div class="welcome" id="welcomeBanner">
                 <div>
                     <h2 id="welcomeMsg">Welcome, Student!</h2>
-                    <p>Ready to ace the NUST NET? Pick up where you left off or start a new test.</p>
+                    <p id="welcomeSubMsg">Ready to ace the NUST NET? Pick up where you left off or start a new test.</p>
                 </div>
                 <a href="test.html" class="welcome-btn">
                     Start New Test
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
                 </a>
             </div>
 
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon-wrap blue">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        </svg>
                     </div>
                     <div class="stat-label">Tests Taken</div>
                     <div class="stat-value" id="statTests">0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon-wrap green">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
                     </div>
                     <div class="stat-label">Best Score</div>
                     <div class="stat-value" id="statBest">0</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon-wrap orange">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
                     </div>
                     <div class="stat-label">Avg Score</div>
                     <div class="stat-value" id="statAvg">0%</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon-wrap purple">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
                     </div>
                     <div class="stat-label">Max Streak</div>
                     <div class="stat-value" id="statStreak">0</div>
@@ -623,7 +604,9 @@
                         <a onclick="showAllTests(); return false;">View All</a>
                     </div>
                     <div id="recentTests">
-                        <p style="text-align:center; color:var(--gray); padding:20px; font-size:13px;">No tests yet. Start your first test!</p>
+                        <p style="text-align:center; color:var(--gray); padding:20px; font-size:13px;">
+                            No tests yet. Start your first test!
+                        </p>
                     </div>
                 </div>
 
@@ -631,31 +614,8 @@
                     <div class="card-header">
                         <h3>Quick Actions</h3>
                     </div>
-                    <div class="quick-actions">
-                        <a href="test.html" class="quick-action">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                            Take a Test
-                        </a>
-                        <a href="pdfs.html" class="quick-action">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                            Browse PDFs
-                        </a>
-                        <a href="notes.html" class="quick-action">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
-                            Study Notes
-                        </a>
-                        <a href="aggregate.html" class="quick-action">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
-                            Calculate Aggregate
-                        </a>
-                        <a href="leaderboard.html" class="quick-action">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                            View Leaderboard
-                        </a>
-                        <a href="lectures.html" class="quick-action">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
-                            Watch Lectures
-                        </a>
+                    <div class="quick-actions" id="quickActions">
+                        <!-- Dynamically built -->
                     </div>
                 </div>
             </div>
@@ -665,7 +625,223 @@
 
 <!-- BOTTOM NAV (Mobile) -->
 <nav class="bottom-nav">
-    <div class="bottom-nav-grid">
+    <div class="bottom-nav-grid" id="bottomNavGrid">
+        <!-- Dynamically built -->
+    </div>
+</nav>
+
+<!-- ALL TESTS MODAL -->
+<div class="modal-overlay" id="allTestsOverlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2>All Tests Taken</h2>
+            <button class="modal-close" onclick="closeAllTests()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div id="allTestsContent">Loading...</div>
+    </div>
+</div>
+
+<script>
+const API_BASE = '/api';
+let currentUser = null;
+let isCollegeStudent = false;
+
+// ============================================
+// SIDEBAR MENUS
+// ============================================
+function buildPrivateSidebar() {
+    return `
+        <div class="menu-section">Main</div>
+        <li><a href="student.html" class="menu-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Dashboard
+        </a></li>
+        <li><a href="test.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Take Test
+        </a></li>
+        <li><a href="leaderboard.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Leaderboard
+        </a></li>
+        <li><a href="notifications.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifications
+            <span class="notif-badge menu-badge" style="display:none;"></span>
+        </a></li>
+
+        <div class="menu-section">Learn</div>
+        <li><a href="lectures.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+            Video Lectures
+        </a></li>
+        <li><a href="pdfs.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            PDFs / Past Papers
+        </a></li>
+        <li><a href="notes.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+            Notes / Formulas
+        </a></li>
+        <li><a href="aggregate.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
+            Aggregate Calculator
+        </a></li>
+        <li><a href="merit.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Past Merit Lists
+        </a></li>
+        <li><a href="faq.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+            FAQs
+        </a></li>
+
+        <div class="menu-section">Community</div>
+        <li><a href="chat.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Chat
+        </a></li>
+        <li><a href="community.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            Community
+        </a></li>
+
+        <div class="menu-section">Account</div>
+        <li><a href="profile.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            My Profile
+        </a></li>
+    `;
+}
+
+function buildCollegeSidebar() {
+    return `
+        <div class="menu-section">Main</div>
+        <li><a href="student.html" class="menu-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Dashboard
+        </a></li>
+        <li><a href="test.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Take Test
+        </a></li>
+        <li><a href="leaderboard.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Leaderboard
+            <span class="college-badge">College</span>
+        </a></li>
+        <li><a href="notifications.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifications
+            <span class="notif-badge menu-badge" style="display:none;"></span>
+        </a></li>
+
+        <div class="menu-section">Learn</div>
+        <li><a href="lectures.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+            Video Lectures
+        </a></li>
+        <li><a href="pdfs.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            PDFs / Past Papers
+        </a></li>
+        <li><a href="notes.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+            Notes / Formulas
+        </a></li>
+        <li><a href="aggregate.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
+            Aggregate Calculator
+        </a></li>
+        <li><a href="merit.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Past Merit Lists
+        </a></li>
+        <li><a href="faq.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+            FAQs
+        </a></li>
+
+        <div class="menu-section">My College</div>
+        <li><a href="chat.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            College Chat
+            <span class="college-badge">College</span>
+        </a></li>
+
+        <div class="menu-section">Account</div>
+        <li><a href="profile.html" class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            My Profile
+        </a></li>
+    `;
+}
+
+function buildPrivateQuickActions() {
+    return `
+        <a href="test.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Take a Test
+        </a>
+        <a href="pdfs.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Browse PDFs
+        </a>
+        <a href="notes.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+            Study Notes
+        </a>
+        <a href="aggregate.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
+            Calculate Aggregate
+        </a>
+        <a href="leaderboard.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            View Leaderboard
+        </a>
+        <a href="lectures.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+            Watch Lectures
+        </a>
+    `;
+}
+
+function buildCollegeQuickActions() {
+    return `
+        <a href="test.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Take a Test
+        </a>
+        <a href="chat.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            College Chat
+        </a>
+        <a href="pdfs.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Browse PDFs
+        </a>
+        <a href="notes.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
+            Study Notes
+        </a>
+        <a href="aggregate.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
+            Calculate Aggregate
+        </a>
+        <a href="leaderboard.html" class="quick-action">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            College Leaderboard
+        </a>
+    `;
+}
+
+function buildPrivateBottomNav() {
+    return `
         <a href="student.html" class="active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
             Home
@@ -686,270 +862,398 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
             Profile
         </a>
-    </div>
-</nav>
+    `;
+}
 
-<!-- ALL TESTS MODAL -->
-<div class="modal-overlay" id="allTestsOverlay">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h2>All Tests Taken</h2>
-            <button class="modal-close" onclick="closeAllTests()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-        </div>
-        <div id="allTestsContent">Loading...</div>
-    </div>
-</div>
+function buildCollegeBottomNav() {
+    return `
+        <a href="student.html" class="active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            Home
+        </a>
+        <a href="test.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            Tests
+        </a>
+        <a href="chat.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Chat
+        </a>
+        <a href="leaderboard.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Rank
+        </a>
+        <a href="profile.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+            Profile
+        </a>
+    `;
+}
 
-<script>
-    const API_BASE = '/api';
-    let currentUser = null;
+// ============================================
+// SIDEBAR OPEN/CLOSE
+// ============================================
+function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('show');
+}
+function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('show');
+}
 
-    function openSidebar() {
-        document.getElementById('sidebar').classList.add('open');
-        document.getElementById('sidebarOverlay').classList.add('show');
-    }
-    function closeSidebar() {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('sidebarOverlay').classList.remove('show');
-    }
+// ============================================
+// MAIN LOAD
+// ============================================
+async function loadDashboard() {
+    const token = localStorage.getItem('nustology_token');
+    if (!token) { window.location.href = '/index.html'; return; }
 
-    async function loadDashboard() {
-        const token = localStorage.getItem('nustology_token');
-        if (!token) { window.location.href = '/index.html'; return; }
+    try {
+        const res = await fetch(`${API_BASE}/student/me`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
 
-        try {
-            const res = await fetch(`${API_BASE}/student/me`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await res.json();
-
-            if (!data.success) {
-                localStorage.clear();
-                window.location.href = '/index.html';
-                return;
-            }
-
-            currentUser = data.student;
-
-            // Check approval
-            if (!currentUser.isApproved || currentUser.approvalStatus !== 'approved') {
-                window.location.href = '/payment-pending.html';
-                return;
-            }
-
-            const displayName = currentUser.fullName || currentUser.username;
-            document.getElementById('userName').textContent = displayName;
-            document.getElementById('welcomeMsg').textContent = `Welcome, ${displayName}!`;
-
-            if (currentUser.profilePicture) {
-                document.getElementById('userAvatar').innerHTML = `<img src="${currentUser.profilePicture}">`;
-            } else {
-                document.getElementById('userAvatar').textContent = displayName[0].toUpperCase();
-            }
-
-            // Profile complete check
-            if (!currentUser.profileComplete) {
-                renderApprovalNotice();
-            }
-
-            if (data.warnings && data.warnings.length > 0) {
-                renderWarnings(data.warnings);
-            }
-
-            // Notification badge
-            updateNotifBadge(data.unreadNotifications || 0);
-
-            await loadStats();
-        } catch (err) {
-            console.error(err);
+        if (!data.success) {
+            localStorage.clear();
+            window.location.href = '/index.html';
+            return;
         }
+
+        currentUser = data.student;
+        isCollegeStudent = (currentUser.accountType === 'college_student');
+
+        // Check approval
+        if (!currentUser.isApproved || currentUser.approvalStatus !== 'approved') {
+            window.location.href = '/payment-pending.html';
+            return;
+        }
+
+        const displayName = currentUser.fullName || currentUser.username;
+
+        // ---- Update UI based on account type ----
+        if (isCollegeStudent) {
+            applyCollegeTheme(displayName);
+        } else {
+            applyPrivateTheme(displayName);
+        }
+
+        // Profile complete check
+        if (!currentUser.profileComplete) {
+            renderProfileNotice();
+        }
+
+        // Warnings
+        if (data.warnings && data.warnings.length > 0) {
+            renderWarnings(data.warnings);
+        }
+
+        // Notification badge
+        updateNotifBadge(data.unreadNotifications || 0);
+
+        await loadStats();
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+function applyPrivateTheme(displayName) {
+    // Sidebar
+    document.getElementById('sidebarBrandName').textContent = 'NUSTOLOGY';
+    document.getElementById('sidebarBrandSub').textContent = 'NUST Prep Platform';
+    document.getElementById('sidebarMenu').innerHTML = buildPrivateSidebar();
+
+    // Quick actions
+    document.getElementById('quickActions').innerHTML = buildPrivateQuickActions();
+
+    // Bottom nav
+    document.getElementById('bottomNavGrid').innerHTML = buildPrivateBottomNav();
+
+    // Topbar
+    document.getElementById('userName').textContent = displayName;
+    document.getElementById('welcomeMsg').textContent = `Welcome, ${displayName}!`;
+    document.getElementById('welcomeSubMsg').textContent = `Ready to ace the NUST NET? Pick up where you left off or start a new test.`;
+
+    // Avatar
+    if (currentUser.profilePicture) {
+        document.getElementById('userAvatar').innerHTML = `<img src="${currentUser.profilePicture}">`;
+    } else {
+        document.getElementById('userAvatar').textContent = displayName[0].toUpperCase();
+    }
+}
+
+function applyCollegeTheme(displayName) {
+    // Sidebar logo
+    document.getElementById('sidebarBrandName').textContent = 'UniTest';
+    document.getElementById('sidebarBrandSub').textContent = 'College Student';
+    document.getElementById('sidebarMenu').innerHTML = buildCollegeSidebar();
+
+    // Quick actions
+    document.getElementById('quickActions').innerHTML = buildCollegeQuickActions();
+
+    // Bottom nav
+    document.getElementById('bottomNavGrid').innerHTML = buildCollegeBottomNav();
+
+    // Welcome banner — college style
+    document.getElementById('welcomeBanner').classList.add('college-welcome');
+    document.getElementById('userName').textContent = displayName;
+    document.getElementById('welcomeMsg').textContent = `Welcome, ${displayName}!`;
+    document.getElementById('welcomeSubMsg').textContent = `Keep pushing — your college leaderboard awaits. Start a new test now.`;
+
+    // Avatar — purple for college
+    const avatarEl = document.getElementById('userAvatar');
+    avatarEl.classList.add('college-type');
+    if (currentUser.profilePicture) {
+        avatarEl.innerHTML = `<img src="${currentUser.profilePicture}">`;
+    } else {
+        avatarEl.textContent = displayName[0].toUpperCase();
     }
 
-    function renderApprovalNotice() {
-        document.getElementById('approvalContainer').innerHTML = `
-            <div class="approval-banner" style="background: var(--primary-bg); border-color: var(--primary-bg2); color: var(--primary);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <div style="flex:1;">
-                    <strong>Complete your profile</strong>
-                    <p style="margin-top:4px; font-size:13px;">Fill in your academic details and preferences for a personalized experience.</p>
-                </div>
-                <a href="profile.html" style="background:var(--primary); color:#fff; padding:8px 14px; border-radius:6px; font-size:13px; text-decoration:none; font-weight:600; white-space:nowrap;">Complete Now</a>
+    // College info banner
+    if (currentUser.collegeId) {
+        document.getElementById('collegeInfoContainer').innerHTML = `
+            <div class="college-info-banner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>
+                    <strong>College Student</strong> — 
+                    You are enrolled in a college. Your leaderboard, chat and notifications are scoped to your college.
+                    ${currentUser.preferredUniversity ? `Target University: <strong>${currentUser.preferredUniversity}</strong>` : ''}
+                </span>
             </div>
         `;
     }
+}
 
-    function updateNotifBadge(count) {
-        document.querySelectorAll('.notif-badge').forEach(badge => {
-            if (count > 0) {
-                badge.textContent = count > 99 ? '99+' : count;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
-        });
-    }
-
-    async function loadStats() {
-        const token = localStorage.getItem('nustology_token');
-        try {
-            const res = await fetch(`${API_BASE}/tests/my-attempts`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await res.json();
-            const attempts = data.attempts || [];
-
-            document.getElementById('statTests').textContent = attempts.length;
-
-            if (attempts.length > 0) {
-                const bestScore = Math.max(...attempts.map(a => a.score || 0));
-                const avgPerc = attempts.reduce((s, a) => s + (a.percentage || 0), 0) / attempts.length;
-                const maxStreak = Math.max(...attempts.map(a => a.max_streak || 0));
-
-                document.getElementById('statBest').textContent = bestScore.toFixed(1);
-                document.getElementById('statAvg').textContent = avgPerc.toFixed(1) + '%';
-                document.getElementById('statStreak').textContent = maxStreak;
-
-                const recent = attempts.slice(0, 5);
-                document.getElementById('recentTests').innerHTML = recent.map(a => `
-                    <div class="test-history-item">
-                        <div class="test-info-left">
-                            <div class="test-icon-box">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                            </div>
-                            <div class="test-info-text">
-                                <strong>${a.test_type === 'grand' ? 'Grand Test' : (a.subject || 'Subject Test')}</strong>
-                                <small>${a.field} • ${a.completed_at ? new Date(a.completed_at).toLocaleDateString() : '-'}</small>
-                            </div>
-                        </div>
-                        <div class="test-score">${(a.score || 0).toFixed(1)}<small> / ${a.total_marks}</small></div>
-                    </div>
-                `).join('');
-            }
-        } catch (e) {
-            console.error('Stats error:', e);
+// ============================================
+// NOTIFICATION BADGE
+// ============================================
+function updateNotifBadge(count) {
+    document.querySelectorAll('.notif-badge').forEach(badge => {
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
         }
-    }
+    });
+}
 
-    function renderWarnings(warnings) {
-        const container = document.getElementById('warningContainer');
-        const now = new Date();
-        const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
-
-        const active = warnings.filter(w => {
-            return (now - new Date(w.issued_at)) < TWO_DAYS_MS;
-        });
-
-        if (active.length === 0) { container.innerHTML = ''; return; }
-
-        container.innerHTML = active.map(w => `
-            <div class="warning-banner" id="warning-${w.id}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <div style="flex:1;">
-                    <strong>Warning from Admin:</strong>
-                    <p style="margin-top:4px; font-size:13px;">${w.message}</p>
-                </div>
-                <button class="warning-close-btn" onclick="dismissWarning(${w.id})">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
+// ============================================
+// PROFILE NOTICE
+// ============================================
+function renderProfileNotice() {
+    document.getElementById('approvalContainer').innerHTML = `
+        <div class="approval-banner" style="background: var(--primary-bg); border-color: var(--primary-bg2); color: var(--primary);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <div style="flex:1;">
+                <strong>Complete your profile</strong>
+                <p style="margin-top:4px; font-size:13px;">Fill in your academic details and preferences for a personalized experience.</p>
             </div>
-        `).join('');
-    }
+            <a href="profile.html" style="background:var(--primary); color:#fff; padding:8px 14px; border-radius:6px; font-size:13px; text-decoration:none; font-weight:600; white-space:nowrap;">Complete Now</a>
+        </div>
+    `;
+}
 
-    async function dismissWarning(id) {
-        const banner = document.getElementById(`warning-${id}`);
-        if (banner) banner.remove();
-        try {
-            const token = localStorage.getItem('nustology_token');
-            await fetch(`${API_BASE}/warnings/${id}/dismiss`, {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-        } catch (e) {}
-    }
+// ============================================
+// WARNINGS
+// ============================================
+function renderWarnings(warnings) {
+    const container = document.getElementById('warningContainer');
+    const now = new Date();
+    const TWO_DAYS_MS = 2 * 24 * 60 * 60 * 1000;
+    const active = warnings.filter(w => (now - new Date(w.issued_at)) < TWO_DAYS_MS);
+    if (active.length === 0) { container.innerHTML = ''; return; }
 
-    async function showAllTests() {
-        document.getElementById('allTestsOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
+    container.innerHTML = active.map(w => `
+        <div class="warning-banner" id="warning-${w.id}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div style="flex:1;">
+                <strong>Warning from Admin:</strong>
+                <p style="margin-top:4px; font-size:13px;">${w.message}</p>
+            </div>
+            <button class="warning-close-btn" onclick="dismissWarning(${w.id})">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    `).join('');
+}
 
-        const container = document.getElementById('allTestsContent');
-        container.innerHTML = '<p style="text-align:center; color:var(--gray); padding:30px;">Loading...</p>';
-
-        try {
-            const token = localStorage.getItem('nustology_token');
-            const res = await fetch(`${API_BASE}/tests/my-attempts`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await res.json();
-            const attempts = data.attempts || [];
-
-            if (attempts.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--gray); padding:30px;">No tests taken yet.</p>';
-                return;
-            }
-
-            container.innerHTML = `
-                <div style="overflow-x:auto;">
-                    <table style="width:100%; border-collapse:collapse; min-width:600px;">
-                        <thead>
-                            <tr style="border-bottom:2px solid var(--border);">
-                                <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Type</th>
-                                <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Field / Subject</th>
-                                <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Score</th>
-                                <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">%</th>
-                                <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Streak</th>
-                                <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Date</th>
-                                <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${attempts.map(a => `
-                                <tr style="border-bottom:1px solid var(--border);">
-                                    <td style="padding:10px 8px; font-size:13px;">${a.test_type === 'grand' ? '<strong style="color:var(--primary);">Grand</strong>' : 'Subject'}</td>
-                                    <td style="padding:10px 8px; font-size:13px;">
-                                        <div>${a.field || '-'}</div>
-                                        ${a.subject ? `<small style="color:var(--gray);">${a.subject}</small>` : ''}
-                                    </td>
-                                    <td style="padding:10px 8px; font-size:13px; font-weight:600; color:var(--success);">${(a.score || 0).toFixed(1)} / ${a.total_marks}</td>
-                                    <td style="padding:10px 8px; font-size:13px; font-weight:600;">${(a.percentage || 0).toFixed(1)}%</td>
-                                    <td style="padding:10px 8px; font-size:13px;">${a.max_streak || 0}</td>
-                                    <td style="padding:10px 8px; font-size:12px; color:var(--gray);">${a.completed_at ? new Date(a.completed_at).toLocaleDateString() : '-'}</td>
-                                    <td style="padding:10px 8px;">
-                                        <a href="review.html?id=${a.id}" style="background:var(--primary); color:#fff; padding:6px 12px; border-radius:6px; font-size:12px; text-decoration:none; font-weight:600;">Review</a>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-                <p style="text-align:center; margin-top:16px; font-size:12px; color:var(--gray);">Total: ${attempts.length} test(s)</p>
-            `;
-        } catch (e) {
-            container.innerHTML = '<p style="text-align:center; color:var(--danger); padding:30px;">Failed to load tests.</p>';
-        }
-    }
-
-    function closeAllTests() {
-        document.getElementById('allTestsOverlay').classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    async function logout() {
-        if (!confirm('Logout from your account?')) return;
+async function dismissWarning(id) {
+    const banner = document.getElementById(`warning-${id}`);
+    if (banner) banner.remove();
+    try {
         const token = localStorage.getItem('nustology_token');
-        try {
-            await fetch(`${API_BASE}/auth/logout`, {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-        } catch (e) {}
-        localStorage.removeItem('nustology_token');
-        localStorage.removeItem('nustology_user');
-        window.location.href = '/index.html';
-    }
+        await fetch(`${API_BASE}/warnings/${id}/dismiss`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+    } catch (e) {}
+}
 
-    loadDashboard();
+// ============================================
+// STATS + RECENT TESTS
+// ============================================
+async function loadStats() {
+    const token = localStorage.getItem('nustology_token');
+    try {
+        const res = await fetch(`${API_BASE}/tests/my-attempts`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const attempts = data.attempts || [];
+
+        document.getElementById('statTests').textContent = attempts.length;
+
+        if (attempts.length > 0) {
+            const bestScore = Math.max(...attempts.map(a => a.score || 0));
+            const avgPerc = attempts.reduce((s, a) => s + (a.percentage || 0), 0) / attempts.length;
+            const maxStreak = Math.max(...attempts.map(a => a.max_streak || 0));
+
+            document.getElementById('statBest').textContent = bestScore.toFixed(1);
+            document.getElementById('statAvg').textContent = avgPerc.toFixed(1) + '%';
+            document.getElementById('statStreak').textContent = maxStreak;
+
+            const recent = attempts.slice(0, 5);
+            document.getElementById('recentTests').innerHTML = recent.map(a => `
+                <div class="test-history-item">
+                    <div class="test-info-left">
+                        <div class="test-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            </svg>
+                        </div>
+                        <div class="test-info-text">
+                            <strong>${a.test_type === 'grand' ? 'Grand Test' : (a.subject || 'Subject Test')}</strong>
+                            <small>${a.field} • ${a.completed_at ? new Date(a.completed_at).toLocaleDateString() : '-'}</small>
+                        </div>
+                    </div>
+                    <div class="test-score">
+                        ${(a.score || 0).toFixed(1)}<small> / ${a.total_marks}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (e) {
+        console.error('Stats error:', e);
+    }
+}
+
+// ============================================
+// ALL TESTS MODAL
+// ============================================
+async function showAllTests() {
+    document.getElementById('allTestsOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    const container = document.getElementById('allTestsContent');
+    container.innerHTML = '<p style="text-align:center; color:var(--gray); padding:30px;">Loading...</p>';
+
+    try {
+        const token = localStorage.getItem('nustology_token');
+        const res = await fetch(`${API_BASE}/tests/my-attempts`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const attempts = data.attempts || [];
+
+        if (attempts.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:var(--gray); padding:30px;">No tests taken yet.</p>';
+            return;
+        }
+
+        container.innerHTML = `
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse:collapse; min-width:600px;">
+                    <thead>
+                        <tr style="border-bottom:2px solid var(--border);">
+                            <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Type</th>
+                            <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Field / Subject</th>
+                            <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Score</th>
+                            <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">%</th>
+                            <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Streak</th>
+                            <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Date</th>
+                            <th style="text-align:left; padding:10px 8px; font-size:11px; color:var(--gray); text-transform:uppercase;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${attempts.map(a => `
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:10px 8px; font-size:13px;">
+                                    ${a.test_type === 'grand' ? '<strong style="color:var(--primary);">Grand</strong>' : 'Subject'}
+                                </td>
+                                <td style="padding:10px 8px; font-size:13px;">
+                                    <div>${a.field || '-'}</div>
+                                    ${a.subject ? `<small style="color:var(--gray);">${a.subject}</small>` : ''}
+                                </td>
+                                <td style="padding:10px 8px; font-size:13px; font-weight:600; color:var(--success);">
+                                    ${(a.score || 0).toFixed(1)} / ${a.total_marks}
+                                </td>
+                                <td style="padding:10px 8px; font-size:13px; font-weight:600;">
+                                    ${(a.percentage || 0).toFixed(1)}%
+                                </td>
+                                <td style="padding:10px 8px; font-size:13px;">${a.max_streak || 0}</td>
+                                <td style="padding:10px 8px; font-size:12px; color:var(--gray);">
+                                    ${a.completed_at ? new Date(a.completed_at).toLocaleDateString() : '-'}
+                                </td>
+                                <td style="padding:10px 8px;">
+                                    <a href="review.html?id=${a.id}" style="background:var(--primary); color:#fff; padding:6px 12px; border-radius:6px; font-size:12px; text-decoration:none; font-weight:600;">Review</a>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+            <p style="text-align:center; margin-top:16px; font-size:12px; color:var(--gray);">
+                Total: ${attempts.length} test(s)
+            </p>
+        `;
+    } catch (e) {
+        container.innerHTML = '<p style="text-align:center; color:var(--danger); padding:30px;">Failed to load tests.</p>';
+    }
+}
+
+function closeAllTests() {
+    document.getElementById('allTestsOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// ============================================
+// LOGOUT
+// ============================================
+async function logout() {
+    if (!confirm('Logout from your account?')) return;
+    const token = localStorage.getItem('nustology_token');
+    try {
+        await fetch(`${API_BASE}/auth/logout`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+    } catch (e) {}
+    localStorage.removeItem('nustology_token');
+    localStorage.removeItem('nustology_user');
+    window.location.href = '/index.html';
+}
+
+// ============================================
+// INIT
+// ============================================
+loadDashboard();
 </script>
 </body>
 </html>
