@@ -4,187 +4,351 @@
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/jpeg" href="images/nustology.jpg">
-    <meta name="theme-color" content="#1e3a8a">
-    <title>Admin - Analytics - NUSTology</title>
+    <link rel="icon" type="image/png" href="images/unitest-icon.png">
+    <meta name="theme-color" content="#1a2c4a">
+    <title>Analytics - UniTest Platform Owner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --primary: #1e3a8a; --primary-light: #1a56db; --primary-bg: #eff6ff;
-            --dark: #0f172a; --gray: #64748b; --gray-lighter: #e2e8f0;
-            --bg: #f8fafc; --border: #e2e8f0;
-            --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
-            --radius: 10px; --radius-lg: 14px;
+            --primary: #4a90e8;
+            --primary-dark: #2f74cf;
+            --primary-light: #7eb1f0;
+            --primary-bg: #eff6ff;
+            --primary-bg2: #dbeafe;
+            --secondary: #7ed957;
+            --secondary-dark: #5fbf3a;
+            --dark: #1a2c4a;
+            --dark-2: #243a5e;
+            --gray: #5a6d8a;
+            --gray-light: #94a3b8;
+            --gray-lighter: #e8f0fb;
+            --white: #ffffff;
+            --bg: #f4f9ff;
+            --border: rgba(74,144,232,0.12);
+            --border-strong: rgba(74,144,232,0.22);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --purple: #8b5cf6;
+            --teal: #14b8a6;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow: 0 2px 10px rgba(26,44,74,0.06);
+            --shadow-lg: 0 8px 30px rgba(26,44,74,0.10);
         }
+
         html { -webkit-text-size-adjust: 100%; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg); color: var(--dark);
-            min-height: 100vh; font-size: 15px; line-height: 1.5;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            min-height: 100vh;
+            font-size: 15px;
+            line-height: 1.6;
         }
+
         .layout { display: flex; min-height: 100vh; }
 
+        /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 250px; background: var(--dark); color: #fff;
-            padding: 20px 14px; position: fixed;
+            width: 252px;
+            background: var(--dark);
+            color: #fff;
+            padding: 18px 12px 24px;
+            position: fixed;
             top: 0; left: 0; bottom: 0;
-            overflow-y: auto; z-index: 100;
+            overflow-y: auto;
+            z-index: 100;
             transition: transform 0.25s ease;
         }
+
         .sidebar-logo {
-            display: flex; align-items: center; gap: 10px;
-            padding: 0 10px 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; gap: 11px;
+            padding: 2px 8px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             margin-bottom: 16px;
         }
-        .sidebar-logo img { width: 34px; height: 34px; border-radius: 8px; }
-        .admin-badge { background: var(--danger); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; }
-        .sidebar-logo .text { font-size: 15px; font-weight: 700; color: #fff; }
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-        .menu-section {
-            font-size: 10px; font-weight: 700; color: #64748b;
-            text-transform: uppercase; letter-spacing: 1px;
-            padding: 14px 12px 6px;
+        .sidebar-logo img {
+            width: 36px; height: 36px;
+            border-radius: 9px; object-fit: contain; flex-shrink: 0;
         }
-        .menu-item {
-            display: flex; align-items: center; gap: 11px;
-            padding: 10px 12px; border-radius: 8px;
-            color: #cbd5e1; font-size: 14px; font-weight: 500;
-            text-decoration: none; min-height: 40px;
+        .logo-text-wrap { display: flex; flex-direction: column; }
+        .logo-brand { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; line-height: 1; }
+        .logo-brand .u { color: #7eb1f0; }
+        .logo-brand .t { color: #a5e889; }
+        .owner-badge {
+            display: inline-block;
+            background: var(--danger);
+            color: #fff;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 8.5px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            margin-top: 4px;
+            text-transform: uppercase;
         }
-        .menu-item svg { width: 18px; height: 18px; }
-        .menu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
-        .menu-item.active { background: var(--primary-light); color: #fff; }
 
-        .main { flex: 1; margin-left: 250px; min-height: 100vh; }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+
+        .menu-section {
+            font-size: 9.5px; font-weight: 800; color: #64748b;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            padding: 14px 10px 5px;
+        }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 11px; border-radius: 8px;
+            color: #94a3b8; text-decoration: none;
+            font-size: 13.5px; font-weight: 600;
+            min-height: 40px;
+            transition: background 0.18s, color 0.18s;
+        }
+        .menu-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .menu-item:hover { background: rgba(255,255,255,0.06); color: #e2e8f0; }
+        .menu-item.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .menu-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: #fff;
+            border-radius: 20px;
+            padding: 1px 7px;
+            font-size: 10px;
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* ===== MAIN ===== */
+        .main { flex: 1; margin-left: 252px; min-height: 100vh; }
+
+        /* ===== TOPBAR ===== */
         .topbar {
-            background: #fff; padding: 12px 20px;
+            background: var(--white);
+            padding: 0 22px;
             border-bottom: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 50; min-height: 60px;
+            position: sticky; top: 0; z-index: 50;
+            min-height: 62px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
         }
-        .topbar-left { display: flex; align-items: center; gap: 12px; }
-        .topbar h1 { font-size: 18px; font-weight: 700; }
-        .topbar p { font-size: 12px; color: var(--gray); }
+        .topbar-left { display: flex; align-items: center; gap: 13px; }
+        .topbar h1 { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+        .topbar p { font-size: 11.5px; color: var(--gray); margin-top: 1px; }
+
         .mobile-toggle {
             display: none; background: var(--gray-lighter); border: none;
-            cursor: pointer; padding: 0; border-radius: 8px;
+            cursor: pointer; padding: 0; border-radius: 9px;
             width: 40px; height: 40px;
-            align-items: center; justify-content: center;
+            align-items: center; justify-content: center; color: var(--dark);
         }
-        .mobile-toggle svg { width: 20px; height: 20px; }
+        .mobile-toggle svg { width: 19px; height: 19px; }
+
+        .topbar-right { display: flex; align-items: center; gap: 10px; }
+
+        .scope-selector {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--gray-lighter);
+            border-radius: 8px; padding: 3px;
+        }
+        .scope-btn {
+            padding: 6px 14px; border-radius: 6px; border: none;
+            font-family: inherit; font-size: 12px; font-weight: 700;
+            cursor: pointer; background: transparent; color: var(--gray);
+            transition: all 0.2s;
+        }
+        .scope-btn.active {
+            background: var(--white); color: var(--primary);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .scope-btn:hover:not(.active) { color: var(--dark); }
+
         .logout-btn {
             background: var(--danger); color: #fff; border: none;
-            padding: 8px 14px; border-radius: 8px;
-            cursor: pointer; font-size: 13px; font-weight: 600;
-            font-family: inherit; min-height: 38px;
+            padding: 8px 16px; border-radius: 8px; cursor: pointer;
+            font-size: 12.5px; font-weight: 700; font-family: inherit;
+            min-height: 38px; transition: all 0.2s;
         }
+        .logout-btn:hover { background: #dc2626; }
 
-        .content { padding: 20px; max-width: 1300px; margin: 0 auto; }
+        /* ===== CONTENT ===== */
+        .content { padding: 22px; max-width: 1300px; margin: 0 auto; }
 
-        /* ========== HERO STATS ========== */
+        /* ===== PRIVACY NOTICE ===== */
+        .privacy-notice {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; border-radius: var(--radius);
+            background: #fffbeb; border: 1px solid #fde68a;
+            color: #92400e; font-size: 12.5px; font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .privacy-notice svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+        /* ===== STATS HERO ===== */
         .stats-hero {
-            display: grid; grid-template-columns: repeat(4, 1fr);
+            display: grid; grid-template-columns: repeat(5, 1fr);
             gap: 12px; margin-bottom: 18px;
         }
-        .stat-card-big {
-            background: #fff; border: 1px solid var(--border);
-            border-radius: var(--radius-lg); padding: 18px;
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .stat-card-big .label {
-            font-size: 12px; color: var(--gray); margin-bottom: 8px;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            font-weight: 600;
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .stat-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 10px;
         }
-        .stat-card-big .value { font-size: 28px; font-weight: 700; line-height: 1; }
-        .stat-card-big .sub { font-size: 12px; color: var(--gray); margin-top: 6px; }
+        .stat-icon svg { width: 19px; height: 19px; }
+        .si-blue { background: #dbeafe; color: #2563eb; }
+        .si-green { background: #dcfce7; color: #16a34a; }
+        .si-orange { background: #fef3c7; color: #d97706; }
+        .si-purple { background: #f3e8ff; color: #8b5cf6; }
+        .si-teal { background: #ccfbf1; color: #0d9488; }
+        .stat-lbl { font-size: 11px; color: var(--gray); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+        .stat-val { font-size: 24px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; margin-top: 4px; }
+        .stat-sub { font-size: 11px; color: var(--gray-light); margin-top: 4px; }
 
-        /* ========== CARDS ========== */
+        /* ===== CARDS ===== */
         .card {
-            background: #fff; border: 1px solid var(--border);
-            border-radius: var(--radius-lg); padding: 20px; margin-bottom: 18px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
         }
         .card-header {
             display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 14px; border-bottom: 1px solid var(--border);
+            padding-bottom: 13px; border-bottom: 1px solid var(--border);
             margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
         }
-        .card-header h2 { font-size: 17px; font-weight: 700; }
-
-        .grid-2col {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 18px; margin-bottom: 18px;
+        .card-header h2 { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+        .card-header .tag {
+            font-size: 10px; font-weight: 700; color: var(--gray);
+            background: var(--gray-lighter); padding: 3px 9px;
+            border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em;
         }
 
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        th, td { text-align: left; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
-        th { background: #f8fafc; font-weight: 700; color: var(--gray); font-size: 11px; text-transform: uppercase; }
-        tr:hover { background: #f8fafc; }
-        .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-        .badge-info { background: var(--primary-bg); color: var(--primary-light); }
-        .badge-success { background: #dcfce7; color: var(--success); }
-        .badge-warning { background: #fef3c7; color: var(--warning); }
+        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .grid-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 
-        /* ========== PROGRESS BAR ========== */
+        /* ===== TABLE ===== */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 480px; }
+        th, td { text-align: left; padding: 9px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        th {
+            background: var(--bg); font-weight: 700; color: var(--gray);
+            font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        tr:hover td { background: rgba(74,144,232,0.03); }
+
+        .badge {
+            display: inline-block; padding: 3px 9px;
+            border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .badge-blue { background: var(--primary-bg); color: var(--primary); }
+        .badge-green { background: #dcfce7; color: #16a34a; }
+        .badge-orange { background: #fef3c7; color: #d97706; }
+        .badge-purple { background: #f3e8ff; color: #8b5cf6; }
+
+        /* ===== PROGRESS BAR ===== */
         .progress-row {
             display: flex; align-items: center;
-            gap: 12px; padding: 8px 0;
+            gap: 12px; padding: 9px 0;
             border-bottom: 1px solid var(--border);
         }
         .progress-row:last-child { border-bottom: none; }
-        .progress-label {
-            flex: 0 0 140px;
-            font-size: 13px; font-weight: 600;
-        }
+        .progress-label { flex: 0 0 140px; font-size: 13px; font-weight: 700; }
         .progress-bar-wrap { flex: 1; }
-        .progress-bar {
-            height: 8px; background: var(--gray-lighter);
-            border-radius: 6px; overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-light), var(--primary));
-            border-radius: 6px;
-            transition: width 0.4s ease;
-        }
-        .progress-value {
-            flex: 0 0 60px;
-            text-align: right;
-            font-size: 13px; font-weight: 700;
-            color: var(--primary-light);
-        }
+        .progress-bar { height: 8px; background: var(--gray-lighter); border-radius: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
+        .fill-blue { background: var(--primary); }
+        .fill-green { background: var(--secondary-dark); }
+        .fill-orange { background: var(--warning); }
+        .fill-purple { background: var(--purple); }
+        .fill-teal { background: var(--teal); }
+        .progress-val { flex: 0 0 60px; text-align: right; font-size: 13px; font-weight: 800; color: var(--primary); }
 
-        .empty { text-align: center; padding: 30px; color: var(--gray); }
-
-        .resource-stats {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+        /* ===== RESOURCE STAT CARDS ===== */
+        .resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .resource-box {
+            text-align: center; padding: 18px 14px;
+            background: var(--bg); border-radius: var(--radius);
+            border: 1px solid var(--border);
         }
-        .resource-stat {
-            text-align: center;
-            padding: 16px;
-            background: var(--bg);
-            border-radius: 10px;
-        }
-        .resource-stat .icon {
-            width: 36px; height: 36px;
-            background: var(--primary-bg);
-            color: var(--primary-light);
-            border-radius: 10px;
+        .resource-box .r-icon {
+            width: 40px; height: 40px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             margin: 0 auto 8px;
         }
-        .resource-stat .icon svg { width: 18px; height: 18px; }
-        .resource-stat .num { font-size: 22px; font-weight: 700; }
-        .resource-stat .lbl { font-size: 12px; color: var(--gray); margin-top: 2px; }
+        .resource-box .r-icon svg { width: 18px; height: 18px; }
+        .ri-blue { background: var(--primary-bg); color: var(--primary); }
+        .ri-green { background: #dcfce7; color: var(--secondary-dark); }
+        .ri-purple { background: #f3e8ff; color: var(--purple); }
+        .resource-box .r-num { font-size: 22px; font-weight: 800; color: var(--dark); }
+        .resource-box .r-lbl { font-size: 11.5px; color: var(--gray); margin-top: 3px; }
 
-        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
-        .sidebar-overlay.show { display: block; }
+        /* ===== COLLEGE SUMMARY SECTION ===== */
+        .college-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .college-sum-card {
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 16px; text-align: center;
+        }
+        .college-sum-card .c-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+        .college-sum-card .c-city { font-size: 11px; color: var(--gray); margin-bottom: 8px; }
+        .college-sum-row {
+            display: flex; justify-content: space-between;
+            font-size: 12px; padding: 3px 0;
+            border-top: 1px solid var(--border);
+        }
+        .college-sum-row:first-of-type { border-top: none; margin-top: 6px; }
+        .college-sum-row .csr-lbl { color: var(--gray); }
+        .college-sum-row .csr-val { font-weight: 700; color: var(--dark); }
 
+        /* ===== EMPTY STATE ===== */
+        .empty {
+            text-align: center; padding: 28px 16px;
+            color: var(--gray); font-size: 13px;
+        }
+        .empty svg {
+            width: 36px; height: 36px; display: block;
+            margin: 0 auto 10px; opacity: 0.25;
+        }
+
+        /* ===== SIDEBAR DIM ===== */
+        .sidebar-dim {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4); z-index: 99;
+        }
+        .sidebar-dim.show { display: block; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .stats-hero { grid-template-columns: repeat(3, 1fr); }
+            .college-summary-grid { grid-template-columns: repeat(2, 1fr); }
+        }
         @media (max-width: 1024px) {
             .stats-hero { grid-template-columns: repeat(2, 1fr); }
-            .grid-2col { grid-template-columns: 1fr; }
-            .resource-stats { grid-template-columns: 1fr; }
+            .grid-2col, .grid-3col { grid-template-columns: 1fr; }
+            .resource-grid { grid-template-columns: 1fr; }
+            .college-summary-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
@@ -192,298 +356,538 @@
             .main { margin-left: 0; }
             .mobile-toggle { display: flex; }
             .content { padding: 14px; }
+            .topbar { padding: 0 14px; }
             .topbar p { display: none; }
-            .progress-row { flex-direction: column; align-items: stretch; gap: 6px; }
-            .progress-label, .progress-value { flex: none; text-align: left; }
+            .scope-selector { display: none; }
+            .progress-row { flex-direction: column; align-items: stretch; gap: 5px; }
+            .progress-label, .progress-val { flex: none; text-align: left; }
         }
     </style>
 </head>
 <body>
 
-<div class="layout">
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<div class="sidebar-dim" id="sidebarDim" onclick="closeSidebar()"></div>
 
+<div class="layout">
+
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <img src="images/nustology.jpg" alt="" onerror="this.style.display='none'">
-            <div>
-                <div class="text">NUSTology</div>
-                <span class="admin-badge">ADMIN</span>
+            <img src="images/unitest-icon.png" alt="UniTest" onerror="this.style.display='none'">
+            <div class="logo-text-wrap">
+                <div class="logo-brand"><span class="u">Uni</span><span class="t">test</span></div>
+                <span class="owner-badge">Platform Owner</span>
             </div>
         </div>
         <ul class="sidebar-menu">
             <div class="menu-section">Overview</div>
             <li><a href="admin.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
                 Dashboard
             </a></li>
             <li><a href="admin-analytics.html" class="menu-item active">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                 Analytics
             </a></li>
+            <li><a href="admin-leaderboard.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Leaderboard
+            </a></li>
 
-            <div class="menu-section">Manage</div>
+            <div class="menu-section">Students</div>
+            <li><a href="admin-students.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Students
+            </a></li>
+            <li><a href="admin-registrations.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                Registrations
+            </a></li>
+
+            <div class="menu-section">Colleges</div>
+            <li><a href="admin-colleges.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Manage Colleges
+            </a></li>
+
+            <div class="menu-section">Content</div>
+            <li><a href="admin-lectures.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+                Lectures
+            </a></li>
             <li><a href="admin-pdfs.html" class="menu-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                PDFs / Past Papers
+                PDFs
             </a></li>
             <li><a href="admin-notes.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg>
-                Notes / Formulas
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                Notes
             </a></li>
+
+            <div class="menu-section">Platform</div>
             <li><a href="admin-notifications.html" class="menu-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                 Notifications
+            </a></li>
+            <li><a href="admin-reports.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                Reports
+            </a></li>
+            <li><a href="admin-chat.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Chat Monitor
+            </a></li>
+            <li><a href="admin-settings.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                Settings
             </a></li>
         </ul>
     </aside>
 
+    <!-- ===== MAIN ===== -->
     <main class="main">
         <div class="topbar">
             <div class="topbar-left">
                 <button class="mobile-toggle" onclick="openSidebar()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
                 </button>
                 <div>
                     <h1>Analytics & Reports</h1>
-                    <p>Platform statistics and insights</p>
+                    <p>Platform-wide statistics — private students only</p>
                 </div>
             </div>
-            <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+            <div class="topbar-right">
+                <div class="scope-selector" id="scopeSelector">
+                    <button class="scope-btn active" data-scope="private" onclick="switchScope('private')">Private Students</button>
+                    <button class="scope-btn" data-scope="all" onclick="switchScope('all')">All (Aggregate)</button>
+                </div>
+                <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+            </div>
         </div>
 
         <div class="content">
+
+            <!-- PRIVACY NOTICE -->
+            <div class="privacy-notice">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span><strong>Privacy enforced:</strong> You can see aggregate college stats (student count, seats) but cannot access individual college student data, test reviews or detailed progress. Only College Admins can see their own students' details.</span>
+            </div>
+
             <!-- HERO STATS -->
-            <div class="stats-hero" id="statsHero"></div>
-
-            <!-- CATEGORY BREAKDOWN -->
-            <div class="grid-2col">
-                <div class="card">
-                    <div class="card-header"><h2>Category Breakdown</h2></div>
-                    <div id="categoryBreakdown"></div>
+            <div class="stats-hero" id="statsHero">
+                <div class="stat-card">
+                    <div class="stat-icon si-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                    <div class="stat-lbl">Private Students</div>
+                    <div class="stat-val" id="hPrivate">—</div>
+                    <div class="stat-sub" id="hPrivateSub">Loading...</div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header"><h2>Resource Stats</h2></div>
-                    <div class="resource-stats" id="resourceStats"></div>
+                <div class="stat-card">
+                    <div class="stat-icon si-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+                    <div class="stat-lbl">Colleges</div>
+                    <div class="stat-val" id="hColleges">—</div>
+                    <div class="stat-sub" id="hCollegesSub">Loading...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon si-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10l-10-5-10 5 10 5 10-5z"/><path d="M6 12v4c0 2 3 4 6 4s6-2 6-4v-4"/></svg></div>
+                    <div class="stat-lbl">College Students</div>
+                    <div class="stat-val" id="hCollegeStudents">—</div>
+                    <div class="stat-sub">Aggregate only — no details visible</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon si-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div class="stat-lbl">Pending Approvals</div>
+                    <div class="stat-val" id="hPending">—</div>
+                    <div class="stat-sub" id="hPendingSub">Registrations waiting</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon si-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                    <div class="stat-lbl">Tests Completed</div>
+                    <div class="stat-val" id="hTests">—</div>
+                    <div class="stat-sub" id="hTestsSub">Loading...</div>
                 </div>
             </div>
 
-            <!-- TEST ANALYTICS -->
-            <div class="card">
-                <div class="card-header"><h2>Most Attempted Tests</h2></div>
-                <div class="table-container" id="popularTests"></div>
+            <!-- CATEGORY + RESOURCE STATS -->
+            <div class="grid-2col">
+
+                <!-- Category Breakdown -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Category Breakdown</h2>
+                        <span class="tag" id="catScopeTag">Private Students</span>
+                    </div>
+                    <div id="categoryBreakdown">
+                        <div class="empty">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Resource Stats -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Platform Resources</h2>
+                        <span class="tag">All Content</span>
+                    </div>
+                    <div class="resource-grid" id="resourceStats">
+                        <div class="resource-box">
+                            <div class="r-icon ri-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                            <div class="r-num">—</div>
+                            <div class="r-lbl">PDFs</div>
+                        </div>
+                        <div class="resource-box">
+                            <div class="r-icon ri-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
+                            <div class="r-num">—</div>
+                            <div class="r-lbl">Notes</div>
+                        </div>
+                        <div class="resource-box">
+                            <div class="r-icon ri-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+                            <div class="r-num">—</div>
+                            <div class="r-lbl">Lectures</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLLEGE OVERVIEW (Aggregate Only) -->
+            <div class="card" id="collegeOverviewCard">
+                <div class="card-header">
+                    <h2>College Overview</h2>
+                    <span class="tag">Aggregate Only — No Student Details</span>
+                </div>
+                <div id="collegeOverview">
+                    <div class="empty">Loading colleges...</div>
+                </div>
             </div>
 
             <!-- SUBJECT PERFORMANCE -->
             <div class="card">
-                <div class="card-header"><h2>Subject Performance (Platform-wide)</h2></div>
-                <div class="table-container" id="subjectPerformance"></div>
+                <div class="card-header">
+                    <h2>Subject Performance</h2>
+                    <span class="tag" id="subjScopeTag">Private Students</span>
+                </div>
+                <div class="table-wrap" id="subjectPerformance">
+                    <div class="empty">Loading...</div>
+                </div>
             </div>
 
-            <!-- TOP STUDENTS -->
-            <div class="card">
-                <div class="card-header"><h2>Top 10 Students</h2></div>
-                <div class="table-container" id="topStudents"></div>
+            <!-- TOP STUDENTS (Private Only) -->
+            <div class="card" id="topStudentsCard">
+                <div class="card-header">
+                    <h2>Top 10 Private Students</h2>
+                    <span class="tag">Private Only</span>
+                </div>
+                <div class="table-wrap" id="topStudents">
+                    <div class="empty">Loading...</div>
+                </div>
             </div>
 
-            <!-- RECENT REGISTRATION TREND -->
+            <!-- SCORE DISTRIBUTION -->
             <div class="card">
-                <div class="card-header"><h2>Registration Trend (Last 30 Days)</h2></div>
-                <div class="table-container" id="regTrend"></div>
+                <div class="card-header">
+                    <h2>Score Distribution</h2>
+                    <span class="tag">All Completed Tests</span>
+                </div>
+                <div id="scoreDistribution">
+                    <div class="empty">Loading...</div>
+                </div>
             </div>
+
+            <!-- TESTS OVER TIME -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Tests Over Time (Last 30 Days)</h2>
+                </div>
+                <div id="testsOverTime">
+                    <div class="empty">Loading...</div>
+                </div>
+            </div>
+
         </div>
     </main>
 </div>
 
 <script>
-    const API_BASE = '/api';
+const API_BASE = '/api';
+let currentScope = 'private'; // 'private' or 'all'
 
-    function openSidebar() {
-        document.getElementById('sidebar').classList.add('open');
-        document.getElementById('sidebarOverlay').classList.add('show');
-    }
-    function closeSidebar() {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('sidebarOverlay').classList.remove('show');
-    }
+function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarDim').classList.add('show');
+}
+function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarDim').classList.remove('show');
+}
 
-    function getHeaders() {
-        return { 'Authorization': `Bearer ${localStorage.getItem('nustology_admin_token')}` };
-    }
+function getHeaders() {
+    return { 'Authorization': `Bearer ${localStorage.getItem('nustology_admin_token')}` };
+}
 
-    function checkAuth() {
-        if (!localStorage.getItem('nustology_admin_token')) {
-            window.location.href = '/admin.html';
-            return false;
-        }
-        return true;
+function checkAuth() {
+    if (!localStorage.getItem('nustology_admin_token')) {
+        window.location.href = '/index.html';
+        return false;
     }
+    return true;
+}
 
-    function logoutAdmin() {
-        if (!confirm('Logout?')) return;
-        localStorage.removeItem('nustology_admin_token');
-        window.location.href = '/admin.html';
-    }
+function logoutAdmin() {
+    if (!confirm('Logout from Platform Owner panel?')) return;
+    localStorage.removeItem('nustology_admin_token');
+    window.location.href = '/index.html';
+}
 
-    async function loadAnalytics() {
+function switchScope(scope) {
+    currentScope = scope;
+    document.querySelectorAll('.scope-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.scope === scope);
+    });
+    document.getElementById('catScopeTag').textContent =
+        scope === 'private' ? 'Private Students' : 'All Students';
+    document.getElementById('subjScopeTag').textContent =
+        scope === 'private' ? 'Private Students' : 'All Students';
+
+    // Top students card only visible for private scope
+    document.getElementById('topStudentsCard').style.display =
+        scope === 'private' ? 'block' : 'none';
+
+    loadAnalytics();
+}
+
+function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"']/g, c =>
+        ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+const fillColors = ['fill-blue', 'fill-green', 'fill-orange', 'fill-purple', 'fill-teal'];
+
+async function loadAnalytics() {
+    try {
+        const res = await fetch(
+            `${API_BASE}/admin/analytics?scope=${currentScope}`,
+            { headers: getHeaders() }
+        );
+        const data = await res.json();
+        if (!data.success) return;
+
+        const a = data.analytics || {};
+        const students = data.students || [];
+        const testsOT = data.testsOverTime || [];
+        const scoreDist = data.scoreDistribution || [0,0,0,0,0];
+        const subPerf = a.tests?.subjectPerformance || data.subjectPerformance || [];
+        const fieldDist = data.fieldDistribution || {};
+
+        // ---- HERO STATS ----
+        document.getElementById('hPrivate').textContent = a.students?.total || 0;
+        document.getElementById('hPrivateSub').textContent =
+            `${a.students?.active || 0} active`;
+        document.getElementById('hPending').textContent = a.students?.pending || 0;
+        document.getElementById('hTests').textContent = a.tests?.total || 0;
+        document.getElementById('hTestsSub').textContent =
+            `Avg: ${a.tests?.avgScore || 0}%`;
+
+        // Colleges & college students — load from dashboard endpoint
         try {
-            const res = await fetch(`${API_BASE}/admin/analytics`, { headers: getHeaders() });
-            const data = await res.json();
-            if (!data.success) return;
-            const a = data.analytics;
+            const dRes = await fetch(`${API_BASE}/admin/dashboard`, { headers: getHeaders() });
+            const dData = await dRes.json();
+            if (dData.success) {
+                document.getElementById('hColleges').textContent =
+                    dData.stats?.totalColleges || 0;
+                document.getElementById('hCollegesSub').textContent =
+                    `${dData.stats?.activeColleges || 0} active`;
+                document.getElementById('hCollegeStudents').textContent =
+                    dData.stats?.totalCollegeStudents || 0;
+            }
+        } catch(e) {}
 
-            // Hero Stats
-            document.getElementById('statsHero').innerHTML = `
-                <div class="stat-card-big">
-                    <div class="label">Total Students</div>
-                    <div class="value" style="color: var(--primary-light);">${a.students.total}</div>
-                    <div class="sub">All registered users</div>
-                </div>
-                <div class="stat-card-big">
-                    <div class="label">Active Students</div>
-                    <div class="value" style="color: var(--success);">${a.students.active}</div>
-                    <div class="sub">Approved & active</div>
-                </div>
-                <div class="stat-card-big">
-                    <div class="label">Pending Approvals</div>
-                    <div class="value" style="color: var(--warning);">${a.students.pending}</div>
-                    <div class="sub">Awaiting verification</div>
-                </div>
-                <div class="stat-card-big">
-                    <div class="label">Tests Completed</div>
-                    <div class="value" style="color: #9333ea;">${a.tests.total}</div>
-                    <div class="sub">Avg score: ${a.tests.avgScore}%</div>
-                </div>
-            `;
-
-            // Category Breakdown
-            const totalCat = a.students.categoryBreakdown.reduce((s, c) => s + c.count, 0);
-            const catContainer = document.getElementById('categoryBreakdown');
-            if (a.students.categoryBreakdown.length) {
-                catContainer.innerHTML = a.students.categoryBreakdown.map(c => {
-                    const pct = totalCat > 0 ? (c.count / totalCat * 100).toFixed(1) : 0;
-                    return `
-                        <div class="progress-row">
-                            <div class="progress-label">${escapeHtml(c.degree_category)}</div>
-                            <div class="progress-bar-wrap">
-                                <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width:${pct}%"></div>
-                                </div>
+        // ---- CATEGORY BREAKDOWN ----
+        const catData = a.students?.categoryBreakdown || [];
+        const catBox = document.getElementById('categoryBreakdown');
+        if (catData.length) {
+            const totalCat = catData.reduce((s, c) => s + c.count, 0);
+            catBox.innerHTML = catData.map((c, i) => {
+                const pct = totalCat > 0 ? (c.count / totalCat * 100).toFixed(1) : 0;
+                return `
+                    <div class="progress-row">
+                        <div class="progress-label">${esc(c.degree_category || 'Unknown')}</div>
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar">
+                                <div class="progress-fill ${fillColors[i % fillColors.length]}" style="width:${pct}%"></div>
                             </div>
-                            <div class="progress-value">${c.count}</div>
                         </div>
-                    `;
-                }).join('');
-            } else {
-                catContainer.innerHTML = '<div class="empty">No data</div>';
-            }
-
-            // Resource Stats
-            document.getElementById('resourceStats').innerHTML = `
-                <div class="resource-stat">
-                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
-                    <div class="num">${a.resources.pdfs}</div>
-                    <div class="lbl">PDFs (${a.resources.pdfDownloads} downloads)</div>
-                </div>
-                <div class="resource-stat">
-                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
-                    <div class="num">${a.resources.notes}</div>
-                    <div class="lbl">Notes (${a.resources.noteDownloads} views)</div>
-                </div>
-                <div class="resource-stat">
-                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
-                    <div class="num">${a.resources.lectures}</div>
-                    <div class="lbl">Video Lectures</div>
-                </div>
-            `;
-
-            // Popular Tests
-            const pop = document.getElementById('popularTests');
-            if (a.tests.popularTests.length) {
-                pop.innerHTML = `<table><thead><tr>
-                    <th>Type</th><th>Field</th><th>Attempts</th><th>Avg Score</th>
-                </tr></thead><tbody>${a.tests.popularTests.map(t => `
-                    <tr>
-                        <td><span class="badge badge-info">${escapeHtml(t.test_type)}</span></td>
-                        <td>${escapeHtml(t.field)}</td>
-                        <td><strong>${t.attempts}</strong></td>
-                        <td>${t.avg_score}%</td>
-                    </tr>
-                `).join('')}</tbody></table>`;
-            } else {
-                pop.innerHTML = '<div class="empty">No tests taken yet</div>';
-            }
-
-            // Subject Performance
-            const subj = document.getElementById('subjectPerformance');
-            if (a.tests.subjectPerformance.length) {
-                subj.innerHTML = `<table><thead><tr>
-                    <th>Subject</th><th>Attempts</th><th>Avg Score</th><th>Best Score</th>
-                </tr></thead><tbody>${a.tests.subjectPerformance.map(s => `
-                    <tr>
-                        <td><strong>${escapeHtml(s.subject)}</strong></td>
-                        <td>${s.total_attempts}</td>
-                        <td>${s.avg_score}%</td>
-                        <td><span class="badge badge-success">${s.best_score}%</span></td>
-                    </tr>
-                `).join('')}</tbody></table>`;
-            } else {
-                subj.innerHTML = '<div class="empty">No data yet</div>';
-            }
-
-            // Top Students
-            const top = document.getElementById('topStudents');
-            if (a.topStudents.length) {
-                top.innerHTML = `<table><thead><tr>
-                    <th>Rank</th><th>Student</th><th>Category</th><th>Avg Score</th><th>Best</th><th>Tests</th>
-                </tr></thead><tbody>${a.topStudents.map((s, i) => `
-                    <tr>
-                        <td><strong>#${i+1}</strong></td>
-                        <td>${escapeHtml(s.full_name || s.username)} <small style="color:var(--gray);">@${escapeHtml(s.username)}</small></td>
-                        <td><span class="badge badge-info">${escapeHtml(s.degree_category || '-')}</span></td>
-                        <td><strong>${s.avg_score}%</strong></td>
-                        <td>${(s.best_score || 0).toFixed(1)}%</td>
-                        <td>${s.total_tests}</td>
-                    </tr>
-                `).join('')}</tbody></table>`;
-            } else {
-                top.innerHTML = '<div class="empty">No students have taken tests yet</div>';
-            }
-
-            // Registration Trend
-            const trend = document.getElementById('regTrend');
-            if (a.registrations.recentTrend.length) {
-                const maxCount = Math.max(...a.registrations.recentTrend.map(r => r.count));
-                trend.innerHTML = a.registrations.recentTrend.map(r => {
-                    const pct = (r.count / maxCount * 100).toFixed(1);
-                    return `
-                        <div class="progress-row">
-                            <div class="progress-label">${r.date}</div>
-                            <div class="progress-bar-wrap">
-                                <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width:${pct}%"></div>
-                                </div>
-                            </div>
-                            <div class="progress-value">${r.count}</div>
-                        </div>
-                    `;
-                }).join('');
-            } else {
-                trend.innerHTML = '<div class="empty">No recent registrations</div>';
-            }
-
-        } catch (e) {
-            console.error('Analytics error:', e);
+                        <div class="progress-val">${c.count}</div>
+                    </div>
+                `;
+            }).join('');
+        } else {
+            catBox.innerHTML = '<div class="empty">No data available</div>';
         }
-    }
 
-    function escapeHtml(s) {
-        if (!s) return '';
-        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
+        // ---- RESOURCE STATS ----
+        try {
+            const rRes = await fetch(`${API_BASE}/admin/dashboard`, { headers: getHeaders() });
+            const rData = await rRes.json();
+            if (rData.success) {
+                const s = rData.stats;
+                document.getElementById('resourceStats').innerHTML = `
+                    <div class="resource-box">
+                        <div class="r-icon ri-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                        <div class="r-num">${s.totalPdfs || 0}</div>
+                        <div class="r-lbl">PDFs / Past Papers</div>
+                    </div>
+                    <div class="resource-box">
+                        <div class="r-icon ri-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
+                        <div class="r-num">${s.totalNotes || 0}</div>
+                        <div class="r-lbl">Notes / Formulas</div>
+                    </div>
+                    <div class="resource-box">
+                        <div class="r-icon ri-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+                        <div class="r-num">${s.totalLectures || 0}</div>
+                        <div class="r-lbl">Video Lectures</div>
+                    </div>
+                `;
+            }
+        } catch(e) {}
 
-    if (checkAuth()) loadAnalytics();
+        // ---- COLLEGE OVERVIEW (Aggregate Only) ----
+        try {
+            const cRes = await fetch(`${API_BASE}/admin/colleges`, { headers: getHeaders() });
+            const cData = await cRes.json();
+            const colleges = cData.colleges || [];
+            const coBox = document.getElementById('collegeOverview');
+            if (colleges.length) {
+                coBox.innerHTML = `<div class="college-summary-grid">
+                    ${colleges.map(c => `
+                        <div class="college-sum-card">
+                            <div class="c-name">${esc(c.name)}</div>
+                            <div class="c-city">${esc(c.city || '—')}</div>
+                            <div class="college-sum-row">
+                                <span class="csr-lbl">Status</span>
+                                <span class="csr-val">
+                                    <span class="badge ${c.status==='active'?'badge-green':'badge-orange'}">${esc(c.status)}</span>
+                                </span>
+                            </div>
+                            <div class="college-sum-row">
+                                <span class="csr-lbl">Seats</span>
+                                <span class="csr-val">${c.seats_used || 0} / ${c.seats_total || 0}</span>
+                            </div>
+                            <div class="college-sum-row">
+                                <span class="csr-lbl">Students</span>
+                                <span class="csr-val">${c.actual_students || c.seats_used || 0}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>`;
+            } else {
+                coBox.innerHTML = '<div class="empty">No colleges registered yet</div>';
+            }
+        } catch(e) {
+            document.getElementById('collegeOverview').innerHTML =
+                '<div class="empty">Could not load colleges</div>';
+        }
+
+        // ---- SUBJECT PERFORMANCE ----
+        const spBox = document.getElementById('subjectPerformance');
+        if (subPerf.length) {
+            spBox.innerHTML = `<table><thead><tr>
+                <th>Subject</th><th>Attempts</th><th>Avg Score</th><th>Best</th>
+            </tr></thead><tbody>${subPerf.map(s => {
+                const avgColor = s.avg_percentage >= 70 ? '#16a34a'
+                    : s.avg_percentage >= 50 ? '#d97706' : '#dc2626';
+                return `
+                    <tr>
+                        <td><strong>${esc(s.subject)}</strong></td>
+                        <td>${s.total_attempts}</td>
+                        <td style="color:${avgColor};font-weight:700;">${s.avg_percentage}%</td>
+                        <td><span class="badge badge-green">${s.best_percentage}%</span></td>
+                    </tr>
+                `;
+            }).join('')}</tbody></table>`;
+        } else {
+            spBox.innerHTML = '<div class="empty">No test data yet</div>';
+        }
+
+        // ---- TOP STUDENTS (Private Only) ----
+        const tsBox = document.getElementById('topStudents');
+        if (currentScope === 'private' && students.length) {
+            const top10 = students.slice(0, 10);
+            tsBox.innerHTML = `<table><thead><tr>
+                <th>#</th><th>Student</th><th>Category</th><th>Avg</th><th>Best</th><th>Tests</th>
+            </tr></thead><tbody>${top10.map((s, i) => `
+                <tr>
+                    <td><strong>${i + 1}</strong></td>
+                    <td>
+                        <strong>${esc(s.full_name || s.username)}</strong>
+                        <div style="font-size:11px;color:var(--gray);">@${esc(s.username)}</div>
+                    </td>
+                    <td><span class="badge badge-blue">${esc(s.degree_category || '—')}</span></td>
+                    <td style="font-weight:700;">${s.avg_percentage || 0}%</td>
+                    <td>${s.best_percentage || 0}%</td>
+                    <td>${s.test_count || 0}</td>
+                </tr>
+            `).join('')}</tbody></table>`;
+        } else if (currentScope === 'private') {
+            tsBox.innerHTML = '<div class="empty">No private students have taken tests yet</div>';
+        }
+
+        // ---- SCORE DISTRIBUTION ----
+        const sdBox = document.getElementById('scoreDistribution');
+        const sdLabels = ['0–20%', '21–40%', '41–60%', '61–80%', '81–100%'];
+        const sdTotal = scoreDist.reduce((a, b) => a + b, 0);
+        if (sdTotal > 0) {
+            sdBox.innerHTML = sdLabels.map((label, i) => {
+                const pct = (scoreDist[i] / sdTotal * 100).toFixed(1);
+                return `
+                    <div class="progress-row">
+                        <div class="progress-label">${label}</div>
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar">
+                                <div class="progress-fill ${fillColors[i % fillColors.length]}" style="width:${pct}%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-val">${scoreDist[i]}</div>
+                    </div>
+                `;
+            }).join('');
+        } else {
+            sdBox.innerHTML = '<div class="empty">No test scores recorded yet</div>';
+        }
+
+        // ---- TESTS OVER TIME ----
+        const totBox = document.getElementById('testsOverTime');
+        if (testsOT.length) {
+            const maxT = Math.max(...testsOT.map(r => r.count));
+            totBox.innerHTML = testsOT.map(r => {
+                const pct = maxT > 0 ? (r.count / maxT * 100).toFixed(1) : 0;
+                const dateStr = new Date(r.date).toLocaleDateString('en-PK', {
+                    day: 'numeric', month: 'short'
+                });
+                return `
+                    <div class="progress-row">
+                        <div class="progress-label">${dateStr}</div>
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-blue" style="width:${pct}%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-val">${r.count}</div>
+                    </div>
+                `;
+            }).join('');
+        } else {
+            totBox.innerHTML = '<div class="empty">No tests in the last 30 days</div>';
+        }
+
+    } catch (e) {
+        console.error('Analytics error:', e);
+    }
+}
+
+if (checkAuth()) loadAnalytics();
 </script>
 </body>
 </html>
