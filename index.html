@@ -25,8 +25,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -147,70 +146,86 @@
         .hamburger.open .icon-close { display: block; }
 
         /* ====== HERO ====== */
-        .hero {
-            position: relative;
-            background: var(--primary);
-            color: #fff;
-            padding: 130px 0 180px;
-            text-align: center;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute; inset: 0;
-            background-image: url('images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.25;
-            z-index: 0;
-        }
-        .hero-content {
-            position: relative; z-index: 2;
-        }
-        .hero-subtitle {
-            font-size: 28px; font-weight: 700;
-            margin-bottom: 18px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-        .hero-title {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 900; line-height: 1.1;
-            margin-bottom: 40px;
-            text-shadow: 0 4px 14px rgba(0,0,0,0.2);
-        }
-        .hero-description {
-            max-width: 700px; margin: 0 auto 40px;
-            font-size: 17px; line-height: 1.7;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.15);
-        }
-        .hero-buttons {
-            display: flex; gap: 14px; justify-content: center;
-            flex-wrap: wrap;
-        }
-        .hero-btn {
-            padding: 16px 36px; border: none; border-radius: 4px;
-            font-family: inherit; font-size: 16px; font-weight: 700;
-            cursor: pointer; text-decoration: none; display: inline-flex;
-            align-items: center; gap: 10px;
-            transition: all 0.2s;
-        }
-        .hero-btn.primary {
-            background: #fff; color: var(--primary);
-        }
-        .hero-btn.primary:hover {
-            background: var(--secondary); color: #fff;
-        }
-        .hero-btn.secondary {
-            background: var(--secondary); color: #fff;
-        }
-        .hero-btn.secondary:hover { background: var(--secondary-dark); }
-
+        /* ====== HERO ====== */
+.hero {
+    position: relative;
+    background: var(--primary);
+    color: #fff;
+    padding: 130px 0 180px;
+    text-align: center;
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+    z-index: 0;
+}
+.hero-content {
+    position: relative; z-index: 2;
+}
+.hero-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 26px; font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.hero-title {
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 36px;
+    text-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+.hero-title .brand-uni {
+    color: #ffffff;
+}
+.hero-title .brand-test {
+    color: #d4f5b8;
+}
+.hero-description {
+    font-family: 'Jost', sans-serif;
+    max-width: 720px; margin: 0 auto 40px;
+    font-size: 18px; line-height: 1.7;
+    font-weight: 400;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.hero-buttons {
+    display: flex; gap: 14px; justify-content: center;
+    flex-wrap: wrap;
+}
+.hero-btn {
+    font-family: 'Jost', sans-serif;
+    padding: 16px 36px; border: none; border-radius: 4px;
+    font-size: 16px; font-weight: 700;
+    cursor: pointer; text-decoration: none; display: inline-flex;
+    align-items: center; gap: 10px;
+    transition: all 0.2s;
+}
+.hero-btn.primary {
+    background: #fff; color: var(--primary);
+}
+.hero-btn.primary:hover {
+    background: var(--secondary); color: #fff;
+}
+.hero-btn.secondary {
+    background: var(--secondary); color: #fff;
+}
+.hero-btn.secondary:hover { background: var(--secondary-dark); }
         /* Torn paper effect bottom of hero */
+        /* Torn paper effect bottom of hero - ROUGH JAGGED EDGE like Edukate */
         .hero-torn {
             position: absolute; bottom: -2px; left: 0; right: 0;
-            height: 80px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,40 C120,75 240,10 360,30 C480,60 600,15 720,35 C840,60 960,10 1080,30 C1200,55 1320,15 1440,40 L1440,80 L0,80 Z'/%3E%3C/svg%3E");
+            height: 60px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,30 L20,25 L40,35 L55,20 L75,32 L95,22 L115,38 L130,25 L150,33 L170,18 L190,30 L210,22 L235,36 L255,24 L275,31 L295,19 L315,34 L335,26 L355,21 L375,33 L395,28 L420,18 L440,32 L460,24 L480,36 L500,22 L520,30 L540,25 L560,33 L580,20 L600,35 L625,28 L645,22 L665,32 L685,26 L705,18 L725,30 L745,24 L770,34 L790,28 L810,20 L830,32 L850,26 L870,38 L890,22 L910,30 L930,25 L955,35 L975,28 L995,22 L1015,33 L1035,26 L1055,18 L1075,30 L1095,24 L1120,36 L1140,22 L1160,30 L1180,25 L1200,33 L1220,20 L1245,32 L1265,28 L1285,22 L1305,34 L1325,26 L1345,18 L1365,30 L1385,24 L1410,32 L1430,22 L1440,28 L1440,60 L0,60 Z'/%3E%3C/svg%3E");
             background-size: 100% 100%;
+            background-repeat: no-repeat;
             z-index: 1;
         }
 
@@ -986,7 +1001,7 @@
         </a>
 
         <ul class="nav-links" id="navLinks">
-            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#universities">Universities</a></li>
             <li><a href="#why">Features</a></li>
@@ -1007,10 +1022,14 @@
 </nav>
 
 <!-- HERO -->
+<!-- HERO -->
 <section class="hero" id="hero">
     <div class="container hero-content">
         <p class="hero-subtitle">Prepare. Practice. Succeed.</p>
-        <h1 class="hero-title">Pakistan's #1<br>Entry Test Platform</h1>
+        <h1 class="hero-title">
+            Welcome to <span class="brand-uni">Uni</span><span class="brand-test">test</span><br>
+            Pakistan's #1 Entry Test Platform
+        </h1>
         <p class="hero-description">
             Master NUST NET, MDCAT, UET ECAT, FAST, GIKI, PIEAS, COMSATS and more.
             Built for private students and colleges with mock tests, progress tracking and university-specific aggregates.
@@ -1653,9 +1672,37 @@
             if (loader) loader.classList.add('hidden');
         }, 400);
         filterTests('all');
+        updateActiveNavLink(); // Set initial active link
     });
 
+    // ===== ACTIVE NAV LINK ON SCROLL =====
+    function updateActiveNavLink() {
+        const sections = document.querySelectorAll('section[id], div[id="hero"]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const scrollPos = window.scrollY + 150; // offset for navbar height
+
+        let currentSection = 'hero';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (href === '#' + currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+
     window.addEventListener('scroll', () => {
+        updateActiveNavLink();
+
         const btn = document.getElementById('backToTop');
         if (window.scrollY > 400) btn.classList.add('show');
         else btn.classList.remove('show');
@@ -1705,6 +1752,8 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     document.getElementById('navLinks').classList.remove('open');
                     document.getElementById('hamburger').classList.remove('open');
+                    // Update active link after small delay for smooth scroll
+                    setTimeout(updateActiveNavLink, 600);
                 }
             }
         });
