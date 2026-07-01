@@ -28,7 +28,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- ldrs Atom loader -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/atom.js"></script>
+    <script type="module">
+  import { atom } from 'https://cdn.jsdelivr.net/npm/ldrs@1.0.2/+esm';
+  atom.register();
+</script>
     
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
