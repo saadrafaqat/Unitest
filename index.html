@@ -218,16 +218,21 @@
     background: var(--secondary); color: #fff;
 }
 .hero-btn.secondary:hover { background: var(--secondary-dark); }
-        /* Torn paper effect bottom of hero */
-        /* Torn paper effect bottom of hero - ROUGH JAGGED EDGE like Edukate */
-        .hero-torn {
-            position: absolute; bottom: -2px; left: 0; right: 0;
-            height: 60px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,30 L20,25 L40,35 L55,20 L75,32 L95,22 L115,38 L130,25 L150,33 L170,18 L190,30 L210,22 L235,36 L255,24 L275,31 L295,19 L315,34 L335,26 L355,21 L375,33 L395,28 L420,18 L440,32 L460,24 L480,36 L500,22 L520,30 L540,25 L560,33 L580,20 L600,35 L625,28 L645,22 L665,32 L685,26 L705,18 L725,30 L745,24 L770,34 L790,28 L810,20 L830,32 L850,26 L870,38 L890,22 L910,30 L930,25 L955,35 L975,28 L995,22 L1015,33 L1035,26 L1055,18 L1075,30 L1095,24 L1120,36 L1140,22 L1160,30 L1180,25 L1200,33 L1220,20 L1245,32 L1265,28 L1285,22 L1305,34 L1325,26 L1345,18 L1365,30 L1385,24 L1410,32 L1430,22 L1440,28 L1440,60 L0,60 Z'/%3E%3C/svg%3E");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            z-index: 1;
-        }
+       /* Realistic Organic Torn Paper Effect */
+.hero-torn {
+    position: absolute; 
+    bottom: -1px; 
+    left: 0; 
+    right: 0;
+    height: 80px; /* Increased slightly to accommodate the detailed tears */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,40 Q15,38 30,42 T60,39 T90,43 T120,38 T150,45 T180,39 T210,41 T240,37 T270,44 T300,40 T330,38 T360,45 T390,41 T420,37 T450,43 T480,39 T510,42 T540,38 T570,46 T600,40 T630,39 T660,44 T690,40 T720,37 T750,45 T780,41 T810,38 T840,44 T870,39 T900,42 T930,37 T960,46 T990,41 T1020,39 T1050,44 T1080,40 T1110,38 T1140,45 T1170,41 T1200,37 T1230,43 T1260,39 T1290,42 T1320,38 T1350,46 T1380,40 T1410,42 T1440,38 L1440,80 L0,80 Z'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 2;
+    
+    /* This adds the realistic shadow depth onto the blue side seen in image_c8c07b.png */
+    filter: drop-shadow(0px -4px 3px rgba(0, 0, 0, 0.15));
+}
 
         /* ====== SECTION TAG (dashed underline style) ====== */
         .section-tag {
