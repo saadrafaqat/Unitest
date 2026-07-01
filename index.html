@@ -855,6 +855,16 @@
         }
         .loader-brand .uni { color: var(--primary); }
         .loader-brand .test { color: var(--secondary); }
+        .loader-logo-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.85; }
+        }
 
         /* ====== BACK TO TOP ====== */
         .back-to-top {
@@ -915,8 +925,8 @@
 <!-- PAGE LOADER -->
 <div class="page-loader" id="pageLoader">
     <div class="loader-content">
+        <img src="images/unitest-icon.png" alt="Unitest" class="loader-logo-img" onerror="this.style.display='none'">
         <div class="loader-brand"><span class="uni">Uni</span><span class="test">test</span></div>
-        <l-atom color="#32cd32" size="large" text="Loading" text-color="#26689e"></l-atom>
     </div>
 </div>
 
